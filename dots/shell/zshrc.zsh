@@ -30,12 +30,12 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 
 # environment loads
-if [[ $(hostname -s) = nycla* ]] || [[ $(hostname -s) = NYCLA* ]] || [[ $(hostname -s) = macbook-pro ]] || [[ $(hostname -s) = nycmd* ]] || [[ $(hostname -s) = bwagner-* ]]; then
-  export ZSH_THEME="powerlevel10k/powerlevel10k"
-else
-  # setup hail mary color scheme on remote
-  export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
-fi
+# if [[ $(hostname -s) = nycla* ]] || [[ $(hostname -s) = NYCLA* ]] || [[ $(hostname -s) = macbook-pro ]] || [[ $(hostname -s) = nycmd* ]] || [[ $(hostname -s) = bwagner-* ]]; then
+#   export ZSH_THEME="powerlevel10k/powerlevel10k"
+# else
+#   # setup hail mary color scheme on remote
+#   export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+# fi
 # setup man color: https://www.2daygeek.com/get-display-view-colored-colorized-man-pages-linux/
 export LESS=-R
 export LESS_TERMCAP_mb=$'\E[01;31m' \

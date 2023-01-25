@@ -50,7 +50,7 @@
         - repo: https://github.com/Aloxaf/fzf-tab.git
           dest: plugins/fzf-tab
 
-    - name: setup vundle / tpm / devtainer
+    - name: setup vundle / tpm
       git:
         repo: '{{ item.repo }}'
         dest: '{{ ansible_env.HOME }}/{{ item.dest }}'
@@ -59,6 +59,12 @@
         dest: .vim/bundle/Vundle.vim
       - repo: https://github.com/tmux-plugins/tpm
         dest: .tmux/plugins/tpm
+    - name: setup devtainer
+      git:
+        repo: '{{ item.repo }}'
+        dest: '{{ ansible_env.HOME }}/{{ item.dest }}'
+        version: feature/init
+      loop:
       - repo: '{{ devtainer.clone[devtainer.clone.strategy] }}'
         dest: .dotfiles
 
