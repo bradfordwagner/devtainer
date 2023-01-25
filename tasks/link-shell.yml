@@ -1,0 +1,139 @@
+
+---
+
+- hosts: all
+  become: yes
+  become_user: '{{ user.name }}'
+  vars:
+    shell_settings: '{{ ansible_env.HOME }}/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles'
+  tasks:
+  - name: required dirs
+    file:
+      path: '{{ ansible_env.HOME }}/{{ item }}'
+      state: directory
+      mode: 0755
+    loop:
+    - .config
+    - .k9s
+    - .kube
+    - .pip
+    - go_scripts_bin
+    - Library/Preferences/k9s
+    - source
+
+  # - name: link configdir
+  #   file:
+  #     path: '{{ ansible_env.HOME }}/.config/{{ item }}'
+  #     state: link
+  #     src: '{{ shell_settings }}/config/{{ item }}'
+  #     force: true
+  #   loop:
+  #   - alacritty
+  #   - configstore
+  #   - mopidy
+  #   - ncmpcpp
+  #   - neofetch
+  #   - nvim
+  #   - powerline
+  #   - skhd
+  #   - spotifyd
+  #   - spotify-tui
+  #   - yabai
+  #   - awesome
+  #   - picom
+  #   - kmonad
+
+  # - name: link configurations
+  #   file:
+  #     path: '{{ ansible_env.HOME }}/{{ item.path }}'
+  #     state: link
+  #     src: '{{ shell_settings }}/{{ item.src }}'
+  #     force: true
+  #   loop:
+  #   # shell configurations
+  #   - src: shell/zshrc.zsh
+  #     path: .zshrc
+  #   - src: shell/p10k.zsh
+  #     path: .p10k.zsh
+  #   - src: shell/sandboxrc.zsh
+  #     path: .sandboxrc
+
+  #   # tmux setup
+  #   - src: tmux/tmux.conf
+  #     path: .tmux.conf
+  #   - src: tmux/tmuxinator
+  #     path: .tmuxinator
+  #   - src: tmux
+  #     path: .tmux/conf
+
+  #   # twm configs
+  #   - src: amethyst/amethyst.yml
+  #     path: .amethyst.yml
+  #   - src: amethyst/custom_layouts
+  #     path: Library/Application Support/Amethyst/Layouts
+
+  #   # vim links
+  #   - src: ideavimrc
+  #     path: .ideavimrc
+  #   - src: config/nvim/init.vim
+  #     path: .vimrc
+
+  #   # audio equilizer
+  #   - src: asoundrc
+  #     path: .asoundrc
+
+  #   # set gitconfig
+  #   - src: gitconfig
+  #     path: .gitconfig
+  #   - src: gitconfig-personal
+  #     path: .gitconfig-personal
+  #   - src: gitignore
+  #     path: .gitignore
+
+  #   # set k9s
+  #   - src: k9s/skin.yml
+  #     path: Library/Application Support/k9s/skin.yml
+  #   - src: k9s/hotkey.yml
+  #     path: Library/Application Support/k9s/hotkey.yml
+
+  #   # full dirs
+  #   - src: makefiles
+  #     path: makefiles
+  #   - src: go_scripts
+  #     path: go_scripts
+  #   - src: shell_scripts
+  #     path: shell_scripts
+  #   - src: shell/source
+  #     path: source/personal
+
+  #   # kubectl switch
+  #   - src: kube-switch/switch-config.yaml
+  #     path: .kube/switch-config.yaml
+
+  #   # python
+  #   - src: pip.conf
+  #     path: .pip/pip.conf
+
+# - hosts: macbook
+  # vars:
+  #   shell_settings: '{{ ansible_env.HOME }}/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles'
+  # tasks:
+  # - name: ensure directories exist
+  #   file:
+  #     path: '{{ ansible_env.HOME }}/{{ item }}'
+  #     state: directory
+  #   loop:
+  #     - .m2
+  # - name: link configurations
+  #   file:
+  #     path: '{{ ansible_env.HOME }}/{{ item.path }}'
+  #     state: link
+  #     src: '{{ shell_settings }}/{{ item.src }}'
+  #     force: true
+  #   # setup maven
+  #   loop:
+  #   - src: m2/toolchains.xml
+  #     path: .m2/toolchains.xml
+  #   - src: m2/settings.xml
+  #     path: .m2/settings.xml
+

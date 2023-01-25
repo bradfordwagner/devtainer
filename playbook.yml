@@ -1,7 +1,14 @@
 ---
 - hosts: localhost
   vars:
-    jq_ver: 1.6
+    user:
+      name: bwagner
+      create: true
   roles:
-    - role: andrewrothstein.jq
+    # - role: andrewrothstein.jq
+  tasks:
+    - name: packages - arch
+      include_tasks: tasks/packages-arch.yml
+    - name: shell
+      include_tasks: tasks/shell.yml
 

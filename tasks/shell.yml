@@ -1,0 +1,62 @@
+---
+# oh my zsh configuration
+#### need to create the user first!
+- name: create user
+  ansible.builtin.user:
+    name: '{{ user.name }}'
+    shell: /bin/zsh
+  when: user.create
+- include_role:
+    name: gantsign.oh-my-zsh
+  vars:
+    users:
+    - username: '{{ user.name }}'
+- name: jumpdir
+  become: yes
+  become_user: '{{ user.name }}'
+  block:
+    - gather_facts:
+    - include_role:
+        name: bradfordwagner.jumpdir
+      vars:
+        jd_validate_certs: false
+
+- name: setup oh my zsh plugins/themes
+  become: yes
+  become_user: '{{ user.name }}'
+  block:
+    - gather_facts:
+    - name: ensure directories exist
+      file:
+        path: '{{ ansible_env.HOME }}/{{ item }}'
+        state: directory
+      loop:
+        - .ssh
+        - .tmux/plugins
+        - .vim/bundle
+    - name: setup oh my zsh plugins/themes
+      git:
+        repo: '{{ item.repo }}'
+        dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/{{ item.dest }}'
+      loop:
+        - repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+          dest: plugins/zsh-syntax-highlighting
+        - repo: https://github.com/zsh-users/zsh-autosuggestions.git
+          dest: plugins/zsh-autosuggestions
+        - repo: https://github.com/romkatv/powerlevel10k.git
+          dest: themes/powerlevel10k
+        - repo: https://github.com/paulirish/git-open.git
+          dest: plugins/git-open
+        - repo: https://github.com/Aloxaf/fzf-tab.git
+          dest: plugins/fzf-tab
+
+    - name: setup vundle / tpm
+      git:
+        repo: '{{ item.repo }}'
+        dest: '{{ ansible_env.HOME }}/{{ item.dest }}'
+      loop:
+      - repo: https://github.com/VundleVim/Vundle.vim.git
+        dest: .vim/bundle/Vundle.vim
+      - repo: https://github.com/tmux-plugins/tpm
+        dest: .tmux/plugins/tpm
+
