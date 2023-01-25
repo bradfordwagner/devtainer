@@ -10,12 +10,9 @@
   community.general.pacman:
     update_cache: false
     name:
-    # - community/helm
     # - community/gping
     # - net-tools
     # - go
-    # - kubectx
-    # - k9s
     # - extra/snapd         # for teams integration
     # - community/unclutter # auto hide mouse
     # - corkscrew # ssh over https
@@ -26,12 +23,16 @@
     # - community/brave-browser
     # - python-pip
     # - community/awesome
-    # - community/the_silver_searcher
+    - community/the_silver_searcher
+    - community/fzf
     # - community/exa
     # - community/bat
     # - community/ttf-jetbrains-mono
-    # - fzf
-    # - kubectl
+    - community/nodejs
+    - community/kubectl
+    - community/kubectx
+    - community/k9s
+    - community/helm
     # - alacritty
     # - community/yay
     - community/watchexec
