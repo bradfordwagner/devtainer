@@ -17,6 +17,7 @@
         - .kube
         - .pip
         - Library/Preferences/k9s
+        - Library/Application Support/Amethyst/Layouts
         - source
 
     - name: link configdir
@@ -59,10 +60,10 @@
         path: .tmux/conf
 
       # # twm configs
-      # - src: amethyst/amethyst.yml
-      #   path: .amethyst.yml
-      # - src: amethyst/custom_layouts
-      #   path: Library/Application Support/Amethyst/Layouts
+      - src: amethyst/amethyst.yml
+        path: .amethyst.yml
+      - src: amethyst/custom_layouts
+        path: Library/Application Support/Amethyst/Layouts
 
       # # vim links
       # - src: ideavimrc

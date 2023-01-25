@@ -60,5 +60,5 @@
       - repo: https://github.com/tmux-plugins/tpm
         dest: .tmux/plugins/tpm
       - repo: '{{ devtainer.clone[devtainer.clone.strategy] }}'
-        dest: .devtainer
+        dest: .dotfiles
 
