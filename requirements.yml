@@ -1,0 +1,3 @@
+---
+- role: andrewrothstein.jq
+  version: v1.0.8

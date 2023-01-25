@@ -1,0 +1,90 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: gh-template-ansible-playbook-
+spec:
+  podGC:
+    strategy: OnPodSuccess # delete pods when workflow is successful
+  entrypoint: main
+  arguments:
+    parameters:
+    - name: git_ref_type
+      value: branches
+    - name: git_version
+  templates:
+  - name: main
+    inputs:
+      parameters:
+      - name: git_ref_type
+      - name: git_version
+      - name: repo_name
+        value: quay.io/bradfordwagner/gh-template-ansible-playbook
+      - name: upstream_repo
+        value: quay.io/bradfordwagner/ansible
+      - name: upstream_tag
+        value: 3.6.2
+    dag:
+      tasks:
+      - name: ansible
+        arguments:
+          parameters:
+          - name: git_repo
+            value: https://github.com/bradfordwagner/gh-template-ansible-playbook
+          - name: git_version
+            value: "{{ inputs.parameters.git_version }}"
+          - name: upstream_repo
+            value: "{{ inputs.parameters.upstream_repo }}"
+          - name: upstream_tag
+            value: "{{ inputs.parameters.upstream_tag }}"
+          - name: repo_name
+            value: "{{ inputs.parameters.repo_name }}"
+          - name: tag_suffix
+            value: "-{{ item.platform }}"
+          - name: platform
+            value: "{{ item.platform }}"
+          - name: ansible_args
+            value: "{{ item.ansible_args }}"
+        templateRef:
+          name: flavor-ansible-template
+          template: "{{inputs.parameters.git_ref_type}}"
+        withItems:
+          - { platform: alpine_3.16    , ansible_args: [
+                {"platform": "linux/amd64", "ansible_extra_args": ""},
+                {"platform": "linux/arm64", "ansible_extra_args": {"go_arch": "arm64", "hashi_platform": {"arch": "arm64", "os": "linux"}, "goreleaser_arch": "arm64"}}
+              ]
+            }
+          - { platform: alpine_3.17    , ansible_args: [
+                {"platform": "linux/amd64", "ansible_extra_args": ""},
+                {"platform": "linux/arm64", "ansible_extra_args": {"go_arch": "arm64", "hashi_platform": {"arch": "arm64", "os": "linux"}, "goreleaser_arch": "arm64"}}
+              ]
+            }
+          - { platform: debian_bullseye, ansible_args: [
+                {"platform": "linux/amd64", "ansible_extra_args": ""},
+                {"platform": "linux/arm64", "ansible_extra_args": {"go_arch": "arm64", "hashi_platform": {"arch": "arm64", "os": "linux"}, "goreleaser_arch": "arm64"}}
+              ]
+            }
+          - { platform: debian_bookworm, ansible_args: [
+                {"platform": "linux/amd64", "ansible_extra_args": ""},
+                {"platform": "linux/arm64", "ansible_extra_args": {"go_arch": "arm64", "hashi_platform": {"arch": "arm64", "os": "linux"}, "goreleaser_arch": "arm64"}}
+              ]
+            }
+          - { platform: ubuntu_focal, ansible_args: [
+                {"platform": "linux/amd64", "ansible_extra_args": ""},
+                {"platform": "linux/arm64", "ansible_extra_args": {"go_arch": "arm64", "hashi_platform": {"arch": "arm64", "os": "linux"}, "goreleaser_arch": "arm64"}}
+              ]
+            }
+          - { platform: ubuntu_kinetic, ansible_args: [
+                {"platform": "linux/amd64", "ansible_extra_args": ""},
+                {"platform": "linux/arm64", "ansible_extra_args": {"go_arch": "arm64", "hashi_platform": {"arch": "arm64", "os": "linux"}, "goreleaser_arch": "arm64"}}
+              ]
+            }
+          - { platform: ubuntu_lunar, ansible_args: [
+                {"platform": "linux/amd64", "ansible_extra_args": ""},
+                {"platform": "linux/arm64", "ansible_extra_args": {"go_arch": "arm64", "hashi_platform": {"arch": "arm64", "os": "linux"}, "goreleaser_arch": "arm64"}}
+              ]
+            }
+          - { platform: archlinux_latest, ansible_args: [
+                {"platform": "linux/amd64", "ansible_extra_args": ""},
+              ]
+            }
+

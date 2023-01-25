@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  vars:
+    jq_ver: 1.6
+  roles:
+    - role: andrewrothstein.jq
+
