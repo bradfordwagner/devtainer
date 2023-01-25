@@ -4,6 +4,12 @@
     user:
       name: bwagner
       create: true
+    devtainer:
+      dir: '{{ ansible_env.HOME }}/.dotfiles'
+      clone:
+        strategy: https
+        https: https://github.com/bradfordwagner/devtainer.git
+        ssh: git@github.com:bradfordwagner/devtainer.git
   tasks:
     - name: packages - arch
       include_tasks: tasks/packages-arch.yml

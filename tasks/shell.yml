@@ -59,6 +59,6 @@
         dest: .vim/bundle/Vundle.vim
       - repo: https://github.com/tmux-plugins/tpm
         dest: .tmux/plugins/tpm
-      - repo: https://github.com/bradfordwagner/devtainer.git
+      - repo: '{{ devtainer.clone[devtainer.clone.strategy] }}'
         dest: .devtainer
 

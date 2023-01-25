@@ -8,7 +8,7 @@
     update_cache: true
 - name: pacman - install
   community.general.pacman:
-    update_cache: true
+    update_cache: false
     name:
     # - community/helm
     # - community/gping
