@@ -29,8 +29,6 @@
         force: true
       loop:
       - alacritty
-      - configstore
-      - mopidy
       - ncmpcpp
       - neofetch
       - nvim
