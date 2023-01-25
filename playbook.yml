@@ -2,6 +2,8 @@
 - hosts: localhost
   vars:
     user:
+      # in some cases we need to create the user
+      # so current user would not suffice
       name: bwagner
       create: true
     devtainer:
