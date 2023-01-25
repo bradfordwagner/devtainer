@@ -4,11 +4,10 @@
     user:
       name: bwagner
       create: true
-  roles:
-    # - role: andrewrothstein.jq
   tasks:
     - name: packages - arch
       include_tasks: tasks/packages-arch.yml
+      when: ansible_facts.distribution == "Archlinux"
     - name: shell
       include_tasks: tasks/shell.yml
 
