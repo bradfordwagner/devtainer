@@ -4,8 +4,6 @@
 - name: link shell
   become: yes
   become_user: '{{ user.name }}'
-  # vars:
-  #   shell_settings: '{{ ansible_env.HOME }}/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles'
   block:
     - gather_facts:
     - name: init required dirs
@@ -14,12 +12,12 @@
         state: directory
         mode: 0755
       loop:
-      - .config
-      - .k9s
-      - .kube
-      - .pip
-      - Library/Preferences/k9s
-      - source
+        - .config
+        - .k9s
+        - .kube
+        - .pip
+        - Library/Preferences/k9s
+        - source
 
     - name: link configdir
       file:
@@ -28,85 +26,85 @@
         src: '{{ devtainer.dir }}/dots/config/{{ item }}'
         force: true
       loop:
-      - alacritty
-      - ncmpcpp
-      - neofetch
-      - nvim
-      - powerline
-      - awesome
-      - picom
-      - kmonad
+        - alacritty
+        - ncmpcpp
+        - neofetch
+        - nvim
+        - powerline
+        - awesome
+        - picom
+        - kmonad
 
-  # - name: link configurations
-  #   file:
-  #     path: '{{ ansible_env.HOME }}/{{ item.path }}'
-  #     state: link
-  #     src: '{{ shell_settings }}/{{ item.src }}'
-  #     force: true
-  #   loop:
-  #   # shell configurations
-  #   - src: shell/zshrc.zsh
-  #     path: .zshrc
-  #   - src: shell/p10k.zsh
-  #     path: .p10k.zsh
-  #   - src: shell/sandboxrc.zsh
-  #     path: .sandboxrc
+    - name: link configurations
+      file:
+        path: '{{ ansible_env.HOME }}/{{ item.path }}'
+        state: link
+        src: '{{ devtainer.dir }}/dots/{{ item.src }}'
+        force: true
+      loop:
+      # shell configurations
+      - src: shell/zshrc.zsh
+        path: .zshrc
+      - src: shell/p10k.zsh
+        path: .p10k.zsh
+      - src: shell/sandboxrc.zsh
+        path: .sandboxrc
 
-  #   # tmux setup
-  #   - src: tmux/tmux.conf
-  #     path: .tmux.conf
-  #   - src: tmux/tmuxinator
-  #     path: .tmuxinator
-  #   - src: tmux
-  #     path: .tmux/conf
+      # tmux setup
+      - src: tmux/tmux.conf
+        path: .tmux.conf
+      - src: tmux/tmuxinator
+        path: .tmuxinator
+      - src: tmux
+        path: .tmux/conf
 
-  #   # twm configs
-  #   - src: amethyst/amethyst.yml
-  #     path: .amethyst.yml
-  #   - src: amethyst/custom_layouts
-  #     path: Library/Application Support/Amethyst/Layouts
+      # # twm configs
+      # - src: amethyst/amethyst.yml
+      #   path: .amethyst.yml
+      # - src: amethyst/custom_layouts
+      #   path: Library/Application Support/Amethyst/Layouts
 
-  #   # vim links
-  #   - src: ideavimrc
-  #     path: .ideavimrc
-  #   - src: config/nvim/init.vim
-  #     path: .vimrc
+      # # vim links
+      # - src: ideavimrc
+      #   path: .ideavimrc
+      # - src: config/nvim/init.vim
+      #   path: .vimrc
 
-  #   # audio equilizer
-  #   - src: asoundrc
-  #     path: .asoundrc
+      # # audio equilizer
+      # - src: asoundrc
+      #   path: .asoundrc
 
-  #   # set gitconfig
-  #   - src: gitconfig
-  #     path: .gitconfig
-  #   - src: gitconfig-personal
-  #     path: .gitconfig-personal
-  #   - src: gitignore
-  #     path: .gitignore
+      # # set gitconfig
+      # - src: gitconfig
+      #   path: .gitconfig
+      # - src: gitconfig-personal
+      #   path: .gitconfig-personal
+      # - src: gitignore
+      #   path: .gitignore
 
-  #   # set k9s
-  #   - src: k9s/skin.yml
-  #     path: Library/Application Support/k9s/skin.yml
-  #   - src: k9s/hotkey.yml
-  #     path: Library/Application Support/k9s/hotkey.yml
+      # # set k9s
+      # - src: k9s/skin.yml
+      #   path: Library/Application Support/k9s/skin.yml
+      # - src: k9s/hotkey.yml
+      #   path: Library/Application Support/k9s/hotkey.yml
 
-  #   # full dirs
-  #   - src: makefiles
-  #     path: makefiles
-  #   - src: go_scripts
-  #     path: go_scripts
-  #   - src: shell_scripts
-  #     path: shell_scripts
-  #   - src: shell/source
-  #     path: source/personal
+      # # full dirs
+      # - src: makefiles
+      #   path: makefiles
+      # - src: go_scripts
+      #   path: go_scripts
+      # - src: shell_scripts
+      #   path: shell_scripts
+      # - src: shell/source
+      #   path: source/personal
 
-  #   # kubectl switch
-  #   - src: kube-switch/switch-config.yaml
-  #     path: .kube/switch-config.yaml
+      # # kubectl switch
+      # - src: kube-switch/switch-config.yaml
+      #   path: .kube/switch-config.yaml
 
-  #   # python
-  #   - src: pip.conf
-  #     path: .pip/pip.conf
+      # # python
+      # - src: pip.conf
+      #   path: .pip/pip.conf
 
 # - hosts: macbook
   # vars:

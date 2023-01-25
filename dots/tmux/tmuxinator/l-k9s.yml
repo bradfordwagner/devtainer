@@ -1,0 +1,12 @@
+# ~/.tmuxinator/l-k9s.yml
+
+name: l-k9s
+root: ~/workspace/doe-git/devops/tg/devops.tg.vault.mutating.webhook.live/ctx
+
+
+windows:
+  - current:
+      panes:
+        - first:
+            - kcc; knc
+
