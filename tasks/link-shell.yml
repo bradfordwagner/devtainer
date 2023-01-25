@@ -1,25 +1,25 @@
 
 ---
 
-- hosts: all
+- name: link shell
   become: yes
   become_user: '{{ user.name }}'
-  vars:
-    shell_settings: '{{ ansible_env.HOME }}/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles'
-  tasks:
-  - name: required dirs
-    file:
-      path: '{{ ansible_env.HOME }}/{{ item }}'
-      state: directory
-      mode: 0755
-    loop:
-    - .config
-    - .k9s
-    - .kube
-    - .pip
-    - go_scripts_bin
-    - Library/Preferences/k9s
-    - source
+  # vars:
+  #   shell_settings: '{{ ansible_env.HOME }}/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles'
+  block:
+    - gather_facts:
+    - name: init required dirs
+      file:
+        path: '{{ ansible_env.HOME }}/{{ item }}'
+        state: directory
+        mode: 0755
+      loop:
+      - .config
+      - .k9s
+      - .kube
+      - .pip
+      - Library/Preferences/k9s
+      - source
 
   # - name: link configdir
   #   file:
