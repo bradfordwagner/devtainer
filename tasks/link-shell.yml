@@ -21,27 +21,23 @@
       - Library/Preferences/k9s
       - source
 
-  # - name: link configdir
-  #   file:
-  #     path: '{{ ansible_env.HOME }}/.config/{{ item }}'
-  #     state: link
-  #     src: '{{ shell_settings }}/config/{{ item }}'
-  #     force: true
-  #   loop:
-  #   - alacritty
-  #   - configstore
-  #   - mopidy
-  #   - ncmpcpp
-  #   - neofetch
-  #   - nvim
-  #   - powerline
-  #   - skhd
-  #   - spotifyd
-  #   - spotify-tui
-  #   - yabai
-  #   - awesome
-  #   - picom
-  #   - kmonad
+    - name: link configdir
+      file:
+        path: '{{ ansible_env.HOME }}/.config/{{ item }}'
+        state: link
+        src: '{{ devtainer.dir }}/dots/config/{{ item }}'
+        force: true
+      loop:
+      - alacritty
+      - configstore
+      - mopidy
+      - ncmpcpp
+      - neofetch
+      - nvim
+      - powerline
+      - awesome
+      - picom
+      - kmonad
 
   # - name: link configurations
   #   file:
