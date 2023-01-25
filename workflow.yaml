@@ -29,7 +29,7 @@ spec:
         arguments:
           parameters:
           - name: git_repo
-            value: https://github.com/bradfordwagner/gh-template-ansible-playbook
+            value: https://github.com/bradfordwagner/devtainer
           - name: git_version
             value: "{{ inputs.parameters.git_version }}"
           - name: upstream_repo
