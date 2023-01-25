@@ -1,0 +1,10 @@
+# ~/.tmuxinator/l-pad.yml
+
+name: l-pad
+root: ~/workspace
+
+windows:
+  - cheat.sheet:
+    - cd ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet
+    - nvim pad.md
+

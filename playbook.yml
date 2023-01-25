@@ -1,7 +1,38 @@
 ---
 - hosts: localhost
   vars:
-    jq_ver: 1.6
-  roles:
-    - role: andrewrothstein.jq
+    install_packages: false
+    user:
+      # in some cases we need to create the user
+      # so current user would not suffice
+      name: bwagner
+      # no password
+      password: '!'
+      create: '{{ ansible_facts.distribution == "Archlinux" }}'
+    devtainer:
+      dir: '{{ ansible_env.HOME }}/.dotfiles'
+      clone:
+        strategy: https
+        https: https://github.com/bradfordwagner/devtainer.git
+        ssh: git@github.com:bradfordwagner/devtainer.git
+    # ansible_facts.distribution == "MacOSX"
+  tasks:
+    - name: packages - arch
+      include_tasks: tasks/packages-arch.yml
+      when: ansible_facts.distribution == "Archlinux"
+
+    # mostly user space installation
+    - name: create user - {{ user.name }}
+      include_tasks: tasks/install-user.yml
+      when: user.create
+    - name: install dotfiles - this repo!
+      include_tasks: tasks/install-dotfiles.yml
+    - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
+      include_tasks: tasks/install-shell-packages.yml
+      when: install_packages
+
+    - name: jinga templates
+      include_tasks: tasks/jinga-templates.yml
+    - name: link shell
+      include_tasks: tasks/link-shell.yml
 

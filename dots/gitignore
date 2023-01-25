@@ -1,0 +1,13 @@
+.idea
+**.swp
+**.swo
+Makefile
+**.iml
+.terraform
+**.tfstate*
+**.DS_STORE
+.terraform.lock.hcl
+.terragrunt-cache
+test.sh
+ansible.sh
+

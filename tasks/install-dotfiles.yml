@@ -1,0 +1,26 @@
+---
+
+- name: check for {{ user_home }}/.dotfiles
+  become: yes
+  become_user: '{{ user.name }}'
+  block:
+    - gather_facts:
+    - set_fact:
+        user_home: '{{ ansible_env.HOME }}'
+    - stat:
+        path: '{{ user_home }}/.dotfiles'
+      changed_when: False
+      register: dotfiles_dir
+- when: not dotfiles_dir.stat.exists
+  become: yes
+  become_user: '{{ user.name }}'
+  block:
+  - name: copy devtainer => '{{ user_home }}/.dotfiles'
+    shell: cp -R {{ playbook_dir }} {{ user_home }}/.dotfiles/
+  - name: chown devtainer => '{{ user_home }}/.dotfiles'
+    file:
+      path: '{{ user_home }}/.dotfiles'
+      owner: '{{ user.name }}'
+      mode: 0700
+      recurse: true
+

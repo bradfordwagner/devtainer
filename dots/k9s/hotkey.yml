@@ -1,0 +1,45 @@
+# k9s hotkeys
+
+# $HOME/.k9s/hotkey.yml
+hotKey:
+  shift-1:
+    shortCut:    Shift-1
+    description: Viewing pods
+    command:     po
+  shift-2:
+    shortCut:    Shift-2
+    description: View deployments
+    command:     dp
+  shift-3:
+    shortCut:    Shift-3
+    description: view services
+    command:     svc
+  shift-4:
+    shortCut:    Shift-4
+    description: view replicasets
+    command:     rs
+  shift-5:
+    shortCut:    Shift-5
+    description: view secrets
+    command:     secret
+  shift-6:
+    shortCut:    Shift-6
+    description: view configmaps
+    command:     configmap
+  shift-7:
+    shortCut:    Shift-7
+    description: view appsets
+    command:     appsets
+  shift-8:
+    shortCut:    Shift-8
+    description: view workflows
+    command:     workflow
+  shift-9:
+    shortCut:    Shift-9
+    description: show nodes
+    command:     no
+  shift-0:
+    shortCut:    Shift-0
+    description: namespaces
+    command:     ns
+

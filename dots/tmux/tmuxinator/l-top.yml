@@ -1,0 +1,9 @@
+# ~/.tmuxinator/l-top.yml
+
+name: l-top
+root: ~/workspace
+
+windows:
+  - ytop:
+    - ytop -bs
+

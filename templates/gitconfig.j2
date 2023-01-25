@@ -1,0 +1,35 @@
+[user]
+  name = bradfordwagner
+  email = wagner.bradford@gmail.com
+[core]
+  pager = delta
+  autocrlf = input
+  excludesFile = ~/.gitignore
+[pager]
+  branch = false
+[url "ssh://git@github.com"]
+  insteadOf = git://github.com
+[url "ssh://git@gist.github.com"]
+  insteadOf = git://gist.github.com
+[url "https://"]
+  insteadOf = git://
+[credential]
+  helper = store --file ~/.my-credentials
+[pull]
+  rebase = true
+[alias]
+  logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  rh = "!f() { git rebase -i HEAD~$1; }; f"
+  root = rev-parse --show-toplevel
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true  # use n and N to move between diff sections
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
+[push]
+  autoSetupRemote = true
+

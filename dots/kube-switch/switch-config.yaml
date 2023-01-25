@@ -1,0 +1,16 @@
+kind: SwitchConfig
+version: v1alpha1
+kubeconfigName: null
+showPreview: null
+refreshIndexAfter: 15m
+hooks: []
+kubeconfigStores:
+- id: default
+  kind: filesystem
+  kubeconfigName: "*"
+  paths:
+  - ~/.kube/
+  refreshIndexAfter: 15m
+  required: null
+  showPrefix: null
+  config: null

@@ -1,0 +1,22 @@
+
+set multiple-cursors
+set surround
+
+
+" Setup AceJump
+" Press `f` to activate AceJump
+map z/ :action AceAction<CR>
+" " Press `F` to activate Target Mode
+map <Leader>F :action AceTargetAction<CR>
+" Press `g` to activate Line Mode
+map <Leader>g :action AceLineAction<CR>
+
+" save current file
+map ZA :update<CR>
+" insert current date
+map ZD :r !date<CR>
+map ZR :registers<CR>
+map ZY "y*<CR>
+set pastetoggle=ZP " setup paste toggling for indentation issues
+
+

@@ -1,0 +1,18 @@
+{
+  "languageserver": {
+    "terraform": {
+      "command": "terraform-ls",
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf", "hcl"],
+      "initializationOptions": {}
+    },
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh", "zsh"]
+    }
+  },
+  "yaml.schemas": {
+    "kubernetes": "/*.yaml,/*.yml"
+  }
+}
