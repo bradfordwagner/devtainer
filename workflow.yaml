@@ -44,6 +44,8 @@ spec:
             value: "{{ item.platform }}"
           - name: ansible_args
             value: "{{ item.ansible_args }}"
+          - name: ansible_destroy
+            value: false
         templateRef:
           name: flavor-ansible-template
           template: "{{inputs.parameters.git_ref_type}}"
