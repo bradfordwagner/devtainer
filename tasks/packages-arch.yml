@@ -29,6 +29,7 @@
     # - community/bat
     # - community/ttf-jetbrains-mono
     - community/nodejs
+    - community/npm
     - community/kubectl
     - community/kubectx
     - community/k9s
@@ -43,6 +44,7 @@
     - core/sudo
     - neovim
     - git
+    - gcc
     - bash
     # - vim
     state: present
