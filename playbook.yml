@@ -5,6 +5,7 @@
       # in some cases we need to create the user
       # so current user would not suffice
       name: bwagner
+      password: hawhawhaw
       create: true
     devtainer:
       dir: '{{ ansible_env.HOME }}/.dotfiles'

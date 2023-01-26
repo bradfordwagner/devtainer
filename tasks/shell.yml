@@ -4,6 +4,7 @@
 - name: create user
   ansible.builtin.user:
     name: '{{ user.name }}'
+    password: '{{ user.password }}'
     shell: /bin/zsh
   when: user.create
 - include_role:
