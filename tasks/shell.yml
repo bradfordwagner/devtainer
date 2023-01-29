@@ -20,6 +20,24 @@
       vars:
         jd_validate_certs: false
 
+- name: check for {{ user_home }}/.dotfiles
+  become: yes
+  stat:
+    path: '{{ user_home }}/.dotfiles'
+  changed_when: False
+  register: dotfiles_dir
+- when: not dotfiles_dir.stat.exists
+  block:
+  - name: copy devtainer => '{{ user_home }}/.dotfiles'
+    shell: cp -R {{ playbook_dir }} {{ user_home }}/.dotfiles/
+  - name: chown devtainer => '{{ user_home }}/.dotfiles'
+    file:
+      path: '{{ user_home }}/.dotfiles'
+      owner: '{{ user.name }}'
+      group: '{{ user.name }}'
+      mode: 0700
+      recurse: true
+
 - name: setup oh my zsh plugins/themes
   become: yes
   become_user: '{{ user.name }}'
@@ -60,47 +78,41 @@
         dest: .vim/bundle/Vundle.vim
       - repo: https://github.com/tmux-plugins/tpm
         dest: .tmux/plugins/tpm
-- name: check for {{ user_home }}/.dotfiles
-  become: yes
-  stat:
-    path: '{{ user_home }}/.dotfiles'
-  changed_when: False
-  register: dotfiles_dir
-- when: not dotfiles_dir.stat.exists
-  block:
-  - name: copy devtainer => '{{ user_home }}/.dotfiles'
-    shell: cp -R {{ playbook_dir }} {{ user_home }}/.dotfiles/
-  - name: chown devtainer => '{{ user_home }}/.dotfiles'
-    file:
-      path: '{{ user_home }}/.dotfiles'
-      owner: '{{ user.name }}'
-      group: '{{ user.name }}'
-      mode: 0700
-      recurse: true
-- name: install profile
+
+    - shell: '{{ item }}'
+      name: install vim plugins
+      loop:
+        - nvim +silent +PlugInstall +qall
+        - nvim +silent +PluginInstall +qall
+    - name: install profile
+      loop:
+        - .profile
+        - .zprofile
+      ansible.builtin.blockinfile:
+        marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
+        path: '{{ ansible_env.HOME }}/{{ item }}'
+        create: true
+        block: |
+          # set the default editor to nvim
+          export EDITOR='nvim'
+
+          source ~/.dotfiles/dots/shell/common.zsh
+          source ~/.dotfiles/dots/shell/local.zsh
+          source ~/.dotfiles/dots/shell/alias.zsh
+          source ~/.dotfiles/dots/shell/zstyle.zsh
+          source ~/.dotfiles/dots/shell/palette.zsh
+          source ~/.dotfiles/dots/shell/ac.sh
+
+          if [[ $OSTYPE == 'darwin'* ]]; then
+            # initialize homebrew for arm64
+            [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
+            # install switch https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
+            INSTALLATION_PATH=$(brew --prefix switch) && source $INSTALLATION_PATH/switch.sh
+          fi
+
+- name: npm install language servers
+  shell: '{{ item }}'
   loop:
-    - .profile
-    - .zprofile
-  ansible.builtin.blockinfile:
-    marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
-    path: '{{ ansible_env.HOME }}/{{ item }}'
-    create: true
-    block: |
-      # set the default editor to nvim
-      export EDITOR='nvim'
-
-      source ~/.dotfiles/dots/shell/common.zsh
-      source ~/.dotfiles/dots/shell/local.zsh
-      source ~/.dotfiles/dots/shell/alias.zsh
-      source ~/.dotfiles/dots/shell/zstyle.zsh
-      source ~/.dotfiles/dots/shell/palette.zsh
-      source ~/.dotfiles/dots/shell/ac.sh
-
-      if [[ $OSTYPE == 'darwin'* ]]; then
-        # initialize homebrew for arm64
-        [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
-        # install switch https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
-        INSTALLATION_PATH=$(brew --prefix switch) && source $INSTALLATION_PATH/switch.sh
-      fi
+    - npm install -g bash-language-server
 
