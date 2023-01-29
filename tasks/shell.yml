@@ -20,24 +20,6 @@
       vars:
         jd_validate_certs: false
 
-- name: check for {{ user_home }}/.dotfiles
-  become: yes
-  stat:
-    path: '{{ user_home }}/.dotfiles'
-  changed_when: False
-  register: dotfiles_dir
-- when: not dotfiles_dir.stat.exists
-  block:
-  - name: copy devtainer => '{{ user_home }}/.dotfiles'
-    shell: cp -R {{ playbook_dir }} {{ user_home }}/.dotfiles/
-  - name: chown devtainer => '{{ user_home }}/.dotfiles'
-    file:
-      path: '{{ user_home }}/.dotfiles'
-      owner: '{{ user.name }}'
-      group: '{{ user.name }}'
-      mode: 0700
-      recurse: true
-
 - name: setup oh my zsh plugins/themes
   become: yes
   become_user: '{{ user.name }}'
@@ -110,6 +92,25 @@
             # install switch https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
             INSTALLATION_PATH=$(brew --prefix switch) && source $INSTALLATION_PATH/switch.sh
           fi
+
+- name: check for {{ user_home }}/.dotfiles
+  become: yes
+  stat:
+    path: '{{ user_home }}/.dotfiles'
+  changed_when: False
+  register: dotfiles_dir
+- when: not dotfiles_dir.stat.exists
+  block:
+  - name: copy devtainer => '{{ user_home }}/.dotfiles'
+    shell: cp -R {{ playbook_dir }} {{ user_home }}/.dotfiles/
+  - name: chown devtainer => '{{ user_home }}/.dotfiles'
+    file:
+      path: '{{ user_home }}/.dotfiles'
+      owner: '{{ user.name }}'
+      group: '{{ user.name }}'
+      mode: 0700
+      recurse: true
+
 
 - name: npm install language servers
   shell: '{{ item }}'
