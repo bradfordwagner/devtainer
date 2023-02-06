@@ -140,10 +140,10 @@ map <C-f> :Ag<CR>
 map <C-g> :Goyo 50%+7%x100%<CR>
 map ZA :update<CR> " save current file
 map ZD :r !date<CR> " insert current date
-map ZS :bd<CR>:NERDTreeToggle<CR> " close the current file
+" map ZS :bd<CR>:NERDTreeToggle<CR> " close the current file
 " syntax bindings
-map SY :set syntax=yaml<CR> " Syntax Yaml
-map SH :set syntax=helm<CR> " Syntax Helm
+map ZSY :set syntax=yaml<CR> " Syntax Yaml
+map ZSH :set syntax=helm<CR> " Syntax Helm
 map ZL :!zsh -lc cl<CR><CR>
 map ZR :registers<CR>
 map ZT :Align \|<CR>
