@@ -61,7 +61,7 @@ set -e
 ansible-playbook test.yml && echo Success || echo Failure
 EOF
 chmod +x ansible.sh
-docker run -it -v $(pwd):/root quay.io/bradfordwagner/ansible:3.6.2-archlinux_latest /bin/sh -l -- ./ansible.sh
+docker run -it -v $(pwd):/src quay.io/bradfordwagner/ansible:3.6.2-archlinux_latest /bin/sh -l -- ./ansible.sh
 }
 function ansible_playbook_container_login() {
 git clean -fd
@@ -72,7 +72,18 @@ set -ex
 ansible-playbook playbook.yml && echo Success || echo Failure
 EOF
 chmod +x ansible.sh
-docker run -it -v $(pwd):/tmp --platform linux/amd64 quay.io/bradfordwagner/ansible:3.6.2-archlinux_latest /bin/sh -l
+docker run -it -v $(pwd):/src --platform linux/amd64 quay.io/bradfordwagner/ansible:3.6.2-archlinux_latest /bin/sh -l
+}
+function ansible_playbook_dockerfile() {
+git clean -fd
+cat > Dockerfile << EOF
+from --platform=linux/amd64 quay.io/bradfordwagner/ansible:3.6.2-archlinux_latest
+copy . /src
+workdir /src
+run [ -f requirements.yml ] && ansible-galaxy install -r requirements.yml || echo "Dependency Download: No requirements.yml Found"
+run ansible-playbook playbook.yml && echo Success || echo Failure
+EOF
+docker build -t t .
 }
 ################################################
 
@@ -171,6 +182,7 @@ alias pwp='pwd -P'
 alias pcd='cd `pwp`; ls -lh'
 ################################################
 
+
 ################################################
 # maven helpers
 ################################################
@@ -196,9 +208,19 @@ function az_aks_get_all {
 
 function k8sUniqueContainers() {
 kubectl get pods --all-namespaces -o jsonpath="{..image}" |\
-  tr -s '[[:space:]]' '\n' |\
-  sort |\
-  uniq -c
+tr -s '[[:space:]]' '\n' |\
+sort |\
+uniq -c
+}
+
+function stripRegistryLogin() {
+  # sample input
+  # "$ sudo docker login -p DeTg7d8Tz5-uqdHsemMXqfTPaX2avQnxX3vNS0jBkvY -e unused -u unused docker-registry-default.devkubewd.dev.blackrock.com"
+  input=$1
+  a=$(sed -e "s/^\$ sudo //" <<< $input)
+  a=$(sed -e "s/ -e unused//" <<< $a)
+  echo running: $a
+  eval $a
 }
 
 function k3d_get_all_configs() {
@@ -243,6 +265,8 @@ alias sk="s ns; k9"
 alias k9a='k9s -r 1 -A'
 alias kk="k9"
 alias ka="k9a"
+alias kafs="ls | grep yaml | xargs -I {} kubectl apply -f {}"
+alias kdfs="ls | grep yaml | xargs -I {} kubectl delete -f {}"
 function kaf() {
    arr=("$@")
    for i in "${arr[@]}"; do
@@ -255,7 +279,7 @@ function kdf() {
      kubectl delete -f ${i}
    done
 }
-alias kwai='clear; echo kube_config=$KUBECONFIG; ll ~/.kube/config; kcc; knc'
+alias kwai='clear; echo kube_config=$KUBECONFIG; ll ~/.kube/config; kcc; knc; hla'
 ################################################
 
 ################################################
@@ -265,6 +289,7 @@ alias kwai='clear; echo kube_config=$KUBECONFIG; ll ~/.kube/config; kcc; knc'
 if hash tmux-non-dead.tmux 2>/dev/null; then
   alias tmux='tmux-non-dead.tmux'
 fi
+alias mux='tmuxinator'
 alias mux='tmuxinator'
 alias ta='tmux attach -t'
 function tns() {
@@ -344,8 +369,14 @@ alias c=clear
 alias vim=nvim
 alias v=nvim
 function vimLoadPlugins() {
-  nvim +slient +VimEnter +PlugInstall +qall
-  nvim +slient +VimEnter +PluginInstall +qall
+  # add these commands to devtainer startup
+  # after link shell - because init vim is required
+  nvim +silent +PlugInstall +qall
+  nvim +silent +PluginInstall +qall
+  # in shell as in arch needs to be installed by root
+  npm install -g bash-language-server
+  # nvim +slient +VimEnter +PlugInstall +qall
+  # nvim +slient +VimEnter +PluginInstall +qall
   vim +slient +VimEnter +PlugInstall +qall
   vim +slient +VimEnter +PluginInstall +qall
 }
@@ -424,4 +455,3 @@ function git_open_ado() {
   url=$(git remote -v | grep fetch | sed 's/.*git@ssh.dev.azure.com:v3\/\(.*\)\/\(.*\)\/\(.*\) (fetch)/https:\/\/dev.azure.com\/\1\/\2\/_git\/\3/g')
   open ${url}
 }
-
