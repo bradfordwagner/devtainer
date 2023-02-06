@@ -70,6 +70,3 @@ enable-fzf-tab
 
 autoload -U compinit; compinit
 
-## auto setup ca bundle if exists
-[ -f /private/etc/ssl/certs/AzureCA-bundle.pem ] && export REQUESTS_CA_BUNDLE=/private/etc/ssl/certs/AzureCA-bundle.pem
-
