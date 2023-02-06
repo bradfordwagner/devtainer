@@ -143,6 +143,7 @@ map ZD :r !date<CR> " insert current date
 map ZS :bd<CR>:NERDTreeToggle<CR> " close the current file
 " syntax bindings
 map SY :set syntax=yaml<CR> " Syntax Yaml
+map SH :set syntax=helm<CR> " Syntax Helm
 map ZL :!zsh -lc cl<CR><CR>
 map ZR :registers<CR>
 map ZT :Align \|<CR>
