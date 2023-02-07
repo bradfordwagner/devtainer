@@ -16,6 +16,7 @@
         - .k9s
         - .kube
         - .pip
+        - .tmux
         - Library/Preferences/k9s
         - Library/Application Support/k9s
         - Library/Application Support/Amethyst/Layouts
