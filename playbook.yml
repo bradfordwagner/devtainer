@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars:
-    install_packages: false
+    install_packages: true
     user:
       # in some cases we need to create the user
       # so current user would not suffice
