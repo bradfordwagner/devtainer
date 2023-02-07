@@ -12,8 +12,6 @@
       changed_when: False
       register: dotfiles_dir
 - when: not dotfiles_dir.stat.exists
-  become: yes
-  become_user: '{{ user.name }}'
   block:
   - name: copy devtainer => '{{ user_home }}/.dotfiles'
     shell: cp -R {{ playbook_dir }} {{ user_home }}/.dotfiles/
