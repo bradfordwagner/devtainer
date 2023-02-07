@@ -27,12 +27,16 @@
       when: user.create
     - name: install dotfiles - this repo!
       include_tasks: tasks/install-dotfiles.yml
-    - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
-      include_tasks: tasks/install-shell-packages.yml
-      when: install_packages
 
+    # setup login/etc
     - name: jinga templates
       include_tasks: tasks/jinga-templates.yml
     - name: link shell
       include_tasks: tasks/link-shell.yml
+
+    # link is required first to setup init.vim
+    - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
+      include_tasks: tasks/install-shell-packages.yml
+      when: install_packages
+
 
