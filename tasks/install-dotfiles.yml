@@ -19,6 +19,5 @@
     file:
       path: '{{ user_home }}/.dotfiles'
       owner: '{{ user.name }}'
-      mode: 0700
       recurse: true
 
