@@ -3,10 +3,10 @@
 # from https://github.com/ianyh/Amethyst/blob/development/Amethyst/Managers/LayoutType.swift#L85
 layouts:
   - widescreen-tall
-  - widescreen-tall-right
   - tall-top
   - fullscreen
   - centered-focus
+  - widescreen-tall-right
   - wide
   - middle-wide
   - floating
