@@ -17,7 +17,7 @@
     # - community/unclutter # auto hide mouse
     # - corkscrew # ssh over https
     # - extra/nitrogen # set background
-    # - dnsutils
+    - dnsutils
     # - community/xsel
     # - community/rofi
     # - community/brave-browser
