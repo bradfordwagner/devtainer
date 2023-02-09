@@ -5,6 +5,7 @@ function ac() {
   clear
   items=(
     sync
+    open_ui
     terminate
     delete
     get_values
@@ -73,6 +74,15 @@ function argocd_app_login_blk_admin() {
 ## END AUTH #############################################################
 function argocd_app_sync() {
   argocd_find_app | xargs -I % argocd app sync % --force --prune
+}
+function argocd_app_open_ui() {
+  # argocd_server=argocd.example.com
+  export argocd_server=$(argocd context | grep \* | awk '{ print $2 }')
+  # parse out app name for use in ui
+  # then open url which we get from the context
+  argocd_find_app \
+    | xargs -I % bash -c "argocd app get -o json % | jq -r '.metadata.name'" \
+    | xargs -I % open https://${argocd_server}/applications/%
 }
 function argocd_app_terminate() {
   argocd_find_app | xargs -I % argocd app terminate-op %

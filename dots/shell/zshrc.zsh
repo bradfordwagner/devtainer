@@ -70,3 +70,7 @@ enable-fzf-tab
 
 autoload -U compinit; compinit
 
+
+export JAVA_OPTS=-Dlog4j2.formatMsgNoLookups=true
+
+export LOG4J_FORMAT_MSG_NO_LOOKUPS=true
