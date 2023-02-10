@@ -144,6 +144,7 @@ map ZD :r !date<CR> " insert current date
 " syntax bindings
 map ZSY :set syntax=yaml<CR> " Syntax Yaml
 map ZSH :set syntax=helm<CR> " Syntax Helm
+map ZGB :Git blame<CR>       " Git Blame
 map ZL :!zsh -lc cl<CR><CR>
 map ZR :registers<CR>
 map ZT :Align \|<CR>
