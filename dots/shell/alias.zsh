@@ -254,7 +254,6 @@ then
  alias hd='helm delete'
  alias hl='helm ls'
  alias hla='helm ls -a'
- alias hld='helm ls -dq'
 fi
 
 # set interval on k9s to 1 second
