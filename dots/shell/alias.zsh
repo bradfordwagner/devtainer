@@ -124,6 +124,7 @@ fi
 ################################################
 # copied from - https://github.com/junegunn/fzf/wiki/examples#changing-directory
 # fd - cd to selected directory
+alias ll="ls -lh"
 alias fenv='env | fzf'
 # file source - ie get a configuration from my super secrets environment vars
 function fs() {
