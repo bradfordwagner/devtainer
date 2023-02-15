@@ -1,0 +1,481 @@
+font:
+  size: 10
+  normal:
+#   family: JetBrainsMono
+    family: JetBrainsMono Nerd Font Mono
+    style: Bold
+  #use_thin_strokes: true
+
+#background_opacity: .90
+live_config_reload: true
+
+selection:
+  save_to_clipboard: true
+
+shell:
+  program: zsh
+  args:
+  - --login
+
+draw_bold_text_with_bright_colors: true
+
+
+schemes:
+  # Tokyo Night theme, based on both:
+  #   https://github.com/ghifarit53/tokyonight-vim
+  #   https://github.com/enkia/tokyo-night-vscode-theme
+  tokyo-night: &tokyo-night
+    # Default colors
+    primary:
+      background: '0x1a1b26'
+      foreground: '0xa9b1d6'
+
+    cursor:
+      text:   CellBackground
+      cursor: CellForeground
+    vi_mode_cursor:
+      text:   CellBackground
+      cursor: CellForeground
+
+    # Normal colors
+    normal:
+      black:   '0x32344a'
+      red:     '0xf7768e'
+      green:   '0x9ece6a'
+      yellow:  '0xe0af68'
+      blue:    '0x7aa2f7'
+      magenta: '0xad8ee6'
+      cyan:    '0x449dab'
+      white:   '0x787c99'
+
+    # Bright colors
+    bright:
+      black:   '0x444b6a'
+      red:     '0xff7a93'
+      green:   '0xb9f27c'
+      yellow:  '0xff9e64'
+      blue:    '0x7da6ff'
+      magenta: '0xbb9af7'
+      cyan:    '0x0db9d7'
+      white:   '0xacb0d0'
+
+  tokyo-night-storm: &tokyo-night-storm
+    # Default colors
+    primary:
+      background: '0x24283b'
+      foreground: '0xa9b1d6'
+
+    cursor:
+      text:   CellBackground
+      cursor: CellForeground
+    vi_mode_cursor:
+      text:   CellBackground
+      cursor: CellForeground
+
+    # Normal colors
+    normal:
+      black:   '0x32344a'
+      red:     '0xf7768e'
+      green:   '0x9ece6a'
+      yellow:  '0xe0af68'
+      blue:    '0x7aa2f7'
+      magenta: '0xad8ee6'
+      cyan:    '0x449dab'
+      white:   '0x9699a8'
+
+    # Bright colors
+    bright:
+      black:   '0x444b6a'
+      red:     '0xff7a93'
+      green:   '0xb9f27c'
+      yellow:  '0xff9e64'
+      blue:    '0x7da6ff'
+      magenta: '0xbb9af7'
+      cyan:    '0x0db9d7'
+      white:   '0xacb0d0'
+
+  # Catppuccin! - https://github.com/catppuccin/alacritty/blob/main/catppuccin.yml
+  catpuccin: &catppuccin
+    # Default colors
+    primary:
+      background: '0x1E1E28'
+      foreground: '0xD7DAE0'
+    # Colors the cursor will use if `custom_cursor_colors` is true
+    cursor:
+      text: '0x1E1E28'
+      cursor: '0xB3E1A3'
+    # Normal colors
+    normal:
+      black:   '0x6E6C7C'
+      red:     '0xE28C8C'
+      green:   '0xB3E1A3'
+      yellow:  '0xEADDA0'
+      blue:    '0xA4B9EF'
+      magenta: '0xC6AAE8'
+      cyan:    '0xF0AFE1'
+      white:   '0xD7DAE0'
+    # Bright colors
+    bright:
+      black:   '0x6E6C7C'
+      red:     '0xE28C8C'
+      green:   '0xB3E1A3'
+      yellow:  '0xEADDA0'
+      blue:    '0xA4B9EF'
+      magenta: '0xC6AAE8'
+      cyan:    '0xF0AFE1'
+      white:   '0xD7DAE0'
+    indexed_colors:
+      - { index: 16, color: '0xECBFBD' }
+      - { index: 17, color: '0x3E4058' }
+
+  # Colors (SMYCK)
+  smyck: &smyck
+    primary:
+      background: '0x232423'
+      foreground: '0xF8F8F8'
+      bright_foreground: '0xfeffff'
+
+    normal:
+      black:   '0x000000'
+      red:     '0xC75646'
+      green:   '0x8EB33B'
+      yellow:  '0xD0B03C'
+      blue:    '0x4E90A7'
+      magenta: '0xC8A0D1'
+      cyan:    '0x218693'
+      white:   '0xB0B0B0'
+
+    bright:
+      black:   '0x5D5D5D'
+      red:     '0xE09690'
+      green:   '0xCDEE69'
+      yellow:  '0xFFE377'
+      blue:    '0x9CD9F0'
+      magenta: '0xFBB1F9'
+      cyan:    '0x77DFD8'
+      white:   '0xF7F7F7'
+
+
+# Colors (Oceanic Next)
+#colors:
+#  # Default colors
+#  primary:
+#    background: '0x1b2b34'
+#    foreground: '0xd8dee9'
+#
+#  # Normal colors
+#  normal:
+#    black:   '0x29414f'
+#    red:     '0xec5f67'
+#    green:   '0x99c794'
+#    yellow:  '0xfac863'
+#    blue:    '0x6699cc'
+#    magenta: '0xc594c5'
+#    cyan:    '0x5fb3b3'
+#    white:   '0x65737e'
+#
+#  # Bright colors
+#  bright:
+#    black:   '0x405860'
+#    red:     '0xec5f67'
+#    green:   '0x99c794'
+#    yellow:  '0xfac863'
+#    blue:    '0x6699cc'
+#    magenta: '0xc594c5'
+#    cyan:    '0x5fb3b3'
+#    white:   '0xadb5c0'
+
+# nord
+#colors:
+#  primary:
+#    background: '0x2E3440'
+#    foreground: '0xD8DEE9'
+#  cursor:
+#    text: '0x2E3440'
+#    cursor: '0xD8DEE9'
+#  normal:
+#    black: '0x3B4252'
+#    red: '0xBF616A'
+#    green: '0xA3BE8C'
+#    yellow: '0xEBCB8B'
+#    blue: '0x81A1C1'
+#    magenta: '0xB48EAD'
+#    cyan: '0x88C0D0'
+#    white: '0xE5E9F0'
+#  bright:
+#    black: '0x4C566A'
+#    red: '0xBF616A'
+#    green: '0xA3BE8C'
+#    yellow: '0xEBCB8B'
+#    blue: '0x81A1C1'
+#    magenta: '0xB48EAD'
+#    cyan: '0x8FBCBB'
+#    white: '0xECEFF4'
+
+# Colors (Gruvbox dark)
+#colors:
+#  # Default colors
+#  primary:
+#    #background: '0x1d2021' # hard
+#    background: '0x282828'  # medium
+#    #background: '0x32302f' # soft
+#    foreground: '0xebdbb2'
+#  # Normal colors
+#  normal:
+#    black:   '0x282828'
+#    red:     '0xcc241d'
+#    green:   '0x98971a'
+#    yellow:  '0xd79921'
+#    blue:    '0x458588'
+#    magenta: '0xb16286'
+#    cyan:    '0x689d6a'
+#    white:   '0xa89984'
+#  # Bright colors
+#  bright:
+#    black:   '0x928374'
+#    red:     '0xfb4934'
+#    green:   '0xb8bb26'
+#    yellow:  '0xfabd2f'
+#    blue:    '0x83a598'
+#    magenta: '0xd3869b'
+#    cyan:    '0x8ec07c'
+#    white:   '0xebdbb2'
+
+# VSCode's integrated terminal default colors
+# Primary and dimmed colors needed
+#colors:
+#  # Default colors
+#  primary:
+#    background: '#1e1e1e' #Background from Dark Theme
+#    foreground: '#cccccc'
+#  # Selection colors
+#  selection:
+#    text: CellForeground
+#    background: '#565656'
+#  # Normal colors
+#  normal:
+#    black:   '#000000'
+#    red:     '#cd3131'
+#    green:   '#0dbc79'
+#    yellow:  '#e5e510'
+#    blue:    '#2472c8'
+#    magenta: '#bc3fbc'
+#    cyan:    '#11a8cd'
+#    white:   '#e5e5e5'
+#  # Bright colors
+#  bright:
+#    black:   '#666666'
+#    red:     '#f14c4c'
+#    green:   '#23d18b'
+#    yellow:  '#f5f543'
+#    blue:    '#3b8eea'
+#    magenta: '#d670d6'
+#    cyan:    '#29b8db'
+#    white:   '#e5e5e5'
+
+
+# Colors (One Dark - https://github.com/atom/atom/tree/master/packages/one-dark-syntax)
+#colors:
+#  primary:
+#    background: '#282c34'
+#    foreground: '#abb2bf'
+#  cursor:
+#    text:       CellBackground
+#    cursor:     '#528bff' # syntax-cursor-color
+#  selection:
+#    text:       CellForeground
+#    background: '#3e4451' # syntax-selection-color
+#  normal:
+#    black:      '#5c6370' # mono-3
+#    red:        '#e06c75' # red 1
+#    green:      '#98c379'
+#    yellow:     '#e5c07b' # orange 2
+#    blue:       '#61afef'
+#    magenta:    '#c678dd'
+#    cyan:       '#56b6c2'
+#    white:      '#828997' # mono-2
+
+# https://github.com/alacritty/alacritty/wiki/Color-schemes
+#colors:
+#  primary:
+#    # hard contrast background - '#1d2021'
+#    # medium background - '#282828'
+#    # soft contrast background - '#32302f'
+#    background:        &gruvbox_dark_bg '#1d2021'
+#    #foreground:        '#ebdbb2' # original
+#    foreground:        '#dbbf75' # two monochromatic colors darker
+#    bright_foreground: '#fbf1c7'
+#    dim_foreground:    '#a89984'
+#  cursor:
+#    text:   CellBackground
+#    cursor: CellForeground
+#  vi_mode_cursor:
+#    text:   CellBackground
+#    cursor: CellForeground
+#  # search:
+#  #   matches:
+#  #     foreground: '#000000'
+#  #     background: '#ffffff'
+#  #   focused_match:
+#  #    foreground: CellBackground
+#  #    background: CellForeground
+#  #   bar:
+#  #     background: ''
+#  #     foreground: ''
+#  # line_indicator:
+#  #   foreground: None
+#  #   background: None
+#  selection:
+#    text:       CellBackground
+#    background: CellForeground
+#  bright:
+#    black:   '#928374'
+#    red:     '#fb4934'
+#    green:   '#b8bb26'
+#    yellow:  '#fabd2f'
+#    blue:    '#83a598'
+#    magenta: '#d3869b'
+#    cyan:    '#8ec07c'
+#    white:   '#ebdbb2'
+#  normal:
+#    black:   *gruvbox_dark_bg
+#    red:     '#cc241d'
+#    green:   '#98971a'
+#    yellow:  '#d79921'
+#    blue:    '#458588'
+#    magenta: '#b16286'
+#    cyan:    '#689d6a'
+#    white:   '#a89984'
+#  dim:
+#    black:   '#32302f'
+#    red:     '#9d0006'
+#    green:   '#79740e'
+#    yellow:  '#b57614'
+#    blue:    '#076678'
+#    magenta: '#8f3f71'
+#    cyan:    '#427b58'
+#    white:   '#928374'
+
+
+
+# Colors Base2Tone-Sea Dark
+#colors:
+#  primary:
+#    background: '0x1d262f'
+#    foreground: '0xa1aab5'
+#  cursor:
+#    text: '0x1d262f'
+#    cursor: '0x067953'
+#  normal:
+#    black:   '0x1d262f'
+#    red:     '0x34659d'
+#    green:   '0x14e19d'
+#    yellow:  '0x47ebb4'
+#    blue:    '0x57718e'
+#    magenta: '0x0db57d'
+#    cyan:    '0x6e9bcf'
+#    white:   '0xa1aab5'
+
+# Colors (Material Theme)
+#colors:
+#  # Default colors
+#  primary:
+#    background: '0x1e282d'
+#    foreground: '0xc4c7d1'
+#
+#  # Normal colors
+#  normal:
+#    black:   '0x666666'
+#    red:     '0xeb606b'
+#    green:   '0xc3e88d'
+#    yellow:  '0xf7eb95'
+#    blue:    '0x80cbc4'
+#    magenta: '0xff2f90'
+#    cyan:    '0xaeddff'
+#    white:   '0xffffff'
+#
+#  # Bright colors
+#  bright:
+#    black:   '0xa1a1a1'
+#    red:     '0xeb606b'
+#    green:   '0xc3e88d'
+#    yellow:  '0xf7eb95'
+#    blue:    '0x7dc6bf'
+#    magenta: '0x6c71c4'
+#    cyan:    '0x35434d'
+#    white:   '0xffffff'
+
+
+# Colors (One Dark)
+#colors:
+#  primary:
+#    background: '0x1e2127'
+#    foreground: '0xabb2bf'
+#  normal:
+#    black:   '0x1e2127'
+#    red:     '0xe06c75'
+#    green:   '0x98c379'
+#    yellow:  '0xd19a66'
+#    blue:    '0x61afef'
+#    magenta: '0xc678dd'
+#    cyan:    '0x56b6c2'
+#    white:   '0xabb2bf'
+#  bright:
+#    black:   '0x5c6370'
+#    red:     '0xe06c75'
+#    green:   '0x98c379'
+#    yellow:  '0xd19a66'
+#    blue:    '0x61afef'
+#    magenta: '0xc678dd'
+#    cyan:    '0x56b6c2'
+#    white:   '0xffffff'
+
+# Colors (Dracula)
+#colors:
+#  # Default colors
+#  primary:
+#    background: '0x282a36'
+#    foreground: '0xf8f8f2'
+#  # Normal colors
+#  normal:
+#    black:   '0x000000'
+#    red:     '0xff5555'
+#    green:   '0x50fa7b'
+#    yellow:  '0xf1fa8c'
+#    blue:    '0xbd93f9'
+#    magenta: '0xff79c6'
+#    cyan:    '0x8be9fd'
+#    white:   '0xbbbbbb'
+#  # Bright colors
+#  bright:
+#    black:   '0x555555'
+#    red:     '0xff5555'
+#    green:   '0x50fa7b'
+#    yellow:  '0xf1fa8c'
+#    blue:    '0xcaa9fa'
+#    magenta: '0xff79c6'
+#    cyan:    '0x8be9fd'
+#    white:   '0xffffff'
+
+# BEGIN ACE
+# END ACE
+
+key_bindings:
+- { key: N,      mods: Command, action: SpawnNewInstance       }
+#- { key: Return, mods: Command, action: ToggleSimpleFullscreen }
+
+window:
+  # Values for `decorations` (macOS only):
+  #     - transparent: Title bar, transparent background and title bar buttons
+  #     - buttonless: Title bar, transparent background, but no title bar buttons
+  #     - none: Neither borders nor title bar
+  #     - full: Borders and title bar
+# decorations: none
+  decorations: buttonless
+  padding:
+    x: 4
+    y: 4
+  dynamic_padding: false
+
+colors: *smyck # tokyo-night, tokyo-night-storm, catppuccin, smyck
+

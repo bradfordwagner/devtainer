@@ -1,0 +1,17 @@
+# set the default editor to nvim
+export EDITOR='nvim'
+
+source ~/.dotfiles/dots/shell/common.zsh
+source ~/.dotfiles/dots/shell/local.zsh
+source ~/.dotfiles/dots/shell/alias.zsh
+source ~/.dotfiles/dots/shell/zstyle.zsh
+source ~/.dotfiles/dots/shell/palette.zsh
+source ~/.dotfiles/dots/shell/ac.sh
+
+if [[ $OSTYPE == 'darwin'* ]]; then
+  # initialize homebrew for arm64
+  [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  # install switch https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
+  INSTALLATION_PATH=$(brew --prefix switch) && source $INSTALLATION_PATH/switch.sh
+fi

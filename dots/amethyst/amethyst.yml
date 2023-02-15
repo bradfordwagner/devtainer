@@ -1,0 +1,59 @@
+# for config with all options see: https://github.com/ianyh/Amethyst/pull/1326
+
+# from https://github.com/ianyh/Amethyst/blob/development/Amethyst/Managers/LayoutType.swift#L85
+layouts:
+  - widescreen-tall
+  - tall-top
+  - fullscreen
+  - centered-focus
+  - widescreen-tall-right
+  - wide
+  - middle-wide
+  - floating
+# - tall
+# - tall-right
+# - 3column-left
+# - 3column-right
+# - 4column-left
+# - 4column-right
+# - column
+# - row
+# - bsp
+
+# Add "command" to the default mods
+mod1:
+  - option
+  - shift
+mod2:
+  - option
+  - shift
+  - control
+
+# beta testing
+use-canary-build: false
+
+# workflow changes
+new-windows-to-main: true
+mouse-follows-focus: true
+focus-follows-mouse: false
+
+# cosmetics
+window-margins: true
+window-margin-size: 12
+
+# working as of amethyst 0.16.0
+# https://github.com/ianyh/Amethyst/issues/736
+# rm ~/Library/Preferences/com.amethyst.Amethyst.plist
+command1:
+    mod: mod2
+    key: x
+command2:
+    mod: mod2
+    key: c
+command3:
+    mod: mod2
+    key: v
+command4:
+    mod: mod2
+    key: b
+

@@ -1,0 +1,59 @@
+---
+# - name: pacman - uninstall
+#   community.general.pacman:
+#     name: []
+#     state: absent
+- name: pacman - upgrade_cache
+  community.general.pacman:
+    update_cache: true
+- name: pacman - install
+  community.general.pacman:
+    update_cache: false
+    name:
+    # - community/gping
+    # - net-tools
+    # - go
+    # - extra/snapd         # for teams integration
+    # - community/unclutter # auto hide mouse
+    # - corkscrew # ssh over https
+    # - extra/nitrogen # set background
+    - dnsutils
+    # - community/xsel
+    # - community/rofi
+    # - community/brave-browser
+    # - python-pip
+    # - community/awesome
+    - community/the_silver_searcher
+    - community/fzf
+    # - community/exa
+    # - community/bat
+    # - community/ttf-jetbrains-mono
+    - community/nodejs
+    - community/npm
+    - community/kubectl
+    - community/kubectx
+    - community/k9s
+    - community/helm
+    # - alacritty
+    # - community/yay
+    - community/watchexec
+    - extra/tree
+    - extra/zsh
+    - community/tmux
+    - core/which
+    - core/sudo
+    - neovim
+    - git
+    - gcc
+    - bash
+    # - vim
+    state: present
+
+  # roles:
+  # - luizgavalda.aur
+  # tasks:
+  # - aur: name=aur/azure-cli
+  # - aur: name=tmuxinator
+  # - aur: name=aur/picom-jonaburg-git
+  # - aur: name=aur/jetbrains-toolbox
+# - aur: name=brave

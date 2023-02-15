@@ -1,0 +1,9 @@
+# ~/.tmuxinator/l-dotfiles.yml
+
+name: l-matrix
+root: ~/workspace
+
+windows:
+  - dotfiles:
+    - cmatrix -m
+
