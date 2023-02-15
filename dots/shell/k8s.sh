@@ -35,29 +35,21 @@ function k3d_get_all_configs() {
     | xargs -I % zsh -lc "k3d kubeconfig get % > ${output_dir}/k3d_%_ctx"
   ls -lh ${output_dir} | grep k3d
 }
-# if kubectl exists
-if hash kubectl 2>/dev/null
-then
-  alias k=kubectl
-  alias s=switch # used to help with switching contexts and namespaces
-  alias sni="switch --no-index" # do not use cached values
-  alias snsk="s ns; k9"
-  alias kc=kubectx
-  alias kcc="kubectx -c"
-  alias kn="kubens"
-  alias kna="kn astra"
-  alias knc="kubens -c"
-  alias azi="az interactive"
-fi
+alias k=kubectl
+alias s=switch # used to help with switching contexts and namespaces
+alias sni="switch --no-index" # do not use cached values
+alias snsk="s ns; k9"
+alias kc=kubectx
+alias kcc="kubectx -c"
+alias kn="kubens"
+alias kna="kn astra"
+alias knc="kubens -c"
+alias azi="az interactive"
 
-# if helm exists
-if hash helm 2>/dev/null
-then
- # setup helm only if it exists
- alias hd='helm delete'
- alias hl='helm ls'
- alias hla='helm ls -a'
-fi
+# setup helm
+alias hd='helm delete'
+alias hl='helm ls'
+alias hla='helm ls -a'
 
 # set interval on k9s to 1 second
 function k9() {
