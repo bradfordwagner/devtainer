@@ -265,8 +265,6 @@ alias sk="s ns; k9"
 alias k9a='k9s -r 1 -A'
 alias kk="k9"
 alias ka="k9a"
-alias kafs="ls | grep yaml | xargs -I {} kubectl apply -f {}"
-alias kdfs="ls | grep yaml | xargs -I {} kubectl delete -f {}"
 function kaf() {
    arr=("$@")
    for i in "${arr[@]}"; do
