@@ -265,6 +265,31 @@ alias sk="s ns; k9"
 alias k9a='k9s -r 1 -A'
 alias kk="k9"
 alias ka="k9a"
+function kcp() {
+  # file=$(mktemp /tmp/kubecontext.XXXX)
+  # echo file=${file}
+  # ll ${file}
+
+  KUBECONFIG=~/.kube/config
+
+  ctx_name=$(k config current-context)
+  # file=$(mktemp /tmp/${ctx_name}.XXXXX)
+  file=$(mktemp /tmp/${ctx_name}.XXXXX)
+  cp -L ${KUBECONFIG} ${file} # follow the link
+  export KUBECONFIG=${file}
+
+  # s ns
+
+  # check ks for tmuxSendToPane
+
+
+  # cp -L ~/.kube/config ${file}
+  # ll ${file}
+  # bat -P -lyaml ${file}
+  # ls -lh ${file}
+  # rm ${file}
+  # ll ${file}
+}
 function kaf() {
    arr=("$@")
    for i in "${arr[@]}"; do
