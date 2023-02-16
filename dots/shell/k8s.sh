@@ -121,14 +121,11 @@ function kc_app_context_cp() {
     # s ns
   else
     pane_index=$(tmux splitw ${split} -P -F "#{pane_index}")
-    echo pane_index=${pane_index}
     tmux send -t ${pane_index} "export KUBECONFIG=${file}" ENTER
     tmux send -t ${pane_index} "s ns" ENTER
 
     # reset to original kubeconfig
     export KUBECONFIG=${original_kubeconfig}
   fi
-
-  echo KUBECONFIG=${KUBECONFIG}
 }
 
