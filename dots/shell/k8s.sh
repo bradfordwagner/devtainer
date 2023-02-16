@@ -115,6 +115,8 @@ function kc_app_context_cp() {
   )
   [[ "${split}" == "" ]] && split=$(printf "%s\n" "${items[@]}" | fzf  --prompt 'tmux split: ')
 
+  # maybe we could just use in place and it would run faster??
+  # 'c' is pretty fast, so we could pslit then run the same thing as c
   if [[ "inplace" == "${split}" ]]; then
     export KUBECONFIG=${file}
     s ns
