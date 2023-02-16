@@ -97,7 +97,6 @@ function kc_app_context_clean() {
   rm -f ${kc_tmp_dir}/*
 }
 function kc_app_context_cp() {
-  local split=${1}
   original_kubeconfig=${KUBECONFIG}
   resolved_kubeconfig=${original_kubeconfig:-~/.kube/config}
   mkdir -p ${kc_tmp_dir}
@@ -105,29 +104,9 @@ function kc_app_context_cp() {
   ctx_name=$(k config current-context)
   file=$(mktemp ${kc_tmp_dir}/${ctx_name}.XXXXX)
   cp -L ${resolved_kubeconfig} ${file} # follow the link
-  export KUBECONFIG=${file}   # update kubeconfig to the temporary file
 
-  # prompt for a split if not provided as an arg
-  items=(
-    -v
-    -h
-    inplace
-  )
-  [[ "${split}" == "" ]] && split=$(printf "%s\n" "${items[@]}" | fzf  --prompt 'tmux split: ')
-
-  # maybe we could just use in place and it would run faster??
-  # 'c' is pretty fast, so we could pslit then run the same thing as c
-  if [[ "inplace" == "${split}" ]]; then
-    export KUBECONFIG=${file}
-    s ns
-    kwai
-  else
-    pane_index=$(tmux splitw ${split} -P -F "#{pane_index}")
-    tmux send -t ${pane_index} "export KUBECONFIG=${file}" ENTER
-    tmux send -t ${pane_index} "s ns" ENTER
-
-    # reset to original kubeconfig
-    export KUBECONFIG=${original_kubeconfig}
-  fi
+  export KUBECONFIG=${file}
+  s ns
+  kwai
 }
 
