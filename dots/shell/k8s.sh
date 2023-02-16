@@ -116,9 +116,9 @@ function kc_app_context_cp() {
   [[ "${split}" == "" ]] && split=$(printf "%s\n" "${items[@]}" | fzf  --prompt 'tmux split: ')
 
   if [[ "inplace" == "${split}" ]]; then
-    echo in place!
     export KUBECONFIG=${file}
-    # s ns
+    s ns
+    kwai
   else
     pane_index=$(tmux splitw ${split} -P -F "#{pane_index}")
     tmux send -t ${pane_index} "export KUBECONFIG=${file}" ENTER
