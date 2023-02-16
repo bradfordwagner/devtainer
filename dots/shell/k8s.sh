@@ -38,9 +38,9 @@ function k3d_get_all_configs() {
 alias k=kubectl
 alias s=switch # used to help with switching contexts and namespaces
 alias sni="switch --no-index" # do not use cached values
+alias sk="s ns; k9"
 alias snsk="s ns; k9"
 alias kn="kubens"
-alias kna="kn astra"
 alias knc="kubens -c"
 alias azi="az interactive"
 
@@ -53,7 +53,6 @@ alias hla='helm ls -a'
 function k9() {
   k9s --headless -n $(knc) -r 1
 }
-alias sk="s ns; k9"
 alias k9a='k9s -r 1 -A'
 alias kk="k9"
 alias ka="k9a"
