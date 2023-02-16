@@ -8,6 +8,7 @@ colors[insert]=magenta
 colors[base]=brightyellow
 colors[speed]=brightmagenta
 colors[resize]=brightblue
+colors[kube]=red
 color=${colors[$layer]}
 
 # active border
@@ -24,6 +25,7 @@ tmux set -g status-left "${standard_status_color}kt=[#[fg=${color}]#{client_key_
 typeset -A layers=()
 layers[base]=b
 layers[resize]=r
+layers[kube]=k
 layers[speed]=s
 layers[insert]=root
 key_table=${layers[${layer}]}
