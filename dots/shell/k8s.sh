@@ -16,16 +16,6 @@ sort |\
 uniq -c
 }
 
-function stripRegistryLogin() {
-  # sample input
-  # "$ sudo docker login -p DeTg7d8Tz5-uqdHsemMXqfTPaX2avQnxX3vNS0jBkvY -e unused -u unused docker-registry-default.devkubewd.dev.blackrock.com"
-  input=$1
-  a=$(sed -e "s/^\$ sudo //" <<< $input)
-  a=$(sed -e "s/ -e unused//" <<< $a)
-  echo running: $a
-  eval $a
-}
-
 function k3d_get_all_configs() {
   output_dir=${1:-~/.kube}
   echo output_dir=${output_dir}
