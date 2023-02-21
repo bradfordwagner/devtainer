@@ -145,6 +145,7 @@ vmap ZSR :%sort! u<CR> " close the current file
 " syntax bindings
 map ZSY :set syntax=yaml<CR> " Syntax Yaml
 map ZSH :set syntax=helm<CR> " Syntax Helm
+map ZSB :set syntax=bash<CR> " Syntax Bash
 map ZGB :Git blame<CR>       " Git Blame
 map ZL :!zsh -lc cl<CR><CR>
 map ZR :registers<CR>
