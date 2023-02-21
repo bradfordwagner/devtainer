@@ -367,6 +367,11 @@ function wan_ip() {
 }
 
 function git_open_ado() {
-  url=$(git remote -v | grep fetch | sed 's/.*git@ssh.dev.azure.com:v3\/\(.*\)\/\(.*\)\/\(.*\) (fetch)/https:\/\/dev.azure.com\/\1\/\2\/_git\/\3/g')
-  open ${url}
+  origin=$(git remote -v | awk '{print $2}')
+  if [[ ${origin} =~ ^https.* ]]; then
+    git open
+  else
+    url=$(git remote -v | grep fetch | sed 's/.*git@ssh.dev.azure.com:v3\/\(.*\)\/\(.*\)\/\(.*\) (fetch)/https:\/\/dev.azure.com\/\1\/\2\/_git\/\3/g')
+    open ${url}
+  fi
 }
