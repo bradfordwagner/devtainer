@@ -168,8 +168,9 @@ map <C-M-h> gT
 map <C-M-l> gt
 
 " tmux buffer integratino courtesy of vim-tbone
-map ty :Tyank<CR>
-map tp :Tput<CR>
+map ty :Tyank<CR> " take current line and put it in buffer with CR
+map tp :Tput<CR> " paste tmux buffer
+vnoremap tt y<cr>:call system("tmux load-buffer -", @0)<cr>gv " copy selection into tmux buffer - gv - selects previously select block
 
 " easymotion configuration
 map z/ <Plug>(incsearch-easymotion-/)
