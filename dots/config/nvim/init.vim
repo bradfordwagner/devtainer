@@ -173,7 +173,7 @@ map <C-M-l> gt
 " tmux buffer integratino courtesy of vim-tbone
 map ty :Tyank<CR> " take current line and put it in buffer with CR
 map tp :Tput<CR> " paste tmux buffer
-vnoremap tt y<cr>:call system("tmux load-buffer -", @0)<cr>gv " copy selection into tmux buffer - gv - selects previously select block
+vnoremap tt y<cr>:call system("tmux load-buffer -", @0)<cr> " copy selection into tmux buffer - gv - selects previously select block
 
 " easymotion configuration
 map z/ <Plug>(incsearch-easymotion-/)
@@ -246,7 +246,7 @@ let g:tokyonight_enable_italic = 1
 " this if you change the scheme we have to change the func
 function! s:tweak_colors()
   " Your color customizations
-  hi VertSplit ctermfg=cyan guifg=cyan
+  hi VertSplit ctermfg=grey guifg=grey
 endfunction
 autocmd! ColorScheme tokyonight call s:tweak_colors()
 colorscheme tokyonight
