@@ -148,7 +148,8 @@ map ZSH :set syntax=helm<CR> " Syntax Helm
 map ZSB :set syntax=bash<CR> " Syntax Bash
 map ZGB :Git blame<CR>       " Git Blame
 map ZL :!zsh -lc cl<CR><CR>
-map ZR :registers<CR>
+map Zr :registers<CR>
+map ZR :source $MYVIMRC<CR>
 map ZT :Align \|<CR>
 map ZY "+y<CR>
 map Q :q!<CR> " quit current file no save
@@ -240,6 +241,14 @@ set termguicolors
 " let g:tokyonight_style = 'storm' " available: night, storm
 " let g:tokyonight_enable_italic = 1
 " colorscheme tokyonight
+
+" https://github.com/junegunn/goyo.vim#faq
+" this if you change the scheme we have to change the func
+function! s:tweak_colors()
+  " Your molokai customizations
+  hi VertSplit ctermfg=grey guifg=grey
+endfunction
+autocmd! ColorScheme smyck call s:tweak_colors()
 colorscheme smyck
 
 "  vundle settings
