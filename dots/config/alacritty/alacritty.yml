@@ -477,5 +477,5 @@ window:
     y: 4
   dynamic_padding: false
 
-colors: *smyck # tokyo-night, tokyo-night-storm, catppuccin, smyck
+colors: *tokyo-night-storm # tokyo-night, tokyo-night-storm, catppuccin, smyck
 
