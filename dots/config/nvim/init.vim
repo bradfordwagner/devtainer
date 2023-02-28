@@ -137,7 +137,7 @@ map <leader>c :FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.chea
 map <leader>d :FZF ~/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles<CR>
 map <leader>h :FZF ~/<CR>
 map <C-f> :Ag<CR>
-map <C-g> :Goyo 50%+7%x100%<CR>
+map <C-g> :Goyo 75%+7%x100%<CR>
 map ZA :update<CR> " save current file
 map ZD :r !date<CR> " insert current date
 vmap ZSA :%sort u<CR> " close the current file
