@@ -238,18 +238,18 @@ let g:lightline = {
 
 " for tokyo night only
 set termguicolors
-" let g:tokyonight_style = 'storm' " available: night, storm
-" let g:tokyonight_enable_italic = 1
-" colorscheme tokyonight
+let g:tokyonight_style = 'storm' " available: night, storm
+let g:tokyonight_enable_italic = 1
 
 " https://github.com/junegunn/goyo.vim#faq
 " this if you change the scheme we have to change the func
 function! s:tweak_colors()
-  " Your molokai customizations
+  " Your color customizations
   hi VertSplit ctermfg=grey guifg=grey
 endfunction
 autocmd! ColorScheme smyck call s:tweak_colors()
-colorscheme smyck
+colorscheme tokyonight
+" colorscheme smyck
 
 "  vundle settings
 set nocompatible " be iMproved, required
