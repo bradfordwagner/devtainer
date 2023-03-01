@@ -68,6 +68,7 @@ function kc() {
   clear
   items=(
     context
+    auth_aks
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   kc_app_${choice}
@@ -97,5 +98,14 @@ function kc_app_context_cp() {
   export KUBECONFIG=${file}
   s ns
   kwai
+}
+
+function kc_app_auth_aks() {
+  subscription=$(az account list --all | jq -r '.[].name' | fzf --prompt="select a subscription: " +m)
+  az account set --subscription=${subscription}
+  az aks list \
+    | jq '.[] | "\(.name) \(.resourceGroup)"' -r \
+    | fzf --with-nth=1 --prompt="select a cluster: " \
+    | xargs -n2 zsh -c 'az aks get-credentials -n ${1} -g ${2} -f ~/.kube/${1}_ctx --overwrite-existing --format exec' zsh
 }
 
