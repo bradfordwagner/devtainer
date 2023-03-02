@@ -58,7 +58,7 @@ function kdf() {
      kubectl delete -f ${i}
    done
 }
-alias kwai='clear; echo kube_config=$KUBECONFIG; ll ~/.kube/config; kubectx -c; knc; hla'
+alias kwai='clear; kubectl config get-contexts; echo kube_config=$KUBECONFIG; ll ~/.kube/config; hla'
 ################################################
 
 ## smart completions - kc ######################
