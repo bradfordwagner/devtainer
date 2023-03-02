@@ -10,10 +10,10 @@ function az_aks_get_all {
 }
 
 function k8sUniqueContainers() {
-kubectl get pods --all-namespaces -o jsonpath="{..image}" |\
-tr -s '[[:space:]]' '\n' |\
-sort |\
-uniq -c
+  kubectl get pods --all-namespaces -o jsonpath="{..image}" |\
+    tr -s '[[:space:]]' '\n' |\
+    sort |\
+    uniq -c
 }
 
 function k3d_get_all_configs() {
