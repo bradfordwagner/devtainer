@@ -32,7 +32,6 @@ setopt HIST_SAVE_NO_DUPS
 # environment loads
 # if [[ $(hostname -s) = nycla* ]] || [[ $(hostname -s) = NYCLA* ]] || [[ $(hostname -s) = macbook-pro ]] || [[ $(hostname -s) = nycmd* ]] || [[ $(hostname -s) = bwagner-* ]]; then
   export ZSH_THEME="powerlevel10k/powerlevel10k"
-  unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND # always show kube context
 # else
 #   # setup hail mary color scheme on remote
 #   export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
@@ -71,7 +70,6 @@ enable-fzf-tab
 
 autoload -U compinit; compinit
 
+# show kube ctx always
+unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 
-export JAVA_OPTS=-Dlog4j2.formatMsgNoLookups=true
-
-export LOG4J_FORMAT_MSG_NO_LOOKUPS=true
