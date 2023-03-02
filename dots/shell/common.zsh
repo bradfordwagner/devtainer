@@ -10,7 +10,6 @@ ANT_PATH=/Users/bwagner/bin/apache-ant-1.8.2
 GOPATH_BIN=~/go/bin
 export GOPATH="${HOME}/go"
 export GOBIN="${HOME}/bin"
-export GOPRIVATE=*.blackrock.com # allow pull from private repository # https://stackoverflow.com/questions/65755940/go-get-fails-to-download-a-go-package-git-repository-hosted-on-a-github-entre
 export GINKGO_EDITOR_INTEGRATION=true # allow unit tests coverage to run in focus mode
 export GORACE=history_size=7
 export ACK_GINKGO_DEPRECATIONS=1.16.4 # stop the annoying deprecation popups
