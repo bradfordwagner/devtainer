@@ -59,6 +59,7 @@ function kdf() {
    done
 }
 alias kwai='clear; kubectl config get-contexts; echo kube_config=$KUBECONFIG; ll ~/.kube/config; hla'
+alias kcc='env | grep KUBECONFIG | xargs -I % echo "export %" | tmux loadb -' # copies kube config variable into tmux buffer
 ################################################
 
 ## smart completions - kc ######################
