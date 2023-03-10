@@ -73,3 +73,6 @@ autoload -U compinit; compinit
 # show kube ctx always
 unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 
+# double source this.. yuck. its mostly to override some of the zsh defaults like "l", and "ll"
+[ -f ~/.dotfiles/dots/shell/alias.zsh ] && source ~/.dotfiles/dots/shell/alias.zsh
+

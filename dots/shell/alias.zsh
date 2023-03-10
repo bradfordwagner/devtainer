@@ -124,7 +124,13 @@ fi
 ################################################
 # copied from - https://github.com/junegunn/fzf/wiki/examples#changing-directory
 # fd - cd to selected directory
-alias ll="ls -lh"
+if hash lsd 2>/dev/null; then
+  alias l="lsd -lha"
+  alias ll="lsd -lh"
+else
+  alias l="ls -lha"
+  alias ll="ls -lh"
+fi
 alias fenv='env | fzf'
 # file source - ie get a configuration from my super secrets environment vars
 function fs() {
