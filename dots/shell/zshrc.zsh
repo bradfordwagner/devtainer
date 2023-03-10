@@ -73,7 +73,3 @@ autoload -U compinit; compinit
 # show kube ctx always
 unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 
-
-export JAVA_OPTS=-Dlog4j2.formatMsgNoLookups=true
-
-export LOG4J_FORMAT_MSG_NO_LOOKUPS=true
