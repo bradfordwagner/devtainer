@@ -57,7 +57,7 @@ Plug 'norcalli/nvim-colorizer.lua' " https://github.com/norcalli/nvim-colorizer.
 Plug 'pearofducks/ansible-vim'
 
 if has("nvim")
-  Plug 'karb94/neoscroll.nvim' " sweet smooth scrolling
+  " Plug 'karb94/neoscroll.nvim' " sweet smooth scrolling
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " completions! - using release branch
   source ~/.config/nvim/coc.vim
 endif
@@ -72,22 +72,22 @@ set termguicolors
 lua <<EOF
 require('colorizer').setup()
 
-require('neoscroll').setup({
-    -- Set any options as needed
-})
-local t = {}
-local speed = '100'
--- Syntax: t[keys] = {function, {function arguments}}
-t['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', speed}}
-t['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', speed}}
-t['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', speed}}
-t['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', speed}}
-t['<C-y>'] = {'scroll', {'-0.10', 'false', speed}}
-t['<C-e>'] = {'scroll', { '0.10', 'false', speed}}
-t['zt']    = {'zt', {speed}}
-t['zz']    = {'zz', {speed}}
-t['zb']    = {'zb', {speed}}
-require('neoscroll.config').set_mappings(t)
+-- require('neoscroll').setup({
+--     -- Set any options as needed
+-- })
+-- local t = {}
+-- local speed = '100'
+-- -- Syntax: t[keys] = {function, {function arguments}}
+-- t['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', speed}}
+-- t['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', speed}}
+-- t['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', speed}}
+-- t['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', speed}}
+-- t['<C-y>'] = {'scroll', {'-0.10', 'false', speed}}
+-- t['<C-e>'] = {'scroll', { '0.10', 'false', speed}}
+-- t['zt']    = {'zt', {speed}}
+-- t['zz']    = {'zz', {speed}}
+-- t['zb']    = {'zb', {speed}}
+-- require('neoscroll.config').set_mappings(t)
 
 require('nvim-treesitter.configs').setup {
   -- A list of parser names, or "all"
