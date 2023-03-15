@@ -24,6 +24,7 @@ function argocd_app_get_values() {
   o=$(argocd app get ${app} --show-params -o yaml)
   release_name=$(echo ${o} | yq '.spec.source.helm.releaseName')
   namespace=$(echo ${o} | yq '.spec.destination.namespace')
+  value_files=$(echo ${o} | yq -r '.spec.source.helm.valueFiles | .[]')
   function f() {
     echo 'action=${1:-apply}'
     echo helm template ${release_name} -n ${namespace} '.' \\
@@ -31,6 +32,8 @@ function argocd_app_get_values() {
       | yq '.spec.source.helm.parameters' -r \
       | jq '.[] | .name, .value' -r \
       | xargs -n2 zsh -lc 'echo "--set $1=\"$2\"" \\' zsh
+    echo ${value_files} \
+      | xargs -n1 zsh -lc 'echo "-f \"$1\"" \\' zsh
   }
   f > test.sh
   echo '| kubectl ${action} -f -' >> test.sh
