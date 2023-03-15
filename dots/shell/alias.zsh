@@ -381,3 +381,15 @@ function git_open_ado() {
     open ${url}
   fi
 }
+
+
+## mac stuff ###################################
+function mac_toggle_menubar() {
+  osascript <<END
+tell application "System Events"
+	tell dock preferences to set autohide menu bar to not autohide menu bar
+end tell
+END
+}
+
+################################################
