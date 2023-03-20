@@ -4,7 +4,7 @@ function layout() {
         name: "Tall Top",
         initialState: {
             mainPaneCount: 1,
-            mainRatio: 0.75,
+            mainRatio: 0.65,
             ratioDelta: 0.05,
         },
         commands: {
