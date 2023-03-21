@@ -5,7 +5,11 @@ root: ~/workspace/doe-git/devops/tg/devops.tg.vault.mutating.webhook.live/ctx
 
 
 windows:
-  - current:
+  - port.forward:
+      panes:
+        - first:
+            - kwai
+  - local:
       panes:
         - first:
             - kwai
