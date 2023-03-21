@@ -171,7 +171,7 @@ function kc_app_k9s() {
     resource
     ns_resource
     new_ctx_ns_resource
-    select_kube_ctx_ns_resource
+    select_kube_ctx_cp
     select_work_ctx_cp
     allns_resource
   )
@@ -193,9 +193,8 @@ function kc_app_k9s_resource() {
 function kc_app_k9s_allns_resource() {
   kar
 }
-function kc_app_k9s_select_kube_ctx_ns_resource() {
-  # tmux send "export KUBECONFIG=\"$(ks kube --pipe )\"" Left Left Tab
-  tmux send "export KUBECONFIG=\"\$(ks kube --pipe )\"" Left Left Tab
+function kc_app_k9s_select_kube_ctx_cp() {
+  tmux send "export KUBECONFIG=\"\$(ks kube --pipe )\" && kcc" Left Left Left Left Left Left Left Left Left Tab
 }
 function kc_app_k9s_select_work_ctx_cp() {
   cd ~/.work_ctx
