@@ -168,7 +168,10 @@ function kc_app_resources_load() {
 }
 function kc_app_k9s() {
   items=(
+    resource
+    ns_resource
     new_ctx_ns_resource
+    allns_resource
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   kc_app_k9s_${choice}
@@ -176,5 +179,15 @@ function kc_app_k9s() {
 
 function kc_app_k9s_new_ctx_ns_resource() {
   kc_app_context_cp
+  kc_app_k9s_resource
+}
+function kc_app_k9s_ns_resource() {
+  s ns
+  kc_app_k9s_resource
+}
+function kc_app_k9s_resource() {
   kkr
+}
+function kc_app_k9s_allns_resource() {
+  kar
 }
