@@ -43,7 +43,7 @@ alias hla='helm ls -a'
 function k9() {
   k9s --headless -n $(knc) -r 1
 }
-alias k9a='k9s -r 1 -A'
+alias k9a='k9s -r 1 -A --headless'
 alias kk="k9"
 alias ka="k9a"
 function kaf() {
