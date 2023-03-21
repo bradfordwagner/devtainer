@@ -83,6 +83,7 @@ export kc_tmp_dir=/tmp/kc
 function kc() {
   clear
   items=(
+    k9s
     resources
     context
     auth
@@ -146,8 +147,8 @@ function kc_app_auth_aks_admin() {
 
 function kc_app_resources() {
   items=(
-    clear
     load
+    clear
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   kc_app_resources_${choice}
@@ -157,5 +158,23 @@ function kc_app_resources_clear() {
   rm ${kc_tmp_dir}/resources_list
 }
 function kc_app_resources_load() {
-  k api-resources -o name > ${kc_tmp_dir}/resources_list
+  resources=$(k api-resources)# > ${kc_tmp_dir}/resources_list
+  str=$(echo ${resources} | head -1)
+  substr="KIND"
+  prefix=${str%%$substr*}
+  index=${#prefix}
+  # take from KIND col, and from second row on - omit header
+  echo ${resources} | cut -c${index}- | tail -n +2 | tr '[:upper:]' '[:lower:]' > ${kc_tmp_dir}/resources_list
+}
+function kc_app_k9s() {
+  items=(
+    new_ctx_ns_resource
+  )
+  choice=$(printf "%s\n" "${items[@]}" | fzf)
+  kc_app_k9s_${choice}
+}
+
+function kc_app_k9s_new_ctx_ns_resource() {
+  kc_app_context_cp
+  kkr
 }
