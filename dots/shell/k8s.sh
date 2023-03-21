@@ -58,6 +58,21 @@ function kdf() {
      kubectl delete -f ${i}
    done
 }
+function k_select_resource() {
+  # dne load resource list
+  resource_list=${kc_tmp_dir}/resources_list
+  [[ -s ${resource_list} ]] || kc_app_resources_load
+  resource_type=$(cat ${resource_list} | fzf +m -0)
+  [[ "" == "${resource_type}" ]] && return || echo ${resource_type}
+}
+# k9s + select resource
+function kkr() {
+  k9s --headless -n $(knc) -r 1 -c $(k_select_resource)
+}
+# k9s all + select resource
+function kar() {
+  k9s --headless -n $(knc) -r 1 -c $(k_select_resource) -A
+}
 alias kwai='clear; kubectl config get-contexts; echo kube_config=$KUBECONFIG; ll ~/.kube/config; hla'
 alias kcc='env | grep KUBECONFIG | xargs -I % echo "export %" | tmux loadb -' # copies kube config variable into tmux buffer
 ################################################
@@ -68,6 +83,7 @@ export kc_tmp_dir=/tmp/kc
 function kc() {
   clear
   items=(
+    resources
     context
     auth
   )
@@ -128,3 +144,18 @@ function kc_app_auth_aks_admin() {
     | xargs -n2 zsh -c 'az aks get-credentials -n ${1} -g ${2} -f ~/.kube/${1}_admin_ctx --overwrite-existing --admin' zsh
 }
 
+function kc_app_resources() {
+  items=(
+    clear
+    load
+  )
+  choice=$(printf "%s\n" "${items[@]}" | fzf)
+  kc_app_resources_${choice}
+}
+
+function kc_app_resources_clear() {
+  rm ${kc_tmp_dir}/resources_list
+}
+function kc_app_resources_load() {
+  k api-resources -o name > ${kc_tmp_dir}/resources_list
+}
