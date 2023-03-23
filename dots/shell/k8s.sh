@@ -173,6 +173,8 @@ function kc_app_k9s() {
     new_ctx_ns_resource
     select_kube_ctx_cp
     select_work_ctx_cp
+    multi_kube_ctx
+    multi_work_ctx
     allns_resource
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="select k9s a helper for cluster [$(kubectl config get-contexts --no-headers=true)]: ")
@@ -199,4 +201,11 @@ function kc_app_k9s_select_kube_ctx_cp() {
 function kc_app_k9s_select_work_ctx_cp() {
   cd ~/.work_ctx
   tmux send "export KUBECONFIG=\"\$(ks local --pipe )\" && kcc" Left Left Left Left Left Left Left Left Left Tab
+}
+function kc_app_k9s_multi_kube_ctx() {
+  tmux send "ks kube -t " Tab
+}
+function kc_app_k9s_multi_work_ctx() {
+  cd ~/.work_ctx
+  tmux send "ks local -t " Tab
 }
