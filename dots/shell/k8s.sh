@@ -170,20 +170,21 @@ function kc_app_k9s() {
   items=(
     resource
     ns_resource
-    new_ctx_ns_resource
+    new_ctx_ns_resource_cp
     select_kube_ctx_cp
     select_work_ctx_cp
     multi_kube_ctx
     multi_work_ctx
-    allns_resource
+    alls_resource
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="select k9s a helper for cluster [$(kubectl config get-contexts --no-headers=true)]: ")
   kc_app_k9s_${choice}
 }
 
-function kc_app_k9s_new_ctx_ns_resource() {
+function kc_app_k9s_new_ctx_ns_resource_cp() {
   kc_app_context_cp
   kc_app_k9s_resource
+  kcc
 }
 function kc_app_k9s_ns_resource() {
   s ns
