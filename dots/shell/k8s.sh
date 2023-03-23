@@ -183,8 +183,8 @@ function kc_app_k9s() {
 
 function kc_app_k9s_new_ctx_ns_resource_cp() {
   kc_app_context_cp
-  kc_app_k9s_resource
   kcc
+  kc_app_k9s_resource
 }
 function kc_app_k9s_ns_resource() {
   s ns
