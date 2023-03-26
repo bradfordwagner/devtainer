@@ -158,6 +158,7 @@ function kc_app_resources_clear() {
   rm ${kc_tmp_dir}/resources_list
 }
 function kc_app_resources_load() {
+  mkdir -p ${kc_tmp_dir}
   resources=$(k api-resources)# > ${kc_tmp_dir}/resources_list
   str=$(echo ${resources} | head -1)
   substr="KIND"
