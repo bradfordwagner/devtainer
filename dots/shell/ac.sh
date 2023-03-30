@@ -53,6 +53,7 @@ function argocd_app_login() {
     local_8080
     local_30001
     blk_admin
+    blk_padm
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="login target: ")
   argocd_app_login_${choice}
@@ -73,6 +74,9 @@ function argocd_app_login_local_8080() {
 }
 function argocd_app_login_blk_admin() {
   argocd login argocd.admin.na.blkint.com --sso --insecure
+}
+function argocd_app_login_blk_padm() {
+  argocd login 29.12.192.82 --sso --insecure
 }
 ## END AUTH #############################################################
 function argocd_app_sync() {
