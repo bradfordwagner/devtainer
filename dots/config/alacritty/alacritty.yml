@@ -1,5 +1,5 @@
 font:
-  size: 11
+  size: 13
   normal:
 #   family: JetBrainsMono
     family: JetBrainsMono Nerd Font Mono
@@ -477,5 +477,5 @@ window:
     y: 4
   dynamic_padding: false
 
-colors: *tokyo-night-storm # tokyo-night, tokyo-night-storm, catppuccin, smyck
+colors: *smyck # tokyo-night, tokyo-night-storm, catppuccin, smyck
 
