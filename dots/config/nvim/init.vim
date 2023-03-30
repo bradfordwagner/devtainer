@@ -55,6 +55,7 @@ Plug 'tpope/vim-commentary'        " gc commenting
 Plug 'tpope/vim-sleuth'            " indentation
 Plug 'norcalli/nvim-colorizer.lua' " https://github.com/norcalli/nvim-colorizer.lua
 Plug 'pearofducks/ansible-vim'
+Plug 'majutsushi/tagbar'           " show current file structure: https://vimawesome.com/plugin/tagbar
 
 if has("nvim")
   " Plug 'karb94/neoscroll.nvim' " sweet smooth scrolling
@@ -143,6 +144,7 @@ map ZA :update<CR> " save current file
 map ZD :r !date<CR> " insert current date
 vmap ZSA :%sort u<CR> " close the current file
 vmap ZSR :%sort! u<CR> " close the current file
+nmap ZT :TagbarToggle<CR>
 " syntax bindings
 map ZSY :set syntax=yaml<CR> " Syntax Yaml
 map ZSH :set syntax=helm<CR> " Syntax Helm
@@ -151,7 +153,6 @@ map ZGB :Git blame<CR>       " Git Blame
 map ZL :!zsh -lc cl<CR><CR>
 map Zr :registers<CR>
 map ZR :source $MYVIMRC<CR>
-map ZT :Align \|<CR>
 map ZY "+y<CR>
 map Q :q!<CR> " quit current file no save
 
