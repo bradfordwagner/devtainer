@@ -10,4 +10,4 @@ Makefile
 .terragrunt-cache
 test.sh
 ansible.sh
-
+.secrets.yml
