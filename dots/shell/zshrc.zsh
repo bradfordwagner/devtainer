@@ -18,6 +18,7 @@ export plugins=(
   git-open
   zsh-autosuggestions
   vi-mode
+  globalias
 )
 
 # avoid duplications in history
