@@ -154,6 +154,8 @@ map ZL :!zsh -lc cl<CR><CR>
 map Zr :registers<CR>
 map ZR :source $MYVIMRC<CR>
 map ZY "+y<CR>
+map ZP :set paste<CR>
+map Zp :set nopaste<CR>
 map Q :q!<CR> " quit current file no save
 
 " pane navigation
