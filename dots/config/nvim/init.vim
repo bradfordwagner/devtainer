@@ -209,7 +209,7 @@ filetype on
 " set relativenumber " show o as current 1 2 3 up and down
 set number
 set encoding=UTF-8
-set pastetoggle=ZP " setup paste toggling for indentation issues
+set pastetoggle=ZP " setup paste toggling for indentation issues - removed from neovim 0.9
 
 set list
 set listchars=tab:>- " show tab whitespace
