@@ -476,6 +476,7 @@ window:
     x: 4
     y: 4
   dynamic_padding: false
+  option_as_alt: OnlyLeft
 
 colors: *smyck # tokyo-night, tokyo-night-storm, catppuccin, smyck
 
