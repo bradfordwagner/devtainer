@@ -257,3 +257,20 @@ colorscheme smyck
 
 "  vundle settings
 set nocompatible " be iMproved, required
+
+" shamlessly stolen from: https://github.com/unphased/vim-config/blob/master/.vimrc#L3661
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+" add ctrlq to default maps
+  " \ 'enter': function('s:open_with_fzf'),
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
