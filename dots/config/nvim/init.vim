@@ -153,7 +153,7 @@ map ZSB :set syntax=bash<CR> " Syntax Bash
 map ZGB :Git blame<CR>       " Git Blame
 map ZL :!zsh -lc cl<CR><CR>
 map Zr :registers<CR>
-map ZR :source $MYVIMRC<CR>
+map ZR :source $MYVIMRC<CR>:noh<CR>
 map ZY "+y<CR>
 map ZP :set paste<CR>
 map Zp :set nopaste<CR>
