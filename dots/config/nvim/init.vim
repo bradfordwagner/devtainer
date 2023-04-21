@@ -162,7 +162,7 @@ map Q :q!<CR> " quit current file no save
 " current file
 map <expr> <Space>gc ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co<CR>"
 " all files
-map <expr> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ ** \<CR>co<CR>"
+map <expr> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* \<CR>co<CR>"
 
 " pane navigation
 map <C-h> <C-W>h
