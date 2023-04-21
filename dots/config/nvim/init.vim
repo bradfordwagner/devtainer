@@ -163,6 +163,8 @@ map Q :q!<CR> " quit current file no save
 map <expr> <Space>gg ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co<CR>"
 " all files
 map <expr> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* \<CR>co<CR>"
+" dir matching
+map <expr> <Space>gd ":vimgrep /" . input("grep all files: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co<CR>"
 
 " pane navigation
 map <C-h> <C-W>h
@@ -172,7 +174,7 @@ map <C-l> <C-W>l
 
 " changelist bindings - helps searching many files
 map co :copen<CR>
-map cq :cclose<CR>
+map cc :cclose<CR>
 map ck :cprev<CR>
 map cj :cnext<CR>
 
