@@ -173,8 +173,8 @@ map <C-l> <C-W>l
 " changelist bindings - helps searching many files
 map co :copen<CR>
 map cq :cclose<CR>
-map cj :cprev<CR>
-map ck :cnext<CR>
+map ck :cprev<CR>
+map cj :cnext<CR>
 
 " tab navigation
 map <C-M-h> gT
