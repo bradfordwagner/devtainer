@@ -164,7 +164,7 @@ map <expr> <Space>gg ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co<
 " all files
 map <expr> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* \<CR>co<CR>"
 " dir matching
-map <expr> <Space>gd ":vimgrep /" . input("grep all files: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co<CR>"
+map <expr> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co<CR>"
 
 " pane navigation
 map <C-h> <C-W>h
