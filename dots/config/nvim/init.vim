@@ -158,6 +158,11 @@ map ZY "+y<CR>
 map ZP :set paste<CR>
 map Zp :set nopaste<CR>
 map Q :q!<CR> " quit current file no save
+" vimgrep helpers
+" current file
+map <expr> <Space>gc ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co<CR>"
+" all files
+map <expr> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ ** \<CR>co<CR>"
 
 " pane navigation
 map <C-h> <C-W>h
@@ -167,6 +172,7 @@ map <C-l> <C-W>l
 
 " changelist bindings - helps searching many files
 map co :copen<CR>
+map cq :cclose<CR>
 map cj :cprev<CR>
 map ck :cnext<CR>
 
@@ -210,6 +216,7 @@ syntax on
 au BufReadPost *.tmux.conf set syntax=tmux
 filetype on
 " set relativenumber " show o as current 1 2 3 up and down
+set ignorecase " searches are now case insensitive
 set number
 set encoding=UTF-8
 set pastetoggle=ZP " setup paste toggling for indentation issues - removed from neovim 0.9
