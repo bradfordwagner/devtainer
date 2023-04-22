@@ -160,11 +160,11 @@ map Zp :set nopaste<CR>
 map Q :q!<CR> " quit current file no save
 " vimgrep helpers
 " current file
-map <expr> <Space>gg ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co<CR>"
+map <expr><silent> <Space>gg ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co<CR>"
 " all files
-map <expr> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* \<CR>co<CR>"
+map <expr><silent> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* \<CR>co<CR>"
 " dir matching
-map <expr> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co<CR>"
+map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co<CR>"
 
 " pane navigation
 map <C-h> <C-W>h
@@ -173,10 +173,10 @@ map <C-k> <C-W>k
 map <C-l> <C-W>l
 
 " changelist bindings - helps searching many files
-map co :copen<CR>
-map cc :cclose<CR>
-map ck :cprev<CR>
-map cj :cnext<CR>
+map <silent> co :copen<CR>
+map <silent> cc :cclose<CR>
+map <silent> ck :cprev<CR>
+map <silent> cj :cnext<CR>
 
 " tab navigation
 map <C-M-h> gT
