@@ -129,35 +129,35 @@ autocmd VimResized * wincmd = " evenly resize splits when resizing window
 set mouse=
 
 " Custom keybinds / hotkeys
-vmap <leader>y :w! /tmp/vitmp<CR> " yank into tmpfile - get around vim not sharing registers across instances
-nmap <leader>p :r! cat /tmp/vitmp<CR> " paste from tmp file - get around vim not sharing registers across instances
-map <C-n> :NERDTreeToggle<CR>
-map <leader>r :NERDTreeFind<cr> " find nerd tree file expand
-map <C-p> :FZF<CR>
-map <leader>w :FZF ~/workspace<CR>
-map <leader>c :FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>
-map <leader>d :FZF ~/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles<CR>
-map <leader>h :FZF ~/<CR>
-map <C-f> :Ag<CR>
-map <C-g> :Goyo 75%+7%x100%<CR> " enter goyo
-map <C-M-g> :Goyo!<CR>          " quit goyo
-map ZA :update<CR> " save current file
-map ZD :r !date<CR> " insert current date
-vmap ZSA :%sort u<CR> " close the current file
-vmap ZSR :%sort! u<CR> " close the current file
-nmap ZT :TagbarToggle<CR>
+vmap <silent> <leader>y :w! /tmp/vitmp<CR> " yank into tmpfile - get around vim not sharing registers across instances
+nmap <silent> <leader>p :r! cat /tmp/vitmp<CR> " paste from tmp file - get around vim not sharing registers across instances
+map <silent> <C-n> :NERDTreeToggle<CR>
+map <silent> <leader>r :NERDTreeFind<cr> " find nerd tree file expand
+map <silent> <C-p> :FZF<CR>
+map <silent> <leader>w :FZF ~/workspace<CR>
+map <silent> <leader>c :FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>
+map <silent> <leader>d :FZF ~/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles<CR>
+map <silent> <leader>h :FZF ~/<CR>
+map <silent> <C-f> :Ag<CR>
+map <silent> <C-g> :Goyo 75%+7%x100%<CR> " enter goyo
+map <silent> <C-M-g> :Goyo!<CR>          " quit goyo
+map <silent> ZA :update<CR> " save current file
+map <silent> ZD :r !date<CR> " insert current date
+vmap <silent> ZSA :%sort u<CR> " close the current file
+vmap <silent> ZSR :%sort! u<CR> " close the current file
+nmap <silent> ZT :TagbarToggle<CR>
 " syntax bindings
-map ZSY :set syntax=yaml<CR> " Syntax Yaml
-map ZSH :set syntax=helm<CR> " Syntax Helm
-map ZSB :set syntax=bash<CR> " Syntax Bash
-map ZGB :Git blame<CR>       " Git Blame
-map ZL :!zsh -lc cl<CR><CR>
-map Zr :registers<CR>
-map ZR :source $MYVIMRC<CR>:noh<CR>
-map ZY "+y<CR>
-map ZP :set paste<CR>
-map Zp :set nopaste<CR>
-map Q :q!<CR> " quit current file no save
+map <silent> ZSY :set syntax=yaml<CR> " Syntax Yaml
+map <silent> ZSH :set syntax=helm<CR> " Syntax Helm
+map <silent> ZSB :set syntax=bash<CR> " Syntax Bash
+map <silent> ZGB :Git blame<CR>       " Git Blame
+map <silent> ZL :!zsh -lc cl<CR><CR>
+map <silent> Zr :registers<CR>
+map <silent> ZR :source $MYVIMRC<CR>:noh<CR>
+map <silent> ZY "+y<CR>
+map <silent> ZP :set paste<CR>
+map <silent> Zp :set nopaste<CR>
+map <silent> Q :q!<CR> " quit current file no save
 " vimgrep helpers
 " current file
 map <expr><silent> <Space>gg ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co<CR>"
@@ -183,9 +183,9 @@ map <C-M-h> gT
 map <C-M-l> gt
 
 " tmux buffer integratino courtesy of vim-tbone
-map ty :Tyank<CR> " take current line and put it in buffer with CR
-map tp :Tput<CR> " paste tmux buffer
-vnoremap tt y<cr>:call system("tmux load-buffer -", @0)<cr> " copy selection into tmux buffer - gv - selects previously select block
+map <silent> ty :Tyank<CR> " take current line and put it in buffer with CR
+map <silent> tp :Tput<CR> " paste tmux buffer
+vnoremap <silent> tt y<cr>:call system("tmux load-buffer -", @0)<cr> " copy selection into tmux buffer - gv - selects previously select block
 
 " easymotion configuration
 map z/ <Plug>(incsearch-easymotion-/)
