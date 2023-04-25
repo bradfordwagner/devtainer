@@ -175,8 +175,8 @@ map <C-l> <C-W>l
 " changelist bindings - helps searching many files
 map <silent> co :copen<CR>
 map <silent> cc :cclose<CR>
-map <silent> ck :cprev<CR>
-map <silent> cj :cnext<CR>
+map <silent> ck :cprev<CR>zz
+map <silent> cj :cnext<CR>zz
 
 " tab navigation
 map <C-M-h> gT
@@ -263,8 +263,8 @@ function! s:tweak_colors()
 endfunction
 autocmd! ColorScheme tokyonight call s:tweak_colors()
 autocmd! ColorScheme smyck call s:tweak_colors()
-" colorscheme tokyonight
-colorscheme smyck
+colorscheme tokyonight
+" colorscheme smyck
 
 "  vundle settings
 set nocompatible " be iMproved, required
