@@ -166,6 +166,10 @@ map <expr><silent> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* 
 " dir matching
 map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co<CR>"
 
+" resizing
+map <silent> <Space>rj :horizontal resize -5<CR>
+map <silent> <Space>rk :horizontal resize +5<CR>
+
 " pane navigation
 map <C-h> <C-W>h
 map <C-M-j> <C-W>j
