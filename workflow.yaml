@@ -55,4 +55,3 @@ spec:
                 {"platform": "linux/amd64", "ansible_extra_args": ""},
               ]
             }
-
