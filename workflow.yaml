@@ -11,6 +11,7 @@ spec:
     - name: git_ref_type
       value: branches
     - name: git_version
+      value: main
   templates:
   - name: main
     inputs:
