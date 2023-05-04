@@ -7,6 +7,9 @@ windows:
   - cheat.sheet:
     - cd ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet
     - nvim pad.md
+  - personal:
+    - cd ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet
+    - nvim personal.md
   - state:
     - cd ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet
     - nvim state.md
