@@ -169,6 +169,10 @@ map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") .
 " resizing
 map <silent> <Space>rj :horizontal resize -5<CR>
 map <silent> <Space>rk :horizontal resize +5<CR>
+map <silent> <Space>rh :vertical resize -5<CR>
+map <silent> <Space>rl :vertical resize +5<CR>
+map <silent> <Space>r<Space> <C-w>= " equal split sizing
+map <silent> <Space>r<CR> <C-w>_    " maximize - used for changelist
 
 " pane navigation
 map <C-h> <C-W>h
