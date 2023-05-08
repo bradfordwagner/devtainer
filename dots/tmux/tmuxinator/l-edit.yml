@@ -1,0 +1,22 @@
+# ~/.tmuxinator/l-edit.yml
+
+name: l-edit
+root: ~/workspace
+
+windows:
+  - dotfiles:
+      layout: even-horizontal
+      root: ~/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles
+      panes:
+        - edit:
+          - cd ~/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles
+          - vh
+  - kmonad:
+    - echo sudo kmonad ~/.config/kmonad/apple.kbd
+  - cheat.sheet:
+    - cd ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet
+    - vh
+  - blk.private:
+    - cd ~/workspace/doe-git/bwagner/doe.bwagner.private
+    - vh
+
