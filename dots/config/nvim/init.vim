@@ -136,7 +136,7 @@ map <silent> <leader>r :NERDTreeFind<cr> " find nerd tree file expand
 map <silent> <C-p> :FZF<CR>
 map <silent> <leader>w :FZF ~/workspace<CR>
 map <silent> <leader>c :FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>
-map <silent> <leader>d :FZF ~/workspace/github/bradfordwagner/github.bradfordwagner.dotfiles<CR>
+map <silent> <leader>d :FZF ~/.dotfiles<CR>
 map <silent> <leader>h :FZF ~/<CR>
 map <silent> <C-f> :Ag<CR>
 map <silent> <C-g> :Goyo 75%+7%x100%<CR> " enter goyo
