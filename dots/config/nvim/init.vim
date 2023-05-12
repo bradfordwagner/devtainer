@@ -247,6 +247,8 @@ set cursorline
 
 set noswapfile
 
+set autoread " https://vimdoc.sourceforge.net/htmldoc/options.html#%27autoread%27g
+
 " set color schemes
 let g:lightline = {
       \ 'colorscheme': 'onedark',
