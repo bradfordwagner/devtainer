@@ -57,6 +57,7 @@ Plug 'norcalli/nvim-colorizer.lua' " https://github.com/norcalli/nvim-colorizer.
 Plug 'pearofducks/ansible-vim'
 Plug 'majutsushi/tagbar'           " show current file structure: https://vimawesome.com/plugin/tagbar
 Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
+Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
 
 if has("nvim")
   " Plug 'karb94/neoscroll.nvim' " sweet smooth scrolling
