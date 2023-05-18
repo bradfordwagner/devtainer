@@ -10,7 +10,7 @@ function az_aks_get_all {
 }
 
 function k8sUniqueContainers() {
-  kubectl get pods --all-namespaces -o jsonpath="{..image}" |\
+  kubectl get pods -o jsonpath="{..image}" |\
     tr -s '[[:space:]]' '\n' |\
     sort |\
     uniq -c
