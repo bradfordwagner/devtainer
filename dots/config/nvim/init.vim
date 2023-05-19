@@ -176,20 +176,20 @@ map <silent> <Space>r<CR> <C-w>=    " equal split sizing
 map <silent> <Space>r<Space> <C-w>_ " maximize - used for changelist
 
 " pane navigation
-map <C-h> <C-W>h
-map <C-M-j> <C-W>j
-map <C-k> <C-W>k
-map <C-l> <C-W>l
+map <silent> <Space>h <C-W>h
+map <silent> <Space>j <C-W>j
+map <silent> <Space>k <C-W>k
+map <silent> <Space>l <C-W>l
+
+" tab navigation
+map <silent> <Space>H gT
+map <silent> <Space>L gt
 
 " changelist bindings - helps searching many files
 map <silent> co :copen<CR>
 map <silent> cc :cclose<CR>
 map <silent> ck :cprev<CR>zz
 map <silent> cj :cnext<CR>zz
-
-" tab navigation
-map <C-M-h> gT
-map <C-M-l> gt
 
 " tmux buffer integratino courtesy of vim-tbone
 map <silent> ty :Tyank<CR> " take current line and put it in buffer with CR
