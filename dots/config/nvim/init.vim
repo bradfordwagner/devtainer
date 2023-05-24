@@ -186,7 +186,7 @@ map <silent> <Space>H gT
 map <silent> <Space>L gt
 
 " changelist bindings - helps searching many files
-map <silent> co :copen<CR>
+map <silent> co :copen<CR>:horizontal resize 50%<CR>
 map <silent> cc :cclose<CR>
 map <silent> ck :cprev<CR>zz
 map <silent> cj :cnext<CR>zz
