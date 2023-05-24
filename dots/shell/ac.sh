@@ -50,6 +50,7 @@ function argocd_app_cache_apps() {
 function argocd_app_login() {
   clear
   items=(
+    argocd-server.akp-gitops
     local_8080
     local_30001
     blk_admin
@@ -68,6 +69,12 @@ function argocd_app_login_local_30001() {
 }
 function argocd_app_login_local_8080() {
   argocd login localhost:8080 \
+  --username admin \
+  --password admin1234 \
+  --insecure
+}
+function argocd_app_login_argocd-server.akp-gitops() {
+  argocd login argocd-server.akp-gitops:443 \
   --username admin \
   --password admin1234 \
   --insecure
