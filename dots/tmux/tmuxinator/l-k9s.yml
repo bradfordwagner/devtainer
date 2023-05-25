@@ -8,7 +8,7 @@ windows:
   - port.forward:
       panes:
         - first:
-            - kwai
+            - sudo -E kubefwd svc --all-namespaces
   - local:
       panes:
         - first:
