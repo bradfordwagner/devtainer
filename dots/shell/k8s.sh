@@ -181,7 +181,7 @@ function kc_app_k9s() {
     multi_work_ctx
     allns_resource
   )
-  choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="select k9s a helper for cluster [$(kubectl config get-contexts --no-headers=true)]: ")
+  choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="select k9s a helper: ")
   kc_app_k9s_${choice}
 }
 
