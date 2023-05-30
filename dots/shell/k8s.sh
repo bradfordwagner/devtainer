@@ -39,6 +39,14 @@ alias hd='helm delete'
 alias hl='helm ls'
 alias hla='helm ls -a'
 
+# short for kgpt
+function kg() {
+  [[ -z "$${1}" ]] || yes_flag="-yes"
+  echo "Enter your kubectl gpt query: "
+  read query
+  kubectl gpt "${yes_flag}" "${query}"
+}
+
 # set interval on k9s to 1 second
 function k9() {
   k9s --headless -n $(knc) -r 1
