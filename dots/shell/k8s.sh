@@ -46,6 +46,8 @@ function kg() {
   read query
   kubectl gpt "${yes_flag}" "${query}"
 }
+alias kgg="kg y"
+
 
 # set interval on k9s to 1 second
 function k9() {
