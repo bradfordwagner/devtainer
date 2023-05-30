@@ -17,3 +17,9 @@ if [[ $OSTYPE == 'darwin'* ]]; then
   # install switch https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
   INSTALLATION_PATH=$(brew --prefix switch) && source $INSTALLATION_PATH/switch.sh
 fi
+
+# source open api key file if exists
+open_api_key_file=~/.config/openai.token
+if [ -f "${open_api_key_file}" ]; then
+  export OPENAI_API_KEY=$(cat ${open_api_key_file})
+fi
