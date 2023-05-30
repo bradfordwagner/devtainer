@@ -41,7 +41,7 @@ alias hla='helm ls -a'
 
 # short for kgpt
 function kg() {
-  [[ -z "$${1}" ]] || yes_flag="-yes"
+  [[ -z "${1}" ]] || yes_flag="-yes"
   echo "Enter your kubectl gpt query: "
   read query
   kubectl gpt "${yes_flag}" "${query}"
