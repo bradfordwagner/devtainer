@@ -186,7 +186,7 @@ function kc_app_k9s() {
 }
 
 function kc_app_k9s_select_ns() {
-  ns=$(kubectl get ns -o json  | jq -r '.items[].metadata.name' | fzf --prompt "namespace: ")
+  ns=$(kubectl get ns -o json  | jq -r '.items[].metadata.name' | fzf -0 --prompt "namespace: ")
   kubectl config set-context --current --namespace=${ns}
 }
 function kc_app_k9s_new_ctx_ns_resource_cp() {
