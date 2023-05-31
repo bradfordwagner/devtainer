@@ -39,6 +39,8 @@
           dest: plugins/git-open
         - repo: https://github.com/Aloxaf/fzf-tab.git
           dest: plugins/fzf-tab
+        - repo: https://github.com/not-poma/lazyshell.git
+          dest: plugins/lazyshell
 
     - name: setup vundle / tpm
       git:

@@ -77,3 +77,7 @@ unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 # double source this.. yuck. its mostly to override some of the zsh defaults like "l", and "ll"
 [ -f ~/.dotfiles/dots/shell/alias.zsh ] && source ~/.dotfiles/dots/shell/alias.zsh
 
+# bind keys
+source ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh
+bindkey '^g' __lazyshell_complete
+bindkey '^e' __lazyshell_explain
