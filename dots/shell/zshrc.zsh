@@ -19,11 +19,7 @@ export plugins=(
   zsh-autosuggestions
   vi-mode
   globalias
-  zsh_codex
 )
-
-# zsh codex completion - https://github.com/tom-doerr/zsh_codex
-bindkey '^X' create_completion
 
 # avoid duplications in history
 # https://unix.stackexchange.com/questions/599641/why-do-i-have-duplicates-in-my-zsh-history
