@@ -39,6 +39,8 @@
           dest: plugins/git-open
         - repo: https://github.com/Aloxaf/fzf-tab.git
           dest: plugins/fzf-tab
+        - repo: https://github.com/tom-doerr/zsh_codex.git
+          dest: plugins/zsh_codex
 
     - name: setup vundle / tpm
       git:
