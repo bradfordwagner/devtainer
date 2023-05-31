@@ -1,4 +1,4 @@
-set -ex
+set -x
 
 layer=${1}
 
