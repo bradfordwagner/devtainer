@@ -2,15 +2,15 @@
 
 name: l-k9s
 root: ~/workspace/doe-git/devops/tg/devops.tg.vault.mutating.webhook.live/ctx
-
+startup_window: local
 
 windows:
   - port.forward:
       panes:
-        - first:
-            - sudo -E kubefwd svc --all-namespaces
+        - sudo -E kubefwd svc --all-namespaces
   - local:
+      layout: '710b,261x191,0,0[261x37,0,0{130x37,0,0,125,130x37,131,0,129},261x153,0,38,128]'
       panes:
-        - first:
-            - kwai
-
+        - watch -c unbuffer kubectl get applicationsets.argoproj.io -A
+        - watch -c unbuffer kubectl get applications.argoproj.io -A
+        - kwai

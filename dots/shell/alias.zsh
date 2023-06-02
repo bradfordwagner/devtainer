@@ -242,7 +242,7 @@ alias t_edit_none="tmux list-panes -F '#{pane_index}' | awk '{print $1}' | xargs
 
 # tmux get layout
 function tmuxCopyLayout() {
-  tmux list-windows -F "#{window_active} #{window_layout}" | grep "^1" | cut -d " " -f 2 | pbcopy
+  tmux list-windows | sed -n 's/.*layout \(.*\)] @.*/\1/p' | fzf --reverse | tmux loadb -
 }
 ################################################
 
