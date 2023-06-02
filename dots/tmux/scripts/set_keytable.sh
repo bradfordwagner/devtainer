@@ -13,7 +13,7 @@ color=${colors[$layer]}
 
 # active border
 # bg=default to make it a thin bar, bg=${color} to make it a full bar
-border_style="bg=${color} fg=${color}"
+border_style="bg=default fg=${color}"
 [[ ${layer} == "insert" ]] && border_style="bg=default fg=${color}"
 tmux set -g pane-active-border-style "${border_style}"
 

@@ -13,4 +13,4 @@ windows:
       panes:
         - watch -c unbuffer kubectl get applicationsets.argoproj.io -A
         - watch -c unbuffer kubectl get applications.argoproj.io -A
-        - kwai
+        - ka
