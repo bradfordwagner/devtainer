@@ -263,8 +263,8 @@ let g:lightline = {
 
 " for tokyo night only
 set termguicolors
-let g:tokyonight_style = 'storm' " available: night, storm
-let g:tokyonight_enable_italic = 1
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_enable_italic = 0
 
 " https://github.com/junegunn/goyo.vim#faq
 " this if you change the scheme we have to change the func
