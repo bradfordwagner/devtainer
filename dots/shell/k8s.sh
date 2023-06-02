@@ -76,12 +76,18 @@ function k_select_resource() {
   [[ "" == "${resource_type}" ]] && return || echo ${resource_type}
 }
 # k9s + select resource
+alias kkrf="kkr f"
+alias kkraf="kar f"
 function kkr() {
-  k9s --headless -n $(knc) -r 1 -c $(k_select_resource)
+  [[ "" != "${1}" ]] && unset k9s_resource_type
+  [[ "" == ${k9s_resource_type} ]] && export k9s_resource_type=$(k_select_resource | tr -d "[:blank:]")
+  k9s --headless -n $(knc) -r 1 -c ${k9s_resource_type}
 }
 # k9s all + select resource
 function kar() {
-  k9s --headless -n $(knc) -r 1 -c $(k_select_resource) -A
+  [[ "" != "${1}" ]] && unset k9s_resource_type
+  [[ "" == ${k9s_resource_type} ]] && export k9s_resource_type=$(k_select_resource | tr -d "[:blank:]")
+  k9s --headless -n $(knc) -r 1 -c ${k9s_resource_type} -A
 }
 alias kwai='clear; kubectl config get-contexts; echo kube_config=$KUBECONFIG; ll ~/.kube/config; hla'
 alias kcc='env | grep KUBECONFIG | xargs -I % echo "export %" | tmux loadb -' # copies kube config variable into tmux buffer
