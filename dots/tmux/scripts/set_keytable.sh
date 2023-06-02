@@ -12,8 +12,9 @@ colors[kube]=red
 color=${colors[$layer]}
 
 # active border
+# bg=default to make it a thin bar, bg=${color} to make it a full bar
 border_style="bg=${color} fg=${color}"
-[[ ${layer} == "insert" ]] && border_style="bg=${color} fg=${color}" # bg=default to make it a thin bar
+[[ ${layer} == "insert" ]] && border_style="bg=default fg=${color}"
 tmux set -g pane-active-border-style "${border_style}"
 
 # set status left color
