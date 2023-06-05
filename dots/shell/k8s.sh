@@ -188,7 +188,7 @@ function kc_app_k9s() {
     resource
     ns_resource
     select_ns
-    new_ctx_ns_resource_cp
+    new_ctx_ns_cp
     select_primary_kube_ctx
     select_primary_work_ctx
     select_kube_ctx_cp
@@ -205,7 +205,7 @@ function kc_app_k9s_select_ns() {
   ns=$(kubectl get ns -o json  | jq -r '.items[].metadata.name' | fzf -0 --prompt "namespace: ")
   kubectl config set-context --current --namespace=${ns}
 }
-function kc_app_k9s_new_ctx_ns_resource_cp() {
+function kc_app_k9s_new_ctx_ns_cp() {
   kc_app_context_cp
   kcc
   kc_app_k9s_resource
