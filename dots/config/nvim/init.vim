@@ -161,11 +161,11 @@ map <silent> Zp :set nopaste<CR>
 map <silent> Q :q!<CR> " quit current file no save
 " vimgrep helpers
 " current file
-map <expr><silent> <Space>gg ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co<CR>"
+map <expr><silent> <Space>gg ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co"
 " all files
-map <expr><silent> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* \<CR>co<CR>"
+map <expr><silent> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* \<CR>co"
 " dir matching
-map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co<CR>"
+map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
 
 " resizing
 map <silent> <Space>rj :horizontal resize -5<CR>
