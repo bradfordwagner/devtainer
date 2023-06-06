@@ -3,6 +3,7 @@
 name: l-k9s
 root: ~/workspace/doe-git/devops/tg/devops.tg.vault.mutating.webhook.live/ctx
 startup_window: local
+startup_pane: "2" # index from 0
 
 windows:
   - port.forward:
