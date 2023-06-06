@@ -182,8 +182,8 @@ map <silent> <Space>k <C-W>k
 map <silent> <Space>l <C-W>l
 
 " tab navigation
-map <silent> <Space>H gT
-map <silent> <Space>L gt
+map <silent> <Space>c gT
+map <silent> <Space>v gt
 
 " changelist bindings - helps searching many files
 map <silent> co :copen<CR>:horizontal resize 50%<CR>
