@@ -210,6 +210,9 @@ nnoremap <F3> :set hlsearch!<CR>
 " vim markdown disable folding
 let g:vim_markdown_folding_disabled = 1
 
+" terraform configuration
+let g:terraform_fmt_on_save = 1 " set terraform format on save
+
 " vim-go configs
 let g:go_fmt_autosave = 0
 let g:go_highlight_types = 1
