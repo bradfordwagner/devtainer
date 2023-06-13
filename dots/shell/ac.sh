@@ -11,6 +11,7 @@ function ac() {
     get_values
     login
     cache_apps
+    wf
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   argocd_app_${choice}
@@ -106,16 +107,29 @@ function argocd_app_delete() {
   argocd_app_cache_apps
 }
 
-function argo_find_workflow() {
+# this may need to be split out into its own completion script
+function argocd_app_wf() {
+  clear
+  items=(
+    find
+    resubmit
+    logs
+    delete
+  )
+  choice=$(printf "%s\n" "${items[@]}" | fzf)
+  argocd_app_wf_${choice}
+}
+
+function argocd_app_wf_find() {
   export argo_workflow=$(argo list | fzf | awk '{ print $1 }')
 }
-function argo_resubmit_workflow() {
+function argocd_app_wf_resubmit() {
   clear; argo resubmit ${argo_workflow} --log
 }
-function argo_find_workflow_logs() {
+function argocd_app_wf_logs() {
   clear; argo list | fzf | awk '{ print $1 }' | xargs -I % argo logs % -f
 }
-function argo_find_workflow_delete() {
+function argocd_app_wf_delete() {
   argo list | fzf | awk '{ print $1 }' | xargs -I % -n 1 -P 12 argo delete %
 }
-alias argo_find_workflow_resubmit="argo_find_workflow; argo_resubmit_workflow"
+alias argo_find_workflow_resubmit="argocd_app_wf_find; argocd_app_wf_resubmit"
