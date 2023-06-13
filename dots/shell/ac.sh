@@ -115,6 +115,7 @@ function argocd_app_wf() {
     resubmit
     logs
     delete
+    delete_all
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   argocd_app_wf_${choice}
@@ -131,5 +132,8 @@ function argocd_app_wf_logs() {
 }
 function argocd_app_wf_delete() {
   argo list | fzf | awk '{ print $1 }' | xargs -I % -n 1 -P 12 argo delete %
+}
+function argocd_app_wf_delete_all() {
+  argo delete --all -A
 }
 alias argo_find_workflow_resubmit="argocd_app_wf_find; argocd_app_wf_resubmit"
