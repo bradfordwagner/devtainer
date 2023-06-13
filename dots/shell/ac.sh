@@ -122,16 +122,16 @@ function argocd_app_wf() {
 }
 
 function argocd_app_wf_find() {
-  export argo_workflow=$(argo list | fzf | awk '{ print $1 }')
+  export argo_workflow=$(argo list | fzf --header-lines=1 | awk '{ print $1 }')
 }
 function argocd_app_wf_resubmit() {
   clear; argo resubmit ${argo_workflow} --log
 }
 function argocd_app_wf_logs() {
-  clear; argo list | fzf | awk '{ print $1 }' | xargs -I % argo logs % -f
+  clear; argo list | fzf --header-lines=1 | awk '{ print $1 }' | xargs -I % argo logs % -f
 }
 function argocd_app_wf_delete() {
-  argo list | fzf | awk '{ print $1 }' | xargs -I % -n 1 -P 12 argo delete %
+  argo list | fzf --header-lines=1 | awk '{ print $1 }' | xargs -I % -n 1 -P 12 argo delete %
 }
 function argocd_app_wf_delete_all() {
   argo delete --all -A
