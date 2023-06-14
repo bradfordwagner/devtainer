@@ -213,6 +213,14 @@ let g:vim_markdown_folding_disabled = 1
 " terraform configuration
 let g:terraform_fmt_on_save = 1 " set terraform format on save
 
+" copilot
+" taken from: https://codeinthehole.com/tips/vim-and-github-copilot/
+let g:copilot_filetypes = {
+    \ 'gitcommit': v:true,
+    \ 'markdown': v:true,
+    \ 'yaml': v:true
+    \ }
+
 " vim-go configs
 let g:go_fmt_autosave = 0
 let g:go_highlight_types = 1
