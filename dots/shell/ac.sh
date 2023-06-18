@@ -111,9 +111,10 @@ function argocd_app_delete() {
 function argocd_app_wf() {
   clear
   items=(
+    submit_local_branch
+    logs
     find
     resubmit
-    logs
     delete
     delete_all
   )
@@ -121,6 +122,9 @@ function argocd_app_wf() {
   argocd_app_wf_${choice}
 }
 
+function argocd_app_wf_submit_local_branch() {
+  clear; argo submit workflow.yaml --log -p git_version=$(git branch --show-current)
+}
 function argocd_app_wf_find() {
   export argo_workflow=$(argo list | fzf --header-lines=1 | awk '{ print $1 }')
 }
