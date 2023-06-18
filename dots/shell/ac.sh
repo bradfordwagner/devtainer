@@ -113,6 +113,7 @@ function argocd_app_wf() {
   items=(
     submit_local_branch
     logs
+    watch
     find
     resubmit
     delete
@@ -130,6 +131,9 @@ function argocd_app_wf_find() {
 }
 function argocd_app_wf_resubmit() {
   clear; argo resubmit ${argo_workflow} --log
+}
+function argocd_app_wf_watch() {
+  clear; argo list | fzf --header-lines=1 | awk '{ print $1 }' | xargs -I % argo watch %
 }
 function argocd_app_wf_logs() {
   clear; argo list | fzf --header-lines=1 | awk '{ print $1 }' | xargs -I % argo logs % -f
