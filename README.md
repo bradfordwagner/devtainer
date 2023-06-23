@@ -15,6 +15,7 @@ mkdir ~/tmp
 cd ~/tmp
 git clone https://github.com/bradfordwagner/dotfiles.git
 cd dotfiles
+cd ansible; ansible-galaxy collection install geerlingguy.mac; ansible-galaxy install -r requirements.yml -v --force
 # set sudoers password
 # note password changes require this to be run again
 # for local
@@ -24,6 +25,11 @@ ansible-playbook pb-sudoer.yml --ask-become-pass
 ansible-playbook pb-mac-brew.yml
 ansible-playbook pb-kubectl-krew.yml
 
+cd ~/tmp
+git clone https://github.com/bradfordwagner/devtainer.git
+cd devtainer
+ansible-galaxy install -r requirements.yml
+ansible-playbook playbook.yaml
 ```
 
 ## Alfred
