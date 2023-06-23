@@ -37,8 +37,11 @@ ansible-playbook playbook.yml
 # vim
 python3 -m pip install --user --upgrade pynvim
 
-# tkgi
-https://network.pivotal.io/products/pivotal-container-service/#/releases/1293578/file_groups/13745
+# download and install tkgi cli
+# https://network.pivotal.io/products/pivotal-container-service/#/releases/1293578/file_groups/13745
+
+# To install useful key bindings and fuzzy completion:
+$(brew --prefix)/opt/fzf/install
 ```
 
 ## Alfred
