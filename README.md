@@ -36,6 +36,9 @@ ansible-playbook playbook.yml
 
 # vim
 python3 -m pip install --user --upgrade pynvim
+
+# tkgi
+https://network.pivotal.io/products/pivotal-container-service/#/releases/1293578/file_groups/13745
 ```
 
 ## Alfred
