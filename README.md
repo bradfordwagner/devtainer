@@ -33,6 +33,9 @@ git clone https://github.com/bradfordwagner/devtainer.git
 cd devtainer
 ansible-galaxy install -r requirements.yml
 ansible-playbook playbook.yml
+
+# vim
+python3 -m pip install --user --upgrade pynvim
 ```
 
 ## Alfred
