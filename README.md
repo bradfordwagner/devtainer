@@ -25,6 +25,9 @@ ansible-playbook pb-sudoer.yml --ask-become-pass
 ansible-playbook pb-mac-brew.yml
 ansible-playbook pb-kubectl-krew.yml
 
+# install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 cd ~/tmp
 git clone https://github.com/bradfordwagner/devtainer.git
 cd devtainer
