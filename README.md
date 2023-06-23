@@ -29,7 +29,7 @@ cd ~/tmp
 git clone https://github.com/bradfordwagner/devtainer.git
 cd devtainer
 ansible-galaxy install -r requirements.yml
-ansible-playbook playbook.yaml
+ansible-playbook playbook.yml
 ```
 
 ## Alfred
