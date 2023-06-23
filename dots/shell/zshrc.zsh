@@ -69,7 +69,10 @@ enable-fzf-tab
 # enable the following for profiling
 # zprof
 
-autoload -U compinit; compinit
+if type brew &>/dev/null; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+[ ! -f ~/.zcompdump ] && autoload -Uz compinit; compinit
 
 # show kube ctx always
 unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
