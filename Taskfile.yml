@@ -20,7 +20,8 @@ tasks:
         ansible-playbook \
           -i localhost, -c local \
           {{ .playbook | quote }} \
-          -e '{install_packages: {{ .install_packages }}}'
+          -e '{install_packages: {{ .install_packages }}}' \
+          -e '{git_clone: {{ .git_clone }}}'
   default:
     cmds:
       - task: playbook
@@ -32,3 +33,8 @@ tasks:
       - task: playbook
         vars:
           install_packages: true
+  git:
+    cmds:
+      - task: playbook
+        vars:
+          git_clone: true

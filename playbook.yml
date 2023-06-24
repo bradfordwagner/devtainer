@@ -2,6 +2,7 @@
 - hosts: localhost
   vars:
     install_packages: true
+    git_clone: false
     user:
       # in some cases we need to create the user
       # so current user would not suffice
@@ -42,3 +43,9 @@
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
       include_tasks: tasks/install-shell-packages.yml
       when: install_packages
+
+    # git clone blocks
+    - name: git_clone_modules=bradfordwagner
+      include_tasks: tasks/git-modules-bradfordwagner.yml
+      when: git_clone
+

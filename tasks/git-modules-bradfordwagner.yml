@@ -1,0 +1,296 @@
+---
+
+- vars:
+    workspace_dir: '{{ ansible_env.HOME }}/workspace'
+
+    github_dir: '{{ workspace_dir }}/github'
+
+    personal_dir: '{{ github_dir }}/bradfordwagner'
+    src_dir: '{{ personal_dir }}/src'
+    containers_dir: '{{ personal_dir }}/containers'
+    terraform_dir: '{{ personal_dir }}/terraform'
+    charts_dir: '{{ personal_dir }}/charts'
+    deploy_dir: '{{ personal_dir }}/deploy'
+    ansible_roles_dir: '{{ personal_dir }}/ansible_roles'
+    go_lib: '{{ personal_dir }}/go.lib'
+    go_bin: '{{ personal_dir }}/go.bin'
+
+    templates_dir: '{{ personal_dir }}/gh_templates'
+
+    # async control
+    async_timeout: 45
+    poll_timeout: 0 # async=0, sync=5
+  block:
+   - name: make workspace dirs
+     file:
+       path: '{{ item }}'
+       state: directory
+       mode: 0755
+     loop:
+     - '{{ personal_dir }}'
+     - '{{ src_dir }}'
+     - '{{ containers_dir }}'
+     - '{{ charts_dir }}'
+     - '{{ terraform_dir }}'
+     - '{{ deploy_dir }}'
+     - '{{ templates_dir }}'
+     - '{{ go_lib }}'
+     - '{{ go_bin }}'
+
+   - name: '{{ deploy_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ deploy_dir }}/github.bradfordwagner.deploy.{{ item.name }}'
+       version: '{{ item.version | default("main") }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: argo.workflow
+       repo: git@github.com:bradfordwagner/deploy-argoworkflow.git
+     - name: argo.events
+       repo: git@github.com:bradfordwagner/deploy-argoevents.git
+     - name: argo.events.bus
+       repo: git@github.com:bradfordwagner/deploy-argoevents-bus.git
+     - name: argo.cd
+       repo: git@github.com:bradfordwagner/deploy-argocd.git
+     - name: chart.vault
+       repo: git@github.com:bradfordwagner/deploy-chart-vault.git
+     - name: chart.secrets.store.csi.driver
+       repo: git@github.com:bradfordwagner/deploy-secrets-store-csi-driver.git
+
+   - name: '{{ personal_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ personal_dir }}/github.bradfordwagner.{{ item.name }}'
+       version: '{{ item.version | default("master") }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: dotfiles
+       repo: git@github.com:bradfordwagner/dotfiles.git
+
+   - name: '{{ src_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ src_dir }}/bradfordwagner.src.{{ item.name }}'
+       version: '{{ item.version | default("master") }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: cheatsheet
+       repo: git@github.com:bradfordwagner/cheatsheet.git
+     - name: java.firecode
+       repo: git@github.com:bradfordwagner/fire-code.git
+     - name: grpc
+       repo: git@github.com:bradfordwagner/grpc.git
+       version: feature/init
+     - name: pecan
+       repo: git@github.com:bradfordwagner/pecan.git
+       version: feature/yabai
+     - name: algo.expert
+       repo: git@github.com:bradfordwagner/algo-expert.git
+       version: main
+     - name: docker.cdktf
+       repo: git@github.com:bradfordwagner/docker-cdktf.git
+     - name: aws.cdktf
+       repo: git@github.com:bradfordwagner/aws-cdktf.git
+       version: main
+     - name: aws.testbed
+       repo: git@github.com:bradfordwagner/aws-testbed.git
+       version: main
+     - name: script.testbed
+       repo: git@github.com:bradfordwagner/script-testbed.git
+       version: main
+     - name: go.testbed
+       repo: git@github.com:bradfordwagner/go-testbed.git
+       version: main
+     - name: gitops.toolkit
+       repo: git@github.com:bradfordwagner/gitops-toolkit.git
+       version: main
+     - name: tmux.modal.fork
+       repo: git@github.com:bradfordwagner/tmux-modal.git
+       version: main
+     - name: amethyst.fork
+       repo: git@github.com:bradfordwagner/Amethyst.git
+       version: development
+
+   - name: '{{ go_lib }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ go_lib }}/bradfordwagner.go.lib.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: util
+       repo: git@github.com:bradfordwagner/go-util.git
+     - name: threadpool
+       repo: git@github.com:bradfordwagner/go-threadpool.git
+     - name: kafka.dao
+       repo: git@github.com:bradfordwagner/go-kafka-dao.git
+
+   - name: '{{ go_bin }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ go_bin }}/bradfordwagner.go.bin.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: azure.blob.cli
+       repo: git@github.com:bradfordwagner/go-azure-blob-cli.git
+     - name: k8s.ks.cli
+       repo: git@github.com:bradfordwagner/ks.git
+     - name: jumpdir.cli
+       repo: git@github.com:bradfordwagner/go-cli-jumpdir.git
+     - name: yamarama.cli
+       repo: git@github.com:bradfordwagner/go-cli-yamarama.git
+
+   - name: '{{ charts_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ charts_dir }}/bradfordwagner.chart.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: socat
+       repo: git@github.com:bradfordwagner/chart-socat.git
+     - name: proxy
+       repo: git@github.com:bradfordwagner/chart-proxy.git
+     - name: iperf3
+       repo: git@github.com:bradfordwagner/chart-iperf3.git
+       version: feature/init
+     # container building chart
+     - name: argocd.workflows
+       repo: git@github.com:bradfordwagner/chart-argo-workflows.git
+     # events bootstrap
+     - name: argo.events.webhook
+       repo: git@github.com:bradfordwagner/argo-events-webhook.git
+     - name: argocd.init.contexts
+       repo: git@github.com:bradfordwagner/chart-argocd-init-contexts.git
+     - name: namespaces
+       repo: git@github.com:bradfordwagner/chart-namespaces
+     - name: vault.k8s.auth
+       repo: git@github.com:bradfordwagner/chart-vault-k8s-auth.git
+     - name: vault.fork
+       repo: git@github.com:bradfordwagner/vault-helm.git
+     - name: cert.manager.approver.fork
+       repo: git@github.com:bradfordwagner/approver-policy.git
+     - name: cicd.smoketests
+       repo: git@github.com:bradfordwagner/cicd-smoketests.git
+
+   - name: '{{ terraform_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ terraform_dir }}/bradfordwagner.tf.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     # build - k8s cluster
+     - name: az.infra
+       repo: git@github.com:bradfordwagner/tf-az-infra.git
+     - name: vault.infra
+       repo: git@github.com:bradfordwagner/tf-vault-infra.git
+     - name: vault.policy
+       repo: git@github.com:bradfordwagner/tf-vault-policy.git
+     - name: ci.cd
+       repo: git@github.com:bradfordwagner/tf-cicd.git
+     - name: testbed
+       repo: git@github.com:bradfordwagner/tf-testbed.git
+     - name: dry.environments
+       repo: git@github.com:bradfordwagner/tf-dry-environments.git
+     - name: ws.k8s.infra
+       repo: git@github.com:bradfordwagner/tf-ws-k8s-infra.git
+     - name: m.k8s.kind
+       repo: git@github.com:bradfordwagner/tf-m-k8s-kind.git
+     - name: m.vault.helm
+       repo: git@github.com:bradfordwagner/tf-m-vault-helm.git
+     - name: m.az.acr
+       repo: git@github.com:bradfordwagner/tf-m-az-acr.git
+     - name: ws.az.acr
+       repo: git@github.com:bradfordwagner/tf-ws-az-acr.git
+
+   - name: '{{ ansible_roles_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ ansible_roles_dir }}/bradfordwagner.ansible.role.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: helloworld
+       repo: git@github.com:bradfordwagner/ansible-role-helloworld.git
+     - name: azure.blob.cli
+       repo: git@github.com:bradfordwagner/ansible-role-azure-blob-cli.git
+     - name: go.dev
+       repo: git@github.com:bradfordwagner/ansible-go-dev.git
+     - name: go
+       repo: git@github.com:bradfordwagner/ansible-go.git
+     - name: gitops.toolkit
+       repo: git@github.com:bradfordwagner/ansible-role-gitops-toolkit.git
+     - name: jumpdir
+       repo: git@github.com:bradfordwagner/ansible-role-jumpdir.git
+
+   - name: '{{ containers_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ containers_dir }}/bradfordwagner.container.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     # containers
+     # mirrors
+     - name: mirror.base
+       repo: git@github.com:bradfordwagner/container-base.git
+     - name: mirror.kaniko
+       repo: git@github.com:bradfordwagner/container-kaniko.git
+     - name: mirror.argo
+       repo: git@github.com:bradfordwagner/container-argo.git
+     - name: mirror.manifest-tool
+       repo: git@github.com:bradfordwagner/container-manifest-tool.git
+     - name: mirror.vault
+       repo: git@github.com:bradfordwagner/container-vault.git
+     - name: vault.k8s.auth
+       repo: git@github.com:bradfordwagner/container-vault-k8s-auth.git
+     - name: redis
+       repo: git@github.com:bradfordwagner/container-redis.git
+     - name: helm
+       repo: git@github.com:bradfordwagner/container-helm.git
+
+     # custom builds
+     - name: dockerfile.ansible
+       repo: git@github.com:bradfordwagner/container-ansible.git
+     - name: dockerfile.secrets.store.csi.driver
+       repo: git@github.com:bradfordwagner/container-secrets-store-csi-driver.git
+
+     # ansible builds
+     - name: ansible.role.builder
+       repo: git@github.com:bradfordwagner/container-ansible-role-builder.git
+     - name: ansible.go.builder
+       repo: git@github.com:bradfordwagner/container-go-builder.git
+     - name: ansible.terraform
+       repo: git@github.com:bradfordwagner/container-terraform.git
+     - name: ansible.devtainer
+       repo: git@github.com:bradfordwagner/devtainer.git
+
+   - name: '{{ templates_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ templates_dir }}/bradfordwagner.template.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: go.lib
+       repo: git@github.com:bradfordwagner/gh-template-go-lib.git
+     - name: go.cli
+       repo: git@github.com:bradfordwagner/gh-template-go-cli.git
+     - name: container.mirror.image
+       repo: git@github.com:bradfordwagner/gh-template-mirror-image.git
+     - name: ansible.role
+       repo: git@github.com:bradfordwagner/gh-template-ansible-role.git
+     - name: ansible.playbook
+       repo: git@github.com:bradfordwagner/gh-template-ansible-playbook.git
+     - name: tf.module
+       repo: git@github.com:bradfordwagner/gh-template-tf-module.git
+     - name: tf.workspaces
+       repo: git@github.com:bradfordwagner/gh-template-tf-workspaces.git
+     - name: helm.chart
+       repo: git@github.com:bradfordwagner/gh-template-helm-chart.git
+
