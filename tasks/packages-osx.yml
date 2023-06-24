@@ -1,6 +1,5 @@
 ---
 - name: install homebrew cli packages
-  when: False
   include_role:
     name: geerlingguy.mac.homebrew
   vars:
