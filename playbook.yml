@@ -44,6 +44,11 @@
       include_tasks: tasks/install-shell-packages.yml
       when: install_packages
 
+    # mac configs
+    - name: mac [dock-speed,fzf,screenshots-dir]
+      include_tasks: tasks/mac-specific.yml
+      when: ansible_facts.distribution == "MacOSX"
+
     # git clone blocks
     - name: git clone modules
       include_tasks: "{{ task.task }}"

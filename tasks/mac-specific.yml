@@ -1,0 +1,18 @@
+---
+
+- block:
+  - name: required dirs
+    file:
+      path: '{{ ansible_env.HOME }}/{{ item }}'
+      state: directory
+      mode: 0755
+    loop:
+      - screenshots
+
+  - name: install fzf completions
+    shell: $(brew --prefix)/opt/fzf/install
+  - name: dock speed
+    shell: defaults write com.apple.dock autohide-time-modifier -float 0.15; killall Dock
+  - name: screenshots dir
+    shell: defaults write com.apple.screencapture location ~/screenshots; killall SystemUIServer
+

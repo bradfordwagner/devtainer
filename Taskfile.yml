@@ -28,6 +28,9 @@ tasks:
         vars:
           install_packages: true
           git_clone: true
+  bare_bones:
+    cmds:
+      - task: playbook
   install_packages:
     cmds:
       - task: playbook
