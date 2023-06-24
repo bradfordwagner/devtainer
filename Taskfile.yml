@@ -21,7 +21,7 @@ tasks:
           -i localhost, -c local \
           {{ .playbook | quote }} \
           -e '{install_packages: {{ .install_packages }}}'
-  all:
+  default:
     cmds:
       - task: playbook
         vars:
