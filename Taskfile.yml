@@ -1,0 +1,30 @@
+---
+version: '3'
+env:
+  install_packages: true
+tasks:
+  galaxy:
+    cmds:
+      - ansible-galaxy collection install geerlingguy.mac
+      - ansible-galaxy install -r requirements.yml
+  playbook:
+    internal: true
+    vars:
+      playbook: '{{ .playbook | default "playbook.yml" }}'
+      location: '{{ .location }}'
+    deps:
+      - galaxy
+    cmds:
+      - |
+        ansible-playbook \
+          -i localhost, -c local \
+          {{ .playbook | quote }} \
+          -e '{install_packages: {{ .install_packages }}}'
+  default:
+    cmds:
+      - task: playbook
+  skip_packages:
+    cmds:
+      - task: playbook
+        vars:
+          install_packages: false
