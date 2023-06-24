@@ -45,7 +45,13 @@
       when: install_packages
 
     # git clone blocks
-    - name: git_clone_modules=bradfordwagner
-      include_tasks: tasks/git-modules-bradfordwagner.yml
+    - name: git clone modules
+      include_tasks: "{{ task.task }}"
       when: git_clone
-
+      loop_control:
+        loop_var: task
+      loop:
+        - name: bradfordwagner
+          task: tasks/git-modules-bradfordwagner.yml
+        - name: github
+          task: tasks/git-modules-github.yml
