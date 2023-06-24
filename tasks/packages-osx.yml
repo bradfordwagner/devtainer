@@ -11,108 +11,109 @@
     - mopidy/mopidy
     homebrew_uninstalled_packages:
     - koekeishiya/formulae/yabai
-    homebrew_installed_packages:
-    - istioctl                                 # istio controller
-    - bash-completion                          # bash completions
-    - expect                                   # for unbuffer command - watch
-    - ctags                                    # used in vim: TagbarToggle
-    - csvtk                                    # csv conversion utility
-    - lsd                                      # nerdfont/icons `ls`
+    # newly added ignores
     - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
-    - go-task                                  # task manager - like makefile, but better
-    - ranger                                   # file system explorer
-    - k3d                                      # installs k3d, partners with rancher for https://github.com/rumstead/gitops-toolkit
-    - txn2/tap/kubefwd                         # used for forwarding remote k8s cluster to local
-    - inetutils                                # install nancy cli for golang cve detection
-    - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
+    - ack
+    - bats-core
+    - bufbuild/buf/buf                         # protobuf generator to replace prototool
+    - c-bata/kube-prompt/kube-prompt
+    - cmatrix
+    - cntlm
+    - connect
+    - consul
+    - csvtk                                    # csv conversion utility
+    - cvs
+    - darksky-weather
+    - dnsmasq                                  # allows for dns hack w/ k8s/kind - https://mjpitz.com/blog/2020/10/21/local-ingress-domains-kind/
+    - figlet
     - graphviz                                 # visualize dot lang format files (dependency graph) - https://www.graphviz.org/download/
     - haskell-stack                            # used for compiling kmonad
-    - gh                                       # github cli
-    - bufbuild/buf/buf                         # protobuf generator to replace prototool
-    - dnsmasq                                  # allows for dns hack w/ k8s/kind - https://mjpitz.com/blog/2020/10/21/local-ingress-domains-kind/
-    - danielfoehrkn/switch/switch              # kubectl switch helper - https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
+    - hyperkit # not available on apple silicone
+    - ipcalc
+    - iproute2mac
+    - jfrog-cli
+    - koekeishiya/formulae/skhd
+    - minikube
     - minio                                    # for testing minio gateway
     - minio-mc                                 # mc client for minio - used for s3-esque ops
-    - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
-    - node                                     # required for vim-coc
-    - git-delta                                # git colorized differ
-    - krew                                     # kubectl plugin manager
-    - kind
-    - nmap
-    - docker
-# # - hyperkit # not available on apple silicone
-    - openshift-cli
-    - dive
-    - pyenv
-    - rust
-    - gawk
-    - argocd
-    - argo
-    - pstree
-    - proctools
-    - terragrunt
-    - ipcalc
-    - bats-core
-    - python-yq
-    - urlview
-    - connect
-    - pulseaudio
     - mopidy
     - mopidy-mpd
     - mopidy-spotify
     - ncmpcpp
-    - mkcert
+    - neofetch
+    - nmap
     - nss
-    - awscli
-    - darksky-weather
-    - tflint
-    - vault
-    - consul
-    - coreutils
-    - jfrog-cli
-    - prototool
-    - buf
-    - bat
+    - openjdk
+    - openshift-cli
     - pandoc
-    - k9s
-    - figlet
-    - iproute2mac
-    - koekeishiya/formulae/skhd
-    - watchexec
-    - dos2unix
-    - cmatrix
+    - pulseaudio
+    - ranger                                   # file system explorer
     - spotify-tui
     - spotifyd
-    - neofetch
-    - ytop
     - tty-clock
+    homebrew_installed_packages:
+    - argo
+    - argocd
+    - awscli
+    - azure-cli
+    - bash-completion                          # bash completions
+    - bat
+    - buf
+    - cmake
+    - coreutils
+    - corkscrew
+    - ctags                                    # used in vim: TagbarToggle
+    - danielfoehrkn/switch/switch              # kubectl switch helper - https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
+    - dive                                     # inspect docker images
+    - docker
+    - dos2unix
+    - expect                                   # for unbuffer command - watch
+    - fzf
+    - gawk
+    - gh                                       # github cli
+    - git-delta                                # git colorized differ
     - gnu-sed
     - gnu-tar
-    - cvs
-    - protobuf
+    - go-task                                  # task manager - like makefile, but better
+    - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
     - helm@3
+    - inetutils                                # net utilities
+    - istioctl                                 # istio controller
+    - jq
+    - k3d                                      # installs k3d, partners with rancher for https://github.com/rumstead/gitops-toolkit
+    - k9s
+    - kind
+    - krew                                     # kubectl plugin manager
+    - kubectx
+    - kubernetes-cli
+    - lsd                                      # nerdfont/icons `ls`
     - macvim
+    - mkcert
     - neovim
-    - cntlm
-    - wget
+    - node                                     # required for vim-coc
+    - proctools
+    - protobuf
+    - prototool
+    - pstree
+    - pyenv
+    - python-yq
+    - reattach-to-user-namespace
+    - rust
+    - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
+    - ssh-copy-id
+    - terragrunt
+    - tflint
+    - the_silver_searcher
     - tmux
     - tmuxinator
-    - reattach-to-user-namespace
-    - ssh-copy-id
-    - ack
-    - azure-cli
-    - kubernetes-cli
-    - kubectx
-    - jq
-    - watch
-    - c-bata/kube-prompt/kube-prompt
-    - cmake
-    - fzf
-    - the_silver_searcher
-    - minikube
     - tree
-    - corkscrew
-    - openjdk
+    - txn2/tap/kubefwd                         # used for forwarding remote k8s cluster to local
+    - urlview
+    - vault
+    - watch
+    - watchexec
+    - wget
+    - ytop
 
 - include_role:
     name: geerlingguy.mac.homebrew
@@ -120,38 +121,39 @@
     homebrew_taps:
     - homebrew/cask-fonts
     homebrew_cask_uninstalled_apps:
-    - jd-gui
-    - pandora
-    - sizeup
-    - bartender
-    - honer
-    - drawio
-    - virtualbox
-    - spotify
-    - ubersicht
-    - eqmac
-    - iterm2
-    - homebrew/cask-fonts/font-meslo-nerd-font-mono
-    homebrew_cask_apps:
-    - google-chrome
-    - rancher
-    - brave-browser
-    - firefox
-    - amethyst
-    - time-out
-    - keyman
-    - istat-menus
-    - dozer
-    - alfred
-    - font-jetbrains-mono-nerd-font
-    - font-jetbrains-mono
-    - font-fira-code
-    - vlc
-    - alacritty
-    - postman
+    # - jd-gui
+    # - pandora
+    # - sizeup
+    # - bartender
+    # - honer
+    # - drawio
+    # - virtualbox
+    # - spotify
+    # - ubersicht
+    # - eqmac
+    # - iterm2
+    # - homebrew/cask-fonts/font-meslo-nerd-font-mono
+    # newly added ignores
     - adobe-acrobat-reader
-    - microsoft-office
-    - jetbrains-toolbox
+    - keyman
+    - time-out
+    - vlc
+    homebrew_cask_apps:
+    - alacritty
+    - alfred
+    - amethyst
+    - brave-browser
+    - dozer
+    - firefox
+    - font-fira-code
+    - font-jetbrains-mono
+    - font-jetbrains-mono-nerd-font
     - font-meslo-lg-nerd-font
+    - google-chrome
     - homebrew/cask-fonts/font-meslo-nerd-font
+    - istat-menus
+    - jetbrains-toolbox
+    - microsoft-office
+    - postman
+    - rancher
 
