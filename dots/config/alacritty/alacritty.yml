@@ -1,10 +1,8 @@
 font:
   size: 10
   normal:
-#   family: JetBrainsMono
     family: JetBrainsMono Nerd Font Mono
     style: Bold
-  #use_thin_strokes: true
 
 #background_opacity: .90
 live_config_reload: true
