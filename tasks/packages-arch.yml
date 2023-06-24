@@ -1,8 +1,4 @@
 ---
-# - name: pacman - uninstall
-#   community.general.pacman:
-#     name: []
-#     state: absent
 - name: pacman - upgrade_cache
   community.general.pacman:
     update_cache: true
@@ -50,12 +46,3 @@
     - bash
     # - vim
     state: present
-
-  # roles:
-  # - luizgavalda.aur
-  # tasks:
-  # - aur: name=aur/azure-cli
-  # - aur: name=tmuxinator
-  # - aur: name=aur/picom-jonaburg-git
-  # - aur: name=aur/jetbrains-toolbox
-# - aur: name=brave
