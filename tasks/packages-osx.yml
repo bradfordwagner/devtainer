@@ -1,0 +1,157 @@
+---
+- name: install homebrew cli packages
+  include_role:
+    name: geerlingguy.mac.homebrew
+  vars:
+    homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
+    homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
+    homebrew_taps:
+    - cjbassi/ytop
+    - bufbuild/buf
+    - mopidy/mopidy
+    homebrew_uninstalled_packages:
+    - koekeishiya/formulae/yabai
+    homebrew_installed_packages:
+    - istioctl                                 # istio controller
+    - bash-completion                          # bash completions
+    - expect                                   # for unbuffer command - watch
+    - ctags                                    # used in vim: TagbarToggle
+    - csvtk                                    # csv conversion utility
+    - lsd                                      # nerdfont/icons `ls`
+    - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
+    - go-task                                  # task manager - like makefile, but better
+    - ranger                                   # file system explorer
+    - k3d                                      # installs k3d, partners with rancher for https://github.com/rumstead/gitops-toolkit
+    - txn2/tap/kubefwd                         # used for forwarding remote k8s cluster to local
+    - inetutils                                # install nancy cli for golang cve detection
+    - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
+    - graphviz                                 # visualize dot lang format files (dependency graph) - https://www.graphviz.org/download/
+    - haskell-stack                            # used for compiling kmonad
+    - gh                                       # github cli
+    - bufbuild/buf/buf                         # protobuf generator to replace prototool
+    - dnsmasq                                  # allows for dns hack w/ k8s/kind - https://mjpitz.com/blog/2020/10/21/local-ingress-domains-kind/
+    - danielfoehrkn/switch/switch              # kubectl switch helper - https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
+    - minio                                    # for testing minio gateway
+    - minio-mc                                 # mc client for minio - used for s3-esque ops
+    - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
+    - node                                     # required for vim-coc
+    - git-delta                                # git colorized differ
+    - krew                                     # kubectl plugin manager
+    - kind
+    - nmap
+    - docker
+# # - hyperkit # not available on apple silicone
+    - openshift-cli
+    - dive
+    - pyenv
+    - rust
+    - gawk
+    - argocd
+    - argo
+    - pstree
+    - proctools
+    - terragrunt
+    - ipcalc
+    - bats-core
+    - python-yq
+    - urlview
+    - connect
+    - pulseaudio
+    - mopidy
+    - mopidy-mpd
+    - mopidy-spotify
+    - ncmpcpp
+    - mkcert
+    - nss
+    - awscli
+    - darksky-weather
+    - tflint
+    - vault
+    - consul
+    - coreutils
+    - jfrog-cli
+    - prototool
+    - buf
+    - bat
+    - pandoc
+    - k9s
+    - figlet
+    - iproute2mac
+    - koekeishiya/formulae/skhd
+    - watchexec
+    - dos2unix
+    - cmatrix
+    - spotify-tui
+    - spotifyd
+    - neofetch
+    - ytop
+    - tty-clock
+    - gnu-sed
+    - gnu-tar
+    - cvs
+    - protobuf
+    - helm@3
+    - macvim
+    - neovim
+    - cntlm
+    - wget
+    - tmux
+    - tmuxinator
+    - reattach-to-user-namespace
+    - ssh-copy-id
+    - ack
+    - azure-cli
+    - kubernetes-cli
+    - kubectx
+    - jq
+    - watch
+    - c-bata/kube-prompt/kube-prompt
+    - cmake
+    - fzf
+    - the_silver_searcher
+    - minikube
+    - tree
+    - corkscrew
+    - openjdk
+
+- include_role:
+    name: geerlingguy.mac.homebrew
+  vars:
+    homebrew_taps:
+    - homebrew/cask-fonts
+    homebrew_cask_uninstalled_apps:
+    - jd-gui
+    - pandora
+    - sizeup
+    - bartender
+    - honer
+    - drawio
+    - virtualbox
+    - spotify
+    - ubersicht
+    - eqmac
+    - iterm2
+    - homebrew/cask-fonts/font-meslo-nerd-font-mono
+    homebrew_cask_apps:
+    - google-chrome
+    - rancher
+    - brave-browser
+    - firefox
+    - amethyst
+    - time-out
+    - keyman
+    - istat-menus
+    - dozer
+    - alfred
+    - font-jetbrains-mono-nerd-font
+    - font-jetbrains-mono
+    - font-fira-code
+    - vlc
+    - alacritty
+    - postman
+    - adobe-acrobat-reader
+    - microsoft-office
+    - jetbrains-toolbox
+    - font-meslo-lg-nerd-font
+    - homebrew/cask-fonts/font-meslo-nerd-font
+

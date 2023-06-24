@@ -21,6 +21,10 @@
       include_tasks: tasks/packages-arch.yml
       when: ansible_facts.distribution == "Archlinux"
 
+    - name: packages - osx
+      include_tasks: tasks/packages-osx.yml
+      when: ansible_facts.distribution == "MacOSX" and install_packages
+
     # mostly user space installation
     - name: create user - {{ user.name }}
       include_tasks: tasks/install-user.yml
@@ -38,5 +42,3 @@
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
       include_tasks: tasks/install-shell-packages.yml
       when: install_packages
-
-
