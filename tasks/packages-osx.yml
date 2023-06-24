@@ -1,5 +1,6 @@
 ---
 - name: install homebrew cli packages
+  when: False
   include_role:
     name: geerlingguy.mac.homebrew
   vars:
@@ -11,6 +12,7 @@
     - mopidy/mopidy
     homebrew_uninstalled_packages:
     - koekeishiya/formulae/yabai
+
     # newly added ignores
     - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
     - ack
@@ -133,8 +135,11 @@
     # - eqmac
     # - iterm2
     # - homebrew/cask-fonts/font-meslo-nerd-font-mono
+
     # newly added ignores
     - adobe-acrobat-reader
+    - font-meslo-lg-nerd-font
+    - homebrew/cask-fonts/font-meslo-nerd-font
     - keyman
     - time-out
     - vlc
@@ -148,9 +153,7 @@
     - font-fira-code
     - font-jetbrains-mono
     - font-jetbrains-mono-nerd-font
-    - font-meslo-lg-nerd-font
     - google-chrome
-    - homebrew/cask-fonts/font-meslo-nerd-font
     - istat-menus
     - jetbrains-toolbox
     - microsoft-office
