@@ -59,7 +59,6 @@
     - azure-cli
     - bash-completion                          # bash completions
     - bat
-    - buf
     - cmake
     - coreutils
     - corkscrew
