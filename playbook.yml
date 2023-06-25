@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars:
-    install_packages: true
+    install_vim_shell_packages: true
     brew_install: true
     git_clone: false
     user:
@@ -43,7 +43,7 @@
     # link is required first to setup init.vim
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
       include_tasks: tasks/install-shell-packages.yml
-      when: install_packages
+      when: install_vim_shell_packages
 
     # mac configs
     - name: mac [dock-speed,fzf,screenshots-dir]

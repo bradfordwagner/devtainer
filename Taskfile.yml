@@ -1,7 +1,7 @@
 ---
 version: '3'
 env:
-  install_packages: false
+  install_vim_shell_packages: false
   brew_install: false
   git_clone: false
 tasks:
@@ -21,7 +21,7 @@ tasks:
         ansible-playbook \
           -i localhost, -c local \
           {{ .playbook | quote }} \
-          -e '{install_packages: {{ .install_packages }}}' \
+          -e '{install_vim_shell_packages: {{ .install_vim_shell_packages }}}' \
           -e '{brew_install: {{ .brew_install }}}' \
           -e '{git_clone: {{ .git_clone }}}'
   sudoer:
@@ -35,16 +35,17 @@ tasks:
     cmds:
       - task: playbook
         vars:
-          install_packages: true
+          brew_install: true
           git_clone: true
+          install_vim_shell_packages: true
   bare_bones:
     cmds:
       - task: playbook
-  install_packages:
+  install_vim_shell_packages:
     cmds:
       - task: playbook
         vars:
-          install_packages: true
+          install_vim_shell_packages: true
   brew_install:
     cmds:
       - task: playbook
