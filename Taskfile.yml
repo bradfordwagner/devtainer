@@ -6,6 +6,7 @@ env:
   git_clone: false
 tasks:
   galaxy:
+    internal: true
     cmds:
       - ansible-galaxy collection install geerlingguy.mac
       - ansible-galaxy install -r requirements.yml
