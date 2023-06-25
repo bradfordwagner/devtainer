@@ -22,6 +22,13 @@ tasks:
           {{ .playbook | quote }} \
           -e '{install_packages: {{ .install_packages }}}' \
           -e '{git_clone: {{ .git_clone }}}'
+  sudoer:
+    cmds:
+      - |
+        ansible-playbook \
+          -i localhost, -c local \
+          --ask-become-pass \
+          ./pb-sudoer.yml
   default:
     cmds:
       - task: playbook

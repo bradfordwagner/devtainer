@@ -6,8 +6,9 @@
 xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install ansible gh go-task
-
+ssh-keygen
 gh auth login -w -p https
+gh auth login -w -p ssh
 
 # clone
 mkdir ~/tmp
