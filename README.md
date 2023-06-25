@@ -10,38 +10,19 @@ ssh-keygen
 gh auth login -w -p https
 gh auth login -w -p ssh
 
-# clone
-mkdir ~/tmp
-cd ~/tmp
-git clone https://github.com/bradfordwagner/dotfiles.git
-cd dotfiles
-cd ansible; ansible-galaxy collection install geerlingguy.mac; ansible-galaxy install -r requirements.yml -v --force
-# set sudoers password
-# note password changes require this to be run again
-# for local
-ansible-playbook pb-sudoer.yml --ask-become-pass
-
-# homebrew installations
-ansible-playbook pb-mac-brew.yml
-ansible-playbook pb-kubectl-krew.yml
-
 # install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-cd ~/tmp
-git clone https://github.com/bradfordwagner/devtainer.git
-cd devtainer
-ansible-galaxy install -r requirements.yml
-ansible-playbook playbook.yml
+task sudoer default
+
+# still comes from the original dotfiles
+ansible-playbook pb-kubectl-krew.yml
 
 # vim
 python3 -m pip install --user --upgrade pynvim
 
 # download and install tkgi cli
 # https://network.pivotal.io/products/pivotal-container-service/#/releases/1293578/file_groups/13745
-
-# To install useful key bindings and fuzzy completion:
-$(brew --prefix)/opt/fzf/install
 ```
 
 ## Alfred
