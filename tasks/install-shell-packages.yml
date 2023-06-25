@@ -55,6 +55,8 @@
     - shell: '{{ item }}'
       name: install vim plugins
       loop:
+        # setup pynvim support for co-pilot
+        - python3 -m pip install --user --upgrade pynvim
         - nvim +silent +PlugInstall +qall
         - nvim +silent +PluginInstall +qall
 

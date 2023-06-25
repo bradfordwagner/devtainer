@@ -2,6 +2,7 @@
 - hosts: localhost
   vars:
     install_packages: true
+    brew_install: true
     git_clone: false
     user:
       # in some cases we need to create the user
@@ -24,7 +25,7 @@
 
     - name: packages - osx
       include_tasks: tasks/packages-osx.yml
-      when: ansible_facts.distribution == "MacOSX" and install_packages
+      when: ansible_facts.distribution == "MacOSX" and brew_install
 
     # mostly user space installation
     - name: create user - {{ user.name }}
