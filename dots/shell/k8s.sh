@@ -90,7 +90,8 @@ function kar() {
   k9s --headless -n $(knc) -r 1 -c ${k9s_resource_type} -A
 }
 alias kwai='clear; kubectl config get-contexts; echo kube_config=$KUBECONFIG; ll ~/.kube/config; hla'
-alias kcc='env | grep KUBECONFIG | xargs -I % echo "export %" | tmux loadb -' # copies kube config variable into tmux buffer
+alias kcc='env | grep KUBECONFIG | xargs -I % echo "export %" | tbc_load kube' # copies kube config variable into tmux buffer
+alias kcp='tbc_paste kube'
 ################################################
 
 ## smart completions - kc ######################

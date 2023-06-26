@@ -4,9 +4,10 @@ export tbc_dir="${HOME}/.tbc"
 function tbc() {
   clear
   items=(
+    paste
     create_category
     delete_category
-    paste
+    clear_category
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="tmux buffer: ")
   tbc_${choice}
@@ -20,13 +21,17 @@ function tbc_create_category() {
 }
 function tbc_delete_category() {
   category=$(tbc_get_category ${1})
+  tbc_clear_category
   rm -rf ${tbc_dir}/${category}
-
+}
+function tbc_clear_category() {
+  category=$(tbc_get_category ${1})
   # delete all buffers which match the name
   tmux list-buffers -F "#{buffer_name}" \
     | grep ${category} \
     | awk '{print $1}' \
     | xargs -I % tmux deleteb -b %
+  echo "0" > ${tbc_dir}/${category}
 }
 function tbc_list() {
   ls ${tbc_dir}
@@ -62,8 +67,8 @@ function tbc_get_category() {
 
 function tbc_get_buffer_name() {
   category=$(tbc_get_category ${1})
-  tmux list-buffers -F "#{buffer_name} '#{buffer_sample}'" \
+  tmux list-buffers -F "#{buffer_name}:#{buffer_sample}" \
     | grep ${category} \
-    | fzf --with-nth=2 \
-    | awk '{print $1}'
+    | fzf --delimiter=":" --with-nth=2 \
+    | awk -F: '{print $1}'
 }
