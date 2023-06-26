@@ -102,6 +102,7 @@
     - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
     - ssh-copy-id
     - terragrunt
+    - terraform
     - tflint
     - the_silver_searcher
     - tmux
