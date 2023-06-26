@@ -1,0 +1,69 @@
+# tmux buffers helpers
+export tbc_dir="${HOME}/.tbc"
+
+function tbc() {
+  clear
+  items=(
+    create_category
+    delete_category
+    paste
+  )
+  choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="tmux buffer: ")
+  tbc_${choice}
+}
+
+function tbc_create_category() {
+  # read a category from the user
+  vared -p 'Enter Category Name: ' -c category
+  mkdir -p ${tbc_dir}
+  echo "0" > ${tbc_dir}/${category}
+}
+function tbc_delete_category() {
+  category=$(tbc_get_category ${1})
+  rm -rf ${tbc_dir}/${category}
+
+  # delete all buffers which match the name
+  tmux list-buffers -F "#{buffer_name}" \
+    | grep ${category} \
+    | awk '{print $1}' \
+    | xargs -I % tmux deleteb -b %
+}
+function tbc_list() {
+  ls ${tbc_dir}
+}
+
+# this function is used to load data into tbc for consumption
+# there really isn't a way to use the fancy completion here
+# so it will need to be manually referenced
+function tbc_load() {
+  category=$(tbc_get_category ${1})
+  read buffer
+  index=$(cat ${tbc_dir}/${category})
+  echo ${buffer} | tmux loadb -b ${category}-${index} -
+
+  # increment
+  index=$((index+1))
+  echo ${index} > ${tbc_dir}/${category}
+}
+function tbc_paste() {
+  buffer_name=$(tbc_get_buffer_name ${1})
+  tmux pasteb -b ${buffer_name}
+}
+
+function tbc_get_category() {
+  category=${1}
+  # if category is empty
+  if [[ -z ${category} ]]; then
+    # read a category from the user
+    category=$(tbc_list | fzf --prompt="select a category: ")
+  fi
+  echo ${category}
+}
+
+function tbc_get_buffer_name() {
+  category=$(tbc_get_category ${1})
+  tmux list-buffers -F "#{buffer_name} '#{buffer_sample}'" \
+    | grep ${category} \
+    | fzf --with-nth=2 \
+    | awk '{print $1}'
+}
