@@ -84,4 +84,4 @@ unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 [ -f ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh ] && source ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh
 bindkey '^g' __lazyshell_complete
 bindkey '^e' __lazyshell_explain
-bindkey -s '^h' 'nvim -c FZF .\n'
+bindkey -s '^h' 'nvim -c "NERDTree | wincmd p | FZF"\n'
