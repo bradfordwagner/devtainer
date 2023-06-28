@@ -13,7 +13,6 @@
     - koekeishiya/formulae/yabai
 
     # newly added ignores
-    - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
     - ack
     - bats-core
     - bufbuild/buf/buf                         # protobuf generator to replace prototool
@@ -53,6 +52,7 @@
     - spotifyd
     - tty-clock
     homebrew_installed_packages:
+    - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
     - argo
     - argocd
     - awscli
