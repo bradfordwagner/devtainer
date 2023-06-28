@@ -13,8 +13,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'itchyny/lightline.vim'
-Plugin 'hallzy/lightline-onedark'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'towolf/vim-helm'
 Plugin 'junegunn/goyo.vim'
@@ -59,6 +57,11 @@ Plug 'majutsushi/tagbar'           " show current file structure: https://vimawe
 Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
 Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
 
+" lualine: https://github.com/nvim-lualine/lualine.nvim#installation
+Plug 'nvim-lualine/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+Plug 'nvim-tree/nvim-web-devicons'
+
 if has("nvim")
   Plug 'karb94/neoscroll.nvim' " sweet smooth scrolling
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " completions! - using release branch
@@ -73,6 +76,13 @@ set termguicolors
 
 "" lua configs
 lua <<EOF
+require('lualine').setup {
+  options = {
+    -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
+    theme = 'palenight',
+  }
+}
+
 require('colorizer').setup()
 
 require('neoscroll').setup({
@@ -234,7 +244,7 @@ let g:go_highlight_extra_types = 1
 
 let NERDTreeShowHidden=1
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+" autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 syntax on
 " set additional tmux syntax highlighting
 au BufReadPost *.tmux.conf set syntax=tmux
