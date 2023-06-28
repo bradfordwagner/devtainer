@@ -211,7 +211,7 @@ nnoremap <F3> :set hlsearch!<CR>
 let g:vim_markdown_folding_disabled = 1
 
 " terraform configuration
-let g:terraform_fmt_on_save = 1 " set terraform format on save
+let g:terraform_fmt_on_save = 0 " set terraform format on save
 
 " copilot
 " taken from: https://codeinthehole.com/tips/vim-and-github-copilot/
@@ -233,6 +233,8 @@ let g:go_highlight_extra_types = 1
 " " end vim-go
 
 let NERDTreeShowHidden=1
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 syntax on
 " set additional tmux syntax highlighting
 au BufReadPost *.tmux.conf set syntax=tmux
