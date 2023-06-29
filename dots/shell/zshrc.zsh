@@ -20,6 +20,8 @@ export plugins=(
   vi-mode
   globalias
 )
+# ignore case for globalias
+GLOBALIAS_FILTER_VALUES=(grep)
 
 # avoid duplications in history
 # https://unix.stackexchange.com/questions/599641/why-do-i-have-duplicates-in-my-zsh-history
