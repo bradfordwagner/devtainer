@@ -74,6 +74,5 @@ function tbc_get_buffer_name() {
       --delimiter=":" \
       --with-nth=2 \
       --bind "enter:become:echo {1}" \
-      --preview "echo {2} | bat -f --style=full -l bash" \
       --bind "ctrl-d:execute-silent(tmux deleteb -b {1})+reload(${command})"
 }
