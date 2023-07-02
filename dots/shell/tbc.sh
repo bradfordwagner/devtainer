@@ -67,8 +67,13 @@ function tbc_get_category() {
 
 function tbc_get_buffer_name() {
   category=$(tbc_get_category ${1})
-  tmux list-buffers -F "#{buffer_name}:#{buffer_sample}" \
-    | grep ${category} \
-    | fzf --delimiter=":" --with-nth=2 \
-    | awk -F: '{print $1}'
+  command=$(printf 'tmux list-buffers -F "#{buffer_name}:#{buffer_sample}" | grep %s' ${category})
+  eval ${command} \
+    | fzf \
+      --exit-0 \
+      --delimiter=":" \
+      --with-nth=2 \
+      --bind "enter:become:echo {1}" \
+      --preview "echo {2} | bat -f --style=full -l bash" \
+      --bind "ctrl-d:execute-silent(tmux deleteb -b {1})+reload(${command})"
 }
