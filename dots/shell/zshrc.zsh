@@ -87,4 +87,5 @@ unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 bindkey '^g' __lazyshell_complete
 bindkey '^e' __lazyshell_explain
 bindkey -s '^h' 'nvim -c "NERDTree | wincmd p | FZF"\n'
+bindkey -s '^n' 'kc_app_k9s\n'
 export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | FZF'"
