@@ -213,15 +213,14 @@ function _select_ns() {
 }
 
 function kc_app_k9s_select_ns() {
-  ns=$(_select_ns)
-  _set_ns ${ns}
+  _set_ns $(_select_ns)
 }
 function kc_app_k9s_new_ctx_ns_cp() {
   kc_app_context_cp
   kcc
 }
 function kc_app_k9s_ns_resource() {
-  s ns
+  _set_ns $(_select_ns)
   kc_app_k9s_resource
 }
 function kc_app_k9s_resource() {
