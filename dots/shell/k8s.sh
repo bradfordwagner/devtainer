@@ -91,7 +91,7 @@ function kar() {
 }
 alias kwai='clear; kubectl config get-contexts; echo kube_config=$KUBECONFIG; ll ~/.kube/config; hla'
 alias kcc='env | grep KUBECONFIG | xargs -I % echo "export %" | tbc_load kube' # copies kube config variable into tmux buffer
-alias kcp='tbc_paste kube'
+alias kcp='tbc_paste kube' # used in tmux keytable
 ################################################
 
 ## smart completions - kc ######################
