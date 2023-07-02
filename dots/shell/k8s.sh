@@ -129,6 +129,7 @@ function kc_app_context_cp() {
   ns=$(_select_ns)
   ctx_name=$(k config current-context)
   file=$(mktemp ${kc_tmp_dir}/${ctx_name}_${ns}.XXXXX)
+  _set_ns ${ns}
   cp -L ${resolved_kubeconfig} ${file} # follow the link
 
   export KUBECONFIG=${file}
