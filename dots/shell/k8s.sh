@@ -126,12 +126,12 @@ function kc_app_context_cp() {
   resolved_kubeconfig=${original_kubeconfig:-~/.kube/config}
   mkdir -p ${kc_tmp_dir}
 
+  ns=$(_select_ns)
   ctx_name=$(k config current-context)
-  file=$(mktemp ${kc_tmp_dir}/${ctx_name}.XXXXX)
+  file=$(mktemp ${kc_tmp_dir}/${ctx_name}_${ns}.XXXXX)
   cp -L ${resolved_kubeconfig} ${file} # follow the link
 
   export KUBECONFIG=${file}
-  s ns
   kwai
 }
 
@@ -202,9 +202,19 @@ function kc_app_k9s() {
   kc_app_k9s_${choice}
 }
 
-function kc_app_k9s_select_ns() {
+function _set_ns() {
+  ns=${1}
+  kubectl config set-context --current --namespace=${ns} > /dev/null 2>&1
+}
+
+function _select_ns() {
   ns=$(kubectl get ns -o json  | jq -r '.items[].metadata.name' | fzf -0 --prompt "namespace: ")
-  kubectl config set-context --current --namespace=${ns}
+  echo ${ns}
+}
+
+function kc_app_k9s_select_ns() {
+  ns=$(_select_ns)
+  _set_ns ${ns}
 }
 function kc_app_k9s_new_ctx_ns_cp() {
   kc_app_context_cp
