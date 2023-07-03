@@ -94,7 +94,7 @@ zle -N jd
 bindkey -s '\C-kj' 'nvim -c "NERDTree | wincmd p | FZF"\n'
 bindkey -s '\C-kk' 'kc_app_k9s\n'
 bindkey '\C-kd' fzf-cd-widget
-bindkey '\C-ksd' jdv
-bindkey '\C-ksj' jd
-bindkey -s '\C-ksk' 'wfd\n'
+bindkey -s '\C-ksd' 'jdv \n'
+bindkey -s '\C-ksj' 'jd \n'
+bindkey -s '\C-ksk' 'wfd \n'
 export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | FZF'"
