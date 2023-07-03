@@ -86,6 +86,8 @@ unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 [ -f ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh ] && source ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh
 bindkey '^g' __lazyshell_complete
 bindkey '^e' __lazyshell_explain
-bindkey -s '^h' 'nvim -c "NERDTree | wincmd p | FZF"\n'
-bindkey -s '^n' 'kc_app_k9s\n'
+# note \M- is used for meta
+# we can also use a modal mode for sequence of binds
+bindkey -s '\C-h' 'nvim -c "NERDTree | wincmd p | FZF"\n'
+bindkey -s '\C-n' 'kc_app_k9s\n'
 export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | FZF'"
