@@ -88,6 +88,7 @@ bindkey '^g' __lazyshell_complete
 bindkey '^e' __lazyshell_explain
 # note \M- is used for meta
 # we can also use a modal mode for sequence of binds
-bindkey -s '\C-h' 'nvim -c "NERDTree | wincmd p | FZF"\n'
-bindkey -s '\C-n' 'kc_app_k9s\n'
+bindkey -s '\C-kh' 'nvim -c "NERDTree | wincmd p | FZF"\n'
+bindkey -s '\C-kj' 'kc_app_k9s\n'
+bindkey '\C-kd' fzf-cd-widget
 export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | FZF'"
