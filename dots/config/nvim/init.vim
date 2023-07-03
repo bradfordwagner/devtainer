@@ -242,7 +242,7 @@ let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
 " " end vim-go
 
-let NERDTreeShowHidden=1
+let NERDTreeShowHidden=1 " show hidden files
 " Open the existing NERDTree on each new tab.
 " autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 syntax on
