@@ -1,4 +1,4 @@
-# tmux buffers helpers
+# tmux buffers completion - helpers
 export tbc_dir="${HOME}/.tbc"
 
 function tbc() {
