@@ -11,3 +11,4 @@ Makefile
 test.sh
 ansible.sh
 .secrets.yml
+tags
