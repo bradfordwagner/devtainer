@@ -178,6 +178,24 @@ map <expr><silent> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* 
 " dir matching
 map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
 
+" search
+" search buffers
+map <silent> <Space>sb :Buffers<CR>
+" search files
+map <silent> <Space>sf :Ag<CR>
+" search git project
+map <silent> <Space>sgp :GFiles<CR>
+" search git changed
+map <silent> <Space>sgc :GFiles?<CR>
+" search project
+map <silent> <Space>sp :FZF<CR>
+" search tags current
+map <silent> <Space>stc :BTags<CR>
+" search tags project
+map <silent> <Space>stp :Tags<CR>
+" search history
+map <silent> <Space>sh :History<CR>
+
 " resizing
 map <silent> <Space>rj :horizontal resize -5<CR>
 map <silent> <Space>rk :horizontal resize +5<CR>
