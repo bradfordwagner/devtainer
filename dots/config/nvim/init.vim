@@ -181,8 +181,10 @@ map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") .
 " search
 " search buffers
 map <silent> <Space>sb :Buffers<CR>
-" search files
-map <silent> <Space>sf :Ag<CR>
+" search commands
+map <silent> <Space>sc :Commands<CR>
+" search string
+map <silent> <Space>ss :Ag<CR>
 " search git project
 map <silent> <Space>sgp :GFiles<CR>
 " search git changed
@@ -195,6 +197,8 @@ map <silent> <Space>stc :BTags<CR>
 map <silent> <Space>stp :Tags<CR>
 " search history
 map <silent> <Space>sh :History<CR>
+" search windows
+map <silent> <Space>sw :Windows<CR>
 
 " resizing
 map <silent> <Space>rj :horizontal resize -5<CR>
