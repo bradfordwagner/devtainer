@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Created by newuser for 5.4.2
 # enable the following for profiling
 # zmodload zsh/zprof
@@ -12,6 +19,7 @@ export BAT_THEME="TwoDark"
 
 # from https://github.com/romkatv/powerlevel10k#oh-my-zsh
 export ZSH_THEME="agnoster"
+export ZSH_THEME="powerlevel10k/powerlevel10k"
 export plugins=(
   fzf-tab
   git
@@ -32,13 +40,6 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 
-# environment loads
-# if [[ $(hostname -s) = nycla* ]] || [[ $(hostname -s) = NYCLA* ]] || [[ $(hostname -s) = macbook-pro ]] || [[ $(hostname -s) = nycmd* ]] || [[ $(hostname -s) = bwagner-* ]]; then
-  export ZSH_THEME="powerlevel10k/powerlevel10k"
-# else
-#   # setup hail mary color scheme on remote
-#   export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
-# fi
 # setup man color: https://www.2daygeek.com/get-display-view-colored-colorized-man-pages-linux/
 export LESS=-R
 export LESS_TERMCAP_mb=$'\E[01;31m' \
@@ -64,6 +65,8 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # this is auto generated - keep it
 [[ ! -f ~/.dotfiles/dots/shell/p10k.zsh ]] || source ~/.dotfiles/dots/shell/p10k.zsh
+# show kube ctx always
+unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 
 # enable fzf tab completions
 enable-fzf-tab
@@ -76,8 +79,6 @@ if type brew &>/dev/null; then
 fi
 autoload -Uz compinit && compinit
 
-# show kube ctx always
-unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 
 # double source this.. yuck. its mostly to override some of the zsh defaults like "l", and "ll"
 [ -f ~/.dotfiles/dots/shell/alias.zsh ] && source ~/.dotfiles/dots/shell/alias.zsh
