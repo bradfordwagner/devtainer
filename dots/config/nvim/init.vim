@@ -199,6 +199,8 @@ map <silent> <Space>stp :Tags<CR>
 map <silent> <Space>sh :History<CR>
 " search windows
 map <silent> <Space>sw :Windows<CR>
+" search maps
+map <silent> <Space>sm :Maps<CR>
 
 " resizing
 map <silent> <Space>rj :horizontal resize -5<CR>
