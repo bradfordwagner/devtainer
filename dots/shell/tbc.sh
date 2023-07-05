@@ -43,7 +43,6 @@ function tbc_list() {
 function tbc_load() {
   category=$(tbc_get_category ${1})
   read buffer
-  mkdir -p ${tbc_dir}
   index=$(cat ${tbc_dir}/${category})
   echo ${buffer} | tmux loadb -b ${category}-${index} -
 
