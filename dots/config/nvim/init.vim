@@ -145,6 +145,7 @@ nmap <silent> <leader>p :r! cat /tmp/vitmp<CR> " paste from tmp file - get aroun
 map <silent> <C-n> :NERDTreeToggle<CR>
 map <silent> <leader>r :NERDTreeFind<cr> " find nerd tree file expand
 map <silent> <C-p> :FZF<CR>
+map <silent> <C-M-p> :GFiles<CR>
 map <silent> <leader>w :FZF ~/workspace<CR>
 map <silent> <leader>c :FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>
 map <silent> <leader>d :FZF ~/.dotfiles<CR>
@@ -302,6 +303,23 @@ colorscheme tokyonight
 
 "  vundle settings
 set nocompatible " be iMproved, required
+
+" Customize fzf colors to match your color scheme
+" - fzf#wrap translates this to a set of `--color` options
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
 " shamlessly stolen from: https://github.com/unphased/vim-config/blob/master/.vimrc#L3661
 " An action can be a reference to a function that processes selected lines
