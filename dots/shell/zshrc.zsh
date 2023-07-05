@@ -13,7 +13,13 @@ export ZSH=$HOME/.oh-my-zsh
 export TERM="xterm-256color"
 
 # https://github.com/junegunn/fzf/issues/257 - select all support
-export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all,ctrl-s:toggle --color dark"
+# tokyo night theme for fzf
+# https://github.com/folke/tokyonight.nvim/issues/60#issue-909006048
+export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all,ctrl-s:toggle "'
+  --color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
+  --color=fg+:#ffffff,bg+:#1a1b26,hl+:#7dcfff
+  --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff
+  --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a'
 
 export BAT_THEME="TwoDark"
 
