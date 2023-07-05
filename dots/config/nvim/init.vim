@@ -180,7 +180,7 @@ map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") .
 
 " zoom - goyo
 map <silent> <Space>z :Goyo 75%+7%x100%<CR> " enter goyo
-map <silent> <Space>Z :Goyo!<CR>          " quit goyo
+map <silent> <Space>x :Goyo!<CR>          " quit goyo
 
 " search
 " search buffers
