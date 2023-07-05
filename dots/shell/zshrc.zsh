@@ -84,6 +84,7 @@ autoload -Uz compinit && compinit
 [ -f ~/.dotfiles/dots/shell/alias.zsh ] && source ~/.dotfiles/dots/shell/alias.zsh
 
 # bind keys
+export KEYTIMEOUT=0.7 # default is 0.4
 [ -f ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh ] && source ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh
 bindkey '^g' __lazyshell_complete
 bindkey '^e' __lazyshell_explain
