@@ -179,8 +179,8 @@ map <expr><silent> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* 
 map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
 
 " zoom - goyo
-map <silent> <Space>z :Goyo 75%+7%x100%<CR> " enter goyo
-map <silent> <Space>x :Goyo!<CR>          " quit goyo
+map <silent> <Space>zz :Goyo 75%+7%x100%<CR> " enter goyo
+map <silent> <Space>zx :Goyo!<CR>            " quit goyo
 
 " search
 " search buffers
@@ -205,6 +205,11 @@ map <silent> <Space>sh :History<CR>
 map <silent> <Space>sw :Windows<CR>
 " search maps
 map <silent> <Space>sm :Maps<CR>
+
+" window management
+map <silent> <Space>wt :tabe<CR>
+map <silent> <Space>wl :vsplit<CR>
+map <silent> <Space>wj :split<CR>
 
 " resizing
 map <silent> <Space>rj :horizontal resize -5<CR>
