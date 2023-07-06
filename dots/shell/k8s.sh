@@ -2,7 +2,7 @@
 # kubectl / kubernetes / k8s helpers
 ################################################
 function set_pod_name() {
-  export pod_name=$(k get po | fzf | awk '{ print $1 }')
+  export pod_name=$(k get po | fzf --header-lines=1 | awk '{ print $1 }')
 }
 
 function az_aks_get_all {
