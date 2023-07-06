@@ -207,6 +207,7 @@ map <silent> <Space>sw :Windows<CR>
 map <silent> <Space>sm :Maps<CR>
 " search jumpdir jd
 " inspired from: https://github.com/junegunn/fzf/issues/1274
+" also see: https://github.com/junegunn/fzf/blob/master/README-VIM.md#fzfrun
 function! JD()
   call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink': {line -> JDF(line)}}))
 endfunction
