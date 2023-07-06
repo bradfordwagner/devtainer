@@ -205,6 +205,16 @@ map <silent> <Space>sh :History<CR>
 map <silent> <Space>sw :Windows<CR>
 " search maps
 map <silent> <Space>sm :Maps<CR>
+" search jumpdir jd
+" inspired from: https://github.com/junegunn/fzf/issues/1274
+function! JD()
+  call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink': {line -> JDF(line)}}))
+endfunction
+function! JDF(line)
+  call fzf#run(fzf#wrap({'source': 'find -f '.a:line}))
+endfunction
+command! JD call JD()
+map <silent> <Space>sjd :JD<CR>
 
 " window management
 map <silent> <Space>wt :tabe<CR>
