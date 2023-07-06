@@ -209,13 +209,19 @@ map <silent> <Space>sm :Maps<CR>
 " inspired from: https://github.com/junegunn/fzf/issues/1274
 " also see: https://github.com/junegunn/fzf/blob/master/README-VIM.md#fzfrun
 function! JD()
-  call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink': {line -> JDF(line)}}))
+  call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink': {line -> FIND_IN_DIR(line)}}))
 endfunction
-function! JDF(line)
+function! FIND_IN_DIR(line)
   call fzf#run(fzf#wrap({'source': 'find -f '.a:line}))
 endfunction
 command! JD call JD()
-map <silent> <Space>sjd :JD<CR>
+map <silent> <Space>sj :JD<CR>
+" search workspace dir
+function! WFD()
+  call fzf#run(fzf#wrap({'source': 'find ~/workspace -type d', 'sink': {line -> FIND_IN_DIR(line)}}))
+endfunction
+command! WFD call WFD()
+map <silent> <Space>sk :WFD<CR>
 
 " window management
 map <silent> <Space>wt :tabe<CR>
