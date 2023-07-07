@@ -184,6 +184,13 @@ map <silent> <Space>zj ! tmux resize-pane -Z<CR>                       " manual 
 map <silent> <Space>zz :Goyo 75%+7%x100%<CR>:! tmux resize-pane -Z<CR> " enter goyo
 map <silent> <Space>zx :Goyo!<CR>:! tmux resize-pane -Z<CR>            " quit goyo
 
+" tmux mappings
+map <silent> <Space>az ! tmux resize-pane -Z<CR>
+map <silent> <Space>ah ! tmux select-pane -L<CR>
+map <silent> <Space>aj ! tmux select-pane -D<CR>
+map <silent> <Space>ak ! tmux select-pane -U<CR>
+map <silent> <Space>al ! tmux select-pane -R<CR>
+
 " search
 " search buffers
 map <silent> <Space>sb :Buffers<CR>
