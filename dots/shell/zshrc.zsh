@@ -95,14 +95,18 @@ export KEYTIMEOUT=0.7 # default is 0.4
 bindkey '^g' __lazyshell_complete
 bindkey '^e' __lazyshell_explain
 # register functions for bindkey
-zle -N jdv
-zle -N jd
+# zle -N jdv
+# zle -N jd
+zle -N alacritty_transparency_enable
+zle -N alacritty_transparency_disable
 # note \M- is used for meta
 # we can also use a modal mode for sequence of binds
+export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | FZF'"
 bindkey -s '\C-kj' 'nvim -c "NERDTree | wincmd p | FZF"\n'
 bindkey -s '\C-kk' 'kc_app_k9s\n'
 bindkey '\C-kd' fzf-cd-widget
 bindkey -s '\C-ksd' 'jdv \n'
 bindkey -s '\C-ksj' 'jd \n'
 bindkey -s '\C-ksk' 'wfd \n'
-export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | FZF'"
+bindkey '\C-kte' alacritty_transparency_enable
+bindkey '\C-ktd' alacritty_transparency_disable
