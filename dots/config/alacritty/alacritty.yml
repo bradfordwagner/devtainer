@@ -4,7 +4,6 @@ font:
     family: JetBrainsMono Nerd Font Mono
     style: Bold
 
-#background_opacity: .90
 live_config_reload: true
 
 selection:
@@ -170,6 +169,7 @@ window:
     y: 4
   dynamic_padding: false
   option_as_alt: OnlyLeft # allow alt to be used, it was mapping to escape - see: https://github.com/alacritty/alacritty/releases/tag/v0.12.0
+  opacity: 0.95
 
 colors: *tokyo-night # tokyo-night, tokyo-night-storm, catppuccin, smyck
 

@@ -61,6 +61,7 @@ Plug 'madox2/vim-ai'               " open ai integration: https://github.com/mad
 Plug 'nvim-lualine/lualine.nvim'
 " If you want to have icons in your statusline choose one of these
 Plug 'nvim-tree/nvim-web-devicons'
+Plug 'tribela/vim-transparent' " https://github.com/tribela/vim-transparent - enable transparency
 
 if has("nvim")
   " Plug 'karb94/neoscroll.nvim' " sweet smooth scrolling
@@ -387,3 +388,5 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
 
+" enable transparency by default
+let g:transparent_enabled=1
