@@ -218,6 +218,7 @@ map <silent> <Space>sw :Windows<CR>
 map <silent> <Space>sm :Maps<CR>
 " search jumpdir jd
 " inspired from: https://github.com/junegunn/fzf/issues/1274
+"                https://github.com/junegunn/fzf.vim/issues/837#issuecomment-509901611
 " also see: https://github.com/junegunn/fzf/blob/master/README-VIM.md#fzfrun
 function! FIND_IN_DIR(line)
   call fzf#run(fzf#wrap({'source': 'find -f '.a:line}))
