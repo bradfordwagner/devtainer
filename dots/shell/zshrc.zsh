@@ -95,8 +95,6 @@ export KEYTIMEOUT=0.7 # default is 0.4
 bindkey '^g' __lazyshell_complete
 bindkey '^e' __lazyshell_explain
 # register functions for bindkey
-# zle -N jdv
-# zle -N jd
 zle -N alacritty_transparency_enable
 zle -N alacritty_transparency_disable
 # note \M- is used for meta
