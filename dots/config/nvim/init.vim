@@ -56,12 +56,12 @@ Plug 'pearofducks/ansible-vim'
 Plug 'majutsushi/tagbar'           " show current file structure: https://vimawesome.com/plugin/tagbar
 Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
 Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
+Plug 'tribela/vim-transparent'     " https://github.com/tribela/vim-transparent - enable transparency
 
 " lualine: https://github.com/nvim-lualine/lualine.nvim#installation
 Plug 'nvim-lualine/lualine.nvim'
 " If you want to have icons in your statusline choose one of these
 Plug 'nvim-tree/nvim-web-devicons'
-Plug 'tribela/vim-transparent' " https://github.com/tribela/vim-transparent - enable transparency
 
 if has("nvim")
   " Plug 'karb94/neoscroll.nvim' " sweet smooth scrolling
