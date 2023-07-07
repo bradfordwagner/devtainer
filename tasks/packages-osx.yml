@@ -98,6 +98,7 @@
     - pyenv
     - python-yq
     - reattach-to-user-namespace
+    - ripgrep                                  # https://github.com/BurntSushi/ripgrep - used for grep calls following your gitignore
     - rust
     - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
     - ssh-copy-id
