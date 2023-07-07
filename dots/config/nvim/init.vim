@@ -200,7 +200,7 @@ map <silent> <Space>sgs :Rg<CR>
 " search project
 map <silent> <Space>sp :FZF<CR>
 " search tags current
-map <silent> <Space>stc :BTags<CR>
+map <silent> <Space>st :BTags<CR>
 " search tags project
 map <silent> <Space>stp :Tags<CR>
 " search history
