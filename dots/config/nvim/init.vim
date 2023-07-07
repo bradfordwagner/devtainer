@@ -212,20 +212,19 @@ map <silent> <Space>sm :Maps<CR>
 " search jumpdir jd
 " inspired from: https://github.com/junegunn/fzf/issues/1274
 " also see: https://github.com/junegunn/fzf/blob/master/README-VIM.md#fzfrun
-function! JD()
-  call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink': {line -> FIND_IN_DIR(line)}}))
-endfunction
 function! FIND_IN_DIR(line)
   call fzf#run(fzf#wrap({'source': 'find -f '.a:line}))
 endfunction
-command! JD call JD()
+command! JD
+  \ call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"',
+  \'sink': {line -> FIND_IN_DIR(line)}}))
 map <silent> <Space>sj :JD<CR>
 " search workspace dir
-function! WFD()
-  call fzf#run(fzf#wrap({'source': 'find ~/workspace -type d', 'sink': {line -> FIND_IN_DIR(line)}}))
-endfunction
-command! WFD call WFD()
+command! WFD
+  \ call fzf#run(fzf#wrap({'source': 'find ~/workspace -type d',
+  \ 'sink': {line -> FIND_IN_DIR(line)}}))
 map <silent> <Space>sk :WFD<CR>
+" search jumpdir string
 command! -bang -nargs=* JDS
   \ call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink':
   \ {line -> fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': line}), <bang>0)}}))
