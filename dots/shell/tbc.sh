@@ -67,7 +67,7 @@ function tbc_get_category() {
 
 function tbc_get_buffer_name() {
   category=$(tbc_get_category ${1})
-  command=$(printf 'tmux list-buffers -F "#{buffer_name}:#{buffer_sample}" | grep %s' ${category})
+  command=$(printf 'tmux list-buffers -F "#{buffer_name}:#{buffer_sample}" | grep "^%s.*"' ${category})
   eval ${command} \
     | fzf \
       --exit-0 \
