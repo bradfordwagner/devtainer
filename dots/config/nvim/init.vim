@@ -194,6 +194,8 @@ map <silent> <Space>ss :Ag<CR>
 map <silent> <Space>sgp :GFiles<CR>
 " search git changed
 map <silent> <Space>sgc :GFiles?<CR>
+" search git string
+map <silent> <Space>sgs :Rg<CR>
 " search project
 map <silent> <Space>sp :FZF<CR>
 " search tags current
