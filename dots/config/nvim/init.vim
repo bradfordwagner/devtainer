@@ -180,8 +180,8 @@ map <expr><silent> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* 
 map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
 
 " zoom - goyo
-map <silent> <Space>zz :Goyo 75%+7%x100%<CR> " enter goyo
-map <silent> <Space>zx :Goyo!<CR>            " quit goyo
+map <silent> <Space>zz :Goyo 75%+7%x100%<CR>:! tmux resize-pane -Z<CR> " enter goyo
+map <silent> <Space>zx :Goyo!<CR>:! tmux resize-pane -Z<CR>            " quit goyo
 
 " search
 " search buffers
