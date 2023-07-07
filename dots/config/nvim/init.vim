@@ -226,6 +226,10 @@ function! WFD()
 endfunction
 command! WFD call WFD()
 map <silent> <Space>sk :WFD<CR>
+command! -bang -nargs=* JDS
+  \ call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink':
+  \ {line -> fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': line}), <bang>0)}}))
+map <silent> <Space>sl :JDS<CR>
 
 " window management
 map <silent> <Space>wt :tabe<CR>
