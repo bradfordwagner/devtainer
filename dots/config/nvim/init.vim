@@ -194,6 +194,8 @@ map <silent> <Space>sb :Buffers<CR>
 map <silent> <Space>sc :Commands<CR>
 " search string
 map <silent> <Space>ss :Ag<CR>
+" search filetype
+map <silent> <Space>sf :Filetype<CR>
 " search git project
 map <silent> <Space>sgp :GFiles<CR>
 " search git changed
