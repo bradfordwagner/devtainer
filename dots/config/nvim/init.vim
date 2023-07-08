@@ -240,6 +240,7 @@ map <silent> <Space>sl :JDS<CR>
 map <silent> <Space>wt :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
 map <silent> <Space>wj :split<CR>
+map <silent> <Space>ws :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
 
 " resizing
 map <silent> <Space>rj :horizontal resize -5<CR>
