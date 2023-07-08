@@ -53,7 +53,6 @@ Plug 'tpope/vim-commentary'        " gc commenting
 Plug 'tpope/vim-sleuth'            " indentation
 Plug 'norcalli/nvim-colorizer.lua' " https://github.com/norcalli/nvim-colorizer.lua
 Plug 'pearofducks/ansible-vim'
-Plug 'majutsushi/tagbar'           " show current file structure: https://vimawesome.com/plugin/tagbar
 Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
 Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
 Plug 'tribela/vim-transparent'     " https://github.com/tribela/vim-transparent - enable transparency
@@ -150,15 +149,12 @@ map <silent> <C-M-p> :GFiles<CR>
 map <silent> <leader>w :FZF ~/workspace<CR>
 map <silent> <leader>c :FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>
 map <silent> <leader>d :FZF ~/.dotfiles<CR>
-map <silent> <leader>h :FZF ~/<CR>
-map <silent> <C-f> :Ag<CR>
 map <silent> <C-g> :Goyo 75%+7%x100%<CR> " enter goyo
 map <silent> <C-M-g> :Goyo!<CR>          " quit goyo
 map <silent> ZA :update<CR> " save current file
 map <silent> ZD :r !date<CR> " insert current date
 vmap <silent> ZSA :%sort u<CR> " close the current file
 vmap <silent> ZSR :%sort! u<CR> " close the current file
-nmap <silent> ZT :TagbarToggle<CR>
 " syntax bindings
 map <silent> ZSY :set syntax=yaml<CR> " Syntax Yaml
 map <silent> ZSH :set syntax=helm<CR> " Syntax Helm
