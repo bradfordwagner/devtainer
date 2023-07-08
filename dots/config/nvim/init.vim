@@ -232,7 +232,7 @@ command! WFD
   \ call fzf#run(fzf#wrap({'source': 'find ~/workspace -type d',
   \ 'sink': {line -> FIND_IN_DIR(line)}}))
 map <silent> <Space>sk :WFD<CR>
-" search jumpdir string
+" search jumpdir string with ripgrep
 command! -bang -nargs=* JDS
   \ call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink':
   \ {line -> fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': line}), <bang>0)}}))
