@@ -240,6 +240,7 @@ map <silent> <Space>sl :JDS<CR>
 map <silent> <Space>wt :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
 map <silent> <Space>wj :split<CR>
+let &shell='/bin/zsh -l' " set deafult shell to zsh login  shell to pull configurations
 map <silent> <Space>ws :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
 
 " resizing
