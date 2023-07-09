@@ -99,8 +99,8 @@ zle -N alacritty_transparency_enable
 zle -N alacritty_transparency_disable
 # note \M- is used for meta
 # we can also use a modal mode for sequence of binds
-export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | FZF'"
-bindkey -s '\C-kj' 'nvim -c "NERDTree | wincmd p | FZF"\n'
+export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | GFiles'"
+bindkey -s '\C-kj' 'nvim -c "NERDTree | wincmd p | GFiles"\n'
 bindkey -s '\C-kk' 'kc_app_k9s\n'
 bindkey '\C-kd' fzf-cd-widget
 bindkey -s '\C-ksd' 'jdv \n'

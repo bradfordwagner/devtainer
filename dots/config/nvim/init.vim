@@ -219,7 +219,7 @@ map <silent> <Space>sm :Maps<CR>
 "                https://github.com/junegunn/fzf.vim/issues/837#issuecomment-509901611
 " also see: https://github.com/junegunn/fzf/blob/master/README-VIM.md#fzfrun
 function! FIND_IN_DIR(dir)
-  call fzf#run(fzf#wrap({'source': 'find -f .', 'dir': a:dir}))
+  call fzf#run(fzf#wrap({'source': 'git ls-files', 'dir': a:dir}))
 endfunction
 command! JD
   \ call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"',
