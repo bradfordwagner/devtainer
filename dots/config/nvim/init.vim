@@ -227,7 +227,8 @@ command! JD
 map <silent> <Space>sj :JD<CR>
 " search workspace dir
 command! WFD
-  \ call fzf#run(fzf#wrap({'source': 'find ~/workspace -type d',
+  \ call fzf#run(fzf#wrap({'source': 'find . -type d',
+  \ 'dir': '~/workspace',
   \ 'sink': {line -> FIND_IN_DIR(line)}}))
 map <silent> <Space>sk :WFD<CR>
 " search jumpdir string with ripgrep
