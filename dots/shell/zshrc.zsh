@@ -103,8 +103,8 @@ export jump_dir_editor_cmd="nvim -c 'NERDTree | wincmd p | GFiles'"
 bindkey -s '\C-kj' 'nvim -c "NERDTree | wincmd p | GFiles"\n'
 bindkey -s '\C-kk' 'kc_app_k9s\n'
 bindkey '\C-kd' fzf-cd-widget
-bindkey -s '\C-ksd' 'jdv \n'
-bindkey -s '\C-ksj' 'jd \n'
+bindkey -s '\C-ksd' 'jd \n'
+bindkey -s '\C-ksj' 'jdv \n'
 bindkey -s '\C-ksk' 'wfd \n'
 bindkey '\C-kte' alacritty_transparency_enable
 bindkey '\C-ktd' alacritty_transparency_disable
