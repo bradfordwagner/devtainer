@@ -192,6 +192,9 @@ map <silent> <Space>al :! tmux select-pane -R<CR>
 map <silent> <Space>sb :Buffers<CR>
 " search commands
 map <silent> <Space>sc :Commands<CR>
+" search direcotry (jumpdir)
+command! SD call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"'}))
+map <silent> <Space>sd :SD<CR>
 " search string
 map <silent> <Space>ss :Ag<CR>
 " search filetype
