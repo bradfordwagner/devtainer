@@ -401,10 +401,10 @@ endfunction
 " add ctrlq to default maps
   " \ 'enter': function('s:open_with_fzf'),
 let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
+  \ 'ctrl-i': function('s:build_quickfix_list'),
+  \ 'ctrl-o': 'tab split',
+  \ 'ctrl-k': 'split',
+  \ 'ctrl-l': 'vsplit' }
 
 " enable transparency by default
 let g:transparent_enabled=1
