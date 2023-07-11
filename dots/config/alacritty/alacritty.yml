@@ -168,7 +168,7 @@ window:
     y: 4
   dynamic_padding: false
   option_as_alt: OnlyLeft # allow alt to be used, it was mapping to escape - see: https://github.com/alacritty/alacritty/releases/tag/v0.12.0
-  opacity: 1
+  opacity: 1.00
 
 colors: *tokyo-night # tokyo-night, tokyo-night-storm, catppuccin, smyck
 
