@@ -9,48 +9,7 @@
     - cjbassi/ytop
     - bufbuild/buf
     - mopidy/mopidy
-    homebrew_uninstalled_packages:
-    - koekeishiya/formulae/yabai
-
-    # newly added ignores
-    - ack
-    - bats-core
-    - bufbuild/buf/buf                         # protobuf generator to replace prototool
-    - c-bata/kube-prompt/kube-prompt
-    - cmatrix
-    - cntlm
-    - connect
-    - consul
-    - csvtk                                    # csv conversion utility
-    - cvs
-    - darksky-weather
-    - dnsmasq                                  # allows for dns hack w/ k8s/kind - https://mjpitz.com/blog/2020/10/21/local-ingress-domains-kind/
-    - figlet
-    - graphviz                                 # visualize dot lang format files (dependency graph) - https://www.graphviz.org/download/
-    - haskell-stack                            # used for compiling kmonad
-    - hyperkit # not available on apple silicone
-    - ipcalc
-    - iproute2mac
-    - jfrog-cli
-    - koekeishiya/formulae/skhd
-    - minikube
-    - minio                                    # for testing minio gateway
-    - minio-mc                                 # mc client for minio - used for s3-esque ops
-    - mopidy
-    - mopidy-mpd
-    - mopidy-spotify
-    - ncmpcpp
-    - neofetch
-    - nmap
-    - nss
-    - openjdk
-    - openshift-cli
-    - pandoc
-    - pulseaudio
-    - ranger                                   # file system explorer
-    - spotify-tui
-    - spotifyd
-    - tty-clock
+    homebrew_uninstalled_packages: []
     homebrew_installed_packages:
     - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
     - argo
@@ -89,18 +48,25 @@
     - lsd                                      # nerdfont/icons `ls`
     - macvim
     - mkcert
+    - mopidy
+    - mopidy-mpd
+    - mopidy-spotify
+    - ncmpcpp
     - neovim
     - node                                     # required for vim-coc
     - proctools
     - protobuf
     - prototool
     - pstree
+    - pulseaudio
     - pyenv
     - python-yq
     - reattach-to-user-namespace
     - ripgrep                                  # https://github.com/BurntSushi/ripgrep - used for grep calls following your gitignore
     - rust
     - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
+    - spotify-tui
+    - spotifyd
     - ssh-copy-id
     - terraform
     - terragrunt
