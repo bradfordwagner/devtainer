@@ -80,8 +80,31 @@ lua <<EOF
 require('lualine').setup {
   options = {
     -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
-    theme = 'palenight',
-  }
+    theme = 'onedark'
+  },
+  sections = {
+    lualine_a = {
+      {
+        'filename',
+        path = 1,                -- 0: Just the filename
+                                 -- 1: Relative path
+                                 -- 2: Absolute path
+                                 -- 3: Absolute path, with tilde as the home directory
+      }
+    },
+  },
+  inactive_sections = {
+    lualine_a = {
+      {
+        'filename',
+        path = 1,                -- 0: Just the filename
+                                 -- 1: Relative path
+                                 -- 2: Absolute path
+                                 -- 3: Absolute path, with tilde as the home directory
+
+      }
+    },
+  },
 }
 
 require('colorizer').setup()
