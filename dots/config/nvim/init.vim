@@ -229,7 +229,7 @@ map <silent> <Space>sgp :GFiles<CR>
 map <silent> <Space>sgc :GFiles?<CR>
 " search git string
 command! RGCurrentDir call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': expand('%:p:h')}), <bang>0)
-map <Space>sgs :RGCurrentDir<CR>
+map <silent> <Space>sgs :RGCurrentDir<CR>
 " search project
 map <silent> <Space>sp :FZF<CR>
 " search tags current
