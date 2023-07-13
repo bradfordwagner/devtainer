@@ -214,7 +214,10 @@ map <silent> <Space>al :! tmux select-pane -R<CR>
 " search
 " search buffers
 map <silent> <Space>sbb :Buffers<CR>
+" search current buffer lines
 map <silent> <Space>sbl :BLines<CR>
+" search all buffer lines
+map <silent> <Space>sbj :Lines<CR>
 " search commands
 map <silent> <Space>sc :Commands<CR>
 " search direcotry (jumpdir)
@@ -267,7 +270,8 @@ command! -bang -nargs=* JDS
 map <silent> <Space>sl :JDS<CR>
 
 " window management
-map <silent> <Space>wt :tabe<CR>
+map <silent> <Space>wt :wincmd T<CR>
+map <silent> <Space>wn :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
 map <silent> <Space>wj :split<CR>
 let &shell='/bin/zsh -l' " set deafult shell to zsh login  shell to pull configurations
@@ -393,8 +397,8 @@ function! s:tweak_colors()
 endfunction
 autocmd! ColorScheme tokyonight call s:tweak_colors()
 autocmd! ColorScheme smyck call s:tweak_colors()
-colorscheme tokyonight
-" colorscheme smyck
+" colorscheme tokyonight
+colorscheme smyck
 
 "  vundle settings
 set nocompatible " be iMproved, required
