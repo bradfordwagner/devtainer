@@ -213,7 +213,8 @@ map <silent> <Space>al :! tmux select-pane -R<CR>
 
 " search
 " search buffers
-map <silent> <Space>sb :Buffers<CR>
+map <silent> <Space>sbb :Buffers<CR>
+map <silent> <Space>sbl :BLines<CR>
 " search commands
 map <silent> <Space>sc :Commands<CR>
 " search direcotry (jumpdir)
@@ -392,8 +393,8 @@ function! s:tweak_colors()
 endfunction
 autocmd! ColorScheme tokyonight call s:tweak_colors()
 autocmd! ColorScheme smyck call s:tweak_colors()
-" colorscheme tokyonight
-colorscheme smyck
+colorscheme tokyonight
+" colorscheme smyck
 
 "  vundle settings
 set nocompatible " be iMproved, required
