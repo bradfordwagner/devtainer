@@ -228,7 +228,8 @@ map <silent> <Space>sgp :GFiles<CR>
 " search git changed
 map <silent> <Space>sgc :GFiles?<CR>
 " search git string
-map <silent> <Space>sgs :Rg<CR>
+command! RGCurrentDir call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': expand('%:p:h')}), <bang>0)
+map <Space>sgs :RGCurrentDir<CR>
 " search project
 map <silent> <Space>sp :FZF<CR>
 " search tags current
@@ -391,8 +392,8 @@ function! s:tweak_colors()
 endfunction
 autocmd! ColorScheme tokyonight call s:tweak_colors()
 autocmd! ColorScheme smyck call s:tweak_colors()
-colorscheme tokyonight
-" colorscheme smyck
+" colorscheme tokyonight
+colorscheme smyck
 
 "  vundle settings
 set nocompatible " be iMproved, required
