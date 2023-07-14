@@ -56,7 +56,6 @@ Plug 'pearofducks/ansible-vim'
 Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
 Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
 Plug 'tribela/vim-transparent'     " https://github.com/tribela/vim-transparent - enable transparency
-Plug 'wellle/context.vim'          " https://github.com/wellle/context.vim - show context of where you are in the file
 
 " lualine: https://github.com/nvim-lualine/lualine.nvim#installation
 Plug 'nvim-lualine/lualine.nvim'
