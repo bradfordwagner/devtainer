@@ -283,12 +283,12 @@ let &shell='/bin/zsh -l' " set deafult shell to zsh login  shell to pull configu
 map <silent> <Space>ws :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
 
 " resizing
-map <silent> <Space>rj :horizontal resize -5<CR>
-map <silent> <Space>rk :horizontal resize +5<CR>
-map <silent> <Space>rh :vertical resize -5<CR>
-map <silent> <Space>rl :vertical resize +5<CR>
-map <silent> <Space>r<CR> <C-w>=    " equal split sizing
-map <silent> <Space>r<Space> <C-w>_ " maximize - used for changelist
+map <silent> <Space>rj :horizontal resize -10<CR>
+map <silent> <Space>rk :horizontal resize +10<CR>
+map <silent> <Space>rh :vertical resize -10<CR>
+map <silent> <Space>rl :vertical resize +10<CR>
+map <silent> <Space>r<Space> :wincmd = <CR>
+map <silent> <Space>r<CR> <C-w>_
 
 " pane navigation
 map <silent> <Space>h <C-W>h
