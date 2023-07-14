@@ -56,6 +56,7 @@ Plug 'pearofducks/ansible-vim'
 Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
 Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
 Plug 'tribela/vim-transparent'     " https://github.com/tribela/vim-transparent - enable transparency
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 
 " lualine: https://github.com/nvim-lualine/lualine.nvim#installation
 Plug 'nvim-lualine/lualine.nvim'
@@ -210,6 +211,9 @@ map <silent> <Space>aj :! tmux select-pane -D<CR>
 map <silent> <Space>ak :! tmux select-pane -U<CR>
 map <silent> <Space>al :! tmux select-pane -R<CR>
 
+" fzf lua
+map <silent> <Space>f :FzfLua<CR>
+
 " search
 " search buffers
 map <silent> <Space>sbb :Buffers<CR>
@@ -219,6 +223,8 @@ map <silent> <Space>sbl :BLines<CR>
 map <silent> <Space>sbj :Lines<CR>
 " search commands
 map <silent> <Space>sc :Commands<CR>
+" search commands
+map <silent> <Space>sco :Colors<CR>
 " search direcotry (jumpdir)
 command! SD call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"'}))
 map <silent> <Space>sd :SD<CR>
