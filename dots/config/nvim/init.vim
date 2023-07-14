@@ -228,8 +228,8 @@ map <silent> <Space>sco :Colors<CR>
 " search direcotry (jumpdir)
 command! SD call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"'}))
 map <silent> <Space>sd :SD<CR>
-" search string
-map <silent> <Space>ss :Ag<CR>
+" search project string
+map <silent> <Space>sps :Ag<CR>
 " search filetype
 map <silent> <Space>sf :Filetype<CR>
 " search git project
@@ -249,6 +249,7 @@ map <silent> <Space>stp :Tags<CR>
 map <silent> <Space>sh :History<CR>
 " search windows
 map <silent> <Space>sw :Windows<CR>
+map <silent> <Space>sa :Windows<CR>
 " search maps
 map <silent> <Space>sm :Maps<CR>
 " search jumpdir jd
@@ -280,7 +281,7 @@ map <silent> <Space>wn :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
 map <silent> <Space>wj :split<CR>
 let &shell='/bin/zsh -l' " set deafult shell to zsh login  shell to pull configurations
-map <silent> <Space>ws :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
+map <silent> <Space>ss :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
 
 " resizing
 map <silent> <Space>rj :horizontal resize -10<CR>
