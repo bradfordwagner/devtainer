@@ -235,8 +235,13 @@ map <silent> <Space>sgp :GFiles<CR>
 " search git changed
 map <silent> <Space>sgc :GFiles?<CR>
 " search git string
-command! RGCurrentDir call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': expand('%:p:h')}), <bang>0)
-map <silent> <Space>sgs :RGCurrentDir<CR>
+function! s:get_git_root()
+  let root = split(system('cd ' . expand('%:p:h') . ' && git rev-parse --show-toplevel'), '\n')[0]
+  return v:shell_error ? '' : root
+endfunction
+command! RGCurrentProject call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': s:get_git_root()}), <bang>0)
+" command! RGCurrentDir call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': expand('%:p:h')}), <bang>0)
+map <silent> <Space>sgs :RGCurrentProject<CR>
 " search project
 map <silent> <Space>sp :FZF<CR>
 " search tags current
