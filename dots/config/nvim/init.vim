@@ -406,7 +406,8 @@ endfunction
 autocmd! ColorScheme tokyonight call s:tweak_colors()
 autocmd! ColorScheme smyck call s:tweak_colors()
 " colorscheme Chasing_Logic
-colorscheme chance-of-storm
+colorscheme coffee
+" colorscheme chance-of-storm
 " colorscheme tokyonight
 " colorscheme smyck
 
