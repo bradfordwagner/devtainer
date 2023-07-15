@@ -417,13 +417,14 @@ set nocompatible " be iMproved, required
 
 " Customize fzf colors to match your color scheme
 " - fzf#wrap translates this to a set of `--color` options
+" - see:  https://github.com/junegunn/fzf/blob/master/README-VIM.md#explanation-of-gfzf_colors
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
   \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'fg+':     ['fg', 'Comment', 'CursorLine', 'CursorColumn', 'Normal'],
   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
+  \ 'hl+':     ['fg', 'Keyword', 'Statement'],
   \ 'info':    ['fg', 'PreProc'],
   \ 'border':  ['fg', 'Ignore'],
   \ 'prompt':  ['fg', 'Conditional'],
