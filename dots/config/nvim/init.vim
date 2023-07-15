@@ -240,7 +240,6 @@ function! s:get_git_root()
   return v:shell_error ? '' : root
 endfunction
 command! RGCurrentProject call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': s:get_git_root()}), <bang>0)
-" command! RGCurrentDir call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': expand('%:p:h')}), <bang>0)
 map <silent> <Space>sgs :RGCurrentProject<CR>
 " search project
 map <silent> <Space>sp :FZF<CR>
