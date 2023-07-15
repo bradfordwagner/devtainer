@@ -31,6 +31,7 @@ Plugin 'tpope/vim-tbone'                     " lets us do our tmux yank - super 
 Plugin 'tpope/vim-fugitive'                  " helps with git commands, blame, etc https://github.com/tpope/vim-fugitive
 Plugin 'hashivim/vim-terraform'              " terraform support with completion of sub commands - https://github.com/hashivim/vim-terraform
 Plugin 'flazz/vim-colorschemes'
+Plugin 'challenger-deep-theme/vim', {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
 
 " markdown support
 Plugin 'godlygeek/tabular'
@@ -408,9 +409,10 @@ autocmd! ColorScheme smyck call s:tweak_colors()
 " colorscheme Chasing_Logic
 " colorscheme coffee
 " colorscheme deus
-colorscheme chance-of-storm
+" colorscheme chance-of-storm
 " colorscheme tokyonight
 " colorscheme smyck
+colorscheme challenger_deep
 
 "  vundle settings
 set nocompatible " be iMproved, required
