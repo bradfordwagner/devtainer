@@ -32,6 +32,7 @@ Plugin 'tpope/vim-fugitive'                  " helps with git commands, blame, e
 Plugin 'hashivim/vim-terraform'              " terraform support with completion of sub commands - https://github.com/hashivim/vim-terraform
 Plugin 'flazz/vim-colorschemes'
 Plugin 'challenger-deep-theme/vim', {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
+Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vim-tmux-navigator
 
 " markdown support
 Plugin 'godlygeek/tabular'
@@ -212,6 +213,15 @@ map <silent> <Space>ah :! tmux select-pane -L<CR>
 map <silent> <Space>aj :! tmux select-pane -D<CR>
 map <silent> <Space>ak :! tmux select-pane -U<CR>
 map <silent> <Space>al :! tmux select-pane -R<CR>
+" tmux navigator - match tmux conf
+let g:tmux_navigator_no_mappings = 1
+noremap <silent> <M-h> :<C-U>TmuxNavigateLeft<cr>
+noremap <silent> <M-j> :<C-U>TmuxNavigateDown<cr>
+noremap <silent> <M-k> :<C-U>TmuxNavigateUp<cr>
+noremap <silent> <M-l> :<C-U>TmuxNavigateRight<cr>
+" noremap <silent> {Previous-Mapping} :<C-U>TmuxNavigatePrevious<cr>
+" -end tmux navigator
+
 
 " fzf lua
 map <silent> <Space>f :FzfLua<CR>
