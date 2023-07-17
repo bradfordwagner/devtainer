@@ -280,7 +280,7 @@ command! -bang -nargs=* JDS
 map <silent> <Space>sl :JDS<CR>
 
 " window management
-map <silent> <Space>wt :wincmd T<CR>
+map <silent> <Space>ww :wincmd T<CR>
 map <silent> <Space>wn :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
 map <silent> <Space>wj :split<CR>
