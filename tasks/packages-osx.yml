@@ -54,6 +54,7 @@
     - ncmpcpp
     - neovim
     - node                                     # required for vim-coc
+    - nss                                      # required for mkcert
     - proctools
     - protobuf
     - prototool
