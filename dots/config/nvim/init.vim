@@ -417,6 +417,7 @@ function! s:tweak_colors()
 endfunction
 autocmd! ColorScheme tokyonight call s:tweak_colors()
 autocmd! ColorScheme smyck call s:tweak_colors()
+autocmd! ColorScheme challenger_deep call s:tweak_colors()
 " colorscheme Chasing_Logic
 " colorscheme coffee
 " colorscheme deus
