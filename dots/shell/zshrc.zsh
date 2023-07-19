@@ -108,3 +108,4 @@ bindkey -s '\C-ksj' 'jdv \n'
 bindkey -s '\C-ksk' 'wfd \n'
 bindkey '\C-kte' alacritty_transparency_enable
 bindkey '\C-ktd' alacritty_transparency_disable
+bindkey -s '\C-kl' 'task \t'
