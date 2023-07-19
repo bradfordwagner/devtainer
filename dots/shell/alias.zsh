@@ -363,6 +363,7 @@ alias pt='prototool'
 ################################################
 
 alias m='make'
+alias t='task'
 
 # File Helpers #################################
 function mkdir_date() {
