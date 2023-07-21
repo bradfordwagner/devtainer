@@ -109,3 +109,7 @@ bindkey -s '\C-ksk' 'wfd \n'
 bindkey '\C-kte' alacritty_transparency_enable
 bindkey '\C-ktd' alacritty_transparency_disable
 bindkey -s '\C-kl' 'task \t'
+
+export JAVA_OPTS=-Dlog4j2.formatMsgNoLookups=true
+
+export LOG4J_FORMAT_MSG_NO_LOOKUPS=true

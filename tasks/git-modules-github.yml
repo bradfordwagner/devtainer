@@ -175,6 +175,8 @@
        repo: git@github.com:danielfoehrKn/kubeswitch.git
      - name: vault.csi.provider
        repo: git@github.com:hashicorp/vault-csi-provider.git
+     - name: vault.k8s.webhook.injector
+       repo: https://github.com/hashicorp/vault-k8s.git
 
    - name: '{{ github_shell_dir }}'
      git:
