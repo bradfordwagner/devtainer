@@ -229,6 +229,7 @@ map <silent> <Space>f :FzfLua<CR>
 " search
 " search buffers
 map <silent> <Space>sbb :Buffers<CR>
+map <silent> <Space>sbf :FzfLua buffers<CR>
 " search current buffer lines
 map <silent> <Space>sbl :BLines<CR>
 " search all buffer lines

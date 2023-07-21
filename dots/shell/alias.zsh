@@ -44,7 +44,7 @@ alias gpf='git push -f'    # git push force
 ################################################
 alias ap="ansible-playbook"
 alias agi="ansible-galaxy install -r requirements.yml -v -p ./roles"
-alias ag="ansible-galaxy"
+# alias ag="ansible-galaxy"
 function ansible_role_container_login() {
 git clean -fd
 cat > ansible.sh << EOF
