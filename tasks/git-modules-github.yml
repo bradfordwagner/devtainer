@@ -6,6 +6,7 @@
     github_dir: '{{ workspace_dir }}/github'
 
     github_ansible_dir: '{{ github_dir }}/ansible'
+    github_azure_dir: '{{ github_dir }}/azure'
     github_python_dir: '{{ github_dir }}/python'
     github_shell_dir: '{{ github_dir }}/shell'
     github_go_dir: '{{ github_dir }}/go'
@@ -25,6 +26,7 @@
        mode: 0755
      loop:
      - '{{ github_ansible_dir }}'
+     - '{{ github_azure_dir }}'
      - '{{ github_python_dir }}'
      - '{{ github_shell_dir }}'
      - '{{ github_go_dir }}'
@@ -291,3 +293,12 @@
      - name: secrets.store.csi.driver.provider.azure
        repo: https://github.com/Azure/secrets-store-csi-driver-provider-azure.git
 
+   - name: '{{ github_azure_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ github_azure_dir }}/github.azure.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: ado.devops.pipelines.docs
+       repo: https://github.com/MicrosoftDocs/azure-devops-docs.git
