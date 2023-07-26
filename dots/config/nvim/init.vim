@@ -204,7 +204,7 @@ map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") .
 
 " zoom - goyo
 map <silent> <Space>zj ! tmux resize-pane -Z<CR>                       " manual fix for tmux resize
-map <silent> <Space>zz :Goyo 75%+7%x100%<CR>:! tmux resize-pane -Z<CR> " enter goyo
+map <silent> <Space>zz :! tmux resize-pane -Z<CR>:Goyo 75%+7%x100%<CR>" enter goyo
 map <silent> <Space>zx :Goyo!<CR>:! tmux resize-pane -Z<CR>            " quit goyo
 
 " tmux mappings
