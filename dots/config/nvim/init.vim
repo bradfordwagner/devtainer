@@ -33,6 +33,7 @@ Plugin 'hashivim/vim-terraform'              " terraform support with completion
 Plugin 'flazz/vim-colorschemes'
 Plugin 'challenger-deep-theme/vim', {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
 Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vim-tmux-navigator
+Plugin 'junegunn/limelight.vim'
 
 " markdown support
 Plugin 'godlygeek/tabular'
@@ -200,6 +201,7 @@ map <expr><silent> <Space>ga ":vimgrep /" . input("grep all files: ") . "/ **/* 
 map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
 
 " zoom - goyo
+map <silent> <Space>zj :let &scrolloff=999-&scrolloff<CR>
 map <silent> <Space>zz :Goyo<cr> " enter goyo
 " map <silent> <Space>zz :! tmux resize-pane -Z && sleep .2<CR><C-g>     " enter goyo
 map <silent> <Space>zx :Goyo!<CR>:! tmux resize-pane -Z<CR>            " quit goyo
@@ -229,6 +231,7 @@ function! s:goyo_leave()
 endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+set scrolloff=999 " auto center cursor
 
 " tmux mappings
 map <silent> <Space>aa :! tmux resize-pane -Z<CR>
