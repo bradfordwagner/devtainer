@@ -33,7 +33,6 @@ Plugin 'hashivim/vim-terraform'              " terraform support with completion
 Plugin 'flazz/vim-colorschemes'
 Plugin 'challenger-deep-theme/vim', {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
 Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vim-tmux-navigator
-Plugin 'junegunn/limelight.vim'
 
 " markdown support
 Plugin 'godlygeek/tabular'
