@@ -278,9 +278,6 @@ map <silent> <Space>sbl :BLines<CR>
 map <silent> <Space>sbj :Lines<CR>
 " search commands
 map <silent> <Space>sc :Commands<CR>
-" search direcotry (jumpdir)
-command! SD call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"'}))
-map <silent> <Space>sd :SD<CR>
 " search project string
 map <silent> <Space>sps :Ag<CR>
 " search filetype
