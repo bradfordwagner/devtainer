@@ -457,7 +457,8 @@ let g:tokyonight_enable_italic = 0
 " this if you change the scheme we have to change the func
 function! s:tweak_colors()
   " Your color customizations
-  hi VertSplit ctermfg=grey guifg=grey
+  hi VertSplit ctermfg=cyan guifg=cyan
+  " hi VertSplit ctermfg=grey guifg=grey
 endfunction
 autocmd! ColorScheme tokyonight call s:tweak_colors()
 autocmd! ColorScheme smyck call s:tweak_colors()
