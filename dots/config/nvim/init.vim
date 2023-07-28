@@ -219,7 +219,8 @@ function! s:goyo_enter()
     endwhile
     " Need to pass default width (80) to Goyo to tell
     " it to turn on rather than toggle.
-    execute 'Goyo 75%+7%x100%'
+    execute 'Goyo 75%x100%'
+    " execute 'Goyo 75%+7%x100%'
   endif
 endfunction
 function! s:goyo_leave()
@@ -255,6 +256,22 @@ map <silent> <Space>f :FzfLua<CR>
 " search buffers
 map <silent> <Space>sbb :Buffers<CR>
 map <silent> <Space>sbf :FzfLua buffers<CR>
+map <silent> <Space>sbd :BD<CR>
+"FZF Buffer Delete
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
 " search current buffer lines
 map <silent> <Space>sbl :BLines<CR>
 " search all buffer lines
