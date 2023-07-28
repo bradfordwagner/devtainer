@@ -110,4 +110,4 @@ bindkey '\C-kte' alacritty_transparency_enable
 bindkey '\C-ktd' alacritty_transparency_disable
 bindkey -s '\C-kl' 'task \t'
 bindkey -s '\C-ki' ' && task \t'
-bindkey -s '\C-ks' ' gsd\n' # give git status
+bindkey -s '\C-ks' 'gsd\n' # give git status
