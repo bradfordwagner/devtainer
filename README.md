@@ -44,3 +44,7 @@ sudo spctl --master-disable
 
 - spaceid - https://github.com/dshnkao/SpaceId/releases - to show spaces in menubar
 
+## Iterm
+- https://github.com/challenger-deep-theme/iterm
+- https://stackoverflow.com/questions/196357/making-iterm-to-translate-meta-key-in-the-same-way-as-in-other-oses
+
