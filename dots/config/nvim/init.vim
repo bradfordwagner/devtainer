@@ -295,7 +295,20 @@ endfunction
 command! RGCurrentProject call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': s:get_git_root()}), <bang>0)
 map <silent> <Space>sgs :RGCurrentProject<CR>
 " search git word (current word under cursor into ripgrep)
-nnoremap <Space>sgw :Rg <c-r><c-w><cr>
+" CTRL-R CTRL-F				*c_CTRL-R_CTRL-F* *c_<C-R>_<C-F>*
+" CTRL-R CTRL-P				*c_CTRL-R_CTRL-P* *c_<C-R>_<C-P>*
+" CTRL-R CTRL-W				*c_CTRL-R_CTRL-W* *c_<C-R>_<C-W>*
+" CTRL-R CTRL-A				*c_CTRL-R_CTRL-A* *c_<C-R>_<C-A>*
+" CTRL-R CTRL-L				*c_CTRL-R_CTRL-L* *c_<C-R>_<C-L>*
+" 		Insert the object under the cursor:
+" 			CTRL-F	the Filename under the cursor
+" 			CTRL-P	the Filename under the cursor, expanded with
+" 				'path' as in |gf|
+" 			CTRL-W	the Word under the cursor
+" 			CTRL-A	the WORD under the cursor; see |WORD|
+" 			CTRL-L	the line under the cursor
+map <silent> <Space>sgww :Rg! <c-r><c-w><cr>
+map <silent> <Space>sgwe :Rg! <c-r><c-a><cr>
 " search project
 map <silent> <Space>sp :FZF<CR>
 " search tags current
