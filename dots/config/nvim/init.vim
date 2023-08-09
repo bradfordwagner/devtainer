@@ -236,7 +236,7 @@ function! s:goyo_leave()
 endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
-" set scrolloff=999 " auto center cursor
+set scrolloff=999 " auto center cursor
 
 " tmux mappings
 map <silent> <Space>aa :! tmux resize-pane -Z<CR>
