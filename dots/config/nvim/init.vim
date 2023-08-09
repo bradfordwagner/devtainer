@@ -318,7 +318,7 @@ map <silent> <Space>sp :FZF<CR>
 " search tags current
 map <silent> <Space>st :BTags<CR>
 " search tags project
-map <silent> <Space>stp :Tags<CR>
+" map <silent> <Space>stp :Tags<CR>
 " search history
 map <silent> <Space>sh :History<CR>
 " search windows
