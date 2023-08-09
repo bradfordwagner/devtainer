@@ -232,7 +232,7 @@ function! s:goyo_leave()
 endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
-set scrolloff=999 " auto center cursor
+" set scrolloff=999 " auto center cursor
 
 " tmux mappings
 map <silent> <Space>aa :! tmux resize-pane -Z<CR>
@@ -294,6 +294,8 @@ function! s:get_git_root()
 endfunction
 command! RGCurrentProject call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': s:get_git_root()}), <bang>0)
 map <silent> <Space>sgs :RGCurrentProject<CR>
+" search git word (current word under cursor into ripgrep)
+nnoremap <Space>sgw :Rg <c-r><c-w><cr>
 " search project
 map <silent> <Space>sp :FZF<CR>
 " search tags current
