@@ -279,6 +279,8 @@ command! BD call fzf#run(fzf#wrap({
 \ }))
 " search current buffer lines
 map <silent> <Space>sbl :BLines<CR>
+map <silent> <Space>sbww :BLines! <c-r><c-w><CR>
+map <silent> <Space>sbwe :BLines! <c-r><c-a><CR>
 " search all buffer lines
 map <silent> <Space>sbj :Lines<CR>
 " search commands
