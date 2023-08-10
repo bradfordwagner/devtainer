@@ -37,6 +37,7 @@
         - awesome
         - picom
         - kmonad
+        - mopidy
 
     - name: link configurations
       file:

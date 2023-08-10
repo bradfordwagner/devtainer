@@ -20,3 +20,4 @@ visualizer_in_stereo = "yes"
 visualizer_type = "spectrum"
 visualizer_look = "+|"
 
+autocenter_mode = yes
