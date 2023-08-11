@@ -11,3 +11,5 @@ store_lyrics_in_song_dir = no
 
 autocenter_mode = yes
 media_library_albums_split_by_date = yes
+## Available values: classic, alternative.
+user_interface = alternative
