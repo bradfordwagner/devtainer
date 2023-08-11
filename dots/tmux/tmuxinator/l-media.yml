@@ -1,0 +1,17 @@
+# ~/.tmuxinator/l-media.yml
+
+name: l-media
+root: ~/workspace
+startup_window: player
+startup_pane: "1"
+
+windows:
+  - mopidy:
+      panes:
+        - mopidy
+  - player:
+      layout: main-horizontal
+      panes:
+        - cava
+        - ncmpcpp
+
