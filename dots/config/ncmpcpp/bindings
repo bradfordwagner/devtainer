@@ -7,8 +7,8 @@ def_key "k"
 def_key "j"
   scroll_down
 
-def_key "."
-  show_lyrics
+#def_key "."
+#  show_lyrics
 
 def_key "t"
   select_item
