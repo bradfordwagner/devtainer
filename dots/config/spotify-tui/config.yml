@@ -20,3 +20,33 @@ behavior:
   # controls whether to show a loading indicator in the top right of the UI whenever communicating with Spotify API
   show_loading_indicator: true
 
+keybindings:
+  # Key stroke can be used if it only uses two keys:
+  # ctrl-q works,
+  # ctrl-alt-q doesn't.
+  back: "ctrl-q"
+
+  jump_to_album: "a"
+
+  # Shift modifiers use a capital letter (also applies with other modifier keys
+  # like ctrl-A)
+  jump_to_artist_album: "A"
+
+  manage_devices: "d"
+  decrease_volume: "-"
+  increase_volume: "+"
+  toggle_playback: " "
+  seek_backwards: "<"
+  seek_forwards: ">"
+  next_track: "n"
+  previous_track: "p"
+  copy_song_url: "c"
+  copy_album_url: "C"
+  help: "?"
+  shuffle: "ctrl-s"
+  repeat: "r"
+  search: "/"
+  audio_analysis: "v"
+  jump_to_context: "o"
+  basic_view: "B"
+  add_item_to_queue: "z"
