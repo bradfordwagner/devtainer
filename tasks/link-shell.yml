@@ -38,6 +38,7 @@
         - picom
         - kmonad
         - mopidy
+        - spotifyd
 
     - name: link configurations
       file:
