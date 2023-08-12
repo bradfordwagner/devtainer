@@ -30,14 +30,15 @@
         force: true
       loop:
         - alacritty
+        - awesome
+        - kmonad
+        - mopidy
         - ncmpcpp
         - neofetch
         - nvim
-        - powerline
-        - awesome
         - picom
-        - kmonad
-        - mopidy
+        - powerline
+        - spotify-tui
         - spotifyd
 
     - name: link configurations
