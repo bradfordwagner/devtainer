@@ -9,9 +9,11 @@ windows:
   - mopidy:
       panes:
         - mopidy
+        - spotifyd --no-daemon
   - player:
       layout: main-horizontal
       panes:
         - cava
-        - ncmpcpp
+        - spt
+        # - ncmpcpp
 

@@ -68,6 +68,7 @@
     - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
     - spotify-tui
     - spotifyd
+    - spotify_player
     - ssh-copy-id
     - terraform
     - terragrunt
