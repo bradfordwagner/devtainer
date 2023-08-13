@@ -9,11 +9,12 @@ windows:
   - mopidy:
       panes:
         - mopidy
-        - spotifyd --no-daemon
+        # - spotifyd --no-daemon
   - player:
       layout: main-horizontal
       panes:
         - cava
-        - spt
+        - spotify_player
+        # - spt
         # - ncmpcpp
 
