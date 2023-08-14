@@ -11,7 +11,7 @@ windows:
         - mopidy
         # - spotifyd --no-daemon
   - player:
-      layout: main-horizontal
+      layout: '619c,202x56,0,0[202x13,0,0,9,202x42,0,14,10]'
       panes:
         - cava
         - spotify_player
