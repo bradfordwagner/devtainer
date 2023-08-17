@@ -381,6 +381,7 @@ map <silent> <Space>wj :split<CR>
 map <silent> <Space>wt :tabonly<CR>
 let &shell='/bin/zsh -l' " set deafult shell to zsh login  shell to pull configurations
 map <silent> <Space>ss :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
+map <silent> <Space>sg :tabe<CR>:terminal<CR>igrd; clear<CR>
 
 " resizing
 map <silent> <Space>rj :horizontal resize -10<CR>
