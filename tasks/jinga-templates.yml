@@ -1,20 +1,14 @@
 ---
 
 - name: jinga templates
-  become: yes
-  become_user: '{{ user.name }}'
   block:
-    - gather_facts:
-    - set_fact:
-        user_home: '{{ ansible_env.HOME }}'
-
     - name: install profile
       loop:
         - .profile
         - .zprofile
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
-        path: '{{ user_home }}/{{ item }}'
+        path: '{{ ansible_env.HOME }}/{{ item }}'
         create: true
         block: "{{ lookup('template', 'templates/profile.sh.j2') }}"
 
@@ -24,7 +18,7 @@
           dest: .gitconfig
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
-        path: '{{ user_home }}/{{ item.dest }}'
+        path: '{{ ansible_env.HOME }}/{{ item.dest }}'
         create: true
         block: "{{ lookup('template', item.source) }}"
 

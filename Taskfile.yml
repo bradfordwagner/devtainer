@@ -5,6 +5,9 @@ env:
   brew_install: false
   git_clone: false
 tasks:
+  clear:
+    internal: true
+    cmds: [clear]
   galaxy:
     internal: true
     cmds:
@@ -16,12 +19,28 @@ tasks:
       playbook: '{{ .playbook | default "playbook.yml" }}'
       location: '{{ .location }}'
     deps:
+      - clear
       - galaxy
     cmds:
       - |
         ansible-playbook \
           -i localhost, -c local \
           {{ .playbook | quote }} \
+          -e '{install_vim_shell_packages: {{ .install_vim_shell_packages }}}' \
+          -e '{brew_install: {{ .brew_install }}}' \
+          -e '{git_clone: {{ .git_clone }}}'
+  playbook_remote:
+    internal: true
+    vars:
+      playbook: '{{ .playbook | default "playbook.yml" }}'
+    deps:
+      - clear
+      - galaxy
+    cmds:
+      - |
+        ansible-playbook \
+          {{ .playbook | quote }} \
+          --limit dotfiles \
           -e '{install_vim_shell_packages: {{ .install_vim_shell_packages }}}' \
           -e '{brew_install: {{ .brew_install }}}' \
           -e '{git_clone: {{ .git_clone }}}'
@@ -57,3 +76,6 @@ tasks:
       - task: playbook
         vars:
           git_clone: true
+  remote:
+    cmds:
+      - task: playbook_remote

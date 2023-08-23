@@ -99,8 +99,8 @@ local colors = {
 -- override the inactive block, it wasn't visible enough
 -- see base here for color scheme https://github.com/challenger-deep-theme/vim/blob/master/lua/lualine/themes/challenger_deep.lua
 challenger_deep.inactive = {
-    a = { fg = colors.green, bg = colors.asphalt_subtle , gui = "bold", },
-    c = { fg = colors.dark_cyan, bg = colors.asphalt_subtle },
+    a = { fg = colors.green, bg = colors.dark_asphalt , gui = "bold", },
+    c = { fg = colors.dark_cyan, bg = colors.dark_asphalt },
 }
 require('lualine').setup {
   options = {

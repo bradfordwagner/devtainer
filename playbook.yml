@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: localhost, dotfiles
   vars:
     install_vim_shell_packages: true
     brew_install: true
@@ -21,7 +21,7 @@
   tasks:
     - name: packages - arch
       include_tasks: tasks/packages-arch.yml
-      when: ansible_facts.distribution == "Archlinux"
+      when: ansible_facts.distribution == "Archlinux" and "dotfiles" not in group_names
 
     - name: packages - osx
       include_tasks: tasks/packages-osx.yml
@@ -45,12 +45,12 @@
       include_tasks: tasks/install-shell-packages.yml
       when: install_vim_shell_packages
 
-    # mac configs
+    # # mac configs
     - name: mac [dock-speed,fzf,screenshots-dir]
       include_tasks: tasks/mac-specific.yml
       when: ansible_facts.distribution == "MacOSX"
 
-    # git clone blocks
+    # # git clone blocks
     - name: git clone modules
       include_tasks: "{{ task.task }}"
       when: git_clone
