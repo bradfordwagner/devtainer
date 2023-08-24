@@ -5,8 +5,8 @@ layouts:
   - widescreen-tall
   - tall-top
   - fullscreen
-  - centered-focus
   - widescreen-tall-right
+  - centered-focus
   - wide
   - middle-wide
   - floating
