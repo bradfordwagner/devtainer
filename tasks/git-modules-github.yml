@@ -295,6 +295,8 @@
        repo: https://github.com/mittwald/kubernetes-replicator.git
      - name: secrets.store.csi.driver.provider.azure
        repo: https://github.com/Azure/secrets-store-csi-driver-provider-azure.git
+     - name: vault.secrets.operator
+       repo: https://github.com/hashicorp/vault-secrets-operator.git
 
    - name: '{{ github_azure_dir }}'
      git:
