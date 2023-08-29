@@ -39,7 +39,7 @@ focus-follows-mouse: false
 
 # cosmetics
 window-margins: true
-window-margin-size: 24
+window-margin-size: 12
 
 # working as of amethyst 0.16.0
 # https://github.com/ianyh/Amethyst/issues/736
