@@ -1,4 +1,4 @@
-# for config with all options see: https://github.com/ianyh/Amethyst/pull/1326
+
 
 # from https://github.com/ianyh/Amethyst/blob/development/Amethyst/Managers/LayoutType.swift#L85
 layouts:
@@ -61,7 +61,7 @@ command4:
     key: b
 select-widescreen-tall-right-layout:
     mod: mod1
-    key: a
+    key: f
 # Select fullscreen layout
 select-fullscreen-layout:
   mod: mod1
@@ -71,12 +71,18 @@ select-fullscreen-layout:
 # Move to the next layout in the list.
 cycle-layout:
   mod: mod1
-  key: space
+  key: d
+  # original
+  # mod: mod1
+  # key: space
 
 # Move to the previous layout in the list.
 cycle-layout-backward:
-  mod: mod2
-  key: space
+  mod: mod1
+  key: a
+  # original
+  # mod: mod2
+  # key: space
 
 # Shrink the main pane by a percentage of the screen dimension as defined by window-resize-step. Note that not all layouts respond to this command.
 shrink-main:
@@ -192,7 +198,7 @@ select-wide-layout:
 
 # Select column layout
 select-column-layout:
-  mod: mod1
+  mod: mod2 # original is mod1
   key: f
 
 # Move the currently focused window to the space to the left.
