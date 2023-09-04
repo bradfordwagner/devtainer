@@ -113,6 +113,9 @@
      - name: amethyst.fork
        repo: git@github.com:bradfordwagner/Amethyst.git
        version: development
+     - name: taskfiles
+       repo: git@github.com:bradfordwagner/taskfiles.git
+       version: main
 
    - name: '{{ go_lib }}'
      git:
