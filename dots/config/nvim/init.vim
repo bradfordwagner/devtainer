@@ -62,9 +62,9 @@ Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list us
 Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
 Plug 'tribela/vim-transparent'     " https://github.com/tribela/vim-transparent - enable transparency
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
-Plug 'folke/noice.nvim'     " https://github.com/folke/noice.nvim - replaces messages, cmdline, popupmenu
-Plug 'MunifTanjim/nui.nvim' " required by noice
-Plug 'rcarriga/nvim-notify' " https://github.com/rcarriga/nvim-notify - pretty notifications
+Plug 'folke/noice.nvim'        " https://github.com/folke/noice.nvim - replaces messages, cmdline, popupmenu
+Plug 'MunifTanjim/nui.nvim'    " required by noice
+Plug 'rcarriga/nvim-notify'    " https://github.com/rcarriga/nvim-notify - pretty notifications
 
 " lualine: https://github.com/nvim-lualine/lualine.nvim#installation
 Plug 'nvim-lualine/lualine.nvim'
@@ -93,6 +93,7 @@ require("notify").setup {
   render = "default",
   stages = "slide",
   fps = 60,
+  top_down = true,
 }
 
 local challenger_deep = require'lualine.themes.challenger_deep'
@@ -280,6 +281,9 @@ map <silent> <Space>h <C-W>h
 map <silent> <Space>j <C-W>j
 map <silent> <Space>k <C-W>k
 map <silent> <Space>l <C-W>l
+
+" tab scheme
+" set showtabline=0 " hide tabline
 
 " tab navigation
 map <silent> <Space>c gT
