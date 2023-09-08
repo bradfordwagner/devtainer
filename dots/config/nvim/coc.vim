@@ -1,5 +1,5 @@
 " load extensions
-let g:coc_global_extensions = ['coc-json', 'coc-sh', 'coc-yaml']
+let g:coc_global_extensions = ['coc-json', 'coc-sh', 'coc-yaml', 'coc-go']
 
 """ Defaults from https://github.com/neoclide/coc.nvim
 
