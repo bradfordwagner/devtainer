@@ -73,6 +73,10 @@ if has("nvim")
   source ~/.config/nvim/coc.vim
 endif
 
+" source configurations
+source ~/.config/nvim/fzf.vim
+source ~/.config/nvim/goyo.vim
+
 " Initialize plugin system
 call plug#end()
 
@@ -230,38 +234,8 @@ map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") .
 " toggle guides indentation
 map <silent> <Space>i :IndentLinesToggle<CR>
 
-" zoom - goyo
+" scroll configs
 map <silent> <Space>zj :let &scrolloff=999-&scrolloff<CR>
-map <silent> <Space>zz :Goyo<cr> " enter goyo
-" map <silent> <Space>zz :! tmux resize-pane -Z && sleep .2<CR><C-g>     " enter goyo
-map <silent> <Space>zx :Goyo!<CR>:! tmux resize-pane -Z<CR>            " quit goyo
-function! s:goyo_enter()
-  if executable('tmux') && strlen($TMUX)
-    silent !tmux set status off
-    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-
-    let l:timeout = reltimefloat(reltime()) + 0.5
-    while reltimefloat(reltime()) < l:timeout
-      let l:res = system("sh -c \"tmux list-panes -F '#{E:window_zoomed_flag}' | head -c 1\"")
-      sleep 1m
-      if l:res == '1'
-        break
-      endif
-    endwhile
-    " Need to pass default width (80) to Goyo to tell
-    " it to turn on rather than toggle.
-    " execute 'Goyo 75%x100%'
-    execute 'Goyo 75%+7%x100%'
-  endif
-endfunction
-function! s:goyo_leave()
-  if executable('tmux') && strlen($TMUX)
-    silent !tmux set status on
-    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-  endif
-endfunction
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
 set scrolloff=999 " auto center cursor
 
 " tmux mappings
@@ -278,103 +252,6 @@ noremap <silent> <M-k> :<C-U>TmuxNavigateUp<cr>
 noremap <silent> <M-l> :<C-U>TmuxNavigateRight<cr>
 " noremap <silent> {Previous-Mapping} :<C-U>TmuxNavigatePrevious<cr>
 " -end tmux navigator
-
-
-" fzf lua
-map <silent> <Space>f :FzfLua<CR>
-
-" search
-" search buffers
-map <silent> <Space>sbb :Buffers<CR>
-map <silent> <Space>sbf :FzfLua buffers<CR>
-map <silent> <Space>sbd :BD<CR>
-"FZF Buffer Delete
-function! s:list_buffers()
-  redir => list
-  silent ls
-  redir END
-  return split(list, "\n")
-endfunction
-function! s:delete_buffers(lines)
-  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
-endfunction
-command! BD call fzf#run(fzf#wrap({
-  \ 'source': s:list_buffers(),
-  \ 'sink*': { lines -> s:delete_buffers(lines) },
-  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-\ }))
-" search current buffer lines
-map <silent> <Space>sbl :BLines<CR>
-map <silent> <Space>sbww :BLines <c-r><c-w><CR>
-map <silent> <Space>sbwe :BLines <c-r><c-a><CR>
-" search all buffer lines
-map <silent> <Space>sbj :Lines<CR>
-" search commands
-map <silent> <Space>sc :Commands<CR>
-" search project string
-map <silent> <Space>sps :Ag<CR>
-" search filetype
-map <silent> <Space>sf :Filetype<CR>
-" search git project
-map <silent> <Space>sgp :GFiles<CR>
-" search git changed
-map <silent> <Space>sgc :GFiles?<CR>
-" search git string
-function! s:get_git_root()
-  let root = split(system('cd ' . expand('%:p:h') . ' && git rev-parse --show-toplevel'), '\n')[0]
-  return v:shell_error ? '' : root
-endfunction
-command! RGCurrentProject call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': s:get_git_root()}), <bang>0)
-map <silent> <Space>sgs :RGCurrentProject<CR>
-" search git word (current word under cursor into ripgrep)
-" CTRL-R CTRL-F				*c_CTRL-R_CTRL-F* *c_<C-R>_<C-F>*
-" CTRL-R CTRL-P				*c_CTRL-R_CTRL-P* *c_<C-R>_<C-P>*
-" CTRL-R CTRL-W				*c_CTRL-R_CTRL-W* *c_<C-R>_<C-W>*
-" CTRL-R CTRL-A				*c_CTRL-R_CTRL-A* *c_<C-R>_<C-A>*
-" CTRL-R CTRL-L				*c_CTRL-R_CTRL-L* *c_<C-R>_<C-L>*
-" 		Insert the object under the cursor:
-" 			CTRL-F	the Filename under the cursor
-" 			CTRL-P	the Filename under the cursor, expanded with
-" 				'path' as in |gf|
-" 			CTRL-W	the Word under the cursor
-" 			CTRL-A	the WORD under the cursor; see |WORD|
-" 			CTRL-L	the line under the cursor
-map <silent> <Space>sgww :Rg! <c-r><c-w><cr>
-map <silent> <Space>sgwe :Rg! <c-r><c-a><cr>
-" search project
-map <silent> <Space>sp :FZF<CR>
-" search tags current
-map <silent> <Space>st :BTags<CR>
-" search tags project
-" map <silent> <Space>stp :Tags<CR>
-" search history
-map <silent> <Space>sh :History<CR>
-" search windows
-map <silent> <Space>sa :Windows<CR>
-" search maps
-map <silent> <Space>sm :Maps<CR>
-" search jumpdir jd
-" inspired from: https://github.com/junegunn/fzf/issues/1274
-"                https://github.com/junegunn/fzf.vim/issues/837#issuecomment-509901611
-" also see: https://github.com/junegunn/fzf/blob/master/README-VIM.md#fzfrun
-function! FIND_IN_DIR(dir)
-  call fzf#run(fzf#wrap({'source': 'git ls-files', 'dir': a:dir}))
-endfunction
-command! JD
-  \ call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"',
-  \'sink': {line -> FIND_IN_DIR(line)}}))
-map <silent> <Space>sj :JD<CR>
-" search workspace dir
-command! WFD
-  \ call fzf#run(fzf#wrap({'source': 'find . -type d',
-  \ 'dir': '~/workspace',
-  \ 'sink': {line -> FIND_IN_DIR(line)}}))
-map <silent> <Space>sk :WFD<CR>
-" search jumpdir string with ripgrep
-command! -bang -nargs=* JDS
-  \ call fzf#run(fzf#wrap({'source': 'zsh -lc "jdl"', 'sink':
-  \ {line -> fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': line}), <bang>0)}}))
-map <silent> <Space>sl :JDS<CR>
 
 " window management
 map <silent> <Space>we :wincmd T<CR>
