@@ -34,6 +34,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'challenger-deep-theme/vim', {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
 Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vim-tmux-navigator
 " Plugin 'elzr/vim-json'                       " https://github.com/elzr/vim-json
+Plugin 'yggdroot/indentline'                 " https://github.com/yggdroot/indentline
 
 " markdown support
 Plugin 'godlygeek/tabular'
@@ -225,6 +226,9 @@ map <silent> <Space>gaww :vimgrep /<c-r><c-w>/ **/* <cr>co
 map <silent> <Space>gawe :vimgrep /<c-r><c-a>/ **/* <cr>co
 " dir matching
 map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
+
+" toggle guides indentation
+map <silent> <Space>i :IndentLinesToggle<CR>
 
 " zoom - goyo
 map <silent> <Space>zj :let &scrolloff=999-&scrolloff<CR>
