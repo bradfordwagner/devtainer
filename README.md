@@ -47,4 +47,6 @@ sudo spctl --master-disable
 ## Iterm
 - https://github.com/challenger-deep-theme/iterm
 - https://stackoverflow.com/questions/196357/making-iterm-to-translate-meta-key-in-the-same-way-as-in-other-oses
+- transparency: 25
+- blur: 20
 
