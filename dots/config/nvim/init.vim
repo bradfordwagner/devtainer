@@ -109,7 +109,7 @@ require("bufferline").setup {
 require("nvim-tree").setup {
   view = {
     float = {
-      enable = true,
+      enable = false,
     }
   }
 }
