@@ -35,6 +35,7 @@ Plugin 'challenger-deep-theme/vim', {'name': 'challenger-deep-theme'} " https://
 Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vim-tmux-navigator
 " Plugin 'elzr/vim-json'                       " https://github.com/elzr/vim-json
 Plugin 'yggdroot/indentline'                 " https://github.com/yggdroot/indentline
+Plugin 'rrethy/vim-illuminate'               " https://github.com/RRethy/vim-illuminate - highlights word under cursor
 
 " markdown support
 Plugin 'godlygeek/tabular'
@@ -141,7 +142,17 @@ require('colorizer').setup()
 
 require('nvim-treesitter.configs').setup {
   -- A list of parser names, or "all"
-  ensure_installed = {"bash", "go", "gomod", "markdown", "javascript", "typescript", "yaml", "python"},
+  ensure_installed = {
+    "bash",
+    "go",
+    "gomod",
+    "hcl",
+    "javascript",
+    "markdown",
+    "python",
+    "typescript",
+    "yaml",
+  },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
