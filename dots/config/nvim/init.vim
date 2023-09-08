@@ -62,6 +62,9 @@ Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list us
 Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
 Plug 'tribela/vim-transparent'     " https://github.com/tribela/vim-transparent - enable transparency
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+Plug 'folke/noice.nvim'     " https://github.com/folke/noice.nvim - replaces messages, cmdline, popupmenu
+Plug 'MunifTanjim/nui.nvim' " required by noice
+Plug 'rcarriga/nvim-notify' " https://github.com/rcarriga/nvim-notify - pretty notifications
 
 " lualine: https://github.com/nvim-lualine/lualine.nvim#installation
 Plug 'nvim-lualine/lualine.nvim'
@@ -85,6 +88,13 @@ set termguicolors
 
 "" lua configs
 lua <<EOF
+require("noice").setup()
+require("notify").setup {
+  render = "default",
+  stages = "slide",
+  fps = 60,
+}
+
 local challenger_deep = require'lualine.themes.challenger_deep'
 -- Change the background of lualine_c section for normal mode
 -- challenger_deep.normal.c.bg = '#112233'
