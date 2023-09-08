@@ -12,7 +12,6 @@ call vundle#begin()
 " Vundle plugins
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'leafgarland/typescript-vim'
-Plugin 'scrooloose/nerdtree'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'towolf/vim-helm'
 Plugin 'junegunn/goyo.vim'
@@ -72,6 +71,8 @@ Plug 'nvim-lualine/lualine.nvim'
 " If you want to have icons in your statusline choose one of these
 Plug 'nvim-tree/nvim-web-devicons'
 
+Plug 'nvim-tree/nvim-tree.lua' " https://github.com/nvim-tree/nvim-tree.lua/wiki/Installation
+
 if has("nvim")
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " completions! - using release branch
   source ~/.config/nvim/coc.vim
@@ -102,6 +103,14 @@ require("bufferline").setup {
     mode = "tabs",
     separator_style = "thick",
     show_duplicate_prefix = false,
+  }
+}
+
+require("nvim-tree").setup {
+  view = {
+    float = {
+      enable = true,
+    }
   }
 }
 
@@ -209,8 +218,10 @@ set mouse=
 " Custom keybinds / hotkeys
 vmap <silent> <leader>y :w! /tmp/vitmp<CR> " yank into tmpfile - get around vim not sharing registers across instances
 nmap <silent> <leader>p :r! cat /tmp/vitmp<CR> " paste from tmp file - get around vim not sharing registers across instances
-map <silent> <C-n> :NERDTreeToggle<CR>
-map <silent> <leader>r :NERDTreeFind<cr> " find nerd tree file expand
+
+map <silent> <C-n> :NvimTreeToggle<CR>
+map <silent> <leader>r :NvimTreeFindFile<cr>
+
 map <silent> <C-p> :FZF<CR>
 map <silent> <C-M-p> :GFiles<CR>
 map <silent> <leader>w :FZF ~/workspace<CR>
@@ -345,9 +356,6 @@ let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
 " " end vim-go
 
-let NERDTreeShowHidden=1 " show hidden files
-" Open the existing NERDTree on each new tab.
-" autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 syntax on
 " set additional tmux syntax highlighting
 au BufReadPost *.tmux.conf set syntax=tmux
