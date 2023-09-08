@@ -65,6 +65,7 @@ Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug 'folke/noice.nvim'        " https://github.com/folke/noice.nvim - replaces messages, cmdline, popupmenu
 Plug 'MunifTanjim/nui.nvim'    " required by noice
 Plug 'rcarriga/nvim-notify'    " https://github.com/rcarriga/nvim-notify - pretty notifications
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " https://github.com/akinsho/bufferline.nvim
 
 " lualine: https://github.com/nvim-lualine/lualine.nvim#installation
 Plug 'nvim-lualine/lualine.nvim'
@@ -94,6 +95,13 @@ require("notify").setup {
   stages = "slide",
   fps = 60,
   top_down = true,
+}
+
+require("bufferline").setup {
+  options = {
+    mode = "tabs",
+    separator_style = "thick",
+  }
 }
 
 local challenger_deep = require'lualine.themes.challenger_deep'
@@ -283,7 +291,7 @@ map <silent> <Space>k <C-W>k
 map <silent> <Space>l <C-W>l
 
 " tab scheme
-" set showtabline=0 " hide tabline
+set showtabline=2 " hide tabline
 
 " tab navigation
 map <silent> <Space>c gT

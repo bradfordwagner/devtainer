@@ -102,7 +102,8 @@ map <silent> <Space>st :BTags<CR>
 " search history
 map <silent> <Space>sh :History<CR>
 " search windows
-map <silent> <Space>sa :Windows<CR>
+map <silent> <Space>sa :FzfLua buffers<CR>
+" map <silent> <Space>sa :Windows<CR>
 " search maps
 map <silent> <Space>sm :Maps<CR>
 " search jumpdir jd
