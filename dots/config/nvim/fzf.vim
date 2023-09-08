@@ -17,6 +17,9 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'],
   \ 'gutter':  ['fg', 'Comment'] }
 
+" customize the preview window size
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
+
 " shamlessly stolen from: https://github.com/unphased/vim-config/blob/master/.vimrc#L3661
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
