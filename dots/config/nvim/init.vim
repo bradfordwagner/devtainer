@@ -134,9 +134,6 @@ map <silent> <Space>gawe :vimgrep /<c-r><c-a>/ **/* <cr>co
 " dir matching
 map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
 
-" toggle guides indentation
-map <silent> <Space>i :IndentLinesToggle<CR>
-
 " scroll configs
 map <silent> <Space>zj :let &scrolloff=999-&scrolloff<CR>
 set scrolloff=999 " auto center cursor
