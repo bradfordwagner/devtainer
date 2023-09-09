@@ -33,6 +33,16 @@ wk.setup {
   },
 }
 wk.register({
-  ['<space>'] = { name = 'search' },
-  ['<space>f'] = { '<cmd>FzfLua<cr>', 'fzflua' }
+  ['<space>'] = { name = 'Customized Binds' },
+  ['<space>f'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
+  ['<space>s'] = { name = 'Search' },
+  ['<space>sb'] = { name = 'buffers' },
+  ['<space>sba'] = { '<cmd>Lines<cr>', 'Find ALL' },
+  ['<space>sbd'] = { '<cmd>BD<cr>', 'Delete' },
+  ['<space>sbf'] = { '<cmd>Blines<cr>', 'Find Current' },
+  ['<space>sbl'] = { '<cmd>Buffers<cr>', 'List' },
+  ['<space>sbw'] = { name = "Find Word Under Cursor" },
+  ['<space>sbwe'] = { '<cmd>BLines <c-r><c-w><cr>', 'Find Current WORD' },
+  ['<space>sbww'] = { '<cmd>BLines <c-r><c-w><cr>', 'Find Current Word' },
+  ['<space>sc'] = { '<cmd>Commands<cr>', 'Commands' },
 })
