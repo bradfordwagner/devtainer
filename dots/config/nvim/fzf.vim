@@ -36,8 +36,6 @@ let g:fzf_action = {
   \ 'ctrl-k': 'split',
   \ 'ctrl-l': 'vsplit' }
 
-" fzf lua
-map <silent> <Space>f :FzfLua<CR>
 
 " search
 " search buffers
