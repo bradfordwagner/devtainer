@@ -78,18 +78,20 @@ if has("nvim")
   source ~/.config/nvim/coc.vim
 endif
 
-" source configurations
-source ~/.config/nvim/fzf.vim
-source ~/.config/nvim/goyo.vim
-
 " Initialize plugin system
 call plug#end()
 
 " colorizer
 set termguicolors
 
+" source configurations
+source ~/.config/nvim/fzf.vim
+source ~/.config/nvim/goyo.vim
+
 " this will eventually replace init.vim
 source ~/.config/nvim/lua/init.lua
+
+
 
 " automatic commands
 autocmd VimResized * wincmd = " evenly resize splits when resizing window
