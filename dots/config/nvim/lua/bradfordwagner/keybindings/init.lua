@@ -18,6 +18,10 @@ local default_settings = {
 map_key(n, '<Space>zz', '<cmd>Goyo<cr>', default_settings)
 map_key(n, '<Space>zx', '<cmd>Goyo!<CR><cmd>! tmux resize-pane -Z<CR>', default_settings)
 
+-- find current word in current buffer
+map_key(n ,'<Space>sbww', ':BLines <c-r><c-w><CR>', default_settings)
+map_key(n, '<Space>sbwe', ':BLines <c-r><c-a><CR>', default_settings)
+
 -- which-key
 vim.o.timeout = true
 vim.o.timeoutlen = 300
@@ -39,10 +43,10 @@ wk.register({
   ['<space>sb'] = { name = 'Buffers' },
   ['<space>sba'] = { '<cmd>Lines<cr>', 'Find in ALL' },
   ['<space>sbd'] = { '<cmd>BD<cr>', 'Delete' },
-  ['<space>sbf'] = { '<cmd>Blines<cr>', 'Find Current' },
+  ['<space>sbf'] = { '<cmd>BLines<cr>', 'Find Current' },
   ['<space>sbl'] = { '<cmd>Buffers<cr>', 'List' },
   ['<space>sbw'] = { name = "Find Word Under Cursor" },
-  ['<space>sbwe'] = { '<cmd>BLines <c-r><c-a><cr>', 'Find Current WORD' },
-  ['<space>sbww'] = { '<cmd>BLines <c-r><c-w><cr>', 'Find Current Word' },
+  ['<space>sbwe'] = { 'Find Current WORD' },
+  ['<space>sbww'] = { 'Find Current Word' },
   ['<space>sc'] = { '<cmd>Commands<cr>', 'Commands' },
 })
