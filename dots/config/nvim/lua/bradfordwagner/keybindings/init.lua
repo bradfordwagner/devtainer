@@ -36,7 +36,7 @@ wk.register({
   ['<space>'] = { name = 'Customized Binds' },
   ['<space>f'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
   ['<space>s'] = { name = 'Search' },
-  ['<space>sb'] = { name = 'buffers' },
+  ['<space>sb'] = { name = 'Buffers' },
   ['<space>sba'] = { '<cmd>Lines<cr>', 'Find ALL' },
   ['<space>sbd'] = { '<cmd>BD<cr>', 'Delete' },
   ['<space>sbf'] = { '<cmd>Blines<cr>', 'Find Current' },
