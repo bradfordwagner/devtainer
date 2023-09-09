@@ -1,3 +1,6 @@
+-- TODO: Plug load
+-- https://github.com/junegunn/vim-plug/issues/1218
+
 require("noice").setup()
 require("notify").setup {
   render = "default",
@@ -22,7 +25,7 @@ require("nvim-tree").setup {
   }
 }
 
-local challenger_deep = require'lualine.themes.challenger_deep'
+local challenger_deep = require('lualine.themes.challenger_deep')
 -- Change the background of lualine_c section for normal mode
 -- challenger_deep.normal.c.bg = '#112233'
 local colors = {
@@ -54,10 +57,7 @@ require('lualine').setup {
     lualine_a = {
       {
         'filename',
-        path = 1,                -- 0: Just the filename
-                                 -- 1: Relative path
-                                 -- 2: Absolute path
-                                 -- 3: Absolute path, with tilde as the home directory
+        path = 1, -- 1: Relative path
       }
     },
   },
@@ -65,11 +65,7 @@ require('lualine').setup {
     lualine_a = {
       {
         'filename',
-        path = 1,                -- 0: Just the filename
-                                 -- 1: Relative path
-                                 -- 2: Absolute path
-                                 -- 3: Absolute path, with tilde as the home directory
-
+        path = 1, -- 1: Relative path
       }
     },
   },
@@ -114,4 +110,3 @@ require('nvim-treesitter.configs').setup {
     additional_vim_regex_highlighting = false,
   },
 }
-
