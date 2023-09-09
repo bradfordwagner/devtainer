@@ -1,0 +1,7 @@
+require 'bradfordwagner.ui.bufferline'
+require 'bradfordwagner.ui.colorizer'
+require 'bradfordwagner.ui.lualine'
+require 'bradfordwagner.ui.noice'
+require 'bradfordwagner.ui.notify'
+require 'bradfordwagner.ui.nvim-tree'
+require 'bradfordwagner.ui.treesitter'
