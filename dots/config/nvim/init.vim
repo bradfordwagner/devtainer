@@ -83,7 +83,6 @@ call plug#end()
 
 " source configurations
 source ~/.config/nvim/fzf.vim
-source ~/.config/nvim/goyo.vim
 
 " this will eventually replace init.vim
 source ~/.config/nvim/lua/init.lua
@@ -276,27 +275,28 @@ let g:lightline = {
       \ }
 
 " for tokyo night only
-set termguicolors
 let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_enable_italic = 0
 
 " https://github.com/junegunn/goyo.vim#faq
 " this if you change the scheme we have to change the func
-function! s:tweak_colors()
-  " Your color customizations
-  hi VertSplit ctermfg=cyan guifg=cyan
-  " hi VertSplit ctermfg=grey guifg=grey
-endfunction
-autocmd! ColorScheme tokyonight call s:tweak_colors()
-autocmd! ColorScheme smyck call s:tweak_colors()
-autocmd! ColorScheme challenger_deep call s:tweak_colors()
+" function! s:tweak_colors()
+"   " Your color customizations
+"   hi VertSplit ctermfg=cyan guifg=cyan
+"   " hi VertSplit ctermfg=grey guifg=grey
+" endfunction
+
+" autocmd! ColorScheme tokyonight call s:tweak_colors()
+" autocmd! ColorScheme smyck call s:tweak_colors()
+" autocmd! ColorScheme challenger_deep call s:tweak_colors()
+
 " colorscheme Chasing_Logic
 " colorscheme coffee
 " colorscheme deus
 " colorscheme chance-of-storm
 " colorscheme tokyonight
 " colorscheme smyck
-colorscheme challenger_deep
+" colorscheme challenger_deep
 
 "  vundle settings
 set nocompatible " be iMproved, required

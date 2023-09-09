@@ -1,5 +1,6 @@
 require 'bradfordwagner.ui.bufferline'
 require 'bradfordwagner.ui.colorizer'
+require 'bradfordwagner.ui.goyo'
 require 'bradfordwagner.ui.lualine'
 require 'bradfordwagner.ui.noice'
 require 'bradfordwagner.ui.notify'
