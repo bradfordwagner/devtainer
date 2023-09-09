@@ -42,7 +42,7 @@ wk.register({
   ['<space>sbf'] = { '<cmd>Blines<cr>', 'Find Current' },
   ['<space>sbl'] = { '<cmd>Buffers<cr>', 'List' },
   ['<space>sbw'] = { name = "Find Word Under Cursor" },
-  ['<space>sbwe'] = { '<cmd>BLines <c-r><c-w><cr>', 'Find Current WORD' },
+  ['<space>sbwe'] = { '<cmd>BLines <c-r><c-a><cr>', 'Find Current WORD' },
   ['<space>sbww'] = { '<cmd>BLines <c-r><c-w><cr>', 'Find Current Word' },
   ['<space>sc'] = { '<cmd>Commands<cr>', 'Commands' },
 })
