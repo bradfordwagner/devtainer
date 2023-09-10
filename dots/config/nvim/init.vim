@@ -95,9 +95,6 @@ autocmd VimResized * wincmd = " evenly resize splits when resizing window
 set mouse=
 
 " Custom keybinds / hotkeys
-vmap <silent> <leader>y :w! /tmp/vitmp<CR> " yank into tmpfile - get around vim not sharing registers across instances
-nmap <silent> <leader>p :r! cat /tmp/vitmp<CR> " paste from tmp file - get around vim not sharing registers across instances
-
 map <silent> <C-n> :NvimTreeToggle<CR>
 map <silent> <leader>r :NvimTreeFindFile<cr>
 
