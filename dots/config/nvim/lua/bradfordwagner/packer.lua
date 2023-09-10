@@ -18,6 +18,13 @@ return require('packer').startup(function(use)
   -- neovim helpers
   use 'folke/which-key.nvim'
 
+  -- utility
+  -- reload nvim configuration
+  use {
+    'famiu/nvim-reload',
+    requires = { 'nvim-lua/plenary.nvim' }
+  }
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
