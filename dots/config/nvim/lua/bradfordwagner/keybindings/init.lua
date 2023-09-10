@@ -15,8 +15,8 @@ local default_settings = {
 }
 
 -- find current word in current buffer
-map_key(n ,'<Space>sbww', ':BLines <c-r><c-w><CR>', default_settings)
-map_key(n, '<Space>sbwe', ':BLines <c-r><c-a><CR>', default_settings)
+map_key(n ,'<space>sbww', ':BLines <c-r><c-w><cr>', default_settings)
+map_key(n, '<space>sbwe', ':BLines <c-r><c-a><cr>', default_settings)
 
 -- which-key
 vim.o.timeout = true
