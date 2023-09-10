@@ -55,4 +55,6 @@ wk.register({
   ['ZD'] = { '<cmd>r !date<cr>', 'Insert (D)ate' },
   ['ZR'] = { '<cmd>Restart<cr><cmd>source $MYVIMRC<cr><cmd>noh<cr><cmd>CocRestart<cr>', 'Restart' },
   ['Q'] = { '<cmd>q!<cr>', 'Quit' },
+  ['ZP'] = { '<cmd>set paste<cr>', '' },
+  ['Zp'] = { '<cmd>set nopaste<cr>', ''},
 })

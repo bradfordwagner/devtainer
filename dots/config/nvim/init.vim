@@ -116,8 +116,6 @@ map <silent> ZGB :Git blame<CR>       " Git Blame
 map <silent> ZL :!zsh -lc cl<CR><CR>
 map <silent> Zr :registers<CR>
 map <silent> ZY "+y<CR>
-map <silent> ZP :set paste<CR>
-map <silent> Zp :set nopaste<CR>
 " vimgrep helpers
 " current file
 map <expr><silent> <Space>ggi ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co"
