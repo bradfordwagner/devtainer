@@ -20,7 +20,11 @@ challenger_deep.inactive = {
     a = { fg = colors.green, bg = colors.dark_asphalt , gui = "bold", },
     c = { fg = colors.dark_cyan, bg = colors.dark_asphalt },
 }
-
+challenger_deep.normal = {
+    a = { fg = colors.cyan, bg = colors.asphalt_subtle , gui = "bold", },
+    b = { fg = colors.white, bg = colors.dark_asphalt },
+    c = { fg = colors.white, bg = colors.asphalt_subtle },
+}
 require 'lualine'.setup {
   options = {
     -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
@@ -29,18 +33,13 @@ require 'lualine'.setup {
   },
   sections = {
     lualine_a = {
-      {
-        'filename',
-        path = 1, -- 1: Relative path
-      }
+      { 'filename', path = 1 },
+      { 'mode', fmt = function(mode) return vim.go.paste == true and mode .. ' (paste)' or mode end },
     },
   },
   inactive_sections = {
     lualine_a = {
-      {
-        'filename',
-        path = 1, -- 1: Relative path
-      }
+      { 'filename', path = 1 },
     },
   },
 }
