@@ -51,5 +51,8 @@ wk.register({
   ['<space>z'] = { 'Zoom' },
 
   -- maybe change binding later
+  ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
+  ['ZD'] = { '<cmd>r !date<cr>', 'Insert (D)ate' },
   ['ZR'] = { '<cmd>Restart<cr><cmd>source $MYVIMRC<cr><cmd>noh<cr><cmd>CocRestart<cr>', 'Restart' },
+  ['Q'] = { '<cmd>q!<cr>', 'Quit' },
 })

@@ -106,8 +106,6 @@ map <silent> <C-M-p> :GFiles<CR>
 map <silent> <leader>w :FZF ~/workspace<CR>
 map <silent> <leader>c :FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>
 map <silent> <leader>d :FZF ~/.dotfiles<CR>
-map <silent> ZA :update<CR> " save current file
-map <silent> ZD :r !date<CR> " insert current date
 vmap <silent> ZSA :%sort u<CR> " close the current file
 vmap <silent> ZSR :%sort! u<CR> " close the current file
 " syntax bindings
@@ -120,7 +118,6 @@ map <silent> Zr :registers<CR>
 map <silent> ZY "+y<CR>
 map <silent> ZP :set paste<CR>
 map <silent> Zp :set nopaste<CR>
-map <silent> Q :q!<CR> " quit current file no save
 " vimgrep helpers
 " current file
 map <expr><silent> <Space>ggi ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co"
