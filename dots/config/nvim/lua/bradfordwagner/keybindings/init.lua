@@ -14,10 +14,6 @@ local default_settings = {
   silent = true,
 }
 
--- goyo keymaps
-map_key(n, '<Space>zz', '<cmd>Goyo<cr>', default_settings)
-map_key(n, '<Space>zx', '<cmd>Goyo!<CR><cmd>! tmux resize-pane -Z<CR>', default_settings)
-
 -- find current word in current buffer
 map_key(n ,'<Space>sbww', ':BLines <c-r><c-w><CR>', default_settings)
 map_key(n, '<Space>sbwe', ':BLines <c-r><c-a><CR>', default_settings)
@@ -49,4 +45,8 @@ wk.register({
   ['<space>sbwe'] = { 'Find Current WORD' },
   ['<space>sbww'] = { 'Find Current Word' },
   ['<space>sc'] = { '<cmd>Commands<cr>', 'Commands' },
+  -- goyo keymaps
+  ['<Space>zx'] = { '<cmd>Goyo!<CR><cmd>! tmux resize-pane -Z<CR>' , 'Exit Goyo, Tmux Fullscreen' },
+  ['<Space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
+  ['<space>z'] = { 'Zoom' },
 })
