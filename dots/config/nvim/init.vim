@@ -95,24 +95,6 @@ autocmd VimResized * wincmd = " evenly resize splits when resizing window
 set mouse=
 
 " Custom keybinds / hotkeys
-map <silent> <C-n> :NvimTreeToggle<CR>
-map <silent> <leader>r :NvimTreeFindFile<cr>
-
-map <silent> <C-p> :FZF<CR>
-map <silent> <C-M-p> :GFiles<CR>
-map <silent> <leader>w :FZF ~/workspace<CR>
-map <silent> <leader>c :FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>
-map <silent> <leader>d :FZF ~/.dotfiles<CR>
-vmap <silent> ZSA :%sort u<CR> " close the current file
-vmap <silent> ZSR :%sort! u<CR> " close the current file
-" syntax bindings
-map <silent> ZSY :set syntax=yaml<CR> " Syntax Yaml
-map <silent> ZSH :set syntax=helm<CR> " Syntax Helm
-map <silent> ZSB :set syntax=bash<CR> " Syntax Bash
-map <silent> ZGB :Git blame<CR>       " Git Blame
-map <silent> ZL :!zsh -lc cl<CR><CR>
-map <silent> Zr :registers<CR>
-map <silent> ZY "+y<CR>
 " vimgrep helpers
 " current file
 map <expr><silent> <Space>ggi ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co"
