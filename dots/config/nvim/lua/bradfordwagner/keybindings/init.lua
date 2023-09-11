@@ -3,6 +3,7 @@ local all_modes = { 'n', 'i', 'v', 't' }
 local exclude_t = { 'n', 'i', 'v' }
 local exclude_i  = { 'n', 'v', 't' }
 local n_v = { 'n', 'v' }
+local v = { 'v' }
 local n_t = { 'n', 't' }
 local n = 'n'
 
@@ -73,5 +74,12 @@ wk.register({
   ['ZGB'] = { '<cmd>Git blame<CR>', '' },
   ['ZL'] = { '<cmd>!zsh -lc cl<CR><CR>', '' },
   ['Zr'] = { '<cmd>registers<CR>', '' },
-  ['ZY'] = { '<cmd>+y<CR>', '' },
+})
+
+-- visual mode
+wk.register({
+  ['ZY'] = { '"+y<cr>', 'Yank into System Clipboard' },
+}, {
+  -- options
+  mode = 'v'
 })
