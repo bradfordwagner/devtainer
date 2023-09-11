@@ -1,7 +1,7 @@
 -- fix divider color - goyo resets it to black which is very hard to see
 vim.cmd([[
   function! s:tweak_colors()
-    hi VertSplit ctermfg=cyan guifg=cyan
+    hi WinSeparator guifg=#ff5458
   endfunction
   autocmd! ColorScheme * call s:tweak_colors()
 ]])
