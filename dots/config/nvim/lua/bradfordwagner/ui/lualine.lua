@@ -34,6 +34,7 @@ require 'lualine'.setup {
   sections = {
     lualine_a = {
       { 'filename', path = 1 },
+      -- paste mode from - https://github.com/nvim-lualine/lualine.nvim/issues/325
       { 'mode', fmt = function(mode) return vim.go.paste == true and mode .. ' (paste)' or mode end },
     },
   },
