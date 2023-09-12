@@ -18,6 +18,12 @@ return require('packer').startup(function(use)
   -- neovim helpers
   use 'folke/which-key.nvim'
 
+  -- ui
+  use {
+  "startup-nvim/startup.nvim",
+  requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"},
+}
+
   -- utility
   -- reload nvim configuration
   use {
