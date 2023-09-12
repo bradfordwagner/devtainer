@@ -78,7 +78,8 @@ wk.register({
 
 -- visual mode
 wk.register({
-  ['ZY'] = { '"+y<cr>', 'Yank into System Clipboard' },
+  ['<space>'] = { '"+y<cr>', 'Yank into System Clipboard' },
+  ['<cr>'] = { 'y<cr>:call system("tmux load-buffer -", @0)<cr>', 'Yank into Tmux Buffer' },
 }, {
   -- options
   mode = 'v'
