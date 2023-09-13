@@ -16,6 +16,9 @@ function M.find_files()
   vim.cmd [[
     Easypick jd
   ]]
+  vim.cmd [[
+    Rooter
+  ]]
 end
 
 return M
