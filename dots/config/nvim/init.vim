@@ -94,6 +94,9 @@ autocmd VimResized * wincmd = " evenly resize splits when resizing window
 " https://www.reddit.com/r/neovim/comments/w1ujir/mouse_enabled_by_default_in_git_master/
 set mouse=
 
+" vim rooter to manual mode
+let g:rooter_manual_only = 1
+
 " Custom keybinds / hotkeys
 " vimgrep helpers
 " current file

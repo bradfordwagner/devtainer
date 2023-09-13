@@ -18,6 +18,7 @@
     - azure-cli
     - bash-completion                          # bash completions
     - bat
+    - findutils
     - cmake
     - coreutils
     - corkscrew

@@ -51,6 +51,10 @@ wk.register({
   ['<Space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
   ['<space>z'] = { 'Zoom' },
 
+  -- rooter/cd vim
+  ['<space>cdr'] = { '<cmd>Rooter<cr>', 'root dir' },
+  ['<space>cdc'] = { '<cmd>cd %:p:h<cr><cmd>pwd<cr>', 'current file dir' },
+
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
   ['ZD'] = { '<cmd>r !date<cr>', 'Insert (D)ate' },
