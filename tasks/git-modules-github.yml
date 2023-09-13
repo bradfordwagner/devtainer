@@ -247,6 +247,8 @@
      - name: amethyst
        repo: git@github.com:ianyh/Amethyst.git
        version: development
+     - name: nvim.telescope
+       repo: https://github.com/nvim-telescope/telescope.nvim.git
 
    - name: '{{ github_terraform_dir }}'
      git:
