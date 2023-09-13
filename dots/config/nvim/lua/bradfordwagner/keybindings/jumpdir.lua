@@ -12,12 +12,10 @@ easypick.setup {
   }
 }
 
-local telescope = require 'telescope.builtin'
 function M.find_files()
-  telescope.find_files {
-  }
-  telescope.find_files {
-  }
+  vim.cmd [[
+    Easypick jd
+  ]]
 end
 
 return M
