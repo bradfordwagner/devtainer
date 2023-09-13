@@ -19,10 +19,13 @@ return require('packer').startup(function(use)
   use 'folke/which-key.nvim'
 
   -- ui
+  use "nvim-telescope/telescope.nvim"
   use {
-  "startup-nvim/startup.nvim",
-  requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"},
-}
+    "startup-nvim/startup.nvim",
+    requires = {"nvim-lua/plenary.nvim"},
+  }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+
 
   -- utility
   -- reload nvim configuration

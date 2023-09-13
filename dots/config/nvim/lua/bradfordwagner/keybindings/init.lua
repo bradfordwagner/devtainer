@@ -76,6 +76,8 @@ wk.register({
   ['Zr'] = { '<cmd>registers<CR>', '' },
 })
 
+require 'bradfordwagner.keybindings.telescope'
+
 -- visual mode
 wk.register({
   ['<space>'] = { '"+y<cr>', 'Yank into System Clipboard' },
