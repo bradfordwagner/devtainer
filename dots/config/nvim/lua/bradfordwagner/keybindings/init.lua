@@ -54,6 +54,7 @@ wk.register({
   -- rooter/cd vim
   ['<space>cdr'] = { '<cmd>Rooter<cr>', 'root dir' },
   ['<space>cdc'] = { '<cmd>cd %:p:h<cr><cmd>pwd<cr>', 'current file dir' },
+  ['<space>pwp'] = { '<cmd>pwd<cr>', 'pwd' },
 
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
