@@ -3,7 +3,6 @@ local telescope = require 'telescope'
 
 -- enable multi multi_selection
 -- https://github.com/nvim-telescope/telescope.nvim/issues/1048#issuecomment-1220846367
-local actions = require "telescope.actions"
 local action_state = require('telescope.actions.state')
 local actions = require("telescope.actions")
 local transform_mod = require("telescope.actions.mt").transform_mod
