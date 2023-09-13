@@ -1,5 +1,6 @@
 -- telescope keybindings
 local builtin = require 'telescope.builtin'
+local jumpdir = require 'bradfordwagner.keybindings.jumpdir'
 
 local wk = require 'which-key'
 wk.register({
@@ -19,4 +20,8 @@ wk.register({
   -- misc
   ['<space>dc'] = { builtin.commands, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
+
+  -- jumpdir
+  ['<space>dj'] = { jumpdir.find_files, '' },
+
 })

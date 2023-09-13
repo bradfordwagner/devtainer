@@ -52,8 +52,14 @@ wk.register({
   ['<space>z'] = { 'Zoom' },
 
   -- rooter/cd vim
-  ['<space>cdr'] = { '<cmd>Rooter<cr>', 'root dir' },
+  ['<space>cdd'] = { '<cmd>Rooter<cr>', 'root dir' },
   ['<space>cdc'] = { '<cmd>cd %:p:h<cr><cmd>pwd<cr>', 'current file dir' },
+  -- reset to original workdiring dir
+  ['<space>cdr'] = { function ()
+    local output = vim.fn.getenv('PWD') -- get original dir
+    vim.cmd.cd(output) -- cd dir to pwd
+    vim.cmd.pwd() -- print current dir
+  end, 'reset' },
   ['<space>pwp'] = { '<cmd>pwd<cr>', 'pwd' },
 
   -- maybe change binding later

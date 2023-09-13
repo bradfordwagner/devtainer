@@ -19,6 +19,7 @@ return require('packer').startup(function(use)
   use 'folke/which-key.nvim'
 
   -- ui
+  -- telescope
   use "nvim-telescope/telescope.nvim"
   use {
     "startup-nvim/startup.nvim",
@@ -26,6 +27,9 @@ return require('packer').startup(function(use)
   }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
   use 'cljoly/telescope-repo.nvim'
+  -- for easy custom picker configuration
+  use {'axkirillov/easypick.nvim', requires = 'nvim-telescope/telescope.nvim'}
+  -- end telescope
 
 
   -- utility
