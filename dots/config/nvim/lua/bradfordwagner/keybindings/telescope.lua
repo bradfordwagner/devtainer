@@ -1,11 +1,16 @@
 -- telescope keybindings
 local builtin = require 'telescope.builtin'
--- vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
--- vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
--- vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
--- vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
---
+
 local wk = require 'which-key'
 wk.register({
-  ['<space>d'] = { builtin.find_files, 'find files' },
+  ['<space>dt'] = { '<cmd>Telescope<cr>', '' },
+  ['<space>dpl'] = { builtin.find_files, '' },
+  ['<space>dpf'] = { builtin.live_grep, '' },
+  ['<space>dpw'] = { builtin.grep_string, '' },
+  ['<space>dbf'] = { builtin.current_buffer_fuzzy_find, '' },
+  ['<space>dbl'] = { builtin.buffers, '' },
+  ['<space>dgl'] = { builtin.git_files, '' },
+  ['<space>dbc'] = { builtin.git_bcommits, '' },
+  ['<space>dc'] = { builtin.commands, '' },
+  ['<space>dm'] = { builtin.keymaps, '' },
 })
