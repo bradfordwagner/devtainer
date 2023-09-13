@@ -23,5 +23,4 @@ wk.register({
 
   -- jumpdir
   ['<space>dj'] = { jumpdir.find_files, '' },
-
 })
