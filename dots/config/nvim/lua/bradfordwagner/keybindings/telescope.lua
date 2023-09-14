@@ -6,7 +6,8 @@ wk.register({
   -- base helpers
   ['<space>dt'] = { '<cmd>Telescope<cr>', '' },
   ['<space>d/'] = { '<cmd>Telescope help_tags<cr>', '' },
-  ['<space>dh'] = { '<cmd>Telescope command_history<cr>', '' },
+  ['<space>dh'] = { '<cmd>Telescope oldfiles<cr>', '' },
+  ['<space>d;'] = { '<cmd>Telescope command_history<cr>', '' },
   -- project
   ['<space>dpl'] = { builtin.find_files, '' },
   ['<space>dpf'] = { builtin.live_grep, '' },
@@ -21,7 +22,6 @@ wk.register({
   -- misc
   ['<space>dc'] = { builtin.commands, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
-
   -- jumpdir
   ['<space>dj'] = { '<cmd>Easypick jumpdir<cr>', '' },
 })
