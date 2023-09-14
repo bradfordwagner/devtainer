@@ -1,8 +1,7 @@
 -- telescope keybindings
 local builtin = require 'telescope.builtin'
-local jumpdir = require 'bradfordwagner.keybindings.jumpdir'
-
 local wk = require 'which-key'
+
 wk.register({
   -- base helpers
   ['<space>dt'] = { '<cmd>Telescope<cr>', '' },
