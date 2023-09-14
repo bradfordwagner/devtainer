@@ -25,4 +25,5 @@ wk.register({
   -- jumpdir
   ['<space>dj'] = { '<cmd>Easypick jumpdir<cr>', '' },
   ['<space>dd'] = { '<cmd>Easypick finddir<cr>', '' },
+  ['<space>dw'] = { '<cmd>Easypick workspace_find_dir<cr>', '' },
 })
