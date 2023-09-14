@@ -65,7 +65,7 @@ telescope.setup {
         ["<c-l>"] = stopinsert(custom_actions.multi_selection_open_vertical),
         ["<c-k>"] = stopinsert(custom_actions.multi_selection_open_horizontal),
         ["<c-o>"] = stopinsert(custom_actions.multi_selection_open_tab),
-        ["<CR>"]  = stopinsert(custom_actions.multi_selection_open)
+        ["<cr>"]  = stopinsert(custom_actions.multi_selection_open)
       },
     },
   },

@@ -1,24 +1,31 @@
-local M = {}
+-- setup jumpdir configuration for easy pick
 
--- setup easy pick
+-- imports
 local easypick = require 'easypick'
-easypick.setup {
-  pickers = {
-    {
-      name = "jd",
-      command = "zsh -lc jdl",
-      previewer = easypick.previewers.default(),
-    },
-  }
-}
+local actions = require "telescope.actions"
+local action_state = require "telescope.actions.state"
 
-function M.find_files()
-  vim.cmd [[
-    Easypick jd
-  ]]
-  vim.cmd [[
-    Rooter
-  ]]
+local function cd_action(prefix)
+  return function(prompt_bufnr, _)
+    local function f()
+      actions.close(prompt_bufnr)
+      local selection = action_state.get_selected_entry()
+      local val = selection[1]
+      vim.cmd(string.format('echo "%s"', val))
+      vim.cmd(string.format('cd %s', val))
+    end
+
+    actions.select_default:replace(f)
+    return true
+  end
 end
 
+-- init return
+local M = {}
+M.cd  = {
+  name = "jumpdir",
+  command = "zsh -lc jdl",
+  previewer = easypick.previewers.default(),
+  action = cd_action(),
+}
 return M

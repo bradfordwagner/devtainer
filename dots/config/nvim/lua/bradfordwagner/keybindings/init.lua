@@ -87,6 +87,7 @@ wk.register({
   ['Zr'] = { '<cmd>registers<CR>', '' },
 })
 
+require 'bradfordwagner.keybindings.easypick'
 require 'bradfordwagner.keybindings.telescope'
 
 -- visual mode

@@ -6,6 +6,8 @@ local wk = require 'which-key'
 wk.register({
   -- base helpers
   ['<space>dt'] = { '<cmd>Telescope<cr>', '' },
+  ['<space>d/'] = { '<cmd>Telescope help_tags<cr>', '' },
+  ['<space>dh'] = { '<cmd>Telescope command_history<cr>', '' },
   -- project
   ['<space>dpl'] = { builtin.find_files, '' },
   ['<space>dpf'] = { builtin.live_grep, '' },
@@ -22,5 +24,5 @@ wk.register({
   ['<space>dm'] = { builtin.keymaps, '' },
 
   -- jumpdir
-  ['<space>dj'] = { jumpdir.find_files, '' },
+  ['<space>dj'] = { '<cmd>Easypick jumpdir<cr>', '' },
 })
