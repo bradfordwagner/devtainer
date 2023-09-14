@@ -35,7 +35,7 @@ wk.setup {
 }
 wk.register({
   ['<space>'] = { name = 'Customized Binds' },
-  ['<space>f'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
+  ['<space>l'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
   ['<space>s'] = { name = 'Search' },
   ['<space>sb'] = { name = 'Buffers' },
   ['<space>sba'] = { '<cmd>Lines<cr>', 'Find in ALL' },
@@ -52,10 +52,10 @@ wk.register({
   ['<space>z'] = { 'Zoom' },
 
   -- rooter/cd vim
-  ['<space>cdd'] = { '<cmd>Rooter<cr>', 'root dir' },
-  ['<space>cdc'] = { '<cmd>cd %:p:h<cr><cmd>pwd<cr>', 'current file dir' },
+  ['<space>ff'] = { '<cmd>Rooter<cr>', 'root dir' },
+  ['<space>fj'] = { '<cmd>cd %:p:h<cr><cmd>pwd<cr>', 'current file dir' },
   -- reset to original workdiring dir
-  ['<space>cdr'] = { function ()
+  ['<space>fd'] = { function ()
     local output = vim.fn.getenv('PWD') -- get original dir
     vim.cmd.cd(output) -- cd dir to pwd
     vim.cmd.pwd() -- print current dir
