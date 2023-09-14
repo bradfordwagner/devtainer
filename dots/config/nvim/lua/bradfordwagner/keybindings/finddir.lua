@@ -1,14 +1,16 @@
--- setup jumpdir configuration for easy pick
+-- setup finddir configuration for easy pick
 
 -- imports
 local easypick = require 'easypick'
 local cd_action = require 'bradfordwagner.keybindings.cd_action'.cd_action
 
+
 -- init return
 local M = {}
-M.cd  = {
-  name = "jumpdir",
-  command = "zsh -lc jdl",
+M.fd  = {
+  name = "finddir",
+  -- command = "find . -type d",
+  command = "find . -mindepth 1 -type d \\( -name '.*' -prune -o -print \\)",
   previewer = easypick.previewers.default(),
   action = cd_action(),
 }
