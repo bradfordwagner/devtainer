@@ -18,7 +18,6 @@ wk.register({
   ['<space>dbc'] = { builtin.git_bcommits, '' },
   -- git
   ['<space>dgl'] = { builtin.git_files, '' },
-  ['<space>dgr'] = { '<cmd>Telescope repo cached_list<cr>', '' },
   -- misc
   ['<space>dc'] = { builtin.commands, '' },
   ['<space>dm'] = { builtin.keymaps, '' },

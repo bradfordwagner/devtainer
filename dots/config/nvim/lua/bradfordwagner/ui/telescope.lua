@@ -82,5 +82,3 @@ telescope.setup {
 
 -- https://github.com/nvim-telescope/telescope-fzf-native.nvim
 require('telescope').load_extension('fzf')
--- https://github.com/cljoly/telescope-repo.nvim
-require('telescope').load_extension('repo')

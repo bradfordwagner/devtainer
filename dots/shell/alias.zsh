@@ -150,13 +150,13 @@ function fs() {
   source ${file}
 }
 alias fa="find . | fzf"
-# function fd() {
-#   local dir
-#   dir=$(find ${1:-.} -path '*/\.*' -prune \
-#                   -o -type d -print 2> /dev/null | \
-#                    fzf)
-#   cd "$dir"
-# }
+function fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | \
+                   fzf)
+  cd "$dir"
+}
 # taken from fd -> vim directory
 function vd() {
   fd
