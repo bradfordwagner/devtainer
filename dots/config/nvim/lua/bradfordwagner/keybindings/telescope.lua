@@ -19,6 +19,7 @@ wk.register({
   ['<space>dbc'] = { builtin.git_bcommits, '' },
   -- git
   ['<space>dgl'] = { builtin.git_files, '' },
+  ['<space>dgs'] = { '<cmd>Ag<cr>', '' },
   -- misc
   ['<space>dc'] = { builtin.commands, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
