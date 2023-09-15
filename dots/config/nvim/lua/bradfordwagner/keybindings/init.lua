@@ -52,13 +52,14 @@ wk.register({
   ['<space>z'] = { 'Zoom' },
 
   -- rooter/cd vim
-  ['<space>ff'] = { '<cmd>Rooter<cr>', 'root dir' },
-  ['<space>fj'] = { '<cmd>cd %:p:h<cr><cmd>pwd<cr>', 'current file dir' },
+  ['<space>ff'] = { '<cmd>cd %:p:h<cr><cmd>pwd<cr>', 'current file dir' },
+  ['<space>fd'] = { '<cmd>Rooter<cr>', 'root dir' },
   -- reset to original workdiring dir
-  ['<space>fd'] = { function ()
+  ['<space>fs'] = { function ()
     local output = vim.fn.getenv('PWD') -- get original dir
     vim.cmd.cd(output) -- cd dir to pwd
-    vim.cmd.pwd() -- print current dir
+    print(string.format('reset - %s', output))
+    -- vim.cmd.pwd() -- print current dir
   end, 'reset' },
   ['<space>pwp'] = { '<cmd>pwd<cr>', 'pwd' },
 

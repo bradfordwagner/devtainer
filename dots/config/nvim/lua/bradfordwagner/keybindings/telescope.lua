@@ -4,10 +4,11 @@ local wk = require 'which-key'
 
 wk.register({
   -- base helpers
-  ['<space>dt'] = { '<cmd>Telescope<cr>', '' },
-  ['<space>d/'] = { '<cmd>Telescope help_tags<cr>', '' },
-  ['<space>dh'] = { '<cmd>Telescope oldfiles<cr>', '' },
-  ['<space>d;'] = { '<cmd>Telescope command_history<cr>', '' },
+  ['<space>dt'] = { builtin.builtin, '' },
+  -- ['<space>dt'] = { '<cmd>Telescope<cr>', '' },
+  ['<space>d/'] = { builtin.help_tags, '' },
+  ['<space>dh'] = { builtin.oldfiles, '' },
+  ['<space>d;'] = { builtin.command_history, '' },
   -- project
   ['<space>dpl'] = { builtin.find_files, '' },
   ['<space>dpf'] = { builtin.live_grep, '' },
@@ -21,8 +22,8 @@ wk.register({
   -- misc
   ['<space>dc'] = { builtin.commands, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
-  -- jumpdir
-  ['<space>dj'] = { '<cmd>Easypick jumpdir<cr>', '' },
-  ['<space>dd'] = { '<cmd>Easypick finddir<cr>', '' },
-  ['<space>dw'] = { '<cmd>Easypick workspace_find_dir<cr>', '' },
+  -- jumpdir - shares <space>f with vims 'cd'
+  ['<space>fj'] = { '<cmd>Easypick jumpdir<cr>', '' },
+  ['<space>fk'] = { '<cmd>Easypick workspace_find_dir<cr>', '' },
+  ['<space>fl'] = { '<cmd>Easypick finddir<cr>', '' },
 })
