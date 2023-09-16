@@ -5,6 +5,7 @@ local jumpdir = require 'bradfordwagner.keybindings.jumpdir'
 local finddir = require 'bradfordwagner.keybindings.finddir'
 local wdfinddir = require 'bradfordwagner.keybindings.wdfinddir'
 local ag = require 'bradfordwagner.keybindings.ag'
+local files = require 'bradfordwagner.keybindings.files'
 
 easypick.setup {
   pickers = {
@@ -12,6 +13,7 @@ easypick.setup {
     finddir.fd,
     wdfinddir.fd,
     ag,
+    files,
   }
 }
 

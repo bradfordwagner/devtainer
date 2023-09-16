@@ -7,18 +7,16 @@ wk.register({
   ['<space>dt'] = { builtin.builtin, '' },
   -- ['<space>dt'] = { '<cmd>Telescope<cr>', '' },
   ['<space>d/'] = { builtin.help_tags, '' },
-  ['<space>dh'] = { builtin.oldfiles, '' },
   ['<space>d;'] = { builtin.command_history, '' },
+  -- files
+  ['<space>df'] = { '<cmd>Easypick files<cr>', 'file finder' },
   -- project
-  ['<space>dpl'] = { builtin.find_files, '' },
   ['<space>dpf'] = { builtin.live_grep, '' },
   ['<space>dpw'] = { builtin.grep_string, '' },
   -- buffers
   ['<space>dbf'] = { builtin.current_buffer_fuzzy_find, '' },
   ['<space>dbl'] = { builtin.buffers, '' },
   ['<space>dbc'] = { builtin.git_bcommits, '' },
-  -- git
-  ['<space>dgl'] = { builtin.git_files, 'list files' },
   -- ag
   ['<space>da'] = { '<cmd>Easypick ag<cr>', 'Ag Silver Searcher' },
   -- misc
