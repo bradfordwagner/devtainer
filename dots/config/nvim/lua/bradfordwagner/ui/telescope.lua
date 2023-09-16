@@ -59,6 +59,7 @@ telescope.setup {
   defaults = {
     mappings = {
       i = {
+        ["<esc>"] = actions.close,
         ["<c-a>"] = actions.toggle_all,
         ["<c-s>"] = actions.toggle_selection,
         ["<c-q>"] = actions.send_selected_to_qflist + actions.open_qflist,

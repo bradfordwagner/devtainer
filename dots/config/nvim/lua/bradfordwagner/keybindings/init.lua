@@ -95,7 +95,7 @@ wk.register({
   ['<space>d/'] = { builtin.help_tags, '' },
   ['<space>d;'] = { builtin.command_history, '' },
   -- files
-  ['<space>df'] = { '<cmd>Easypick files<cr>', 'file finder' },
+  ['<space>f'] = { '<cmd>Easypick files<cr>', 'file finder' },
   -- project
   ['<space>dpf'] = { builtin.live_grep, '' },
   ['<space>dpw'] = { builtin.grep_string, '' },
@@ -109,5 +109,5 @@ wk.register({
   ['<space>dc'] = { builtin.commands, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
   -- jumpdir - shares <space>f with vims 'cd'
-  ['<space>f'] = { '<cmd>Easypick dirs<cr>', '' },
+  ['<space>df'] = { '<cmd>Easypick dirs<cr>', '' },
 })
