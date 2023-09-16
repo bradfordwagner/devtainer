@@ -19,10 +19,6 @@ local default_settings = {
 map_key(n ,'<space>sbww', ':BLines <c-r><c-w><cr>', default_settings)
 map_key(n, '<space>sbwe', ':BLines <c-r><c-a><cr>', default_settings)
 
--- find word in project using ag
-map_key(n, '<space>daw', ':Ag <c-r><c-w><cr>', default_settings)
-map_key(n, '<space>daW', ':Ag <c-r><c-a><cr>', default_settings)
-
 -- which-key
 vim.o.timeout = true
 vim.o.timeoutlen = 300

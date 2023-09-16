@@ -46,8 +46,8 @@ function M.setup(config)
   return {
     name = config.name,
     command = "cat " .. picker_options,
-    previewer = easypick.previewers.default(),
     action = action_handler(name_to_command),
+    opts = require('telescope.themes').get_dropdown({}),
   }
 end
 
