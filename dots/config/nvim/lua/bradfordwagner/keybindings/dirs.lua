@@ -7,11 +7,11 @@ return quick_telescope.setup {
   name = 'dirs',
   picker_options = {
     { name = 'jump', cmd = 'Easypick jumpdir' },
-    { name = 'find', cmd = 'Easypick finddir' },
+    { name = 'fd', cmd = 'Easypick finddir' },
     { name = 'root', cmd = 'Rooter' },
     { name = 'pwd', cmd = 'pwd' },
     {
-      name = 'mark current file',
+      name = 'current file',
       cmd = function ()
         vim.cmd('cd %:p:h')
         vim.cmd('pwd')
