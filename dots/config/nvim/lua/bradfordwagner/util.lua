@@ -13,6 +13,17 @@ function M.table_key(table)
   return keys
 end
 
+-- map
+function M.table_map(table, k)
+  local keys = {}
+  local n = 0
+  for _,v in pairs(table) do
+    n = n + 1
+    keys[n] = v[k]
+  end
+  return keys
+end
+
 function M.reduce(list, delim)
   local res = ''
   for k,v in pairs(list) do
