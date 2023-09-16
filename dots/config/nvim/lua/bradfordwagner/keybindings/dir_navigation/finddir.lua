@@ -13,5 +13,6 @@ M.fd  = {
   command = "find . -mindepth 1 -type d \\( -name '.*' -prune -o -print \\)",
   previewer = easypick.previewers.default(),
   action = cd_action(),
+  opts = require('telescope.themes').get_dropdown({}),
 }
 return M

@@ -18,6 +18,6 @@ return quick_telescope.setup {
     { name = 'project files - no ignore', cmd = ff({no_ignore = true}) },
     { name = 'project files - hidden', cmd = ff({hidden = true}) },
     { name = 'git', cmd = builtin.git_files },
-    { name = 'old files', cmd = builtin.oldfiles },
+    { name = 'history', cmd = builtin.oldfiles },
   }
 }
