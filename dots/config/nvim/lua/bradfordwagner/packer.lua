@@ -30,6 +30,8 @@ return require('packer').startup(function(use)
   use {'axkirillov/easypick.nvim', requires = 'nvim-telescope/telescope.nvim'}
   -- end telescope
 
+  -- jump
+  use 'ggandor/lightspeed.nvim'
 
   -- utility
   -- change project directory

@@ -17,14 +17,11 @@ Plugin 'towolf/vim-helm'
 Plugin 'junegunn/goyo.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ntpeters/vim-better-whitespace'      " shows trailing whitespace
-Plugin 'easymotion/vim-easymotion'
 Plugin 'tpope/vim-surround'
 Plugin 'Align'
 Plugin 'mattesgroeger/vim-bookmarks'
 Plugin 'auwsmit/vim-active-numbers'          " show numbers in gutter from 0 current line up and down
 Plugin 'tpope/vim-commentary'
-Plugin 'haya14busa/incsearch.vim'            " used with ez motion
-Plugin 'haya14busa/incsearch-easymotion.vim' " used with ez motion
 Plugin 'christianrondeau/vim-base64'         " used for base64 easy encoding wahoo
 Plugin 'tpope/vim-tbone'                     " lets us do our tmux yank - super important
 Plugin 'tpope/vim-fugitive'                  " helps with git commands, blame, etc https://github.com/tpope/vim-fugitive
@@ -173,9 +170,6 @@ map <silent> cj :cnext<CR>zz
 " tmux buffer integratino courtesy of vim-tbone
 map <silent> ty :Tyank<CR> " take current line and put it in buffer with CR
 map <silent> tp :Tput<CR> " paste tmux buffer
-
-" easymotion configuration
-map z/ <Plug>(incsearch-easymotion-/)
 
 " from blog for copy to mac system
 " https://coderwall.com/p/v-st8w/vim-copy-to-system-clipboard-on-a-mac
