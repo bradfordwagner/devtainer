@@ -39,7 +39,7 @@ wk.setup {
 }
 wk.register({
   ['<space>'] = { name = 'Customized Binds' },
-  ['<space>l'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
+  ['<space>L'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
   ['<space>s'] = { name = 'Search' },
   ['<space>sb'] = { name = 'Buffers' },
   ['<space>sba'] = { '<cmd>Lines<cr>', 'Find in ALL' },
