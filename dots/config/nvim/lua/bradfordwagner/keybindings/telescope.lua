@@ -5,7 +5,6 @@ local wk = require 'which-key'
 wk.register({
   -- base helpers
   ['<space>dt'] = { builtin.builtin, '' },
-  -- ['<space>dt'] = { '<cmd>Telescope<cr>', '' },
   ['<space>d/'] = { builtin.help_tags, '' },
   ['<space>d;'] = { builtin.command_history, '' },
   -- files
