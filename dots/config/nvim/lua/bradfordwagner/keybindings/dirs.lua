@@ -6,6 +6,25 @@ local quick_telescope = require 'bradfordwagner.keybindings.quick_telescope'
 return quick_telescope.setup {
   name = 'dirs',
   picker_options = {
-    { name = 'jumpdir', cmd = 'Easypick jumpdir<cr>' },
+    { name = 'jump', cmd = 'Easypick jumpdir' },
+    { name = 'find', cmd = 'Easypick finddir' },
+    { name = 'root', cmd = 'Rooter' },
+    { name = 'pwd', cmd = 'pwd' },
+    {
+      name = 'mark current file',
+      cmd = function ()
+        vim.cmd('cd %:p:h')
+        vim.cmd('pwd')
+      end
+    },
+    {
+      name = 'reset',
+      cmd = function ()
+        local output = vim.fn.getenv('PWD') -- get original dir
+        vim.cmd.cd(output) -- cd dir to pwd
+        print(string.format('reset - %s', output))
+      end
+     },
+    { name = 'workspace', cmd = 'Easypick workspace_find_dir' },
   }
 }

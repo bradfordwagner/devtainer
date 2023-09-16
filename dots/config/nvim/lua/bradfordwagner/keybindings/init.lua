@@ -51,18 +51,6 @@ wk.register({
   ['<Space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
   ['<space>z'] = { 'Zoom' },
 
-  -- rooter/cd vim
-  ['<space>ff'] = { '<cmd>cd %:p:h<cr><cmd>pwd<cr>', 'current file dir' },
-  ['<space>fd'] = { '<cmd>Rooter<cr>', 'root dir' },
-  -- reset to original workdiring dir
-  ['<space>fs'] = { function ()
-    local output = vim.fn.getenv('PWD') -- get original dir
-    vim.cmd.cd(output) -- cd dir to pwd
-    print(string.format('reset - %s', output))
-    -- vim.cmd.pwd() -- print current dir
-  end, 'reset' },
-  ['<space>pwp'] = { '<cmd>pwd<cr>', 'pwd' },
-
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
   ['ZD'] = { '<cmd>r !date<cr>', 'Insert (D)ate' },
@@ -122,7 +110,4 @@ wk.register({
   ['<space>dm'] = { builtin.keymaps, '' },
   -- jumpdir - shares <space>f with vims 'cd'
   ['<space>f'] = { '<cmd>Easypick dirs<cr>', '' },
-  ['<space>fj'] = { '<cmd>Easypick jumpdir<cr>', '' },
-  ['<space>fk'] = { '<cmd>Easypick workspace_find_dir<cr>', '' },
-  ['<space>fl'] = { '<cmd>Easypick finddir<cr>', '' },
 })
