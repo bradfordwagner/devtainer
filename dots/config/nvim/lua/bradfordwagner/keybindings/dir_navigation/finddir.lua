@@ -2,7 +2,7 @@
 
 -- imports
 local easypick = require 'easypick'
-local cd_action = require 'bradfordwagner.keybindings.cd_action'.cd_action
+local cd_action = require 'bradfordwagner.keybindings.dir_navigation.cd_action'.cd_action
 
 
 -- init return

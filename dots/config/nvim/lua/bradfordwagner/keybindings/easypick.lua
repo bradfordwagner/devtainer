@@ -1,9 +1,9 @@
 -- setup easy pick
 -- https://github.com/axkirillov/easypick.nvim/wiki
 local easypick = require 'easypick'
-local jumpdir = require 'bradfordwagner.keybindings.jumpdir'
-local finddir = require 'bradfordwagner.keybindings.finddir'
-local wdfinddir = require 'bradfordwagner.keybindings.wdfinddir'
+local jumpdir = require 'bradfordwagner.keybindings.dir_navigation.jumpdir'
+local finddir = require 'bradfordwagner.keybindings.dir_navigation.finddir'
+local wdfinddir = require 'bradfordwagner.keybindings.dir_navigation.wdfinddir'
 local ag = require 'bradfordwagner.keybindings.ag'
 local files = require 'bradfordwagner.keybindings.files'
 
