@@ -8,6 +8,7 @@ local wdfinddir = require 'bradfordwagner.keybindings.dir_navigation.wdfinddir'
 -- consolidated fuzzy finds
 local ag = require 'bradfordwagner.keybindings.ag'
 local files = require 'bradfordwagner.keybindings.files'
+local dirs = require 'bradfordwagner.keybindings.dirs'
 
 easypick.setup {
   pickers = {
@@ -16,6 +17,7 @@ easypick.setup {
     wdfinddir.fd,
     ag,
     files,
+    dirs,
   }
 }
 

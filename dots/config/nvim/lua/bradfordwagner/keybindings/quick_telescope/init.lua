@@ -26,14 +26,6 @@ end
 -- init return
 local M = {}
 function M.setup(config)
-  -- local config = {
-  --   name = 'multi',
-  --   picker_options = {
-  --     ["f1"] = function () print('a') end,
-  --     ["f2"] = function () print('b') end,
-  --     ["command"] = 'echo "hi friends"',
-  --   }
-  -- }
   local keys = util.table_map(config.picker_options, 'name')
   local picker_options = '<<EOF\n' .. util.reduce(keys, '\n') .. '\nEOF'
 

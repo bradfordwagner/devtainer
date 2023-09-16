@@ -121,6 +121,7 @@ wk.register({
   ['<space>dc'] = { builtin.commands, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
   -- jumpdir - shares <space>f with vims 'cd'
+  ['<space>f'] = { '<cmd>Easypick dirs<cr>', '' },
   ['<space>fj'] = { '<cmd>Easypick jumpdir<cr>', '' },
   ['<space>fk'] = { '<cmd>Easypick workspace_find_dir<cr>', '' },
   ['<space>fl'] = { '<cmd>Easypick finddir<cr>', '' },
