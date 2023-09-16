@@ -20,4 +20,3 @@ easypick.setup {
     dirs,
   }
 }
-
