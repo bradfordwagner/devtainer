@@ -48,7 +48,7 @@ return quick_telescope.setup {
     {
       name = 'all input',
       cmd = prompt(function (input)
-        vim.cmd(string.format('vimgrep /%s/ %s **/*', input, '%'))
+        vim.cmd(string.format('vimgrep /%s/ **/*', input))
         open_changelist()
       end)
     },
@@ -56,7 +56,7 @@ return quick_telescope.setup {
       name = 'all word',
       cmd = function ()
         local current_word = vim.call('expand', '<cword>')
-        vim.cmd(string.format('vimgrep /%s/ %s **/*', current_word, '%'))
+        vim.cmd(string.format('vimgrep /%s/ **/*', current_word))
         open_changelist()
       end
     },
@@ -64,7 +64,7 @@ return quick_telescope.setup {
       name = 'all full word',
       cmd = function ()
         local current_word = vim.call('expand', '<cWORD>')
-        vim.cmd(string.format('vimgrep /%s/ %s **/*', current_word, '%'))
+        vim.cmd(string.format('vimgrep /%s/ **/*', current_word))
         open_changelist()
       end
     },
