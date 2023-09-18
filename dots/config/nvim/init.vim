@@ -133,6 +133,8 @@ map <silent> <Space>wn :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
 map <silent> <Space>wj :split<CR>
 map <silent> <Space>wt :tabonly<CR>
+
+" shell bindings
 let &shell='/bin/zsh -l' " set deafult shell to zsh login  shell to pull configurations
 map <silent> <Space>ssl :vsplit<CR>:terminal<CR>i clear<CR>
 map <silent> <Space>ssk :split<CR>:terminal<CR>i clear<CR>
