@@ -6,7 +6,7 @@ local jumpdir = require 'bradfordwagner.keybindings.dir_navigation.jumpdir'
 local finddir = require 'bradfordwagner.keybindings.dir_navigation.finddir'
 local wdfinddir = require 'bradfordwagner.keybindings.dir_navigation.wdfinddir'
 -- consolidated fuzzy finds
-local ag = require 'bradfordwagner.keybindings.ag'
+local ag = require 'bradfordwagner.keybindings.find'
 local files = require 'bradfordwagner.keybindings.files'
 local dirs = require 'bradfordwagner.keybindings.dirs'
 

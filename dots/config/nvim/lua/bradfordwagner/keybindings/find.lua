@@ -4,7 +4,7 @@
 local quick_telescope = require 'bradfordwagner.keybindings.quick_telescope'
 
 return quick_telescope.setup {
-  name = 'ag',
+  name = 'find',
   picker_options = {
     { name = 'live', cmd = 'Ag<cr>' },
     { name = 'input', cmd = function()

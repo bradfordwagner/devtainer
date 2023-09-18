@@ -104,7 +104,7 @@ wk.register({
   ['<space>dbl'] = { builtin.buffers, '' },
   ['<space>dbc'] = { builtin.git_bcommits, '' },
   -- ag
-  ['<space>da'] = { '<cmd>Easypick ag<cr>', 'Ag Silver Searcher' },
+  ['<space>da'] = { '<cmd>Easypick find<cr>', 'Find' },
   -- misc
   ['<space>dc'] = { builtin.commands, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
