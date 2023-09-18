@@ -20,6 +20,9 @@ local default_settings = {
 map_key(v, 'ZSA', ':%sort u<CR>', default_settings)
 map_key(v, 'ZSR', ':%sort! u<cr>', default_settings)
 
+-- search windows
+map_key(v, '<space>sa', ':Windows<CR>', default_settings)
+
 -- which-key
 vim.o.timeout = true
 vim.o.timeoutlen = 300

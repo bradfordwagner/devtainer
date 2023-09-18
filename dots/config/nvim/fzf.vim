@@ -91,8 +91,6 @@ map <silent> <Space>st :BTags<CR>
 " map <silent> <Space>stp :Tags<CR>
 " search history
 map <silent> <Space>sh :History<CR>
-" search windows
-map <silent> <Space>sa :Windows<CR>
 " search maps
 map <silent> <Space>sm :Maps<CR>
 " search jumpdir jd
