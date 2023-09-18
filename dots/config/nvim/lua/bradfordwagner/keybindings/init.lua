@@ -87,9 +87,6 @@ wk.register({
   ['<space>d;'] = { builtin.command_history, '' },
   -- files
   ['<space>f'] = { '<cmd>Easypick files<cr>', 'file finder' },
-  -- project
-  ['<space>dpf'] = { builtin.live_grep, '' },
-  ['<space>dpw'] = { builtin.grep_string, '' },
   -- buffers
   ['<space>dd'] = { '<cmd>Easypick buffers<cr>', 'Buffers' },
   -- ag
