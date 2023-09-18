@@ -22,14 +22,14 @@ end
 return quick_telescope.setup {
   name = 'vimgrep',
   picker_options = {
-    { 
+    {
       name = 'file input',
       cmd = prompt(function (input)
         vim.cmd(string.format('vimgrep /%s/ %s', input, '%'))
         open_changelist()
       end)
     },
-    { 
+    {
       name = 'file word',
       cmd = function ()
         local current_word = vim.call('expand', '<cword>')
@@ -37,7 +37,7 @@ return quick_telescope.setup {
         open_changelist()
       end
     },
-    { 
+    {
       name = 'file full word',
       cmd = function ()
         local current_word = vim.call('expand', '<cWORD>')
@@ -45,14 +45,14 @@ return quick_telescope.setup {
         open_changelist()
       end
     },
-    { 
+    {
       name = 'all input',
       cmd = prompt(function (input)
         vim.cmd(string.format('vimgrep /%s/ %s **/*', input, '%'))
         open_changelist()
       end)
     },
-    { 
+    {
       name = 'all word',
       cmd = function ()
         local current_word = vim.call('expand', '<cword>')
@@ -60,7 +60,7 @@ return quick_telescope.setup {
         open_changelist()
       end
     },
-    { 
+    {
       name = 'all full word',
       cmd = function ()
         local current_word = vim.call('expand', '<cWORD>')
@@ -70,7 +70,7 @@ return quick_telescope.setup {
     },
     -- TODO
     -- map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
-    -- { 
+    -- {
     --   name = 'all dir',
     --   cmd = prompt(function (search)
     --     prompt(function (directory)
