@@ -91,7 +91,7 @@ wk.register({
   ['<space>dpf'] = { builtin.live_grep, '' },
   ['<space>dpw'] = { builtin.grep_string, '' },
   -- buffers
-  ['<space>db'] = { '<cmd>Easypick buffers<cr>', 'Buffers' },
+  ['<space>dd'] = { '<cmd>Easypick buffers<cr>', 'Buffers' },
   -- ag
   ['<space>da'] = { '<cmd>Easypick find<cr>', 'Find' },
   -- misc
