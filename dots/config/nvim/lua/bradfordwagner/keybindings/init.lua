@@ -88,6 +88,7 @@ wk.register({
   ['<space>dt'] = { builtin.builtin, '' },
   ['<space>d/'] = { builtin.help_tags, '' },
   ['<space>d;'] = { builtin.command_history, '' },
+  ['<space>ds'] = { builtin.treesitter, '' },
   -- files
   ['<space>f'] = { '<cmd>Easypick files<cr>', 'file finder' },
   -- buffers
