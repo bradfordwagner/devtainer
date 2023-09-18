@@ -95,17 +95,6 @@ set mouse=
 let g:rooter_manual_only = 1
 
 " Custom keybinds / hotkeys
-" vimgrep helpers
-" current file
-map <expr><silent> <Space>ggi ":vimgrep /" . input("grep current file: ") . "/ % \<CR>co"
-map <silent> <Space>ggww :vimgrep /<c-r><c-w>/ % <cr>co
-map <silent> <Space>ggwe :vimgrep /<c-r><c-a>/ % <cr>co
-" all files
-map <expr><silent> <Space>gai ":vimgrep /" . input("grep all files: ") . "/ **/* \<CR>co"
-map <silent> <Space>gaww :vimgrep /<c-r><c-w>/ **/* <cr>co
-map <silent> <Space>gawe :vimgrep /<c-r><c-a>/ **/* <cr>co
-" dir matching
-map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
 
 " scroll configs
 map <silent> <Space>zj :let &scrolloff=999-&scrolloff<CR>

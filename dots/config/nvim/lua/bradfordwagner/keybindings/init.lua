@@ -17,6 +17,8 @@ local default_settings = {
 
 -- example in case i ever circle back
 -- map_key(n ,'<space>sbww', ':BLines <c-r><c-w><cr>', default_settings)
+map_key(v, 'ZSA', ':%sort u<CR>', default_settings)
+map_key(v, 'ZSR', ':%sort! u<cr>', default_settings)
 
 -- which-key
 vim.o.timeout = true
@@ -56,8 +58,6 @@ wk.register({
   ['<leader>w'] = { '<cmd>FZF ~/workspace<CR>', '' },
   ['<leader>c'] = { '<cmd>FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>', '' },
   ['<leader>d'] = { '<cmd>FZF ~/.dotfiles<CR>', '' },
-  ['ZSA'] = { '<cmd>%sort u<CR>', '' },
-  ['ZSR'] = { '<cmd>%sort! u<CR>', '' },
 
   ['ZSY'] = { '<cmd>set syntax=yaml<CR>', '' },
   ['ZSH'] = { '<cmd>set syntax=helm<CR>', '' },
@@ -96,4 +96,5 @@ wk.register({
   ['<space>dm'] = { builtin.keymaps, '' },
   -- jumpdir - shares <space>f with vims 'cd'
   ['<space>df'] = { '<cmd>Easypick dirs<cr>', '' },
+  ['<space>dg'] = { '<cmd>Easypick vimgrep<cr>', '' },
 })
