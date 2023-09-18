@@ -15,9 +15,8 @@ local default_settings = {
   silent = true,
 }
 
--- find current word in current buffer
-map_key(n ,'<space>sbww', ':BLines <c-r><c-w><cr>', default_settings)
-map_key(n, '<space>sbwe', ':BLines <c-r><c-a><cr>', default_settings)
+-- example in case i ever circle back
+-- map_key(n ,'<space>sbww', ':BLines <c-r><c-w><cr>', default_settings)
 
 -- which-key
 vim.o.timeout = true
@@ -37,14 +36,6 @@ wk.register({
   ['<space>'] = { name = 'Customized Binds' },
   ['<space>L'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
   ['<space>s'] = { name = 'Search' },
-  ['<space>sb'] = { name = 'Buffers' },
-  ['<space>sba'] = { '<cmd>Lines<cr>', 'Find in ALL' },
-  ['<space>sbd'] = { '<cmd>BD<cr>', 'Delete' },
-  ['<space>sbf'] = { '<cmd>BLines<cr>', 'Find Current' },
-  ['<space>sbl'] = { '<cmd>Buffers<cr>', 'List' },
-  ['<space>sbw'] = { name = "Find Word Under Cursor" },
-  ['<space>sbwe'] = { 'Find Current WORD' },
-  ['<space>sbww'] = { 'Find Current Word' },
   ['<space>sc'] = { '<cmd>Commands<cr>', 'Commands' },
   -- goyo keymaps
   ['<Space>zx'] = { '<cmd>Goyo!<CR><cmd>! tmux resize-pane -Z<CR>' , 'Exit Goyo, Tmux Fullscreen' },
@@ -100,9 +91,7 @@ wk.register({
   ['<space>dpf'] = { builtin.live_grep, '' },
   ['<space>dpw'] = { builtin.grep_string, '' },
   -- buffers
-  ['<space>dbf'] = { builtin.current_buffer_fuzzy_find, '' },
-  ['<space>dbl'] = { builtin.buffers, '' },
-  ['<space>dbc'] = { builtin.git_bcommits, '' },
+  ['<space>db'] = { '<cmd>Easypick buffers<cr>', 'Buffers' },
   -- ag
   ['<space>da'] = { '<cmd>Easypick find<cr>', 'Find' },
   -- misc
