@@ -100,7 +100,22 @@ wk.register({
 })
 -- dap debugger configuration
 local dapui = require 'dapui'
+local dapgo = require('dap-go')
+vim.keymap.set("n", "<leader>dt", dapgo.debug_test)
+vim.keymap.set("n", "<leader>dl", dapgo.debug_last_test)
 wk.register({
   ['<space>s'] = { name = 'Debugger (dap)' },
   ['<space>st'] = { dapui.toggle, 'toggle dap ui' },
 })
+
+-- go auto local leader commands
+vim.cmd ([[
+augroup myGolang
+    " delete old aut commands
+    au!
+    function! s:my_go_bindings()
+      nmap <buffer> <LocalLeader>a :echo "hi friends"<cr>
+    endfunction
+    autocmd FileType go call s:my_go_bindings()
+augroup END
+]])

@@ -78,6 +78,9 @@ endif
 " Initialize plugin system
 call plug#end()
 
+let mapleader = '\'
+let maplocalleader = ","
+
 " source configurations
 source ~/.config/nvim/fzf.vim
 
