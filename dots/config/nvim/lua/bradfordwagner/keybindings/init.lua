@@ -41,7 +41,7 @@ wk.register({
   ['<Space>zx'] = { '<cmd>Goyo!<CR><cmd>! tmux resize-pane -Z<CR>' , 'Exit Goyo, Tmux Fullscreen' },
   ['<Space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
   ['<space>z'] = { 'Zoom' },
-  ['<space>as'] = { '<cmd>Windows<CR>', '' },
+  ['<space>as'] = { '<cmd>Windows<CR>', 'select window' },
 
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
