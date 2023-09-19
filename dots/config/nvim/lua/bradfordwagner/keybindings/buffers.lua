@@ -25,5 +25,7 @@ return quick_telescope.setup {
         if current_word ~= nil then vim.cmd(string.format('BLines %s', current_word)) end
       end 
     },
+    -- from fzf.vim
+    { name = 'tags', cmd = ':BTags' },
   }
 }
