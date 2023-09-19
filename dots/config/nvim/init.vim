@@ -125,11 +125,11 @@ map <silent> <Space>wt :tabonly<CR>
 
 " shell bindings
 let &shell='/bin/zsh -l' " set deafult shell to zsh login  shell to pull configurations
-map <silent> <Space>ssl :vsplit<CR>:terminal<CR>i clear<CR>
-map <silent> <Space>ssk :split<CR>:terminal<CR>i clear<CR>
-map <silent> <Space>ssn :tabe<CR>:terminal<CR>i clear<CR>
-map <silent> <Space>sss :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
-map <silent> <Space>ssd :tabe<CR>:terminal<CR>igrd; clear<CR>
+map <silent> <Space>el :vsplit<CR>:terminal<CR>i clear<CR>
+map <silent> <Space>ek :split<CR>:terminal<CR>i clear<CR>
+map <silent> <Space>en :tabe<CR>:terminal<CR>i clear<CR>
+map <silent> <Space>ee :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
+map <silent> <Space>er :tabe<CR>:terminal<CR>igrd; clear<CR>
 
 " resizing
 map <silent> <Space>rj :horizontal resize -10<CR>
