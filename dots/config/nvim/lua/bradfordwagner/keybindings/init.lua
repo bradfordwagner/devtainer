@@ -102,3 +102,9 @@ wk.register({
   ['<space>df'] = { '<cmd>Easypick dirs<cr>', '' },
   ['<space>dg'] = { '<cmd>Easypick vimgrep<cr>', '' },
 })
+-- dap debugger configuration
+local dapui = require 'dapui'
+wk.register({
+  ['<space>;'] = { name = 'Debugger (dap)' },
+  ['<space>;t'] = { dapui.toggle, 'toggle dap ui' },
+})

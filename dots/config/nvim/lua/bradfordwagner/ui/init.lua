@@ -1,5 +1,6 @@
 require 'bradfordwagner.ui.bufferline'
 require 'bradfordwagner.ui.colorizer'
+require 'bradfordwagner.ui.dap'
 require 'bradfordwagner.ui.goyo'
 require 'bradfordwagner.ui.lightspeed'
 require 'bradfordwagner.ui.lualine'
