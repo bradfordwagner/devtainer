@@ -20,9 +20,6 @@ local default_settings = {
 map_key(v, 'ZSA', ':%sort u<CR>', default_settings)
 map_key(v, 'ZSR', ':%sort! u<cr>', default_settings)
 
--- search windows
-map_key(v, '<space>sa', ':Windows<cr>', default_settings)
-
 -- which-key
 vim.o.timeout = true
 vim.o.timeoutlen = 300
@@ -40,11 +37,11 @@ wk.setup {
 wk.register({
   ['<space>'] = { name = 'Customized Binds' },
   ['<space>L'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
-  ['<space>s'] = { name = 'Search' },
   -- goyo keymaps
   ['<Space>zx'] = { '<cmd>Goyo!<CR><cmd>! tmux resize-pane -Z<CR>' , 'Exit Goyo, Tmux Fullscreen' },
   ['<Space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
   ['<space>z'] = { 'Zoom' },
+  ['<space>as'] = { '<cmd>Windows<CR>', '' },
 
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
@@ -104,6 +101,6 @@ wk.register({
 -- dap debugger configuration
 local dapui = require 'dapui'
 wk.register({
-  ['<space>;'] = { name = 'Debugger (dap)' },
-  ['<space>;t'] = { dapui.toggle, 'toggle dap ui' },
+  ['<space>s'] = { name = 'Debugger (dap)' },
+  ['<space>st'] = { dapui.toggle, 'toggle dap ui' },
 })
