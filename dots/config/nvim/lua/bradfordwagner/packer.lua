@@ -32,7 +32,7 @@ return require('packer').startup(function(use)
   -- dap debugger
   use 'mfussenegger/nvim-dap' -- https://github.com/mfussenegger/nvim-dap
   use 'rcarriga/nvim-dap-ui'  -- https://github.com/rcarriga/nvim-dap-ui
-  -- use 'leoluz/nvim-dap-go'    -- https://github.com/leoluz/nvim-dap-go
+  use 'leoluz/nvim-dap-go'    -- https://github.com/leoluz/nvim-dap-go
 
   -- jump
   use 'ggandor/lightspeed.nvim'
