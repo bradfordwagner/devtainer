@@ -20,6 +20,16 @@ local default_settings = {
 map_key(v, 'ZSA', ':%sort u<CR>', default_settings)
 map_key(v, 'ZSR', ':%sort! u<cr>', default_settings)
 
+-- lightspeed.vim
+-- https://github.com/ggandor/lightspeed.nvim
+-- :h lightspeed-custom-mappings
+map_key(n_v, 'zz', '<Plug>Lightspeed_s', default_settings)
+map_key(n_v, 'zx', '<Plug>Lightspeed_S', default_settings)
+map_key(n_v, 'f', '<Plug>Lightspeed_f', default_settings)
+map_key(n_v, 'F', '<Plug>Lightspeed_F', default_settings)
+map_key(n_v, 't', '<Plug>Lightspeed_t', default_settings)
+map_key(n_v, 'T', '<Plug>Lightspeed_T', default_settings)
+
 -- which-key
 vim.o.timeout = true
 vim.o.timeoutlen = 300

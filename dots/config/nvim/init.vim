@@ -81,6 +81,10 @@ call plug#end()
 let mapleader = '\'
 let maplocalleader = ","
 
+" lightspeed-disable-default-mappings
+" must be loaded before lightspeed.vim
+let g:lightspeed_no_default_keymaps = 1
+
 " source configurations
 source ~/.config/nvim/fzf.vim
 
