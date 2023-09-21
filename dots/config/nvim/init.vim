@@ -195,7 +195,7 @@ let g:copilot_filetypes = {
     \ }
 
 " vim-go configs
-let g:go_fmt_autosave = 0
+let g:go_fmt_autosave = 1
 let g:go_highlight_types = 1
 let g:go_addtags_transform = "camelcase"
 let g:go_fmt_command = "goimports"

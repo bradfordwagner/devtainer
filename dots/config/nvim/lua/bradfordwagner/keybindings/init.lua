@@ -108,12 +108,25 @@ wk.register({
 })
 -- dap debugger configuration
 local dapui = require 'dapui'
+local dap = require 'dap'
 local dapgo = require('dap-go')
 vim.keymap.set("n", "<leader>dt", dapgo.debug_test)
 vim.keymap.set("n", "<leader>dl", dapgo.debug_last_test)
 wk.register({
   ['<space>s'] = { name = 'Debugger (dap)' },
-  ['<space>st'] = { dapui.toggle, 'toggle dap ui' },
+  -- toggle ui
+  ['<space>sa'] = { dapui.toggle, 'toggle dap ui' },
+  ['<space>sA'] = { dapui.close, 'toggle dap ui' },
+  -- run/debug
+  ['<space>ss'] = { dap.continue, 'start/continue' },
+  ['<space>sx'] = { dap.terminate, 'terminate' },
+  ['<space>sd'] = { dap.run_last, 'run last' },
+  -- breakpoints
+  ['<space>sh'] = { dap.toggle_breakpoint, 'toggle breakpoint' },
+  -- step functions
+  ['<space>sj'] = { dap.step_over, 'step over' },
+  ['<space>sk'] = { dap.step_out, 'step out' },
+  ['<space>sl'] = { dap.step_into, 'step into' },
 })
 
 -- go auto local leader commands
@@ -123,6 +136,7 @@ augroup myGolang
     au!
     function! s:my_go_bindings()
       nmap <buffer> <LocalLeader>a :echo "hi friends"<cr>
+      nmap <buffer> <LocalLeader>f :GoFmt<cr>
     endfunction
     autocmd FileType go call s:my_go_bindings()
 augroup END
