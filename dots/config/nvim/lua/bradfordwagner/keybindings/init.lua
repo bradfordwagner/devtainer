@@ -48,10 +48,10 @@ wk.register({
   ['<space>'] = { name = 'Customized Binds' },
   ['<space>L'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
   -- goyo keymaps
-  ['<Space>zx'] = { '<cmd>Goyo!<CR><cmd>! tmux resize-pane -Z<CR>' , 'Exit Goyo, Tmux Fullscreen' },
-  ['<Space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
+  ['<space>zx'] = { '<cmd>Goyo!<cr><cmd>! tmux resize-pane -Z<cr>' , 'Exit Goyo, Tmux Fullscreen' },
+  ['<space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
   ['<space>z'] = { 'Zoom' },
-  ['<space>as'] = { '<cmd>Windows<CR>', 'select window' },
+  ['<space>as'] = { '<cmd>Windows<cr>', 'select window' },
 
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
@@ -60,20 +60,20 @@ wk.register({
   ['Q'] = { '<cmd>q!<cr>', 'Quit' },
   ['ZP'] = { '<cmd>set paste<cr>', '' },
   ['Zp'] = { '<cmd>set nopaste<cr>', ''},
-  ['<C-n>'] = { '<cmd>NvimTreeToggle<CR>', '' },
+  ['<C-n>'] = { '<cmd>NvimTreeToggle<cr>', '' },
   ['<leader>r'] = { '<cmd>NvimTreeFindFile<cr>', '' },
-  ['<C-p>'] = { '<cmd>FZF<CR>', '' },
-  ['<C-M-p>'] = { '<cmd>GFiles<CR>', '' },
-  ['<leader>w'] = { '<cmd>FZF ~/workspace<CR>', '' },
-  ['<leader>c'] = { '<cmd>FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<CR>', '' },
-  ['<leader>d'] = { '<cmd>FZF ~/.dotfiles<CR>', '' },
+  ['<C-p>'] = { '<cmd>FZF<cr>', '' },
+  ['<C-M-p>'] = { '<cmd>GFiles<cr>', '' },
+  ['<leader>w'] = { '<cmd>FZF ~/workspace<cr>', '' },
+  ['<leader>c'] = { '<cmd>FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<cr>', '' },
+  ['<leader>d'] = { '<cmd>FZF ~/.dotfiles<cr>', '' },
 
-  ['ZSY'] = { '<cmd>set syntax=yaml<CR>', '' },
-  ['ZSH'] = { '<cmd>set syntax=helm<CR>', '' },
-  ['ZSB'] = { '<cmd>set syntax=bash<CR>', '' },
-  ['ZGB'] = { '<cmd>Git blame<CR>', '' },
-  ['ZL'] = { '<cmd>!zsh -lc cl<CR><CR>', '' },
-  ['Zr'] = { '<cmd>registers<CR>', '' },
+  ['ZSY'] = { '<cmd>set syntax=yaml<cr>', '' },
+  ['ZSH'] = { '<cmd>set syntax=helm<cr>', '' },
+  ['ZSB'] = { '<cmd>set syntax=bash<cr>', '' },
+  ['ZGB'] = { '<cmd>Git blame<cr>', '' },
+  ['ZL'] = { '<cmd>!zsh -lc cl<cr><cr>', '' },
+  ['Zr'] = { '<cmd>registers<cr>', '' },
 })
 
 require 'bradfordwagner.keybindings.easypick'
