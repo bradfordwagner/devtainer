@@ -107,7 +107,7 @@ let g:rooter_manual_only = 1
 nnoremap gp `[v`]
 
 " scroll configs
-map <silent> <Space>zj :let &scrolloff=999-&scrolloff<CR>
+map <silent> <Space>zx :let &scrolloff=999-&scrolloff<CR>
 set scrolloff=999 " auto center cursor
 
 " tmux mappings

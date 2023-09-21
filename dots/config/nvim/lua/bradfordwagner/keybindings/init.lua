@@ -23,8 +23,8 @@ map_key(v, 'ZSR', ':%sort! u<cr>', default_settings)
 -- lightspeed.vim
 -- https://github.com/ggandor/lightspeed.nvim
 -- :h lightspeed-custom-mappings
-map_key(n_v, 'zz', '<Plug>Lightspeed_s', default_settings)
-map_key(n_v, 'zx', '<Plug>Lightspeed_S', default_settings)
+map_key(n_v, 'zj', '<Plug>Lightspeed_s', default_settings)
+map_key(n_v, 'zk', '<Plug>Lightspeed_S', default_settings)
 map_key(n_v, 'f', '<Plug>Lightspeed_f', default_settings)
 map_key(n_v, 'F', '<Plug>Lightspeed_F', default_settings)
 map_key(n_v, 't', '<Plug>Lightspeed_t', default_settings)
