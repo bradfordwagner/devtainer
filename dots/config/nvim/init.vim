@@ -209,8 +209,8 @@ syntax on
 " set additional tmux syntax highlighting
 au BufReadPost *.tmux.conf set syntax=tmux
 filetype on
-set relativenumber " show o as current 1 2 3 up and down
-" set number " show lines as their line number
+" set relativenumber " show o as current 1 2 3 up and down
+set number " show lines as their line number
 set ignorecase " searches are now case insensitive
 set encoding=UTF-8
 set pastetoggle=ZP " setup paste toggling for indentation issues - removed from neovim 0.9
