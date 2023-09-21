@@ -62,8 +62,6 @@ wk.register({
   ['Zp'] = { '<cmd>set nopaste<cr>', ''},
   ['<C-n>'] = { '<cmd>NvimTreeToggle<cr>', '' },
   ['<leader>r'] = { '<cmd>NvimTreeFindFile<cr>', '' },
-  ['<C-p>'] = { '<cmd>FZF<cr>', '' },
-  ['<C-M-p>'] = { '<cmd>GFiles<cr>', '' },
   ['<leader>w'] = { '<cmd>FZF ~/workspace<cr>', '' },
   ['<leader>c'] = { '<cmd>FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<cr>', '' },
   ['<leader>d'] = { '<cmd>FZF ~/.dotfiles<cr>', '' },
