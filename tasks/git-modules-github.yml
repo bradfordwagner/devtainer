@@ -182,6 +182,8 @@
        repo: git@github.com:hashicorp/vault-csi-provider.git
      - name: vault.k8s.webhook.injector
        repo: https://github.com/hashicorp/vault-k8s.git
+     - name: azure.sdk.go
+       repo: https://github.com/Azure/azure-sdk-for-go.git
 
    - name: '{{ github_shell_dir }}'
      git:

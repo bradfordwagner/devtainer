@@ -59,6 +59,7 @@
         - python3 -m pip install --user --upgrade pynvim
         - nvim +silent +PlugInstall +qall
         - nvim +silent +PluginInstall +qall
+        - nvim +silent +PackerInstall +qall
 
 - name: npm install language servers
   shell: '{{ item }}'
