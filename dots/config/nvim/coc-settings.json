@@ -20,6 +20,21 @@
       }
     }
   },
+  "settings": {
+    "Lua": {
+      "completion": {
+        "enabled": true
+      },
+      "runtime": {
+        "path": [
+          "/Users/bwagner/.local/share/nvim/site/pack/packer/start"
+        ]
+      }
+    }
+  },
+  "sumneko-lua": {
+    "enableNvimLuaDev": true
+  },
   "yaml.schemas": {
     "kubernetes": "/*.yaml,/*.yml"
   }
