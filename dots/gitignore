@@ -13,3 +13,4 @@ ansible.sh
 .secrets.yml
 tags
 __debug_bin*
+.vim
