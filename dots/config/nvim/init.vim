@@ -91,6 +91,9 @@ source ~/.config/nvim/fzf.vim
 " this will eventually replace init.vim
 source ~/.config/nvim/lua/init.lua
 
+" force json to not conceal the quotes
+let g:vim_json_conceal=0
+
 " automatic commands
 autocmd VimResized * wincmd = " evenly resize splits when resizing window
 
