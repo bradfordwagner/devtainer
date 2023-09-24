@@ -1,6 +1,6 @@
 -- load plugin managers
-require 'bradfordwagner.packer'
 require 'bradfordwagner.options'
+require 'bradfordwagner.packer'
 
 -- must be before theme load
 require 'bradfordwagner.ui'
