@@ -20,18 +20,8 @@
       }
     }
   },
-  "settings": {
-    "Lua": {
-      "completion": {
-        "enabled": true
-      },
-      "runtime": {
-        "path": [
-          "/Users/bwagner/.local/share/nvim/site/pack/packer/start"
-        ]
-      }
-    }
-  },
+  "Lua.workspace.checkThirdParty": false,
+  "Lua.completion.enable": true,
   "sumneko-lua": {
     "enableNvimLuaDev": true
   },
