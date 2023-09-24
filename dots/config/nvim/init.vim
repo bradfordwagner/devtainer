@@ -78,18 +78,11 @@ endif
 " Initialize plugin system
 call plug#end()
 
-let mapleader = '\'
-let maplocalleader = ","
-
-" lightspeed-disable-default-mappings
-" must be loaded before lightspeed.vim
-let g:lightspeed_no_default_keymaps = 1
+" this will eventually replace init.vim
+source ~/.config/nvim/lua/init.lua
 
 " source configurations
 source ~/.config/nvim/fzf.vim
-
-" this will eventually replace init.vim
-source ~/.config/nvim/lua/init.lua
 
 " automatic commands
 autocmd VimResized * wincmd = " evenly resize splits when resizing window
@@ -144,9 +137,6 @@ map <silent> <Space>h <C-W>h
 map <silent> <Space>j <C-W>j
 map <silent> <Space>k <C-W>k
 map <silent> <Space>l <C-W>l
-
-" tab scheme
-set showtabline=2 " hide tabline
 
 " tab navigation
 map <silent> <Space>c gT
