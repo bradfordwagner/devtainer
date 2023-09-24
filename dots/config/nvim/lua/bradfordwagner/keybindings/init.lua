@@ -52,6 +52,7 @@ wk.register({
   ['<space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
   ['<space>z'] = { 'Zoom' },
   ['<space>as'] = { '<cmd>Windows<cr>', 'select window' },
+  ['<space>zc'] = { '<cmd>let &scrolloff=999-&scrolloff<CR>', 'toggle auto center cursor' },
 
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },

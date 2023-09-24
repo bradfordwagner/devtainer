@@ -91,15 +91,8 @@ source ~/.config/nvim/fzf.vim
 " this will eventually replace init.vim
 source ~/.config/nvim/lua/init.lua
 
-" force json to not conceal the quotes
-let g:vim_json_conceal=0
-
 " automatic commands
 autocmd VimResized * wincmd = " evenly resize splits when resizing window
-
-" disable mouse neovim
-" https://www.reddit.com/r/neovim/comments/w1ujir/mouse_enabled_by_default_in_git_master/
-set mouse=
 
 " vim rooter to manual mode
 let g:rooter_manual_only = 1
@@ -109,9 +102,6 @@ let g:rooter_manual_only = 1
 " select pasted content
 nnoremap gp `[v`]
 
-" scroll configs
-map <silent> <Space>zx :let &scrolloff=999-&scrolloff<CR>
-set scrolloff=999 " auto center cursor
 
 " tmux mappings
 map <silent> <Space>aa :! tmux resize-pane -Z<CR>
