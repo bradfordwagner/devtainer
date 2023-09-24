@@ -94,9 +94,6 @@ source ~/.config/nvim/lua/init.lua
 " automatic commands
 autocmd VimResized * wincmd = " evenly resize splits when resizing window
 
-" vim rooter to manual mode
-let g:rooter_manual_only = 1
-
 " Custom keybinds / hotkeys
 
 " select pasted content
