@@ -6,6 +6,7 @@ require 'nvim-treesitter.configs'.setup {
     "gomod",
     "hcl",
     "javascript",
+    "lua",
     "markdown",
     "python",
     "typescript",
