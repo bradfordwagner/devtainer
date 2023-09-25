@@ -47,7 +47,6 @@
     - kubectx
     - kubernetes-cli
     - lsd                                      # nerdfont/icons `ls`
-    - lua-language-server                      # nvim lua completion
     - macvim
     - mkcert
     - mopidy
