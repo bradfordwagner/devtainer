@@ -128,6 +128,8 @@ wk.register({
   ['<space>sj'] = { dap.step_over, 'step over' },
   ['<space>sk'] = { dap.step_out, 'step out' },
   ['<space>sl'] = { dap.step_into, 'step into' },
+
+  ['<space>sr'] = { function() dapui.toggle(2) end, 'step into' },
 })
 
 -- go auto local leader commands
