@@ -44,7 +44,7 @@ filetype plugin indent on    " required
 call plug#begin('~/.vim/plugged')
 " vim-plug plugins - run :PlugInstall
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ghifarit53/tokyonight-vim' " color scheme

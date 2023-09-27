@@ -116,9 +116,9 @@ vim.keymap.set("n", "<leader>dl", dapgo.debug_last_test)
 wk.register({
   ['<space>s'] = { name = 'Debugger (dap)' },
   -- toggle ui
-  ['<space>sa'] = { dapui.toggle, 'toggle ui' },
+  ['<space>sa'] = { function() dapui.toggle(2) end, 'toggle bottom ui' },
   ['<space>sA'] = { dapui.close, 'close ui' },
-  ['<space>sr'] = { function() dapui.toggle(2) end, 'toggle bottom ui' },
+  ['<space>sr'] = { dapui.toggle, 'toggle ui' },
   -- run/debug
   ['<space>ss'] = { dap.continue, 'start/continue' },
   ['<space>sx'] = { dap.terminate, 'terminate' },
