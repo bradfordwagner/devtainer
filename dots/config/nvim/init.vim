@@ -32,7 +32,8 @@ Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vi
 " Plugin 'elzr/vim-json'                       " https://github.com/elzr/vim-json
 Plugin 'yggdroot/indentline'                 " https://github.com/yggdroot/indentline
 Plugin 'rrethy/vim-illuminate'               " https://github.com/RRethy/vim-illuminate - highlights word under cursor
-Plugin 'townk/vim-autoclose'                 " https://vimawesome.com/plugin/autoclose - auto close brackets, quotes, etc
+" Plugin 'townk/vim-autoclose'                 " https://vimawesome.com/plugin/autoclose - auto close brackets, quotes, etc
+Plugin 'raimondi/delimitmate'                " auto close brackets, quotes, etc
 
 " markdown support
 Plugin 'godlygeek/tabular'
@@ -62,6 +63,7 @@ Plug 'folke/noice.nvim'        " https://github.com/folke/noice.nvim - replaces 
 Plug 'MunifTanjim/nui.nvim'    " required by noice
 Plug 'rcarriga/nvim-notify'    " https://github.com/rcarriga/nvim-notify - pretty notifications
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " https://github.com/akinsho/bufferline.nvim
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " lualine: https://github.com/nvim-lualine/lualine.nvim#installation
 Plug 'nvim-lualine/lualine.nvim'
@@ -177,6 +179,17 @@ let g:copilot_filetypes = {
     \ 'markdown': v:true,
     \ 'yaml': v:true,
     \ }
+
+" vim-go configs
+let g:go_fmt_autosave = 1
+let g:go_highlight_types = 1
+let g:go_addtags_transform = "camelcase"
+let g:go_fmt_command = "goimports"
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+" " end vim-go
 
 syntax on
 " set additional tmux syntax highlighting
