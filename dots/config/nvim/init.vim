@@ -32,6 +32,7 @@ Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vi
 " Plugin 'elzr/vim-json'                       " https://github.com/elzr/vim-json
 Plugin 'yggdroot/indentline'                 " https://github.com/yggdroot/indentline
 Plugin 'rrethy/vim-illuminate'               " https://github.com/RRethy/vim-illuminate - highlights word under cursor
+Plugin 'townk/vim-autoclose'                 " https://vimawesome.com/plugin/autoclose - auto close brackets, quotes, etc
 
 " markdown support
 Plugin 'godlygeek/tabular'
