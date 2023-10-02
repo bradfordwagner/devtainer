@@ -1,6 +1,6 @@
 " load extensions
+" \ "coc-go",
 let g:coc_global_extensions = [
-\ "coc-go",
 \ "coc-json",
 \ "coc-sumneko-lua",
 \ "coc-sh",

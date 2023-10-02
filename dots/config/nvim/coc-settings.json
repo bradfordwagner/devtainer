@@ -20,6 +20,7 @@
       },
     }
   },
+  "go.goplsArgs": ["-remote", "unix;/tmp/gopls-daemon-socket"],
   "go.goplsOptions": {
     "usePlaceholders": true,
     "analyses": {

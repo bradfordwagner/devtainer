@@ -261,6 +261,8 @@ function tmuxCopyLayout() {
 # golang
 ################################################
 # ginkgo watch
+# this is deeply integrated with coc/vim-go
+alias gopls_daemon='rm /tmp/gopls-daemon-socket; gopls -listen="unix;/tmp/gopls-daemon-socket"'
 alias gw='watchexec -cr -f "*.go" "ginkgo --race --cover"'
 alias gwr='watchexec -cr -f "*.go" "ginkgo --race --cover -r"'
 alias go_watch_test='watchexec -cr -f "*.go" -- go test ./...'

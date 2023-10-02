@@ -44,7 +44,6 @@ filetype plugin indent on    " required
 call plug#begin('~/.vim/plugged')
 " vim-plug plugins - run :PlugInstall
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ghifarit53/tokyonight-vim' " color scheme
@@ -177,17 +176,6 @@ let g:copilot_filetypes = {
     \ 'markdown': v:true,
     \ 'yaml': v:true,
     \ }
-
-" vim-go configs
-let g:go_fmt_autosave = 1
-let g:go_highlight_types = 1
-let g:go_addtags_transform = "camelcase"
-let g:go_fmt_command = "goimports"
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_extra_types = 1
-" " end vim-go
 
 syntax on
 " set additional tmux syntax highlighting
