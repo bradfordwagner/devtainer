@@ -11,6 +11,11 @@ vim.g.rooter_manual_only = 1
 -- must be loaded before lightspeed.vim
 vim.g.lightspeed_no_default_keymaps = 1
 
+-- vim.g.copilot_assume_mapped = true
+-- vim.g.copilot_no_tab_map = true
+--
+        -- imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+        -- let g:copilot_no_tab_map = v:true
 -- end global ----------------------------------------------
 
 

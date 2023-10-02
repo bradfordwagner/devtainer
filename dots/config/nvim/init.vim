@@ -168,10 +168,15 @@ let g:terraform_fmt_on_save = 0 " set terraform format on save
 
 " copilot
 " taken from: https://codeinthehole.com/tips/vim-and-github-copilot/
+let g:enabled = v:false
+let g:copilot_no_tab_map = v:true
+let g:copilot_assume_mapped = v:true
+" let g:copilot_proxy = 'localhost:3128'
 let g:copilot_filetypes = {
     \ 'gitcommit': v:true,
     \ 'markdown': v:true,
-    \ 'yaml': v:true
+    \ 'yaml': v:true,
+    \ '*': v:false,
     \ }
 
 " vim-go configs

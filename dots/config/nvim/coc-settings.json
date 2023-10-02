@@ -17,7 +17,13 @@
       "filetypes": ["go"],
       "initializationOptions": {
         "usePlaceholders": true
-      }
+      },
+    }
+  },
+  "go.goplsOptions": {
+    "usePlaceholders": true,
+    "analyses": {
+      "unusedparams": true,
     }
   },
   "Lua.workspace.checkThirdParty": false,
