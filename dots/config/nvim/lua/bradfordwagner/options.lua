@@ -1,7 +1,7 @@
 -- global --------------------------------------------------
 -- set up leaders
 vim.g.maploader = '\\'
-vim.g.maplocalloader = ','
+vim.g.maplocalleader = ','
 
 vim.g.vim_json_conceal = 0
 -- vim rooter to manual mode
