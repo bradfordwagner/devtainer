@@ -30,8 +30,6 @@ return require('packer').startup(function(use)
   use 'mfussenegger/nvim-dap' -- https://github.com/mfussenegger/nvim-dap
   use 'rcarriga/nvim-dap-ui'  -- https://github.com/rcarriga/nvim-dap-ui
   use 'leoluz/nvim-dap-go'    -- https://github.com/leoluz/nvim-dap-go
-  use 'ray-x/go.nvim'
-  use 'ray-x/guihua.lua' -- recommended if need floating window support
 
   -- jump
   use 'ggandor/lightspeed.nvim'

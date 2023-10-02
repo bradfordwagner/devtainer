@@ -142,6 +142,7 @@ augroup myGolang
     au!
     function! s:my_go_bindings()
       nmap <buffer> <LocalLeader>a :echo "hi friends"<cr>
+      nmap <buffer> <LocalLeader>i :GoImport 
     endfunction
     autocmd FileType go call s:my_go_bindings()
 augroup END
