@@ -71,12 +71,8 @@ wk.register({
   ['<leader>c'] = { '<cmd>FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<cr>', '' },
   ['<leader>d'] = { '<cmd>FZF ~/.dotfiles<cr>', '' },
 
-  ['ZSY'] = { '<cmd>set syntax=yaml<cr>', '' },
-  ['ZSH'] = { '<cmd>set syntax=helm<cr>', '' },
-  ['ZSB'] = { '<cmd>set syntax=bash<cr>', '' },
   ['ZGB'] = { '<cmd>Git blame<cr>', '' },
   ['ZL'] = { '<cmd>!zsh -lc cl<cr><cr>', '' },
-  ['Zr'] = { '<cmd>registers<cr>', '' },
 })
 
 require 'bradfordwagner.keybindings.easypick'
