@@ -30,10 +30,6 @@ map_key(n_v, 'F', '<Plug>Lightspeed_F', default_settings)
 map_key(n_v, 't', '<Plug>Lightspeed_t', default_settings)
 map_key(n_v, 'T', '<Plug>Lightspeed_T', default_settings)
 
--- copilot
--- vim.api.nvim_set_keymap(‘i’, ‘<C-/>’, ‘copilot#Accept(“<CR>”)’, {expr=true, silent=true})
-map_key(n, '<c-i>', 'copilot#Accept(“<CR>”)', default_settings)
-
 -- which-key
 vim.o.timeout = true
 vim.o.timeoutlen = 300

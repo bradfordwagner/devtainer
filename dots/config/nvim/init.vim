@@ -170,7 +170,7 @@ let g:terraform_fmt_on_save = 0 " set terraform format on save
 
 " copilot
 " taken from: https://codeinthehole.com/tips/vim-and-github-copilot/
-let g:enabled = v:false
+let g:enabled = v:true
 let g:copilot_no_tab_map = v:true
 let g:copilot_assume_mapped = v:true
 " let g:copilot_proxy = 'localhost:3128'
@@ -179,6 +179,8 @@ let g:copilot_filetypes = {
     \ 'markdown': v:true,
     \ 'yaml': v:true,
     \ }
+" had some trouble mapping this in lua
+imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")
 
 " vim-go configs
 let g:go_fmt_autosave = 1
