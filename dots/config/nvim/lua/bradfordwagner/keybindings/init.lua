@@ -133,8 +133,11 @@ augroup myGolang
     " delete old aut commands
     au!
     function! s:my_go_bindings()
-      nmap <buffer> <LocalLeader>a :echo "hi friends"<cr>
+      " yes the space is intentional
       nmap <buffer> <LocalLeader>i :GoImport 
+      nmap <buffer> <LocalLeader>I :GoImport! 
+      nmap <buffer> <LocalLeader>t :GoTestPkg<cr>
+      nmap <buffer> <LocalLeader>fs :GoFillStruct<cr>
     endfunction
     autocmd FileType go call s:my_go_bindings()
 augroup END
