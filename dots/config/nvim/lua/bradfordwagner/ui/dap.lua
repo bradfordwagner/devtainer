@@ -55,6 +55,8 @@ dapgo.setup {
       end,
     },
     -- allow env var lazy calls to allow rapid calls to run previous
+    -- sample usage:
+    -- export go_main=./cmd/prettier && export go_args=""
     {
       type = "go",
       name = "Debug Package (Env)",
