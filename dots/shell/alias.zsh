@@ -270,6 +270,13 @@ alias go_watch_test='watchexec -cr -f "*.go" -- go test ./...'
 alias gr="clear; ginkgo --race --cover"
 alias grr="clear; ginkgo --race --cover -r"
 alias grv="clear; ginkgo --race --cover -v"
+function go_init_godap_properties() {
+  file_name=.go_dap.properties
+  cat > ${file_name} << EOF
+go_main=./
+go_args=
+EOF
+}
 ################################################
 
 ################################################

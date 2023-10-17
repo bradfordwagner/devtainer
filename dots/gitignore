@@ -14,3 +14,4 @@ ansible.sh
 tags
 __debug_bin*
 .vim
+.go_dap.properties

@@ -41,6 +41,36 @@ dapui.setup {
 }
 
 local dapgo = require 'dap-go'
+-- loads .go_dap config file then reads a key from it to launch our debugger process
+local function load_go_config(key --[[string]])
+  local cwd = vim.fn.getcwd()
+  local fp = cwd .. '/.go_dap.properties'
+
+  -- see if the file exists
+  function file_exists(file)
+    local f = io.open(file, "rb")
+    if f then f:close() end
+    return f ~= nil
+  end
+
+  -- get all lines from a file, returns an empty
+  -- list/table if the file does not exist
+  function lines_from(file)
+    if not file_exists(file) then return {} end
+    local lines = {}
+    for line in io.lines(file) do
+      lines[#lines + 1] = line
+      local args = vim.fn.split(line, "=", true)
+      lines[args[1]] = args[2]
+    end
+    return lines
+  end
+
+  -- tests the functions above
+  local lines = lines_from(fp)
+
+  return lines[key]
+end
 dapgo.setup {
   dap_configurations = {
     -- shamelessly stolen from: https://github.com/leoluz/nvim-dap-go/issues/50#issuecomment-1559324365
@@ -59,13 +89,15 @@ dapgo.setup {
     -- export go_main=./cmd/prettier && export go_args=""
     {
       type = "go",
-      name = "Debug Package (Env)",
+      name = "Debug Package (.go_dap.properties)",
       request = "launch",
       program = function ()
-        return os.getenv("go_main")
+        return load_go_config("go_main")
       end,
       args = function()
-        return vim.fn.split(os.getenv("go_args"), " ", true)
+        local go_args = load_go_config("go_args")
+        return vim.fn.split(go_args, " ", true)
+        -- return ""
       end,
     },
   },
