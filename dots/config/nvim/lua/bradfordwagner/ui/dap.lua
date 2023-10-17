@@ -43,11 +43,28 @@ dapui.setup {
 local dapgo = require 'dap-go'
 dapgo.setup {
   dap_configurations = {
+    -- shamelessly stolen from: https://github.com/leoluz/nvim-dap-go/issues/50#issuecomment-1559324365
     {
       type = "go",
-      name = "Attach remote",
-      mode = "remote",
-      request = "attach",
+      name = "Debug Package (Arguments)",
+      request = "launch",
+      program = "${fileDirname}",
+      args = function()
+        local args_string = vim.fn.input("Args(split by <space>): ")
+        return vim.fn.split(args_string, " ", true)
+      end,
+    },
+    -- allow env var lazy calls to allow rapid calls to run previous
+    {
+      type = "go",
+      name = "Debug Package (Env)",
+      request = "launch",
+      program = function ()
+        return os.getenv("go_main")
+      end,
+      args = function()
+        return vim.fn.split(os.getenv("go_args"), " ", true)
+      end,
     },
   },
 }
