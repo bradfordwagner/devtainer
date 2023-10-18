@@ -85,7 +85,6 @@
     - watchexec
     - wget
     - ytop
-    - buildpacks/tap/pack
 
 - include_role:
     name: geerlingguy.mac.homebrew
