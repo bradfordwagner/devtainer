@@ -378,14 +378,8 @@ function mkdir_date() {
     mkdir "$(date +"%Y-%m-%d")"
 }
 
-# creates a file with perms 575
-# touch requests files with permissions 666
-# umask subtracts from it eg) 022
-# results in 644 - making 775 impossible
-function touch755() {
-  file=$1
-  touch ${file}
-  chmod 755 ${file}
+function touch_path() {
+  mkdir -p "$(dirname "$1")" && touch "$1"
 }
 ################################################
 
