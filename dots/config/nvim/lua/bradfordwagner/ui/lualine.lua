@@ -17,13 +17,13 @@ local colors = {
 -- override the inactive block, it wasn't visible enough
 -- see base here for color scheme https://github.com/challenger-deep-theme/vim/blob/master/lua/lualine/themes/challenger_deep.lua
 challenger_deep.inactive = {
-    a = { fg = colors.green, bg = colors.dark_asphalt , gui = "bold", },
-    c = { fg = colors.dark_cyan, bg = colors.dark_asphalt },
+    a = { fg = colors.green, bg = colors.asphalt_subtle , gui = "bold", },
+    c = { fg = colors.dark_cyan, bg = colors.asphalt_subtle },
 }
 challenger_deep.normal = {
-    a = { fg = colors.cyan, bg = colors.asphalt_subtle , gui = "bold", },
+    a = { fg = colors.cyan, bg = colors.dark_asphalt , gui = "bold", },
     b = { fg = colors.white, bg = colors.dark_asphalt },
-    c = { fg = colors.white, bg = colors.asphalt_subtle },
+    c = { fg = colors.white, bg = colors.dark_asphalt },
 }
 require 'lualine'.setup {
   options = {
