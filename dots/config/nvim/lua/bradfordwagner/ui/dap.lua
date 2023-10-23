@@ -8,10 +8,6 @@ dapui.setup {
           size = 0.05,
         },
         {
-          id = "scopes",
-          size = 0.25,
-        },
-        {
           id = "breakpoints",
           size = 0.25,
         },
@@ -22,6 +18,10 @@ dapui.setup {
         {
           id = "watches",
           size = 0.20,
+        },
+        {
+          id = "scopes",
+          size = 0.25,
         },
       },
       position = "left",

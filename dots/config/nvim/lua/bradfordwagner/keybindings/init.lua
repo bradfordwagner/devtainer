@@ -136,7 +136,9 @@ augroup myGolang
       " yes the space is intentional
       nmap <buffer> <LocalLeader>i :GoImport 
       nmap <buffer> <LocalLeader>I :GoImport! 
-      nmap <buffer> <LocalLeader>t :GoTestPkg<cr>
+      "" nmap <buffer> <LocalLeader>t :GoTestPkg<cr>
+      nmap <buffer> <LocalLeader>t :lua require('dap-go').debug_test()<cr>
+      nmap <buffer> <LocalLeader>r :lua require('dap-go').debug_test_last()<cr>
       nmap <buffer> <LocalLeader>fs :GoFillStruct<cr>
     endfunction
     autocmd FileType go call s:my_go_bindings()
