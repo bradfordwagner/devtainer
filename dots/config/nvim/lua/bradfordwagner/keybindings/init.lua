@@ -115,6 +115,11 @@ wk.register({
   ['<space>sa'] = { function() dapui.toggle(2) end, 'toggle bottom ui' },
   ['<space>sA'] = { dapui.close, 'close ui' },
   ['<space>sr'] = { dapui.toggle, 'toggle ui' },
+  -- require("dapui").float_element(<element ID>, <optional settings>)
+  ['<space>sv'] = {
+    function() dapui.float_element('scopes') end,
+    'toggle ui'
+  },
   -- run/debug
   ['<space>ss'] = { dap.continue, 'start/continue' },
   ['<space>sx'] = { dap.terminate, 'terminate' },

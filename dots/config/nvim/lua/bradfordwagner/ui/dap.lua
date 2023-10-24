@@ -38,6 +38,10 @@ dapui.setup {
       size = 30,
     },
   },
+  floating = {
+    max_height = 0.5,
+    max_width = 0.5,
+  }
 }
 
 local dapgo = require 'dap-go'
