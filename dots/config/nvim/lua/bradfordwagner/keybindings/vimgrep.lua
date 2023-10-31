@@ -68,16 +68,5 @@ return quick_telescope.setup {
         open_changelist()
       end
     },
-    -- TODO
-    -- map <expr><silent> <Space>gd ":vimgrep /" . input("grep files in directory: ") . "/ **/**" . input("dir match: ") . "**/* \<CR>co"
-    -- {
-    --   name = 'all dir',
-    --   cmd = prompt(function (search)
-    --     prompt(function (directory)
-    --       vim.cmd(string.format('vimgrep /%s/ %s **/*%s**/*', search, '%', directory))
-    --       open_changelist()
-    --     end)
-    --   end)
-    -- },
   }
 }
