@@ -112,6 +112,8 @@
        repo: git@github.com:andrewrothstein/ansible-k9s.git
      - name: andrewrothstein.kubectl
        repo: git@github.com:andrewrothstein/ansible-kubectl.git
+     - name: bradfordwagner.fork.terragrunt
+       repo: https://github.com/bradfordwagner/ansible-terragrunt.git
 
    - name: '{{ github_helm_dir }}'
      git:
