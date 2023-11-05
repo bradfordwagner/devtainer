@@ -17,11 +17,11 @@ end
 config.font = wezterm.font('JetBrains Mono', { weight = 'ExtraBold' })
 
 --
-config.window_decorations = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
-config.color_scheme       = "ChallengerDeep"
-config.enable_tab_bar     = false
+config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
+config.color_scheme              = "TokyoNight" -- "TokyoNight|ChallengerDeep"
+config.enable_tab_bar            = false
 config.window_close_confirmation = "NeverPrompt"
-config.font_size          = 12.0
+config.font_size                 = 12.0
 
 -- and finally, return the configuration to wezterm
 return config
