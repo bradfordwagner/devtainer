@@ -22,6 +22,7 @@ config.color_scheme              = "TokyoNight" -- "TokyoNight|ChallengerDeep"
 config.enable_tab_bar            = false
 config.window_close_confirmation = "NeverPrompt"
 config.font_size                 = 12.0
+config.audible_bell              = "Disabled"
 
 -- and finally, return the configuration to wezterm
 return config
