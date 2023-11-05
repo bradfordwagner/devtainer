@@ -38,6 +38,7 @@
         - spotify-player
         - spotify-tui
         - spotifyd
+        - wezterm
 
     - name: link configurations
       file:
