@@ -5,30 +5,36 @@ function layout() {
         initialState: {
             xRatio: 0.75,
             yRatio: 0.85,
-            ratioDelta: 0.05,
+            ratioDelta: 0.01,
             gapRatio: 0.05,     // placeholder space for focused window
-            hideFocused: false,
             lastFocusedID: "",  // window id which was last focused
         },
         commands: {
             command1: {
-                description: "Toggle Hide Focused",
+                description: "Decrease Y",
                 updateState: (state) => {
-                    return { ...state, hideFocused: !state.hideFocused };
+                    return { ...state, yRatio: Math.max(0, state.yRatio - state.ratioDelta) };
                 }
             },
-            command3: {
-                description: "Increase Scale Ratio",
+            command2: {
+                description: "Increase Y",
                 updateState: (state) => {
-                    return { ...state, xRatio: Math.min(1, state.xRatio + state.ratioDelta) };
+                    return { ...state, yRatio: Math.min(1, state.yRatio + state.ratioDelta) };
                     // return { ...state, xRatio: Math.min(1, state.xRatio + state.ratioDelta), yRatio: Math.min(1, state.yRatio + state.ratioDelta) };
                 }
             },
-            command4: {
-                description: "Decrease Scale Ratio",
+            command3: {
+                description: "Decrease X",
                 updateState: (state) => {
                     return { ...state, xRatio: Math.max(0, state.xRatio - state.ratioDelta) };
                     // return { ...state, xRatio: Math.max(0, state.xRatio - state.ratioDelta), yRatio: Math.max(0, state.yRatio - state.ratioDelta) };
+                }
+            },
+            command4: {
+                description: "Increase X",
+                updateState: (state) => {
+                    return { ...state, xRatio: Math.min(1, state.xRatio + state.ratioDelta) };
+                    // return { ...state, xRatio: Math.min(1, state.xRatio + state.ratioDelta), yRatio: Math.min(1, state.yRatio + state.ratioDelta) };
                 }
             },
         },
@@ -60,22 +66,12 @@ function layout() {
                 if ((hasNativeFocus && window.isFocused) || (!hasNativeFocus && window.id == state.lastFocusedID)) {
                     const xInset = screenFrame.width  * (1 - state.xRatio)/2
                     const yInset = screenFrame.height * (1 - state.yRatio)/2
-                    if (state.hideFocused) {
-                        // shrink the focused frame down so we can view everything easily
-                        frame = {
-                            x: screenFrame.x,
-                            y: currentY,
-                            width: screenFrame.width,
-                            height: yFocusedGap,
-                        };
-                    } else {
-                        frame = {
-                            x: screenFrame.x + xInset,
-                            y: screenFrame.y + yInset,
-                            width: screenFrame.width * state.xRatio,
-                            height: screenFrame.height * state.yRatio,
-                        };
-                    }
+                    frame = {
+                        x: screenFrame.x + xInset,
+                        y: screenFrame.y + yInset,
+                        width: screenFrame.width * state.xRatio,
+                        height: screenFrame.height * state.yRatio,
+                    };
                     currentY += yFocusedGap;
                 } else {
                     frame = {
