@@ -116,6 +116,13 @@ wk.register({
   ['<space>sA'] = { dapui.close, 'close ui' },
   ['<space>sr'] = { dapui.toggle, 'toggle ui' },
   ['<space>sv'] = { function() dapui.float_element('scopes') end, 'toggle ui' },
+  ['<space>sb'] = { function ()
+      vim.api.nvim_input('<space>sv')
+      vim.api.nvim_input('<cmd>sleep 25m<cr>')
+      vim.api.nvim_input('<space>sv')
+      vim.api.nvim_input('<cmd>sleep 25m<cr>')
+      vim.api.nvim_input('<space>zz')
+    end , 'fullscreen scopes'},
   -- run/debug
   ['<space>ss'] = { dap.continue, 'start/continue' },
   ['<space>sx'] = { dap.terminate, 'terminate' },
