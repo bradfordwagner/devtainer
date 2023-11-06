@@ -18,7 +18,10 @@ config.font = wezterm.font('JetBrains Mono', { weight = 'ExtraBold' })
 
 --
 config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
-config.color_scheme              = "TokyoNight" -- "TokyoNight|ChallengerDeep"
+config.color_scheme              = "ChallengerDeep" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard"
+config.colors = {
+  background = 'black',
+}
 config.enable_tab_bar            = false
 config.window_close_confirmation = "NeverPrompt"
 config.font_size                 = 12.0

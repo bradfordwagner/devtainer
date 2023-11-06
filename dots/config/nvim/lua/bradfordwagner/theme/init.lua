@@ -11,5 +11,5 @@
 -- " colorscheme smyck
 -- " colorscheme challenger_deep
 
--- vim.cmd.colorscheme 'challenger_deep'
-vim.cmd.colorscheme 'tokyonight'
+vim.cmd.colorscheme 'challenger_deep'
+-- vim.cmd.colorscheme 'tokyonight'
