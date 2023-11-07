@@ -10,9 +10,6 @@ vim.cmd([[
 vim.cmd ([[
   function! s:goyo_enter()
     if executable('tmux') && strlen($TMUX)
-      silent !tmux set status off
-      silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-
       let l:timeout = reltimefloat(reltime()) + 0.5
       while reltimefloat(reltime()) < l:timeout
         let l:res = system("sh -c \"tmux list-panes -F '#{E:window_zoomed_flag}' | head -c 1\"")
