@@ -34,6 +34,7 @@ Plugin 'yggdroot/indentline'                 " https://github.com/yggdroot/inden
 Plugin 'rrethy/vim-illuminate'               " https://github.com/RRethy/vim-illuminate - highlights word under cursor
 " Plugin 'townk/vim-autoclose'                 " https://vimawesome.com/plugin/autoclose - auto close brackets, quotes, etc
 Plugin 'raimondi/delimitmate'                " auto close brackets, quotes, etc
+Plugin 'tpope/vim-obsession'                 " https://github.com/tpope/vim-obsession
 
 " markdown support
 Plugin 'godlygeek/tabular'
