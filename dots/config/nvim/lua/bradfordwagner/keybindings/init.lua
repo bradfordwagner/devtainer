@@ -53,12 +53,14 @@ wk.register({
   ['<space>z'] = { 'Zoom' },
   ['<space>as'] = { '<cmd>Windows<cr>', 'select window' },
   ['<space>zc'] = { '<cmd>let &scrolloff=999-&scrolloff<CR>', 'toggle auto center cursor' },
+  ['<space>o'] = { '<cmd>Obsess session.vim<cr>', 'obsession session capture' },
 
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
   ['ZD'] = { '<cmd>r !date<cr>', 'Insert (D)ate' },
   ['ZR'] = { '<cmd>Restart<cr><cmd>source $MYVIMRC<cr><cmd>noh<cr><cmd>CocRestart<cr>', 'Restart' },
   ['Q'] = { '<cmd>q!<cr>', 'Quit' },
+  ['<space>q'] = { '<cmd>qa!<cr>', 'Quit All' },
   ['ZP'] = { '<cmd>set paste<cr>', '' },
   ['Zp'] = { '<cmd>set nopaste<cr>', ''},
   ['<C-n>'] = { '<cmd>NvimTreeToggle<cr>', '' },
