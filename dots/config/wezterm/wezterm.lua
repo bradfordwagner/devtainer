@@ -27,5 +27,18 @@ config.window_close_confirmation = "NeverPrompt"
 config.font_size                 = 12.0
 config.audible_bell              = "Disabled"
 
+-- window border
+local border_color = '#565575'
+config.window_frame = {
+  border_left_width    = '0.5cell',
+  border_right_width   = '0.5cell',
+  border_bottom_height = '0.25cell',
+  border_top_height    = '0.25cell',
+  border_left_color    = border_color,
+  border_right_color   = border_color,
+  border_bottom_color  = border_color,
+  border_top_color     = border_color,
+}
+
 -- and finally, return the configuration to wezterm
 return config
