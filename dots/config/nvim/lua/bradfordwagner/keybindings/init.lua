@@ -96,6 +96,7 @@ wk.register({
   ['<space>f'] = { '<cmd>Easypick files<cr>', 'file finder' },
   -- buffers
   ['<space>dd'] = { '<cmd>Easypick buffers<cr>', 'Buffers' },
+  ['<space>h']  = { builtin.buffers, 'Buffers History' },
   -- ag
   ['<space>da'] = { '<cmd>Easypick find<cr>', 'Find' },
   -- misc
