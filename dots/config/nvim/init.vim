@@ -26,7 +26,7 @@ Plugin 'christianrondeau/vim-base64'         " used for base64 easy encoding wah
 Plugin 'tpope/vim-tbone'                     " lets us do our tmux yank - super important
 Plugin 'tpope/vim-fugitive'                  " helps with git commands, blame, etc https://github.com/tpope/vim-fugitive
 Plugin 'hashivim/vim-terraform'              " terraform support with completion of sub commands - https://github.com/hashivim/vim-terraform
-Plugin 'flazz/vim-colorschemes'
+" Plugin 'flazz/vim-colorschemes'
 Plugin 'challenger-deep-theme/vim', {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
 Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vim-tmux-navigator
 " Plugin 'elzr/vim-json'                       " https://github.com/elzr/vim-json
@@ -65,6 +65,7 @@ Plug 'MunifTanjim/nui.nvim'    " required by noice
 Plug 'rcarriga/nvim-notify'    " https://github.com/rcarriga/nvim-notify - pretty notifications
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " https://github.com/akinsho/bufferline.nvim
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 " lualine: https://github.com/nvim-lualine/lualine.nvim#installation
 Plug 'nvim-lualine/lualine.nvim'

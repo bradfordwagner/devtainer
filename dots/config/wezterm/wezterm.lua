@@ -18,13 +18,13 @@ config.font = wezterm.font('JetBrains Mono', { weight = 'ExtraBold' })
 
 --
 config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
-config.color_scheme              = "ChallengerDeep" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard"
-config.colors = {
-  background = 'black',
-}
+config.color_scheme              = "One Half Black (Gogh)" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)"
+-- config.colors = {
+--   background = 'black',
+-- }
 config.enable_tab_bar            = false
 config.window_close_confirmation = "NeverPrompt"
-config.font_size                 = 12.0
+config.font_size                 = 10.0
 config.audible_bell              = "Disabled"
 
 -- window border

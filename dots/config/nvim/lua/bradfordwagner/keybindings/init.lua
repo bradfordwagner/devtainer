@@ -52,8 +52,8 @@ wk.register({
   ['<space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
   ['<space>z'] = { 'Zoom' },
   ['<space>as'] = { '<cmd>Windows<cr>', 'select window' },
+  ['<space>i'] = { '<cmd>Windows<cr>', 'select window' },
   ['<space>zc'] = { '<cmd>let &scrolloff=999-&scrolloff<CR>', 'toggle auto center cursor' },
-  ['<space>o'] = { '<cmd>Obsess session.vim<cr>', 'obsession session capture' },
 
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
@@ -96,7 +96,7 @@ wk.register({
   ['<space>f'] = { '<cmd>Easypick files<cr>', 'file finder' },
   -- buffers
   ['<space>dd'] = { '<cmd>Easypick buffers<cr>', 'Buffers' },
-  ['<space>h']  = { builtin.buffers, 'Buffers History' },
+  ['<space>o']  = { builtin.buffers, 'Buffers History' },
   -- ag
   ['<space>da'] = { '<cmd>Easypick find<cr>', 'Find' },
   -- misc
