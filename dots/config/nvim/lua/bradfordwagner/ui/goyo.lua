@@ -23,7 +23,7 @@ vim.cmd ([[
       " Need to pass default width (80) to Goyo to tell
       " it to turn on rather than toggle.
       " execute 'Goyo 75%x100%'
-      execute 'Goyo 75%+7%x100%'
+      execute 'Goyo 75%+15%x100%'
     endif
   endfunction
   function! s:goyo_leave()
