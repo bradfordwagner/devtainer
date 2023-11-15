@@ -119,6 +119,7 @@ map <silent> <Space>wn :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
 map <silent> <Space>wj :split<CR>
 map <silent> <Space>wt :tabonly<CR>
+map <silent> <Space>wq :tabclose<CR>
 
 " shell bindings
 let &shell='/bin/zsh -l' " set deafult shell to zsh login  shell to pull configurations
