@@ -33,6 +33,8 @@ return require('packer').startup(function(use)
   -- go config
   use 'ray-x/go.nvim'
   use 'ray-x/guihua.lua' -- recommended if need floating window support
+  -- oil
+  use "stevearc/oil.nvim"
 
   -- jump
   use 'ggandor/lightspeed.nvim'
