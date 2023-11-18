@@ -5,7 +5,7 @@ function layout() {
         initialState: {
             xRatio: 0.75,
             yRatio: 0.85,
-            ratioDelta: 0.01,
+            ratioDelta: 0.02,
             gapRatio: 0.05,     // placeholder space for focused window
             lastFocusedID: "",  // window id which was last focused
         },
