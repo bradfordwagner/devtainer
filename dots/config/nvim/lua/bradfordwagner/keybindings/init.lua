@@ -94,6 +94,7 @@ wk.register({
   ['<space>d/'] = { builtin.help_tags, '' },
   ['<space>d;'] = { builtin.command_history, '' },
   ['<space>ds'] = { builtin.treesitter, '' },
+  ['<space><space>'] = { "<cmd>Oil<cr>", 'oil' },
   -- files
   ['<space>f'] = { '<cmd>Easypick files<cr>', 'file finder' },
   -- buffers
