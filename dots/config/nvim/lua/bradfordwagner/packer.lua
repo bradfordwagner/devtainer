@@ -35,6 +35,8 @@ return require('packer').startup(function(use)
   use 'ray-x/guihua.lua' -- recommended if need floating window support
   -- oil
   use "stevearc/oil.nvim"
+  -- rainbow delims
+  use "HiPhish/rainbow-delimiters.nvim"
 
   -- jump
   use 'ggandor/lightspeed.nvim'
