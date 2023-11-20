@@ -99,7 +99,7 @@ zle -N alacritty_transparency_disable
 # note \M- is used for meta
 # we can also use a modal mode for sequence of binds
 export jump_dir_editor_cmd="v"
-bindkey -s '\C-kj' 'nvim\n'
+bindkey -s '\C-kj' 'v\n'
 bindkey -s '\C-kk' 'kc_app_k9s\n'
 bindkey '\C-kd' fzf-cd-widget
 bindkey -s '\C-ksd' 'jd \n'
