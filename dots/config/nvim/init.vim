@@ -119,6 +119,7 @@ map <silent> <Space>wn :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
 map <silent> <Space>wj :split<CR>
 map <silent> <Space>wt :tabonly<CR>
+map <silent> <Space>wo :only<CR>
 map <silent> <Space>wq :tabclose<CR>
 
 " shell bindings
