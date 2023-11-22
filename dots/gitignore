@@ -16,3 +16,4 @@ __debug_bin*
 .vim
 .go_dap.properties
 session.vim
+.vim-bookmarks
