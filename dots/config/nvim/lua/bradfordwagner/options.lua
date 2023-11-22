@@ -10,6 +10,10 @@ vim.g.rooter_manual_only = 1
 -- lightspeed-disable-default-mappings
 -- must be loaded before lightspeed.vim
 vim.g.lightspeed_no_default_keymaps = 1
+
+-- bookmarks - https://github.com/MattesGroeger/vim-bookmarks
+-- do not globally save bookmarks
+vim.g.bookmark_save_per_working_dir = 1
 -- end global ----------------------------------------------
 
 
