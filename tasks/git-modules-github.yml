@@ -146,6 +146,9 @@
      - name: argo
        repo: https://github.com/argoproj/argo-helm.git
        version: main
+     - name: argo.helm
+       repo: https://github.com/argoproj/argo-helm.git
+       version: main
 
    - name: '{{ github_python_dir }}'
      git:
