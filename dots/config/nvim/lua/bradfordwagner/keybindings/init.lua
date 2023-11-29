@@ -88,13 +88,14 @@ wk.register({
 
 -- new stuff
 local builtin = require 'telescope.builtin'
+local oil = require 'oil'
 wk.register({
   -- base helpers
   ['<space>dt'] = { builtin.builtin, '' },
   ['<space>d/'] = { builtin.help_tags, '' },
   ['<space>d;'] = { builtin.command_history, '' },
   ['<space>ds'] = { builtin.treesitter, '' },
-  ['<space><space>'] = { "<cmd>Oil<cr>", 'oil' },
+  ['<space><space>'] = { oil.open, 'oil'},
   -- files
   ['<space>f'] = { '<cmd>Easypick files<cr>', 'file finder' },
   -- buffers

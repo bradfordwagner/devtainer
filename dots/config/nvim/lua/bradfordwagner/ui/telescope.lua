@@ -65,7 +65,7 @@ telescope.setup {
         ["<c-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
         ["<c-l>"] = stopinsert(custom_actions.multi_selection_open_vertical),
         ["<c-k>"] = stopinsert(custom_actions.multi_selection_open_horizontal),
-        ["<c-o>"] = stopinsert(custom_actions.multi_selection_open_tab),
+        ["<c-i>"] = stopinsert(custom_actions.multi_selection_open_tab),
         ["<cr>"]  = stopinsert(custom_actions.multi_selection_open)
       },
     },
