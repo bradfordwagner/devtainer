@@ -144,6 +144,12 @@ map <silent> <Space>j <C-W>j
 map <silent> <Space>k <C-W>k
 map <silent> <Space>l <C-W>l
 
+" pane swap
+map <silent> <Space>H <C-W>H
+map <silent> <Space>J <C-W>J
+map <silent> <Space>K <C-W>K
+map <silent> <Space>L <C-W>L
+
 " tab navigation
 map <silent> <Space>c gT
 map <silent> <Space>v gt
