@@ -163,6 +163,8 @@ augroup myGolang
       nmap <buffer> <LocalLeader>r `P:lua require('dap-go').debug_test()<cr><C-o>
       nmap <buffer> <LocalLeader>fs :GoFillStruct<cr>
       nmap <buffer> <LocalLeader>g iIt("should return pass", func() { Expect(true).To(BeTrue()) })<Esc>V>
+      nmap <buffer> <LocalLeader>fs :GoFillStruct<cr>
+      nmap <buffer> <LocalLeader>R :GoRename 
     endfunction
     autocmd FileType go call s:my_go_bindings()
 augroup END
