@@ -48,7 +48,7 @@ wk.setup {
 }
 wk.register({
   ['<space>'] = { name = 'Customized Binds' },
-  ['<space>L'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
+  ['<space>F'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
   -- goyo keymaps
   ['<space>zx'] = { '<cmd>Goyo!<cr><cmd>! tmux resize-pane -Z<cr>' , 'Exit Goyo, Tmux Fullscreen' },
   ['<space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
