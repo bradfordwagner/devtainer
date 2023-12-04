@@ -37,6 +37,7 @@ return require('packer').startup(function(use)
   use "stevearc/oil.nvim"
   -- rainbow delims
   use "HiPhish/rainbow-delimiters.nvim"
+  use { 'echasnovski/mini.nvim', branch = 'stable' } -- https://github.com/echasnovski/mini.nvim
 
   -- jump
   use 'ggandor/lightspeed.nvim'
