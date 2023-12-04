@@ -230,6 +230,6 @@ set autoread " https://vimdoc.sourceforge.net/htmldoc/options.html#%27autoread%2
 set nocompatible " be iMproved, required
 
 " enable transparency by default
-let g:transparent_enabled=1
+let g:transparent_enabled=0
 
 autocmd VimEnter * Obsession session.vim
