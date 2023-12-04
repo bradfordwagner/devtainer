@@ -165,6 +165,8 @@ augroup myGolang
       nmap <buffer> <LocalLeader>g iIt("should return pass", func() { Expect(true).To(BeTrue()) })<Esc>V>
       nmap <buffer> <LocalLeader>fs :GoFillStruct<cr>
       nmap <buffer> <LocalLeader>R :GoRename 
+      " add := to the beggining of the line and go to insert mode
+      nmap <buffer> <LocalLeader>= I :=<Esc>I
     endfunction
     autocmd FileType go call s:my_go_bindings()
 augroup END
