@@ -170,7 +170,7 @@ vmap '' :w !pbcopy<CR><CR>
 
 " setup highlighting
 set hlsearch!
-nnoremap <F3> :set hlsearch!<CR>
+nnoremap <silent> <F3> :set hlsearch!<CR>
 
 " vim markdown disable folding
 let g:vim_markdown_folding_disabled = 1
