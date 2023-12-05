@@ -166,7 +166,8 @@ augroup myGolang
       nmap <buffer> <LocalLeader>fs :GoFillStruct<cr>
       nmap <buffer> <LocalLeader>R :GoRename 
       " add := to the beggining of the line and go to insert mode
-      nmap <buffer> <LocalLeader>= I a := <Esc>0ws
+      nmap <buffer> <LocalLeader>= Ia := <Esc>0ws
+      nmap <buffer> <LocalLeader>- Ia = <Esc>0ws
     endfunction
     autocmd FileType go call s:my_go_bindings()
 augroup END
