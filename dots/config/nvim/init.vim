@@ -231,5 +231,3 @@ set nocompatible " be iMproved, required
 
 " enable transparency by default
 let g:transparent_enabled=0
-
-autocmd VimEnter * Obsession session.vim

@@ -308,7 +308,8 @@ alias c=clear
 ################################################
 # vim
 alias vim=nvim
-alias v='[[ -f session.vim ]] && nvim -S session.vim || nvim'
+# manually invoke obsession because rebasing was overwriting the session file when using autocmd
+alias v='[[ -f session.vim ]] && nvim -S session.vim -c Obsession || nvim -c Obsession'
 function vimLoadPlugins() {
   # add these commands to devtainer startup
   # after link shell - because init vim is required
