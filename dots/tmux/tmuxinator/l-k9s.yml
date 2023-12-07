@@ -1,7 +1,7 @@
 # ~/.tmuxinator/l-k9s.yml
 
 name: l-k9s
-root: ~/workspace/doe-git/devops/tg/devops.tg.vault.mutating.webhook.live
+root: ~workspace/ado-git/doe/tg.vault.mutating.webhook.live
 startup_window: local
 startup_pane: "2" # index from 0
 
