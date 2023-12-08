@@ -3,13 +3,11 @@ set -x
 layer=${1}
 
 # colors
-typeset -A colors=()
-colors[insert]=magenta
-colors[base]=brightyellow
-colors[speed]=brightmagenta
-colors[resize]=brightblue
-colors[kube]=red
-color=${colors[$layer]}
+[[ "${layer}" == "insert" ]] && color=magenta
+[[ "${layer}" == "base" ]] && color=brightyellow
+[[ "${layer}" == "speed" ]] && color=brightmagenta
+[[ "${layer}" == "resize" ]] && color=brightblue
+[[ "${layer}" == "kube" ]] && color=red
 
 # active border
 # bg=default to make it a thin bar, bg=${color} to make it a full bar
@@ -23,13 +21,12 @@ standard_status_color="#[fg=green]"
 tmux set -g status-left "${standard_status_color}kt=[#[fg=${color}]#{client_key_table}${standard_status_color}] ws=[#{?pane_synchronized,#[fg=brightred]sync#[fg=green],no_sync}] "
 
 # keytables/layers
-typeset -A layers=()
-layers[base]=b
-layers[resize]=r
-layers[kube]=k
-layers[speed]=s
-layers[insert]=root
-key_table=${layers[${layer}]}
+[[ "${layer}" == "base" ]] && key_table=b
+[[ "${layer}" == "resize" ]] && key_table=r
+[[ "${layer}" == "kube" ]] && key_table=k
+[[ "${layer}" == "speed" ]] && key_table=s
+[[ "${layer}" == "insert" ]] && key_table=root
+
 # set key-table for all existing sessions
 # -g does not work as of tmux 3.3a
 tmux list-sessions -F "#{session_name}" \
