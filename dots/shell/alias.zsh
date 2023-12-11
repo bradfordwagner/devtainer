@@ -157,22 +157,6 @@ function fd() {
                    fzf)
   cd "$dir"
 }
-# taken from fd -> vim directory
-function vd() {
-  fd
-  nvim .
-}
-# taken from vd, but now using workspace
-function wvd() {
-  cd ~/workspace
-  fd
-  nvim .
-}
-function wgd() {
-  cd ~/workspace
-  fd
-  git open
-}
 alias vh='nvim .'           # vim here
 alias wcd='cd ~/workspace' # workspace cd
 alias wa='watch -c -n 1 '
@@ -305,26 +289,12 @@ alias runSocat='echo starting socat on port 2333; socat -v tcp-l:2333,fork exec:
 alias c=clear
 ################################################
 
-################################################
-# vim
+## vim #########################################
 alias vim=nvim
 # manually invoke obsession because rebasing was overwriting the session file when using autocmd
-alias v='[[ -f session.vim ]] && nvim -S session.vim -c Obsession || nvim -c Obsession'
-function vimLoadPlugins() {
-  # add these commands to devtainer startup
-  # after link shell - because init vim is required
-  nvim +silent +PlugInstall +qall
-  nvim +silent +PluginInstall +qall
-  # in shell as in arch needs to be installed by root
-  npm install -g bash-language-server
-  # nvim +slient +VimEnter +PlugInstall +qall
-  # nvim +slient +VimEnter +PluginInstall +qall
-  vim +slient +VimEnter +PlugInstall +qall
-  vim +slient +VimEnter +PluginInstall +qall
-}
-
-function vimClearSWP() {
-  find . -name "*.swp" -delete
+alias v='[[ -f session.vim ]] && nvim -S Session.vim +Obsession || nvim +Obsession'
+function vim_clear_session() {
+  find . -iname 'session.vim' -delete -print
 }
 ################################################
 
