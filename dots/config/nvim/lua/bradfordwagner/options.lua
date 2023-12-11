@@ -23,3 +23,12 @@ vim.o.mouse = '' -- disable mouse
 vim.o.number = true
 -- vim.o.relativenumber = true
 -- end options ---------------------------------------------
+
+-- autocmd -------------------------------------------------
+vim.api.nvim_create_user_command('AutocommandObsession',
+  function ()
+    vim.cmd [[ autocmd VimEnter * Obsession session.vim ]]
+  end, {}
+)
+-- end autocmd ---------------------------------------------
+

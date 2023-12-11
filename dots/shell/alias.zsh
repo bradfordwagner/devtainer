@@ -292,7 +292,7 @@ alias c=clear
 ## vim #########################################
 alias vim=nvim
 # manually invoke obsession because rebasing was overwriting the session file when using autocmd
-alias v='[[ -f session.vim ]] && nvim -S Session.vim +Obsession || nvim +Obsession'
+alias v='[[ -f session.vim ]] && nvim -S session.vim +AutocommandObsession || nvim +AutocommandObsession'
 function vim_clear_session() {
   find . -iname 'session.vim' -delete -print
 }
