@@ -8,7 +8,7 @@ startup_pane: "2" # index from 0
 windows:
   - port.forward:
       panes:
-        - sudo -E kubefwd svc --all-namespaces
+        - echo sudo -E kubefwd svc --all-namespaces
   - local:
       layout: '710b,261x191,0,0[261x37,0,0{130x37,0,0,125,130x37,131,0,129},261x153,0,38,128]'
       panes:
