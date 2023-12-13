@@ -5,7 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Created by newuser for 5.4.2
 # enable the following for profiling
 # zmodload zsh/zprof
 
@@ -56,6 +55,8 @@ export LESS_TERMCAP_so=$'\E[30;43m' \
 export LESS_TERMCAP_ue=$'\E[0m' \
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' \
 
+# export GITSTATUS_LOG_LEVEL=DEBUG
+
 # load oh my zsh
 source $ZSH/oh-my-zsh.sh
 
@@ -77,13 +78,10 @@ unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 # enable fzf tab completions
 enable-fzf-tab
 
-# enable the following for profiling
-# zprof
-
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
-autoload -Uz compinit && compinit
+# autoload -Uz compinit && compinit
 
 # double source this.. yuck. its mostly to override some of the zsh defaults like "l", and "ll"
 [ -f ~/.dotfiles/dots/shell/alias.zsh ] && source ~/.dotfiles/dots/shell/alias.zsh
@@ -110,3 +108,6 @@ bindkey '\C-ktd' alacritty_transparency_disable
 bindkey -s '\C-kl' 'task \t'
 bindkey -s '\C-k\C-l' ' && task \t'
 bindkey -s '\C-k\C-s' 'gsd\n' # give git status
+
+# enable the following for profiling
+# zprof
