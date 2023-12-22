@@ -111,7 +111,6 @@ function argocd_app_delete() {
 function argocd_app_wf() {
   clear
   items=(
-    tunnel
     submit_local_branch
     logs
     watch
@@ -119,6 +118,7 @@ function argocd_app_wf() {
     resubmit
     delete
     delete_all
+    tunnel
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   argocd_app_wf_${choice}
