@@ -111,6 +111,7 @@ function argocd_app_delete() {
 function argocd_app_wf() {
   clear
   items=(
+    tunnel
     submit_local_branch
     logs
     watch
@@ -123,6 +124,9 @@ function argocd_app_wf() {
   argocd_app_wf_${choice}
 }
 
+function argocd_app_wf_tunnel() {
+  ssh -L 30002:localhost:30002 bwagner@bwagner-studio
+}
 function argocd_app_wf_submit_local_branch() {
   clear; argo submit workflow.yaml --log -p git_version=$(git branch --show-current)
 }
