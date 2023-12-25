@@ -82,4 +82,3 @@ tasks:
   lua_link:
     cmds:
       - ln -s ~/.local/share/nvim/site/pack/packer/start ./dots/config/nvim/lua/packer_plugins
-      # - ln -s ./dots/config/nvim/lua/packer_plugins ~/.local/share/nvim/site/pack/packer/start
