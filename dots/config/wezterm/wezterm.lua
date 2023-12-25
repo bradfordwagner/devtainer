@@ -17,7 +17,7 @@ config.font = wezterm.font('JetBrains Mono', { weight = 'ExtraBold' })
 
 --
 config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
-config.color_scheme              = "One Half Black (Gogh)" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)"
+config.color_scheme              = "Modus-Vivendi" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)"
 -- config.colors = {
 --   background = 'black',
 -- }

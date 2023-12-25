@@ -38,6 +38,8 @@ return require('packer').startup(function(use)
   -- rainbow delims
   use "HiPhish/rainbow-delimiters.nvim"
   use { 'echasnovski/mini.nvim', branch = 'stable' } -- https://github.com/echasnovski/mini.nvim
+  -- color scheme
+  use({ "miikanissi/modus-themes.nvim" })
 
   -- jump
   use 'ggandor/lightspeed.nvim'
