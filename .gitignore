@@ -1,3 +1,4 @@
 test.sh
 roles
 dots/config/nvim/pack/
+dots/config/nvim/lua/packer_plugins
