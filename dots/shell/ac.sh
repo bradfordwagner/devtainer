@@ -4,6 +4,7 @@
 function ac() {
   clear
   items=(
+    tunnel
     sync
     open_ui
     terminate
@@ -15,6 +16,9 @@ function ac() {
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   argocd_app_${choice}
+}
+function argocd_app_tunnel() {
+  ssh -L 30001:localhost:30001 bwagner@bwagner-studio
 }
 function argocd_find_app() {
   cache=~/.ac.apps
