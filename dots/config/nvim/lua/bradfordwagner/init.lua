@@ -1,7 +1,6 @@
 -- load plugin managers
 require 'bradfordwagner.options'
--- require 'bradfordwagner.lazy'
-require 'bradfordwagner.packer'
+require 'bradfordwagner.lazy'
 
 -- must be before theme load
 require 'bradfordwagner.ui'
