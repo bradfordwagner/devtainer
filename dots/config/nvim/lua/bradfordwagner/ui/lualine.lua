@@ -28,7 +28,8 @@ challenger_deep.normal = {
 require 'lualine'.setup {
   options = {
     -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
-    theme = 'onedark'
+    theme = 'tokyonight-moon',
+    -- theme = 'onedark'
     -- theme = challenger_deep
   },
   sections = {

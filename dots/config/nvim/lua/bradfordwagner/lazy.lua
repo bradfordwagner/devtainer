@@ -37,8 +37,13 @@ require("lazy").setup({
   'HiPhish/rainbow-delimiters.nvim',
   { 'echasnovski/mini.nvim', branch = 'stable' }, -- https://github.com/echasnovski/mini.nvim
   -- color scheme
-  { 'miikanissi/modus-themes.nvim', lazy = false },
-
+  'miikanissi/modus-themes.nvim',
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
 
   -- snippets
   {
@@ -93,7 +98,6 @@ require("lazy").setup({
   -- vim-plug
   { 'junegunn/fzf', build = ':call fzf#install()' },
   'junegunn/fzf.vim',
-  'ghifarit53/tokyonight-vim', -- color scheme
   'kmonad/kmonad-vim',
   'tpope/vim-sleuth',            -- indentation
   'norcalli/nvim-colorizer.lua', -- https://github.com/norcalli/nvim-colorizer.lua
