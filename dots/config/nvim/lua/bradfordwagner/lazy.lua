@@ -121,5 +121,8 @@ require("lazy").setup({
   },
   {'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons'},
   {'fatih/vim-go', build = ':GoUpdateBinaries' },
+
+  -- completion
   {'neoclide/coc.nvim', branch = 'release' },
+  'github/copilot.vim',
 })
