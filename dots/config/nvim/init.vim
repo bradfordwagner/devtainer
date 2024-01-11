@@ -6,42 +6,7 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" Vundle plugins
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'towolf/vim-helm'
-Plugin 'junegunn/goyo.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'ntpeters/vim-better-whitespace'      " shows trailing whitespace
-Plugin 'tpope/vim-surround'
-Plugin 'Align'
-Plugin 'mattesgroeger/vim-bookmarks'
-Plugin 'auwsmit/vim-active-numbers'          " show numbers in gutter from 0 current line up and down
-Plugin 'tpope/vim-commentary'
-Plugin 'christianrondeau/vim-base64'         " used for base64 easy encoding wahoo
-Plugin 'tpope/vim-tbone'                     " lets us do our tmux yank - super important
-Plugin 'tpope/vim-fugitive'                  " helps with git commands, blame, etc https://github.com/tpope/vim-fugitive
-Plugin 'hashivim/vim-terraform'              " terraform support with completion of sub commands - https://github.com/hashivim/vim-terraform
-" Plugin 'flazz/vim-colorschemes'
-Plugin 'challenger-deep-theme/vim', {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
-Plugin 'christoomey/vim-tmux-navigator'      " https://github.com/christoomey/vim-tmux-navigator
-" Plugin 'elzr/vim-json'                       " https://github.com/elzr/vim-json
-Plugin 'yggdroot/indentline'                 " https://github.com/yggdroot/indentline
-Plugin 'rrethy/vim-illuminate'               " https://github.com/RRethy/vim-illuminate - highlights word under cursor
-" Plugin 'townk/vim-autoclose'                 " https://vimawesome.com/plugin/autoclose - auto close brackets, quotes, etc
-Plugin 'raimondi/delimitmate'                " auto close brackets, quotes, etc
-Plugin 'tpope/vim-obsession'                 " https://github.com/tpope/vim-obsession
-
-" markdown support
-Plugin 'godlygeek/tabular'
-Plugin 'preservim/vim-markdown'
-call vundle#end()            " required
-
-filetype plugin indent on    " required
+filetype plugin indent on " required
 
 " vim-plug
 call plug#begin('~/.vim/plugged')

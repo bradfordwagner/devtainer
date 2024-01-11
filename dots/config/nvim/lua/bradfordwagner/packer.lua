@@ -53,6 +53,32 @@ return require('packer').startup(function(use)
     requires = { 'nvim-lua/plenary.nvim' }
   }
 
+  -- vundle plugins
+  use 'leafgarland/typescript-vim'
+  use 'ryanoasis/vim-devicons'
+  use 'towolf/vim-helm'
+  use 'junegunn/goyo.vim'
+  use 'airblade/vim-gitgutter'
+  use 'ntpeters/vim-better-whitespace'      -- shows trailing whitespace
+  use 'tpope/vim-surround'
+  use 'vim-scripts/Align'
+  use 'mattesgroeger/vim-bookmarks'
+  use 'auwsmit/vim-active-numbers'          -- show numbers in gutter from 0 current line up and down
+  use 'tpope/vim-commentary'
+  use 'christianrondeau/vim-base64'         -- used for base64 easy encoding wahoo
+  use 'tpope/vim-tbone'                     -- lets us do our tmux yank - super important
+  use 'tpope/vim-fugitive'                  -- helps with git commands, blame, etc https://github.com/tpope/vim-fugitive
+  use 'hashivim/vim-terraform'              -- terraform support with completion of sub commands - https://github.com/hashivim/vim-terraform
+  use 'challenger-deep-theme/vim'           -- {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
+  use 'christoomey/vim-tmux-navigator'      -- https://github.com/christoomey/vim-tmux-navigator
+  use 'yggdroot/indentline'                 -- https://github.com/yggdroot/indentline
+  use 'rrethy/vim-illuminate'               -- https://github.com/RRethy/vim-illuminate - highlights word under cursor
+  use 'raimondi/delimitmate'                -- auto close brackets, quotes, etc
+  use 'tpope/vim-obsession'                 -- https://github.com/tpope/vim-obsession
+  -- markdown support
+  use 'godlygeek/tabular'
+  use 'preservim/vim-markdown'
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
