@@ -1,12 +1,12 @@
 -- install https://github.com/folke/lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
     lazypath,
   })
 end
@@ -32,9 +32,9 @@ require("lazy").setup({
   'ray-x/go.nvim',
   'ray-x/guihua.lua', -- recommended if need floating window support
   -- oil
-  "stevearc/oil.nvim",
+  'stevearc/oil.nvim',
   -- rainbow delims
-  "HiPhish/rainbow-delimiters.nvim",
+  'HiPhish/rainbow-delimiters.nvim',
   { 'echasnovski/mini.nvim', branch = 'stable' }, -- https://github.com/echasnovski/mini.nvim
   -- color scheme
   { 'miikanissi/modus-themes.nvim', lazy = false },
@@ -75,7 +75,7 @@ require("lazy").setup({
   'preservim/vim-markdown',
 
   -- vim-plug
-  { 'junegunn/fzf', build = ":call fzf#install()" },
+  { 'junegunn/fzf', build = ':call fzf#install()' },
   'junegunn/fzf.vim',
   'ghifarit53/tokyonight-vim', -- color scheme
   'kmonad/kmonad-vim',
@@ -93,17 +93,17 @@ require("lazy").setup({
   -- If you want to have icons in your statusline choose one of these
   'nvim-tree/nvim-web-devicons',
   'nvim-tree/nvim-tree.lua', -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Installation
-  {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
+  {'nvim-treesitter/nvim-treesitter', build = ':TSUpdate'},
   {
-    "ibhagwan/fzf-lua",
+    'ibhagwan/fzf-lua',
     -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       -- calling `setup` is optional for customization
-      require("fzf-lua").setup({})
+      require('fzf-lua').setup({})
     end
   },
-  {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'},
+  {'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons'},
   {'fatih/vim-go', build = ':GoUpdateBinaries' },
   {'neoclide/coc.nvim', branch = 'release' },
 })
