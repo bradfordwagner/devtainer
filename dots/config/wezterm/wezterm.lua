@@ -17,10 +17,10 @@ config.font = wezterm.font('JetBrains Mono', { weight = 'ExtraBold' })
 
 --
 config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
-config.color_scheme              = "Modus-Vivendi" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)"
--- config.colors = {
---   background = 'black',
--- }
+config.color_scheme              = "Modus-Vivendi" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
+config.colors = {
+  background = 'black',
+}
 config.enable_tab_bar            = false
 config.window_close_confirmation = "NeverPrompt"
 config.font_size                 = 12.0
