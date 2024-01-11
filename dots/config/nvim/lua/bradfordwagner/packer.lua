@@ -110,7 +110,7 @@ return require('packer').startup(function(use)
   }
   use {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'}
   use {'fatih/vim-go', build = ':GoUpdateBinaries' }
-
+  use {'neoclide/coc.nvim', branch = 'release' }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

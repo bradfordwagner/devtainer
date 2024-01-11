@@ -1,29 +1,9 @@
-" setup vim plug
-" from: https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
 filetype plugin indent on " required
 
-" vim-plug
-call plug#begin('~/.vim/plugged')
-" vim-plug plugins - run :PlugInstall
-
-if has("nvim")
-  Plug 'neoclide/coc.nvim', {'branch': 'release'} " completions! - using release branch
-  source ~/.config/nvim/coc.vim
-endif
-
-" Initialize plugin system
-call plug#end()
-
 " this will eventually replace init.vim
-source ~/.config/nvim/lua/init.lua
-
 " source configurations
+source ~/.config/nvim/lua/init.lua
+source ~/.config/nvim/coc.vim
 source ~/.config/nvim/fzf.vim
 
 " automatic commands
