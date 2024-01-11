@@ -98,6 +98,19 @@ return require('packer').startup(function(use)
   -- If you want to have icons in your statusline choose one of these
   use 'nvim-tree/nvim-web-devicons'
   use 'nvim-tree/nvim-tree.lua' -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Installation
+  use {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"}
+  use {
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      -- calling `setup` is optional for customization
+      require("fzf-lua").setup({})
+    end
+  }
+  use {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'}
+  use {'fatih/vim-go', build = ':GoUpdateBinaries' }
+
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

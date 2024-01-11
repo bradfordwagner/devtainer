@@ -12,12 +12,6 @@ filetype plugin indent on " required
 call plug#begin('~/.vim/plugged')
 " vim-plug plugins - run :PlugInstall
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
-Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " https://github.com/akinsho/bufferline.nvim
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-
 if has("nvim")
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " completions! - using release branch
   source ~/.config/nvim/coc.vim
