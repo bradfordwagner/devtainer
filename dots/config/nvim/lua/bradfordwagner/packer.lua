@@ -79,6 +79,26 @@ return require('packer').startup(function(use)
   use 'godlygeek/tabular'
   use 'preservim/vim-markdown'
 
+  -- vim-plug
+  use { 'junegunn/fzf', run = ":call fzf#install()" }
+  use { 'junegunn/fzf.vim' }
+  use 'ghifarit53/tokyonight-vim' -- color scheme
+  use 'kmonad/kmonad-vim'
+  use 'tpope/vim-sleuth'            -- indentation
+  use 'norcalli/nvim-colorizer.lua' -- https://github.com/norcalli/nvim-colorizer.lua
+  use 'pearofducks/ansible-vim'
+  use 'TamaMcGlinn/quickfixdd'      -- allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
+  use 'madox2/vim-ai'               -- open ai integration: https://github.com/madox2/vim-ai
+  use 'tribela/vim-transparent'     -- https://github.com/tribela/vim-transparent - enable transparency
+  use 'folke/noice.nvim'        -- https://github.com/folke/noice.nvim - replaces messages, cmdline, popupmenu
+  use 'MunifTanjim/nui.nvim'    -- required by noice
+  use 'rcarriga/nvim-notify'    -- https://github.com/rcarriga/nvim-notify - pretty notifications
+  -- lualine: https://github.com/nvim-lualine/lualine.nvim#installation
+  use 'nvim-lualine/lualine.nvim'
+  -- If you want to have icons in your statusline choose one of these
+  use 'nvim-tree/nvim-web-devicons'
+  use 'nvim-tree/nvim-tree.lua' -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Installation
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then

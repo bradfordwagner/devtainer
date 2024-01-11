@@ -12,32 +12,11 @@ filetype plugin indent on " required
 call plug#begin('~/.vim/plugged')
 " vim-plug plugins - run :PlugInstall
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'ghifarit53/tokyonight-vim' " color scheme
-Plug 'kmonad/kmonad-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'tpope/vim-commentary'        " gc commenting
-Plug 'tpope/vim-sleuth'            " indentation
-Plug 'norcalli/nvim-colorizer.lua' " https://github.com/norcalli/nvim-colorizer.lua
-Plug 'pearofducks/ansible-vim'
-Plug 'TamaMcGlinn/quickfixdd'      " allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
-Plug 'madox2/vim-ai'               " open ai integration: https://github.com/madox2/vim-ai
-Plug 'tribela/vim-transparent'     " https://github.com/tribela/vim-transparent - enable transparency
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
-Plug 'folke/noice.nvim'        " https://github.com/folke/noice.nvim - replaces messages, cmdline, popupmenu
-Plug 'MunifTanjim/nui.nvim'    " required by noice
-Plug 'rcarriga/nvim-notify'    " https://github.com/rcarriga/nvim-notify - pretty notifications
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " https://github.com/akinsho/bufferline.nvim
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
-
-" lualine: https://github.com/nvim-lualine/lualine.nvim#installation
-Plug 'nvim-lualine/lualine.nvim'
-" If you want to have icons in your statusline choose one of these
-Plug 'nvim-tree/nvim-web-devicons'
-
-Plug 'nvim-tree/nvim-tree.lua' " https://github.com/nvim-tree/nvim-tree.lua/wiki/Installation
 
 if has("nvim")
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " completions! - using release branch
