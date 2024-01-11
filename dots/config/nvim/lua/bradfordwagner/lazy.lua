@@ -93,8 +93,7 @@ require("lazy").setup({
   -- If you want to have icons in your statusline choose one of these
   'nvim-tree/nvim-web-devicons',
   'nvim-tree/nvim-tree.lua', -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Installation
-  {"nvim-treesitter/nvim-treesitter"},
-  -- {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
+  {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
   {
     "ibhagwan/fzf-lua",
     -- optional for icon support

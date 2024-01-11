@@ -2,3 +2,4 @@ test.sh
 roles
 dots/config/nvim/pack/
 dots/config/nvim/lua/packer_plugins
+dots/config/nvim/lazy-lock.json
