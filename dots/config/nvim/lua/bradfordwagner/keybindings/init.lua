@@ -116,6 +116,9 @@ wk.register({
   -- jumpdir - shares <space>f with vims 'cd'
   ['<space>df'] = { '<cmd>Easypick dirs<cr>', '' },
   ['<space>dg'] = { '<cmd>Easypick vimgrep<cr>', '' },
+  -- scissors
+  ['<space>Se'] = { function() require("scissors").editSnippet() end, 'scissors edit snippet' },
+  ['<space>Sa'] = { function() require("scissors").addNewSnippet() end, 'scissors add snippet' },
 })
 -- dap debugger configuration
 local dapui = require 'dapui'

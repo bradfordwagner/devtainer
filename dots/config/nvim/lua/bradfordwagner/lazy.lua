@@ -39,6 +39,22 @@ require("lazy").setup({
   -- color scheme
   { 'miikanissi/modus-themes.nvim', lazy = false },
 
+
+  -- snippets
+  {
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp"
+  },
+  {
+    "chrisgrieser/nvim-scissors",
+    dependencies = "nvim-telescope/telescope.nvim", -- optional
+    opts = {
+      snippetDir = vim.fn.stdpath("config") .. "/snippets",
+    },
+  },
   -- jump
   'ggandor/lightspeed.nvim',
 
