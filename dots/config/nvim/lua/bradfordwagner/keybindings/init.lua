@@ -68,8 +68,6 @@ wk.register({
   ['<C-n>'] = { '<cmd>NvimTreeToggle<cr>', '' },
   ['<leader>r'] = { '<cmd>NvimTreeFindFile<cr>', '' },
   ['<leader>w'] = { '<cmd>FZF ~/workspace<cr>', '' },
-  ['<leader>c'] = { '<cmd>FZF ~/workspace/github/bradfordwagner/src/bradfordwagner.src.cheatsheet<cr>', '' },
-  ['<leader>d'] = { '<cmd>FZF ~/.dotfiles<cr>', '' },
 
   ['ZGB'] = { '<cmd>Git blame<cr>', '' },
   ['ZL'] = { '<cmd>!zsh -lc cl<cr><cr>', '' },
