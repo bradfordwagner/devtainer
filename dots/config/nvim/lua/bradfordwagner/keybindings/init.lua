@@ -67,7 +67,6 @@ wk.register({
   ['Zp'] = { '<cmd>set nopaste<cr>', ''},
   ['<C-n>'] = { '<cmd>NvimTreeToggle<cr>', '' },
   ['<leader>r'] = { '<cmd>NvimTreeFindFile<cr>', '' },
-  ['<leader>w'] = { '<cmd>FZF ~/workspace<cr>', '' },
 
   ['ZGB'] = { '<cmd>Git blame<cr>', '' },
   ['ZL'] = { '<cmd>!zsh -lc cl<cr><cr>', '' },
