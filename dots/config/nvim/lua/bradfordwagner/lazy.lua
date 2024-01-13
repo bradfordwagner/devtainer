@@ -23,6 +23,7 @@ require("lazy").setup({
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
   -- for easy custom picker configuration
   { 'axkirillov/easypick.nvim', dependencies = 'nvim-telescope/telescope.nvim' },
+  'benfowler/telescope-luasnip.nvim',
   -- end telescope
   -- dap debugger
   'mfussenegger/nvim-dap', -- https://github.com/mfussenegger/nvim-dap
