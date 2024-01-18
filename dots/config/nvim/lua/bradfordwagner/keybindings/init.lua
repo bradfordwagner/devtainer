@@ -78,7 +78,7 @@ require 'bradfordwagner.keybindings.easypick'
 wk.register({
   ['<space>'] = { '"+y<cr>', 'Yank into System Clipboard' },
   ['<cr>'] = { 'y<cr>:call system("tmux load-buffer -", @0)<cr>', 'Yank into Tmux Buffer' },
-  ['f'] = { function ()
+  ['g'] = { function ()
     vim.api.nvim_input('y<cr>')                           -- yank into default register
     vim.api.nvim_input('<cmd>sleep 100m<cr>')             -- need a sleep to let the register get populated
     local input = vim.fn.getreg('"')                      -- get the register
