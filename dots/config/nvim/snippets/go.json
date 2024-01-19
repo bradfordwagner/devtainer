@@ -1,1 +1,1 @@
-{"gt + ginkgo_it":{"body":"println(\"${1:hi friends}\")","prefix":["gt","ginkgo_it"]}}
+{"hi_friends":{"prefix":"hi_friends","body":"println(\"${1:hi friends}\")"}}
