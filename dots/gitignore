@@ -15,5 +15,5 @@ tags
 __debug_bin*
 .vim
 .go_dap.properties
-session.vim
+session.vim*
 .vim-bookmarks
