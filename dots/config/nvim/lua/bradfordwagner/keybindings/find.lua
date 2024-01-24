@@ -25,7 +25,6 @@ return quick_telescope.setup {
       name = 'full word',
       cmd = function()
         local current_word = vim.call('expand', '<cWORD>')
-        print(current_word)
         if current_word ~= nil then vim.cmd(string.format('Rg %s', current_word)) end
       end
     },
