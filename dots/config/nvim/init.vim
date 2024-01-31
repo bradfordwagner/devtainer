@@ -94,7 +94,7 @@ nnoremap <silent> <F3> :set hlsearch!<CR>
 let g:vim_markdown_folding_disabled = 1
 
 " terraform configuration
-let g:terraform_fmt_on_save = 1 " set terraform format on save
+let g:terraform_fmt_on_save = 0 " set terraform format on save
 
 " copilot
 " taken from: https://codeinthehole.com/tips/vim-and-github-copilot/

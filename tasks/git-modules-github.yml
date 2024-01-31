@@ -127,7 +127,8 @@
        repo: git@github.com:hashicorp/consul-helm.git
      - name: chart.vault.mirror
        repo: git@github.com:hashicorp/vault-helm.git
-       version: v0.19.0
+     - name: chart.secrets.store.csi.driver.mirror
+       repo: https://github.com/kubernetes-sigs/secrets-store-csi-driver.git
      - name: prometheus
        repo: git@github.com:prometheus-community/helm-charts.git
        version: main
