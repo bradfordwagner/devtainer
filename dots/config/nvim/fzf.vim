@@ -31,7 +31,7 @@ endfunction
 " add ctrlq to default maps
   " \ 'enter': function('s:open_with_fzf'),
 let g:fzf_action = {
-  \ 'ctrl-i': function('s:build_quickfix_list'),
+  \ 'ctrl-q': function('s:build_quickfix_list'),
   \ 'ctrl-o': 'tab split',
   \ 'ctrl-k': 'split',
   \ 'ctrl-l': 'vsplit' }
