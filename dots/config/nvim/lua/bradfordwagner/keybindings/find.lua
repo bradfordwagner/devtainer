@@ -28,5 +28,13 @@ return quick_telescope.setup {
         if current_word ~= nil then vim.cmd(string.format('Rg %s', current_word)) end
       end
     },
+    {
+      name = 'file',
+      cmd = function()
+        -- get the current file name
+        local current_file = vim.fn.expand('%:t')
+        if current_file ~= nil then vim.cmd(string.format('Rg %s', current_file)) end
+      end
+    },
   }
 }
