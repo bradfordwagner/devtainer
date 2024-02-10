@@ -20,14 +20,32 @@
     fn     lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
 )
 
+;; (deflayer bigempty
+;;     _      _      _      _      _      _      _      _      _      _      _      _      _
+;;     _      _      _      _      _      _      _      _      _      _      _      _      _      _
+;;     _      _      _      _      _      _      _      _      _      _      _      _      _      _
+;;     _      _      _      _      _      _      _      _      _      _      _      _      _
+;;     _      _      _      _      _      _      _      _      _      _      _      _      _
+;;     _      _      _      _             _                           _      _      _      _      _
+;; )
+
 ;; default layer
 (deflayer insert
     esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
     grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
     tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
     esc    @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      ret
-    lsft   z      x      c      v      b      n      m      ,      .      /      rsft   up
+    lsft   @l_arr x      c      v      b      n      m      ,      .      /      rsft   up
     fn     lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
+)
+
+(deflayer arrows
+    _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    @l_ins _      _      _      _      _      left   down   up     rght   _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _             _                           _      _      _      _      _
 )
 
 ;; (defsrc
@@ -64,32 +82,21 @@
 ;;   l_la2 (tap-hold 150 esc (layer-toggle amethyst_swap))   ;; amethyst overlay on top of space
 ;;   l_ra2 (tap-hold 150 ret (layer-toggle amethyst_swap))   ;; amethyst overlay on top of space
 
-;;   ;; ez layering for ctrl/alt/met
-;;   th_z (tap-hold 150 z lctl)
-;;   th_x (tap-hold 150 x lalt)
-;;   th_c (tap-hold 150 c lmet)
+  ;; layers
+  l_ins  (layer-switch insert)                    ;; default insert - typing
+  l_arr  (tap-hold 150 z (layer-switch arrows))   ;; arrows
+
+  ;; ez layering for ctrl/alt/met
+  ;; left side
   th_a (tap-hold 150 a lsft)
   th_s (tap-hold 150 s lctl)
   th_d (tap-hold 150 d lalt)
   th_f (tap-hold 150 f lmet)
-
+  ;; right side
   th_j (tap-hold 150 j rmet)
   th_k (tap-hold 150 k ralt)
   th_l (tap-hold 150 l rctl)
   th_; (tap-hold 150 ; rsft)
-
-  ;; th_j (tap-hold 150 j lctl)
-  ;; th_k (tap-hold 150 k lalt)
-  ;; th_l (tap-hold 150 l lmet)
-  ;; th_; (tap-hold 150 ; lmet)
-
-;;   ;; ez layering for ctrl/alt/met
-;;   th_sl (tap-hold 150 / rctl)
-;;   th_pe (tap-hold 150 . ralt)
-;;   th_co (tap-hold 150 , rmet)
-
-;;   ;; tmux
-;;   tm_pref (tap-hold 150 w (tap-macro-release C-spc))  ;; tmux prefix
 
 ;;   ;; launchers
 ;;   ala   (cmd-button "open -na Alacritty")
