@@ -25,51 +25,10 @@
     esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
     grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
     tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
-    esc    a      s      d      f      g      h      j      k      l      ;      '      ret
+    esc    @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      ret
     lsft   z      x      c      v      b      n      m      ,      .      /      rsft   up
     fn     lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
 )
-
-;; (deflayer default
-;;   _    brdn brup lp   mctl bldn blup prev pp   next mute vold volu
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   @fn  _    _    _              _              _    _    _    _    _
-;; )
-
-;; (defalias fn (around (layer-toggle function) fn))
-
-;; (deflayer function
-;;   _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _    _              _              _    _    _    _    _
-;; )
-
-
-#|
-(deflayer empty
-  _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _              _              _    _    _    _
-)
-
-(deflayer bigempty
-  _            _            _            _            _            _            _            _            _            _            _            _            _                          _            _            _
-  _            _            _            _            _            _            _            _            _            _            _            _            _            _
-  _            _            _            _            _            _            _            _            _            _            _            _            _            _
-  _            _            _            _            _            _            _            _            _            _            _            _            _
-  _            _            _            _            _            _            _            _            _            _            _            _
-  _            _            _                                      _                                      _            _            _            _
-)
-|#
 
 ;; (defsrc
 ;;   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        f13  f14  f15
@@ -109,6 +68,20 @@
 ;;   th_z (tap-hold 150 z lctl)
 ;;   th_x (tap-hold 150 x lalt)
 ;;   th_c (tap-hold 150 c lmet)
+  th_a (tap-hold 150 a lsft)
+  th_s (tap-hold 150 s lctl)
+  th_d (tap-hold 150 d lalt)
+  th_f (tap-hold 150 f lmet)
+
+  th_j (tap-hold 150 j rmet)
+  th_k (tap-hold 150 k ralt)
+  th_l (tap-hold 150 l rctl)
+  th_; (tap-hold 150 ; rsft)
+
+  ;; th_j (tap-hold 150 j lctl)
+  ;; th_k (tap-hold 150 k lalt)
+  ;; th_l (tap-hold 150 l lmet)
+  ;; th_; (tap-hold 150 ; lmet)
 
 ;;   ;; ez layering for ctrl/alt/met
 ;;   th_sl (tap-hold 150 / rctl)
