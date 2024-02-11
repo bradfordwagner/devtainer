@@ -74,20 +74,6 @@
 )
 
 (defalias
-;;   ;; layers
-;;   l_ins  (layer-switch qwerty)                      ;; default qwerty - typing
-;;   l_a    (layer-switch amethyst)                    ;; amethyst movement/layout
-;;   l_aent (tap-hold 150 tab (layer-switch amethyst)) ;; amethyst entrypoint
-;;   l_as   (layer-switch amethyst_swap)               ;; amethyst swap
-;;   l_arr  (tap-hold 250 a (layer-toggle f-arrows))   ;; arrows
-;;   l_sarr (tap-hold 250 ; (layer-toggle f-arrows))   ;; arrows
-;;   l_la   (tap-hold 250 s (layer-toggle launcher))   ;; application launcher
-;;   l_num  (tap-hold 250 d (layer-toggle num))        ;; numpad
-
-;;   l_ame (tap-hold 150 spc (layer-toggle amethyst))   ;; amethyst overlay on top of space
-;;   l_la2 (tap-hold 150 esc (layer-toggle amethyst_swap))   ;; amethyst overlay on top of space
-;;   l_ra2 (tap-hold 150 ret (layer-toggle amethyst_swap))   ;; amethyst overlay on top of space
-
   ;; layers
   l_ins  (layer-switch insert)                    ;; default insert - typing
   l_arr  (tap-hold 150 z (layer-toggle arrows))   ;; arrows
@@ -107,6 +93,21 @@
   th_k (tap-hold 150 k ralt)
   th_l (tap-hold 150 l rctl)
   th_; (tap-hold 150 ; rsft)
+
+;; v1
+;;   ;; layers
+;;   l_ins  (layer-switch qwerty)                      ;; default qwerty - typing
+;;   l_a    (layer-switch amethyst)                    ;; amethyst movement/layout
+;;   l_aent (tap-hold 150 tab (layer-switch amethyst)) ;; amethyst entrypoint
+;;   l_as   (layer-switch amethyst_swap)               ;; amethyst swap
+;;   l_arr  (tap-hold 250 a (layer-toggle f-arrows))   ;; arrows
+;;   l_sarr (tap-hold 250 ; (layer-toggle f-arrows))   ;; arrows
+;;   l_la   (tap-hold 250 s (layer-toggle launcher))   ;; application launcher
+;;   l_num  (tap-hold 250 d (layer-toggle num))        ;; numpad
+
+;;   l_ame (tap-hold 150 spc (layer-toggle amethyst))   ;; amethyst overlay on top of space
+;;   l_la2 (tap-hold 150 esc (layer-toggle amethyst_swap))   ;; amethyst overlay on top of space
+;;   l_ra2 (tap-hold 150 ret (layer-toggle amethyst_swap))   ;; amethyst overlay on top of space
 
 ;;   ;; launchers
 ;;   ala   (cmd-button "open -na Alacritty")
