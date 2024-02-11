@@ -3,10 +3,7 @@
 
 (defcfg
   output (kext)
-
   input (iokit-name)
-  ;; input (iokit-name "Magic Keyboard with Numeric Keypad")
-  ;; output (kext)
   fallthrough false
   allow-cmd true
 )
