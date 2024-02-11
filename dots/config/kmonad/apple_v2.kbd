@@ -66,26 +66,6 @@
     _      _      _      _      _      $      S-9    S-0    _      _      _      _      _
     _      _      _      _             C-s                         _      _      _      _      _
 )
-
-;; (defsrc
-;;   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        f13  f14  f15
-;;   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-;;   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-;;   caps a    s    d    f    g    h    j    k    l    ;    '    ret
-;;   lsft z    x    c    v    b    n    m    ,    .    /    rsft
-;;   lctl lmet lalt           spc            ralt rmet cmp  rctl
-;; )
-
-;; default layer
-;; default insert - typing; (deflayer qwerty
-;;   esc       f1       f2        f3         f4        f5       f6       f7       f8       f9       f10      f11      f12            f13      f14      f15
-;;   grv       1        2         3          4         5        6        7        8        9        0        -        =        bspc
-;; @l_aent     q        @tm_pref  e          r         t        y        u        i        o        p        [        ]        \
-;; @l_la2      @l_arr   @l_la     @l_num     f         g        h        j        k        l     @l_sarr     '        @l_ra2
-;;   lsft      @th_z    @th_x     @th_c      v         b        n        m        @th_co   @th_pe   @th_sl   rsft
-;;   lctl      lmet     lalt                        @l_ame                        ralt     rmet     cmp      rctl
-;; )
-
 (defalias
 ;;   ;; layers
 ;;   l_ins  (layer-switch qwerty)                      ;; default qwerty - typing
@@ -127,6 +107,26 @@
 ;;   email #(b r a d f o r d . w a g n e r @ b l a c k r o c k . c o m )
 ;;   gmail #(w a g n e r . b r a d f o r d @ g m a i l . c o m )
 )
+
+
+;; (defsrc
+;;   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        f13  f14  f15
+;;   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+;;   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+;;   caps a    s    d    f    g    h    j    k    l    ;    '    ret
+;;   lsft z    x    c    v    b    n    m    ,    .    /    rsft
+;;   lctl lmet lalt           spc            ralt rmet cmp  rctl
+;; )
+
+;; default layer
+;; default insert - typing; (deflayer qwerty
+;;   esc       f1       f2        f3         f4        f5       f6       f7       f8       f9       f10      f11      f12            f13      f14      f15
+;;   grv       1        2         3          4         5        6        7        8        9        0        -        =        bspc
+;; @l_aent     q        @tm_pref  e          r         t        y        u        i        o        p        [        ]        \
+;; @l_la2      @l_arr   @l_la     @l_num     f         g        h        j        k        l     @l_sarr     '        @l_ra2
+;;   lsft      @th_z    @th_x     @th_c      v         b        n        m        @th_co   @th_pe   @th_sl   rsft
+;;   lctl      lmet     lalt                        @l_ame                        ralt     rmet     cmp      rctl
+;; )
 
 ;; ;; C-A-M-S-x
 ;; ;; A=option, C=control, M=command, S=shift
