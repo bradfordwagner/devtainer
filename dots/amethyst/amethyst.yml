@@ -60,9 +60,9 @@ command3:
 command4:
     mod: mod2
     key: b
-select-widescreen-tall-right-layout:
-    mod: mod1
-    key: f
+# select-widescreen-tall-right-layout:
+#     mod: mod1
+#     key: f
 # Select fullscreen layout
 select-fullscreen-layout:
   mod: mod1
@@ -135,7 +135,7 @@ focus-cw:
 # Focus the main window in the list.
 focus-main:
   mod: mod1
-  key: m
+  key: f
 
 # Focus the next screen in the list going counter-clockwise.
 focus-screen-ccw:
@@ -170,7 +170,7 @@ swap-cw:
 # Swap the position of the currently focused window with the main window in the list.
 swap-main:
   mod: mod1
-  key: enter
+  key: g
 
 # Move focus to the n-th screen in the list; e.g., focus-screen-3 will move mouse focus to the 3rd screen. Note that the main window in the given screen will be focused.
 #focus-screen-n:
