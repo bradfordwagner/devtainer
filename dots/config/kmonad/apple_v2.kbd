@@ -73,6 +73,7 @@
     _      _      _      _             _                           _      _      _      _      _
 )
 
+;; ;; A=option, C=control, M=command, S=shift
 (defalias
   ;; layers
   l_ins  (layer-switch insert)                    ;; default insert - typing
@@ -115,70 +116,3 @@
 ;;   email #(b r a d f o r d . w a g n e r @ b l a c k r o c k . c o m )
 ;;   gmail #(w a g n e r . b r a d f o r d @ g m a i l . c o m )
 )
-
-
-;; (defsrc
-;;   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12        f13  f14  f15
-;;   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-;;   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-;;   caps a    s    d    f    g    h    j    k    l    ;    '    ret
-;;   lsft z    x    c    v    b    n    m    ,    .    /    rsft
-;;   lctl lmet lalt           spc            ralt rmet cmp  rctl
-;; )
-
-;; default layer
-;; default insert - typing; (deflayer qwerty
-;;   esc       f1       f2        f3         f4        f5       f6       f7       f8       f9       f10      f11      f12            f13      f14      f15
-;;   grv       1        2         3          4         5        6        7        8        9        0        -        =        bspc
-;; @l_aent     q        @tm_pref  e          r         t        y        u        i        o        p        [        ]        \
-;; @l_la2      @l_arr   @l_la     @l_num     f         g        h        j        k        l     @l_sarr     '        @l_ra2
-;;   lsft      @th_z    @th_x     @th_c      v         b        n        m        @th_co   @th_pe   @th_sl   rsft
-;;   lctl      lmet     lalt                        @l_ame                        ralt     rmet     cmp      rctl
-;; )
-
-;; ;; C-A-M-S-x
-;; ;; A=option, C=control, M=command, S=shift
-;; (deflayer amethyst
-;;   _            _            _            _            _            _            _            _            _            _            _            _            _                          _            _            _
-;;   _            #(C-1)       #(C-2)       #(C-3)       #(C-4)       #(C-5)       #(C-6)       #(C-7)       #(C-8)       #(C-9)       _            _            _            _
-;;   @l_as        #(A-S-w)     #(A-S-e)     #(A-S-r)     #(A-S-q)     _            _            #(A-M-h)     #(A-M-l)     #(M-S-[)     #(M-S-])     _            _            _
-;;   @l_ins       #(C-S-A-spc) #(A-S-d)     #(S-A-spc)   #(A-S-m)     #(A-S-ret)   #(A-S-p)     #(A-S-j)     #(A-S-k)     #(A-S-n)     #(A-S-l)     #(A-S-h)     _
-;;   _            #(A-S-z)     #(M-w)       _            _            _            _            _            #(A-S-,)     #(A-S-.)     _            _
-;;   _            _            _                                      _                                      _            _            _            _
-;; )
-
-;; (deflayer amethyst_swap ;; used for manipulating window location, monitors, spaces, also alows us to switch spaces for convenience
-;;   _            _            _            _            _            _            _            _            _            _            _            _            _                          _            _            _
-;;   _            #(C-A-S-1)   #(C-A-S-2)   #(C-A-S-3)   #(C-A-S-4)   #(C-A-S-5)   #(C-A-S-6)   #(C-A-S-7)   #(C-A-S-8)   #(C-A-S-9)   _            _            _            _
-;;   @l_a         #(C-A-S-w)   #(C-A-S-e)   #(C-A-S-r)   #(C-A-S-q)   _            _            #(A-M-h)     #(A-M-l)     _            _            _            _            _
-;;   @l_ins     #(C-A-S-left)  #(A-S-d)   #(C-A-S-right) #(A-S-m)     #(A-S-ret)   #(C-A-S-h)   #(C-A-S-j)   #(C-A-S-k)   #(C-A-S-l)   _            _            _
-;;   _            #(C-A-S-z)   _            _            _            _            _            _            #(A-S-,)     #(A-S-.)     _            _
-;;   _            _            _                                     @l_ame                                  _            _            _            _
-;; )
-
-;; (deflayer num
-;;   _     _    _    _    _    _    _    _    _    _    _    _    _    _     _    _    _
-;;   _     _    _    _    _    _    _    _    _    _         _    _    _
-;;   _     _    _    _    _    _    _    7    8    9    _    _    _    _
-;; @l_ins  _    _    _    _    _    _    4    5    6    _    _    _
-;;   _     _    _    _    _    _    1    2    3    _    _    _
-;;   _     _    _              0              _    _    _    _
-;; )
-
-;; (deflayer f-arrows
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  _    _
-;; @l_ins _    f12  pgdn pgup _    left down up  right _    _    _
-;;   lsft lctl lalt lmet _    _    _    _    _    _    _    _
-;;   _    _    _              ret            _    _    _    _
-;; )
-
-;; (deflayer launcher
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _          _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _  @email _    _    _    @ala @web _    _    _    _    _
-;; @l_ins _    _    _    _  @gmail _    _    _    _    _    _    _
-;;   _    _    _    _    _    _    _    _    _    _    _    _
-;;   _    _    _              _              _    _    _    _
-;; )
