@@ -33,7 +33,7 @@
     tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
     @th_pl @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      ret
     @l_pla @l_arr x      c      v      b      n      m      ,      .      /      rsft   up
-    fn     lctl   lalt   lmet          @th_pa                      rmet   ralt   left   down   rght
+    @l_med lctl   lalt   lmet          @th_pa                      rmet   ralt   left   down   rght
 )
 
 ;; used in order to have a layer with no special keys
@@ -43,7 +43,7 @@
     tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
     @l_ins a      s      d      f      g      h      j      k      l      ;      '      ret
     lsft   z      x      c      v      b      n      m      ,      .      /      rsft   up
-    fn     lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
+    @l_med lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
 )
 
 (deflayer arrows
@@ -62,6 +62,15 @@
     @l_ins lsft   lctl   lalt   lmet   _      $      [      ]      \      _      _      _
     _      _      _      _      _      $      S-9    S-0    _      _      _      _      _
     _      _      _      _             spc                         _      _      _      _      _
+)
+
+(deflayer media
+    _      brdn   brup   lp     mctl   bldn   blup   prev   pp     next   mute   vold   volu
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _             _                           _      _      _      _      _
 )
 
 (defalias
@@ -83,8 +92,9 @@
   l_ins  (layer-switch insert)                    ;; default insert - typing
   l_arr  (tap-hold 150 z (layer-toggle arrows))   ;; arrows
   th_pl  (tap-hold 150 esc (layer-toggle plain))  ;; plain
-  th_pa  (tap-hold 150 spc (layer-toggle paren))  ;; plain
+  th_pa  (tap-hold 150 spc (layer-toggle paren))  ;; paren
   l_pla  (layer-switch plain)                     ;; plain
+  l_med  (layer-toggle media)                     ;; media
 
   ;; ez layering for ctrl/alt/met
   ;; left side
