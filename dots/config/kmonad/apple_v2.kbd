@@ -34,7 +34,7 @@
     esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
     grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
     tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
-    esc    @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      ret
+    @th_pl @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      ret
     @l_pla @l_arr x      c      v      b      n      m      ,      .      /      rsft   up
     fn     lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
 )
@@ -95,6 +95,7 @@
   ;; layers
   l_ins  (layer-switch insert)                    ;; default insert - typing
   l_arr  (tap-hold 150 z (layer-add arrows))      ;; arrows
+  th_pl  (tap-hold 150 esc (layer-toggle plain))  ;; plain
   l_pla  (layer-switch plain)                     ;; plain
   r_arr  (layer-rem arrows)                       ;; remove arrows
 
