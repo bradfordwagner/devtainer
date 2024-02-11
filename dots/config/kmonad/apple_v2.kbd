@@ -35,7 +35,17 @@
     grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
     tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
     esc    @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      ret
-    lsft   @l_arr x      c      v      b      n      m      ,      .      /      rsft   up
+    @l_pla @l_arr x      c      v      b      n      m      ,      .      /      rsft   up
+    fn     lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
+)
+
+;; used in order to have a layer with no special keys
+(deflayer plain
+    esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+    grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+    tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
+    @l_ins a      s      d      f      g      h      j      k      l      ;      '      ret
+    lsft   z      x      c      v      b      n      m      ,      .      /      rsft   up
     fn     lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
 )
 
@@ -45,7 +55,7 @@
     _      _      _      _      _      _      _      _      _      _      _      _      _      _
     @r_arr _      _      _      _      _      left   down   up     rght   _      _      _
     _      _      _      _      _      _      _      _      _      _      _      _      _
-    _      _      _      _             _                           _      _      _      _      _
+    _      _      _      _             C-s                         _      _      _      _      _
 )
 
 ;; (defsrc
@@ -58,7 +68,7 @@
 ;; )
 
 ;; default layer
-;; (deflayer qwerty
+;; default insert - typing; (deflayer qwerty
 ;;   esc       f1       f2        f3         f4        f5       f6       f7       f8       f9       f10      f11      f12            f13      f14      f15
 ;;   grv       1        2         3          4         5        6        7        8        9        0        -        =        bspc
 ;; @l_aent     q        @tm_pref  e          r         t        y        u        i        o        p        [        ]        \
@@ -85,6 +95,7 @@
   ;; layers
   l_ins  (layer-switch insert)                    ;; default insert - typing
   l_arr  (tap-hold 150 z (layer-add arrows))      ;; arrows
+  l_pla  (layer-switch plain)                     ;; plain
   r_arr  (layer-rem arrows)                       ;; remove arrows
 
   ;; ez layering for ctrl/alt/met
