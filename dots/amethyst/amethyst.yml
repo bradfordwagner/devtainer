@@ -188,9 +188,9 @@ swap-main:
 #   key: i
 
 # Select tall layout
-select-tall-layout:
-  mod: mod2 # original is mod1
-  key: a
+# select-tall-layout:
+#   mod: mod2 # original is mod1
+#   key: a
 
 # Select wide layout
 select-wide-layout:
@@ -205,12 +205,12 @@ select-column-layout:
 # Move the currently focused window to the space to the left.
 throw-space-left:
   mod: mod2
-  key: left
+  key: a
 
 # Move currently the focused window to the space to the right.
 throw-space-right:
   mod: mod2
-  key: right
+  key: d
 
 # Toggle the floating state of the currently focused window; i.e., if it was floating make it tiled and if it was tiled make it floating.
 toggle-float:
