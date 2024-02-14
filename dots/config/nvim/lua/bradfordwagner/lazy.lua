@@ -45,6 +45,7 @@ require("lazy").setup({
     priority = 1000,
     opts = {},
   },
+  'Einenlum/yaml-revealer', -- shows a message as to where we are located in the yaml file as a message, lets see how long it lasts
 
   -- snippets
   {
