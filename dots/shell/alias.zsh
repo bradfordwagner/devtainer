@@ -53,7 +53,7 @@ set -e
 ansible-playbook test.yml && echo Success || echo Failure
 EOF
 chmod +x ansible.sh
-docker run -it --platform linux/amd64 -v $(pwd):/root quay.io/bradfordwagner/ansible:3.6.2-archlinux_latest /bin/sh -l
+docker run -it --platform linux/amd64 -v $(pwd):/root quay.io/bradfordwagner/ansible:3.6.2-debian_bullseye /bin/sh -l
 }
 function ansible_role_container() {
 git clean -fd
@@ -63,7 +63,7 @@ set -e
 ansible-playbook test.yml && echo Success || echo Failure
 EOF
 chmod +x ansible.sh
-docker run -it -v $(pwd):/src quay.io/bradfordwagner/ansible:3.6.2-archlinux_latest /bin/sh -l -- ./ansible.sh
+docker run -it -v $(pwd):/src quay.io/bradfordwagner/ansible:3.6.2-debian_bullseye /bin/sh -l -- ./ansible.sh
 }
 function ansible_playbook_container_login() {
 git clean -fd
@@ -74,7 +74,7 @@ set -ex
 ansible-playbook playbook.yml && echo Success || echo Failure
 EOF
 chmod +x ansible.sh
-docker run -it -v $(pwd):/src --platform linux/amd64 quay.io/bradfordwagner/ansible:3.6.2-archlinux_latest /bin/sh -l
+docker run -it -v $(pwd):/src --platform linux/amd64 quay.io/bradfordwagner/ansible:3.6.2-debian_bullseye /bin/sh -l
 }
 function ansible_playbook_dockerfile() {
 git clean -fd
