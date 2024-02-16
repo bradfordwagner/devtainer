@@ -236,6 +236,8 @@
        repo: git@github.com:bradfordwagner/ansible-role-gitops-toolkit.git
      - name: jumpdir
        repo: git@github.com:bradfordwagner/ansible-role-jumpdir.git
+     - name: docker.buildkit
+       repo: https://github.com/bradfordwagner/ansible-role-docker-buildkit.git
 
    - name: '{{ containers_dir }}'
      git:
