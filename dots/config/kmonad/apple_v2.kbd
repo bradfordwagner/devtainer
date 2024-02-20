@@ -96,16 +96,16 @@
 
   ;; ez layering for ctrl/alt/met
   ;; left side
-  th_a (tap-hold 150 a lsft)
-  th_s (tap-hold 150 s lctl)
-  th_d (tap-hold 150 d lalt)
-  th_f (tap-hold 150 f lmet)
-  th_bg (tap-hold 150 f lalt)
+  th_a (tap-hold  200 a lsft)
+  th_s (tap-hold  200 s lctl)
+  th_d (tap-hold  200 d lalt)
+  th_f (tap-hold  200 f lmet)
+  th_bg (tap-hold 200 f lalt)
   ;; right side
-  th_j (tap-hold 150 j rmet)
-  th_k (tap-hold 150 k ralt)
-  th_l (tap-hold 150 l rctl)
-  th_; (tap-hold 150 ; rsft)
+  th_j (tap-hold 200 j rmet)
+  th_k (tap-hold 200 k ralt)
+  th_l (tap-hold 200 l rctl)
+  th_; (tap-hold 200 ; rsft)
 
 ;; v1
 ;;   ;; layers
