@@ -35,6 +35,7 @@ map <silent> <Space>we :wincmd T<CR>
 map <silent> <Space>ww :vsplit<cr> :wincmd T<CR>
 map <silent> <Space>wn :tabe<CR>
 map <silent> <Space>wl :vsplit<CR>
+map <silent> <Space>wa :vsplit<cr>:AINewChat<cr><space>k:q<cr>
 map <silent> <Space>wj :split<CR>
 map <silent> <Space>wt :tabonly<CR>
 map <silent> <Space>wo :only<CR>
