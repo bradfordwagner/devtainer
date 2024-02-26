@@ -182,7 +182,7 @@
      - name: cicd.smoketests
        repo: git@github.com:bradfordwagner/cicd-smoketests.git
      - name: docker.buildkit
-       repo: git@github.com:bradfordwagner/chart-docker-buidkit.git
+       repo: https://github.com/bradfordwagner/chart-docker-buildkit.git
      - name: vault.sharedsecrets
        repo: https://github.com/bradfordwagner/vault.k8s.sharedsecrets.git
 
