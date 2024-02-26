@@ -181,8 +181,8 @@
        repo: git@github.com:bradfordwagner/approver-policy.git
      - name: cicd.smoketests
        repo: git@github.com:bradfordwagner/cicd-smoketests.git
-     - name: docker.driver
-       repo: git@github.com:bradfordwagner/chart-docker-driver
+     - name: docker.buildkit
+       repo: git@github.com:bradfordwagner/chart-docker-buidkit.git
      - name: vault.sharedsecrets
        repo: https://github.com/bradfordwagner/vault.k8s.sharedsecrets.git
 
