@@ -65,7 +65,7 @@ wk.register({
   ['<space>zx'] = { '<cmd>Goyo!<cr><cmd>! tmux resize-pane -Z<cr>' , 'Exit Goyo, Tmux Fullscreen' },
   ['<space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
   ['<space>z'] = { 'Zoom' },
-  ['<space>as'] = { '<cmd>Windows<cr>', 'select window' },
+  ['<space>as'] = { '<cmd>AIChat<cr>', 'send to ai chat' },
   ['<space>i'] = { '<cmd>Windows<cr>', 'select window' },
   ['<space>zc'] = { '<cmd>let &scrolloff=999-&scrolloff<CR>', 'toggle auto center cursor' },
 
