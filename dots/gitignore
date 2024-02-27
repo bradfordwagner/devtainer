@@ -17,3 +17,8 @@ __debug_bin*
 .go_dap.properties
 session.vim*
 .vim-bookmarks
+
+# helm
+charts
+tmpcharts
+Chart.lock
