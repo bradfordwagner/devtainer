@@ -8,7 +8,6 @@ Makefile
 **.DS_STORE
 .terraform.lock.hcl
 .terragrunt-cache
-test.sh
 ansible.sh
 .secrets.yml
 tags
