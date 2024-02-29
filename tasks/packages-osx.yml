@@ -20,6 +20,7 @@
     - bat
     - buildkit
     - cmake
+    - container-diff
     - coreutils
     - corkscrew
     - ctags                                    # used in vim: TagbarToggle
