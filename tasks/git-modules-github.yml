@@ -309,6 +309,8 @@
        repo: https://github.com/Azure/secrets-store-csi-driver-provider-azure.git
      - name: vault.secrets.operator
        repo: https://github.com/hashicorp/vault-secrets-operator.git
+     - name: docker.buildkit
+       repo: https://github.com/moby/buildkit.git
 
    - name: '{{ github_azure_dir }}'
      git:
