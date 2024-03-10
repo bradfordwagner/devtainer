@@ -343,6 +343,10 @@ alias pt='prototool'
 
 alias m='make'
 alias t='task'
+function taskfiles() {
+  taskfile=$(find ~/.taskfiles/tasks -name '*.yml' | fzf) || return
+  tmux send "task -t ${taskfile} " Tab
+}
 
 # File Helpers #################################
 function mkdir_date() {

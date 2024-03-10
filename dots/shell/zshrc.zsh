@@ -107,6 +107,7 @@ bindkey '\C-kte' alacritty_transparency_enable
 bindkey '\C-ktd' alacritty_transparency_disable
 bindkey -s '\C-kl' 'task \t'
 bindkey -s '\C-k\C-l' ' && task \t'
+bindkey -s '\C-k\C-k' 'taskfiles\n'
 bindkey -s '\C-k\C-s' 'gsd\n' # give git status
 
 # enable the following for profiling
