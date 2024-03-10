@@ -16,6 +16,7 @@
     go_bin: '{{ personal_dir }}/go.bin'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
+    cookiecutter_dir: '{{ personal_dir }}/cookiecutter'
 
     # async control
     async_timeout: 45
@@ -310,3 +311,12 @@
      - name: helm.chart
        repo: git@github.com:bradfordwagner/gh-template-helm-chart.git
 
+   - name: '{{ cookiecutter_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ cookiecutter_dir }}/bradfordwagner.cookiecutter.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: base
+       repo: https://github.com/bradfordwagner/cookiecutter-base.git
