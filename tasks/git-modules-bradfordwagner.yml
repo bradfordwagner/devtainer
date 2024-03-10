@@ -116,6 +116,9 @@
      - name: taskfiles
        repo: git@github.com:bradfordwagner/taskfiles.git
        version: main
+     - name: gh.actions.testbed
+       repo: https://github.com/bradfordwagner/gh-actions-testbed.git
+       version: main
 
    - name: '{{ go_lib }}'
      git:
