@@ -21,3 +21,4 @@ session.vim*
 charts
 tmpcharts
 Chart.lock
+test.values.yaml

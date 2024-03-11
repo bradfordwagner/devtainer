@@ -30,9 +30,12 @@ function argocd_app_get_values() {
   release_name=$(echo ${o} | yq '.spec.source.helm.releaseName')
   namespace=$(echo ${o} | yq '.spec.destination.namespace')
   value_files=$(echo ${o} | yq -r '.spec.source.helm.valueFiles | .[]')
+  values=$(echo ${o} | yq -r '.spec.source.helm.values')
+  echo ${values} > test.values.yaml
   function f() {
     echo 'action=${1:-apply}'
     echo helm template ${release_name} -n ${namespace} '.' \\
+    echo -f test.values.yaml \\
     echo ${o} \
       | yq '.spec.source.helm.parameters' -r \
       | jq '.[] | .name, .value' -r \
