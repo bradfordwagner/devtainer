@@ -86,6 +86,7 @@
     - watch
     - watchexec
     - wget
+    - yamllint
     - ytop
 
 - include_role:
