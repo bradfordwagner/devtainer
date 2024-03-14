@@ -46,6 +46,27 @@ require("lazy").setup({
     opts = {},
   },
   'Einenlum/yaml-revealer', -- shows a message as to where we are located in the yaml file as a message, lets see how long it lasts
+  -- github actions
+  {
+    'topaxi/gh-actions.nvim',
+    cmd = 'GhActions',
+    keys = {
+      { '<leader>gh', '<cmd>GhActions<cr>', desc = 'Open Github Actions' },
+    },
+    -- optional, you can also install and use `yq` instead.
+    build = 'make',
+    dependencies = { 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim' },
+    opts = {
+      split = {
+        relative = 'editor',
+        position = 'left',
+        size = 75,
+      },
+    },
+    config = function(_, opts)
+      require('gh-actions').setup(opts)
+    end,
+  },
 
   -- snippets
   {

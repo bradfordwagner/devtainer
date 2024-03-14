@@ -24,3 +24,9 @@ open_api_key_file=~/.config/openai.token
 if [ -f "${open_api_key_file}" ]; then
   export OPENAI_API_KEY=$(cat ${open_api_key_file})
 fi
+
+# nvim github actions plugin - https://github.com/topaxi/gh-actions.nvim
+github_token_file=~/.config/github.token
+if [ -f "${github_token_file}" ]; then
+  export GITHUB_TOKEN=$(cat ${github_token_file})
+fi
