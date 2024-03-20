@@ -108,9 +108,6 @@
      - name: go.testbed
        repo: git@github.com:bradfordwagner/go-testbed.git
        version: main
-     - name: gitops.toolkit
-       repo: git@github.com:bradfordwagner/gitops-toolkit.git
-       version: main
      - name: tmux.modal.fork
        repo: git@github.com:bradfordwagner/tmux-modal.git
        version: main
@@ -321,6 +318,8 @@
        repo: git@github.com:bradfordwagner/ansible-go-dev.git
      - name: ansible.role.go
        repo: git@github.com:bradfordwagner/ansible-go.git
+     - name: gitops.toolkit
+       repo: git@github.com:bradfordwagner/gitops-toolkit.git
 
    # bulds which use yaml lint
    - name: '{{ yaml_dir }}'
