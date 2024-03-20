@@ -211,10 +211,6 @@
      loop:
      - name: azure.blob.cli
        repo: git@github.com:bradfordwagner/ansible-role-azure-blob-cli.git
-     - name: go.dev
-       repo: git@github.com:bradfordwagner/ansible-go-dev.git
-     - name: go
-       repo: git@github.com:bradfordwagner/ansible-go.git
      - name: gitops.toolkit
        repo: git@github.com:bradfordwagner/ansible-role-gitops-toolkit.git
      - name: jumpdir
@@ -321,6 +317,10 @@
        repo: git@github.com:bradfordwagner/vault-helm.git
      - name: cert.manager.approver.policy
        repo: git@github.com:bradfordwagner/approver-policy.git
+     - name: ansible.role.go.dev
+       repo: git@github.com:bradfordwagner/ansible-go-dev.git
+     - name: ansible.role.go
+       repo: git@github.com:bradfordwagner/ansible-go.git
 
    # bulds which use yaml lint
    - name: '{{ yaml_dir }}'
