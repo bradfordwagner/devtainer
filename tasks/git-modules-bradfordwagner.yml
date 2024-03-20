@@ -14,6 +14,9 @@
     ansible_roles_dir: '{{ personal_dir }}/ansible_roles'
     go_lib: '{{ personal_dir }}/go.lib'
     go_bin: '{{ personal_dir }}/go.bin'
+    forks_dir: '{{ personal_dir }}/forks }}'
+    research_dir: '{{ personal_dir }}/research }}'
+    yaml_dir: '{{ personal_dir }}/yaml }}'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
     cookiecutter_dir: '{{ personal_dir }}/cookiecutter'
@@ -172,16 +175,8 @@
        repo: git@github.com:bradfordwagner/chart-namespaces
      - name: vault.k8s.auth
        repo: git@github.com:bradfordwagner/chart-vault-k8s-auth.git
-     - name: vault.fork
-       repo: git@github.com:bradfordwagner/vault-helm.git
-     - name: cert.manager.approver.fork
-       repo: git@github.com:bradfordwagner/approver-policy.git
-     - name: cicd.smoketests
-       repo: git@github.com:bradfordwagner/cicd-smoketests.git
      - name: docker.buildkit
        repo: https://github.com/bradfordwagner/chart-docker-buildkit.git
-     - name: vault.sharedsecrets
-       repo: https://github.com/bradfordwagner/vault.k8s.sharedsecrets.git
 
    - name: '{{ terraform_dir }}'
      git:
@@ -311,3 +306,38 @@
      loop:
      - name: base
        repo: https://github.com/bradfordwagner/cookiecutter-base.git
+
+   - name: '{{ research_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ research_dir }}/research.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: vault.sharedsecrets
+       repo: https://github.com/bradfordwagner/vault.k8s.sharedsecrets.git
+
+   - name: '{{ forks_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ forks_dir }}/gh.forks.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: chart.vault
+       repo: git@github.com:bradfordwagner/vault-helm.git
+     - name: cert.manager.approver.policy
+       repo: git@github.com:bradfordwagner/approver-policy.git
+
+   # bulds which use yaml lint
+   - name: '{{ yaml_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ yaml_dir }}/yaml.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: taskfiles
+       repo: git@github.com:bradfordwagner/taskfiles.git
+     - name: cicd.smoketests
+       repo: git@github.com:bradfordwagner/cicd-smoketests.git
