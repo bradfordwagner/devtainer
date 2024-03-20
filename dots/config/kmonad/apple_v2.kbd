@@ -30,10 +30,10 @@
 (deflayer insert
     esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
     grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
-    tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
-    @th_pl @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      ret
+    tab    q      @th_w  @th_e  r      t      y      u      @th_i  @th_o  p      [      ]      \
+    @th_pl @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      @th_re
     @l_pla @l_arr x      c      v      b      n      m      ,      .      /      _      up
-    @l_med @l_bg  _      _             @th_pa                      _      _      left   down   rght
+    @l_med _      _      _             @th_pa                      _      @l_bg  left   down   rght
 )
 
 ;; used in order to have a layer with no special keys
@@ -90,6 +90,7 @@
   l_arr  (tap-hold 150 z (layer-toggle arrows))   ;; arrows
   th_pl  (tap-hold 150 esc (layer-toggle plain))  ;; plain
   th_pa  (tap-hold 150 spc (layer-toggle paren))  ;; paren
+  th_re  (tap-hold 150 ret (layer-toggle plain))  ;; plain
   l_pla  (layer-switch plain)                     ;; plain
   l_med  (layer-toggle media)                     ;; media
   l_bg   (layer-switch bg3)                       ;; bg3
@@ -106,6 +107,14 @@
   th_k (tap-hold 150 k ralt)
   th_l (tap-hold 150 l rctl)
   th_; (tap-hold 150 ; rsft)
+
+  ;; kmonad's crazy meta hotkeys
+  m1 (around lshft lalt)
+  m2 (around lshft (around lalt lctrl))
+  th_w (tap-hold 150 w @m1)
+  th_e (tap-hold 150 e @m2)
+  th_i (tap-hold 150 i @m1)
+  th_o (tap-hold 150 o @m2)
 
 ;; v1
 ;;   ;; layers
