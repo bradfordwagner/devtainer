@@ -164,9 +164,6 @@
        repo: git@github.com:bradfordwagner/chart-socat.git
      - name: proxy
        repo: git@github.com:bradfordwagner/chart-proxy.git
-     - name: iperf3
-       repo: git@github.com:bradfordwagner/chart-iperf3.git
-       version: feature/init
      # container building chart
      - name: argocd.workflows
        repo: git@github.com:bradfordwagner/chart-argo-workflows.git
