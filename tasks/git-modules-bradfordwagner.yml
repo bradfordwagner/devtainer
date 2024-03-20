@@ -136,8 +136,6 @@
        repo: git@github.com:bradfordwagner/go-util.git
      - name: threadpool
        repo: git@github.com:bradfordwagner/go-threadpool.git
-     - name: kafka.dao
-       repo: git@github.com:bradfordwagner/go-kafka-dao.git
 
    - name: '{{ go_bin }}'
      git:
