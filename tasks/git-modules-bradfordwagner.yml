@@ -124,6 +124,7 @@
        repo: https://github.com/bradfordwagner/gh-actions-testbed.git
        version: main
 
+   # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
      git:
        repo: '{{ item.repo }}'
