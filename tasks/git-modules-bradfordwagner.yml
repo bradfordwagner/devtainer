@@ -160,10 +160,6 @@
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
-     - name: socat
-       repo: git@github.com:bradfordwagner/chart-socat.git
-     - name: proxy
-       repo: git@github.com:bradfordwagner/chart-proxy.git
      # container building chart
      - name: argocd.workflows
        repo: git@github.com:bradfordwagner/chart-argo-workflows.git
