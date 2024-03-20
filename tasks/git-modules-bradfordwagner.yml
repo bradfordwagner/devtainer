@@ -163,10 +163,8 @@
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
-     # container building chart
      - name: argocd.workflows
        repo: git@github.com:bradfordwagner/chart-argo-workflows.git
-     # events bootstrap
      - name: argo.events.webhook
        repo: git@github.com:bradfordwagner/argo-events-webhook.git
      - name: argocd.init.contexts
