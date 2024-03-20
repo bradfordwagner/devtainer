@@ -14,9 +14,9 @@
     ansible_roles_dir: '{{ personal_dir }}/ansible_roles'
     go_lib: '{{ personal_dir }}/go.lib'
     go_bin: '{{ personal_dir }}/go.bin'
-    forks_dir: '{{ personal_dir }}/forks }}'
-    research_dir: '{{ personal_dir }}/research }}'
-    yaml_dir: '{{ personal_dir }}/yaml }}'
+    forks_dir: '{{ personal_dir }}/forks'
+    research_dir: '{{ personal_dir }}/research'
+    yaml_dir: '{{ personal_dir }}/yaml'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
     cookiecutter_dir: '{{ personal_dir }}/cookiecutter'
