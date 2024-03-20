@@ -151,10 +151,6 @@
        repo: git@github.com:bradfordwagner/ks.git
      - name: jumpdir.cli
        repo: git@github.com:bradfordwagner/go-cli-jumpdir.git
-     - name: yamarama.cli
-       repo: git@github.com:bradfordwagner/go-cli-yamarama.git
-     - name: gf.cli
-       repo: https://github.com/bradfordwagner/go-cli-gf.git
 
    - name: '{{ charts_dir }}'
      git:
