@@ -331,6 +331,6 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: taskfiles
-       repo: git@github.com:bradfordwagner/taskfiles.git
+       repo: https://github.com/bradfordwagner/taskfiles.git
      - name: cicd.smoketests
        repo: git@github.com:bradfordwagner/cicd-smoketests.git
