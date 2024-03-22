@@ -120,6 +120,8 @@
      - name: gh.actions.testbed
        repo: https://github.com/bradfordwagner/gh-actions-testbed.git
        version: main
+     - name: kmonad
+       repo: git@github.com:bradfordwagner/container-kmonad.git
 
    # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
@@ -218,45 +220,57 @@
    - name: '{{ containers_dir }}'
      git:
        repo: '{{ item.repo }}'
-       dest: '{{ containers_dir }}/bradfordwagner.container.{{ item.name }}'
+       dest: '{{ containers_dir }}/{{ item.base }}/bradfordwagner.container.{{ item.base }}.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
      # containers
      # mirrors
-     - name: mirror.base
+     - name: base
+       base: mirrors
        repo: git@github.com:bradfordwagner/container-base.git
-     - name: mirror.kaniko
+     - name: kaniko
+       base: mirrors
        repo: git@github.com:bradfordwagner/container-kaniko.git
-     - name: mirror.argo
+     - name: argo
+       base: mirrors
        repo: git@github.com:bradfordwagner/container-argo.git
-     - name: mirror.manifest-tool
+     - name: manifest-tool
+       base: mirrors
        repo: git@github.com:bradfordwagner/container-manifest-tool.git
-     - name: mirror.vault
+     - name: vault
+       base: mirrors
        repo: git@github.com:bradfordwagner/container-vault.git
      - name: vault.k8s.auth
+       base: mirrors
        repo: git@github.com:bradfordwagner/container-vault-k8s-auth.git
      - name: redis
+       base: mirrors
        repo: git@github.com:bradfordwagner/container-redis.git
      - name: helm
+       base: mirrors
        repo: git@github.com:bradfordwagner/container-helm.git
 
      # custom builds
-     - name: dockerfile.ansible
+     - name: ansible
+       base: custom
        repo: git@github.com:bradfordwagner/container-ansible.git
-     - name: dockerfile.secrets.store.csi.driver
+     - name: store.csi.driver
+       base: custom
        repo: git@github.com:bradfordwagner/container-secrets-store-csi-driver.git
-     - name: dockerfile.kmonad
-       repo: git@github.com:bradfordwagner/container-kmonad.git
 
      # ansible builds
-     - name: ansible.role.builder
+     - name: role.builder
+       base: ansible
        repo: git@github.com:bradfordwagner/container-ansible-role-builder.git
-     - name: ansible.go.builder
+     - name: go.builder
+       base: ansible
        repo: git@github.com:bradfordwagner/container-go-builder.git
-     - name: ansible.terraform
+     - name: terraform
+       base: ansible
        repo: git@github.com:bradfordwagner/container-terraform.git
-     - name: ansible.devtainer
+     - name: devtainer
+       base: ansible
        repo: git@github.com:bradfordwagner/devtainer.git
 
    - name: '{{ templates_dir }}'
