@@ -30,6 +30,7 @@ alias s=switch # used to help with switching contexts and namespaces
 alias sni="switch --no-index" # do not use cached values
 alias sk="s ns; k9"
 alias snsk="s ns; k9"
+alias sns="kc_app_k9s_select_ns"
 alias kn="kubens"
 alias knc="kubens -c"
 alias azi="az interactive"
@@ -129,10 +130,10 @@ function kc_app_context_cp() {
   ns=$(_select_ns)
   ctx_name=$(k config current-context)
   file=$(mktemp ${kc_tmp_dir}/${ctx_name}_${ns}.XXXXX)
-  _set_ns ${ns}
   cp -L ${resolved_kubeconfig} ${file} # follow the link
 
   export KUBECONFIG=${file}
+  _set_ns ${ns}
   kwai
 }
 
