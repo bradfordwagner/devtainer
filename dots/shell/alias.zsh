@@ -349,8 +349,8 @@ function taskfiles() {
   task_name=$(yq -r '.tasks | to_entries[] | .key' ${taskfile} | fzf) || return
   task_vars=$(yq -r ".tasks.${task_name}.vars | to_entries[] | .key + \"=\" + .value" ${taskfile}) > /dev/null 2>&1
   task_desc=$(yq -r ".tasks.${task_name}.desc" ${taskfile}) > /dev/null 2>&1
-  echo "${task_desc}" | bat -P --file-name=description
-  echo task_vars=${task_vars} | bat -P --file-name="${taskfile}" -lproperties
+  echo ${task_desc} | bat -P --file-name=description
+  echo ${task_vars} | bat -P --file-name=${taskfile} -lproperties
   tmux send "task -t ${taskfile} ${task_name}" Tab
 }
 
