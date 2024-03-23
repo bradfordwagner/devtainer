@@ -26,7 +26,7 @@ require("lazy").setup({
   'benfowler/telescope-luasnip.nvim',
   -- end telescope
   -- dap debugger
-  'mfussenegger/nvim-dap', -- https://github.com/mfussenegger/nvim-dap
+  { 'mfussenegger/nvim-dap', dependencies = {"nvim-neotest/nvim-nio"} }, -- https://github.com/mfussenegger/nvim-dap
   'rcarriga/nvim-dap-ui',  -- https://github.com/rcarriga/nvim-dap-ui
   'leoluz/nvim-dap-go',    -- https://github.com/leoluz/nvim-dap-go
   -- go config
