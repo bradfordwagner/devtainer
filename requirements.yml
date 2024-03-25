@@ -5,3 +5,5 @@
   version: 2.2.2
 - src: bradfordwagner.jumpdir
   version: 0.7.3
+- src: andrewrothstein.sudoers
+  version: v1.0.9
