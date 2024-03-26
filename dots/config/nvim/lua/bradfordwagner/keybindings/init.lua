@@ -129,6 +129,7 @@ wk.register({
   -- scissors/snippets
   ['<space>;'] = { name = 'Snippets' },
   ['<space>;e'] = { function() require("scissors").editSnippet() end, 'scissors edit snippet' },
+  ['<space>;E'] = { function() require("scissors").addNewSnippet() end, 'scissors add snippet' },
   ['<space>;a'] = { function() ls.expand() end, {silent = true}, 'expand' },
   ['<space>;j'] = { function() ls.jump( 2) end, {silent = true}, 'next var' },
   ['<space>;k'] = { function() ls.jump(-1) end, {silent = true}, 'prev var' },
