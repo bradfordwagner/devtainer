@@ -105,6 +105,7 @@ wk.register({
 -- new stuff
 local builtin = require 'telescope.builtin'
 local oil = require 'oil'
+local ls = require 'luasnip'
 wk.register({
   -- base helpers
   ['<space>dt'] = { builtin.builtin, '' },
@@ -126,9 +127,12 @@ wk.register({
   ['<space>df'] = { '<cmd>Easypick dirs<cr>', '' },
   ['<space>dg'] = { '<cmd>Easypick vimgrep<cr>', '' },
   -- scissors/snippets
-  ['<space>Se'] = { function() require("scissors").editSnippet() end, 'scissors edit snippet' },
-  ['<space>Sa'] = { function() require("scissors").addNewSnippet() end, 'scissors add snippet' },
-  ['<space>y'] = { '<cmd>Telescope luasnip<cr>', 'select a snippet' },
+  ['<space>;'] = { name = 'Snippets' },
+  ['<space>;e'] = { function() require("scissors").editSnippet() end, 'scissors edit snippet' },
+  ['<space>;a'] = { function() ls.expand() end, {silent = true}, 'expand' },
+  ['<space>;j'] = { function() ls.jump( 2) end, {silent = true}, 'next var' },
+  ['<space>;k'] = { function() ls.jump(-1) end, {silent = true}, 'prev var' },
+  ['<space>;;'] = { '<cmd>Telescope luasnip<cr>', 'select a snippet' },
 })
 -- dap debugger configuration
 local dapui = require 'dapui'
@@ -175,7 +179,6 @@ augroup myGolang
       nmap <buffer> <LocalLeader>t mP<cr>:lua require('dap-go').debug_test()<cr>
       nmap <buffer> <LocalLeader>r `P:lua require('dap-go').debug_test()<cr><C-o>
       nmap <buffer> <LocalLeader>fs :GoFillStruct<cr>
-      nmap <buffer> <LocalLeader>g iIt("should return pass", func() { Expect(true).To(BeTrue()) })<Esc>V>
       nmap <buffer> <LocalLeader>fs :GoFillStruct<cr>
       nmap <buffer> <LocalLeader>R :GoRename 
       " add := to the beggining of the line and go to insert mode
