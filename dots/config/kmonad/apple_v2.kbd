@@ -87,34 +87,34 @@
 (defalias
   ;; layers
   l_ins  (layer-switch insert)                    ;; default insert - typing
-  l_arr  (tap-hold 150 z (layer-toggle arrows))   ;; arrows
-  th_pl  (tap-hold 150 esc (layer-toggle plain))  ;; plain
-  th_pa  (tap-hold 150 spc (layer-toggle paren))  ;; paren
-  th_re  (tap-hold 150 ret (layer-toggle plain))  ;; plain
+  l_arr  (tap-hold 175 z (layer-toggle arrows))   ;; arrows
+  th_pl  (tap-hold 175 esc (layer-toggle plain))  ;; plain
+  th_pa  (tap-hold 175 spc (layer-toggle paren))  ;; paren
+  th_re  (tap-hold 175 ret (layer-toggle plain))  ;; plain
   l_pla  (layer-switch plain)                     ;; plain
   l_med  (layer-toggle media)                     ;; media
   l_bg   (layer-switch bg3)                       ;; bg3
 
   ;; ez layering for ctrl/alt/met
   ;; left side
-  th_a (tap-hold  150 a lsft)
-  th_s (tap-hold  150 s lctl)
-  th_d (tap-hold  150 d lalt)
-  th_f (tap-hold  150 f lmet)
-  th_bg (tap-hold 150 f lalt)
+  th_a (tap-hold  175 a lsft)
+  th_s (tap-hold  175 s lctl)
+  th_d (tap-hold  175 d lalt)
+  th_f (tap-hold  175 f lmet)
+  th_bg (tap-hold 175 f lalt)
   ;; right side
-  th_j (tap-hold 150 j rmet)
-  th_k (tap-hold 150 k ralt)
-  th_l (tap-hold 150 l rctl)
-  th_; (tap-hold 150 ; rsft)
+  th_j (tap-hold 175 j rmet)
+  th_k (tap-hold 175 k ralt)
+  th_l (tap-hold 175 l rctl)
+  th_; (tap-hold 175 ; rsft)
 
   ;; kmonad's crazy meta hotkeys
   m1 (around lshft lalt)
   m2 (around lshft (around lalt lctrl))
-  th_w (tap-hold 150 w @m1)
-  th_e (tap-hold 150 e @m2)
-  th_i (tap-hold 150 i @m1)
-  th_o (tap-hold 150 o @m2)
+  th_w (tap-hold 175 w @m1)
+  th_e (tap-hold 175 e @m2)
+  th_i (tap-hold 175 i @m1)
+  th_o (tap-hold 175 o @m2)
 
 ;; v1
 ;;   ;; layers
