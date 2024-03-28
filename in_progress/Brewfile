@@ -92,6 +92,8 @@ brew "wget"
 brew "yamllint"
 brew "youtube-dl", args: ["HEAD"]
 brew "yq"
+brew "jq"
+brew "go"
 brew "azure/kubelogin/kubelogin"
 brew "buildpacks/tap/pack"
 brew "cjbassi/ytop/ytop"
