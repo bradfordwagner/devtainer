@@ -22,8 +22,8 @@
     cookiecutter_dir: '{{ personal_dir }}/cookiecutter'
 
     # async control
-    async_timeout: 45
-    poll_timeout: 0 # async=0, sync=5
+    async_timeout: 0
+    poll_timeout: 5 # async=0, sync=5
   block:
    - name: make workspace dirs
      file:
@@ -50,17 +50,17 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: argo.workflow
-       repo: git@github.com:bradfordwagner/deploy-argoworkflow.git
+       repo: https://github.com/bradfordwagner/deploy-argoworkflow.git
      - name: argo.events
-       repo: git@github.com:bradfordwagner/deploy-argoevents.git
+       repo: https://github.com/bradfordwagner/deploy-argoevents.git
      - name: argo.events.bus
-       repo: git@github.com:bradfordwagner/deploy-argoevents-bus.git
+       repo: https://github.com/bradfordwagner/deploy-argoevents-bus.git
      - name: argo.cd
-       repo: git@github.com:bradfordwagner/deploy-argocd.git
+       repo: https://github.com/bradfordwagner/deploy-argocd.git
      - name: chart.vault
-       repo: git@github.com:bradfordwagner/deploy-chart-vault.git
+       repo: https://github.com/bradfordwagner/deploy-chart-vault.git
      - name: chart.secrets.store.csi.driver
-       repo: git@github.com:bradfordwagner/deploy-secrets-store-csi-driver.git
+       repo: https://github.com/bradfordwagner/deploy-secrets-store-csi-driver.git
 
    - name: '{{ personal_dir }}'
      git:
@@ -71,7 +71,7 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: dotfiles
-       repo: git@github.com:bradfordwagner/dotfiles.git
+       repo: https://github.com/bradfordwagner/dotfiles.git
 
    - name: '{{ src_dir }}'
      git:
@@ -82,46 +82,46 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: cheatsheet
-       repo: git@github.com:bradfordwagner/cheatsheet.git
+       repo: https://github.com/bradfordwagner/cheatsheet.git
      - name: java.firecode
-       repo: git@github.com:bradfordwagner/fire-code.git
+       repo: https://github.com/bradfordwagner/fire-code.git
      - name: grpc
-       repo: git@github.com:bradfordwagner/grpc.git
+       repo: https://github.com/bradfordwagner/grpc.git
        version: feature/init
      - name: pecan
-       repo: git@github.com:bradfordwagner/pecan.git
+       repo: https://github.com/bradfordwagner/pecan.git
        version: feature/yabai
      - name: algo.expert
-       repo: git@github.com:bradfordwagner/algo-expert.git
+       repo: https://github.com/bradfordwagner/algo-expert.git
        version: main
      - name: docker.cdktf
-       repo: git@github.com:bradfordwagner/docker-cdktf.git
+       repo: https://github.com/bradfordwagner/docker-cdktf.git
      - name: aws.cdktf
-       repo: git@github.com:bradfordwagner/aws-cdktf.git
+       repo: https://github.com/bradfordwagner/aws-cdktf.git
        version: main
      - name: aws.testbed
-       repo: git@github.com:bradfordwagner/aws-testbed.git
+       repo: https://github.com/bradfordwagner/aws-testbed.git
        version: main
      - name: script.testbed
-       repo: git@github.com:bradfordwagner/script-testbed.git
+       repo: https://github.com/bradfordwagner/script-testbed.git
        version: main
      - name: go.testbed
-       repo: git@github.com:bradfordwagner/go-testbed.git
+       repo: https://github.com/bradfordwagner/go-testbed.git
        version: main
      - name: tmux.modal.fork
-       repo: git@github.com:bradfordwagner/tmux-modal.git
+       repo: https://github.com/bradfordwagner/tmux-modal.git
        version: main
      - name: amethyst.fork
-       repo: git@github.com:bradfordwagner/Amethyst.git
+       repo: https://github.com/bradfordwagner/Amethyst.git
        version: development
      - name: taskfiles
-       repo: git@github.com:bradfordwagner/taskfiles.git
+       repo: https://github.com/bradfordwagner/taskfiles.git
        version: main
      - name: gh.actions.testbed
        repo: https://github.com/bradfordwagner/gh-actions-testbed.git
        version: main
      - name: kmonad
-       repo: git@github.com:bradfordwagner/container-kmonad.git
+       repo: https://github.com/bradfordwagner/container-kmonad.git
 
    # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
@@ -132,9 +132,9 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: util
-       repo: git@github.com:bradfordwagner/go-util.git
+       repo: https://github.com/bradfordwagner/go-util.git
      - name: threadpool
-       repo: git@github.com:bradfordwagner/go-threadpool.git
+       repo: https://github.com/bradfordwagner/go-threadpool.git
 
    - name: '{{ go_bin }}'
      git:
@@ -144,11 +144,11 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: azure.blob.cli
-       repo: git@github.com:bradfordwagner/go-azure-blob-cli.git
+       repo: https://github.com/bradfordwagner/go-azure-blob-cli.git
      - name: k8s.ks.cli
-       repo: git@github.com:bradfordwagner/ks.git
+       repo: https://github.com/bradfordwagner/ks.git
      - name: jumpdir.cli
-       repo: git@github.com:bradfordwagner/go-cli-jumpdir.git
+       repo: https://github.com/bradfordwagner/go-cli-jumpdir.git
      - name: buildkit.ch.cli
        repo: https://github.com/bradfordwagner/go-cli-buildkit-ch.git
 
@@ -160,15 +160,15 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: argocd.workflows
-       repo: git@github.com:bradfordwagner/chart-argo-workflows.git
+       repo: https://github.com/bradfordwagner/chart-argo-workflows.git
      - name: argo.events.webhook
-       repo: git@github.com:bradfordwagner/argo-events-webhook.git
+       repo: https://github.com/bradfordwagner/argo-events-webhook.git
      - name: argocd.init.contexts
-       repo: git@github.com:bradfordwagner/chart-argocd-init-contexts.git
+       repo: https://github.com/bradfordwagner/chart-argocd-init-contexts.git
      - name: namespaces
-       repo: git@github.com:bradfordwagner/chart-namespaces
+       repo: https://github.com/bradfordwagner/chart-namespaces
      - name: vault.k8s.auth
-       repo: git@github.com:bradfordwagner/chart-vault-k8s-auth.git
+       repo: https://github.com/bradfordwagner/chart-vault-k8s-auth.git
      - name: docker.buildkit
        repo: https://github.com/bradfordwagner/chart-docker-buildkit.git
 
@@ -181,27 +181,27 @@
      loop:
      # build - k8s cluster
      - name: az.infra
-       repo: git@github.com:bradfordwagner/tf-az-infra.git
+       repo: https://github.com/bradfordwagner/tf-az-infra.git
      - name: vault.infra
-       repo: git@github.com:bradfordwagner/tf-vault-infra.git
+       repo: https://github.com/bradfordwagner/tf-vault-infra.git
      - name: vault.policy
-       repo: git@github.com:bradfordwagner/tf-vault-policy.git
+       repo: https://github.com/bradfordwagner/tf-vault-policy.git
      - name: ci.cd
-       repo: git@github.com:bradfordwagner/tf-cicd.git
+       repo: https://github.com/bradfordwagner/tf-cicd.git
      - name: testbed
-       repo: git@github.com:bradfordwagner/tf-testbed.git
+       repo: https://github.com/bradfordwagner/tf-testbed.git
      - name: dry.environments
-       repo: git@github.com:bradfordwagner/tf-dry-environments.git
+       repo: https://github.com/bradfordwagner/tf-dry-environments.git
      - name: ws.k8s.infra
-       repo: git@github.com:bradfordwagner/tf-ws-k8s-infra.git
+       repo: https://github.com/bradfordwagner/tf-ws-k8s-infra.git
      - name: m.k8s.kind
-       repo: git@github.com:bradfordwagner/tf-m-k8s-kind.git
+       repo: https://github.com/bradfordwagner/tf-m-k8s-kind.git
      - name: m.vault.helm
-       repo: git@github.com:bradfordwagner/tf-m-vault-helm.git
+       repo: https://github.com/bradfordwagner/tf-m-vault-helm.git
      - name: m.az.acr
-       repo: git@github.com:bradfordwagner/tf-m-az-acr.git
+       repo: https://github.com/bradfordwagner/tf-m-az-acr.git
      - name: ws.az.acr
-       repo: git@github.com:bradfordwagner/tf-ws-az-acr.git
+       repo: https://github.com/bradfordwagner/tf-ws-az-acr.git
 
    - name: '{{ ansible_roles_dir }}'
      git:
@@ -211,11 +211,11 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: azure.blob.cli
-       repo: git@github.com:bradfordwagner/ansible-role-azure-blob-cli.git
+       repo: https://github.com/bradfordwagner/ansible-role-azure-blob-cli.git
      - name: gitops.toolkit
-       repo: git@github.com:bradfordwagner/ansible-role-gitops-toolkit.git
+       repo: https://github.com/bradfordwagner/ansible-role-gitops-toolkit.git
      - name: jumpdir
-       repo: git@github.com:bradfordwagner/ansible-role-jumpdir.git
+       repo: https://github.com/bradfordwagner/ansible-role-jumpdir.git
      - name: docker.buildkit
        repo: https://github.com/bradfordwagner/ansible-role-docker-buildkit.git
 
@@ -230,50 +230,50 @@
      # mirrors
      - name: base
        base: mirrors
-       repo: git@github.com:bradfordwagner/container-base.git
+       repo: https://github.com/bradfordwagner/container-base.git
      - name: kaniko
        base: mirrors
-       repo: git@github.com:bradfordwagner/container-kaniko.git
+       repo: https://github.com/bradfordwagner/container-kaniko.git
      - name: argo
        base: mirrors
-       repo: git@github.com:bradfordwagner/container-argo.git
+       repo: https://github.com/bradfordwagner/container-argo.git
      - name: manifest-tool
        base: mirrors
-       repo: git@github.com:bradfordwagner/container-manifest-tool.git
+       repo: https://github.com/bradfordwagner/container-manifest-tool.git
      - name: vault
        base: mirrors
-       repo: git@github.com:bradfordwagner/container-vault.git
+       repo: https://github.com/bradfordwagner/container-vault.git
      - name: vault.k8s.auth
        base: mirrors
-       repo: git@github.com:bradfordwagner/container-vault-k8s-auth.git
+       repo: https://github.com/bradfordwagner/container-vault-k8s-auth.git
      - name: redis
        base: mirrors
-       repo: git@github.com:bradfordwagner/container-redis.git
+       repo: https://github.com/bradfordwagner/container-redis.git
      - name: helm
        base: mirrors
-       repo: git@github.com:bradfordwagner/container-helm.git
+       repo: https://github.com/bradfordwagner/container-helm.git
 
      # custom builds
      - name: ansible
        base: custom
-       repo: git@github.com:bradfordwagner/container-ansible.git
+       repo: https://github.com/bradfordwagner/container-ansible.git
      - name: store.csi.driver
        base: custom
-       repo: git@github.com:bradfordwagner/container-secrets-store-csi-driver.git
+       repo: https://github.com/bradfordwagner/container-secrets-store-csi-driver.git
 
      # ansible builds
      - name: role.builder
        base: ansible
-       repo: git@github.com:bradfordwagner/container-ansible-role-builder.git
+       repo: https://github.com/bradfordwagner/container-ansible-role-builder.git
      - name: go.builder
        base: ansible
-       repo: git@github.com:bradfordwagner/container-go-builder.git
+       repo: https://github.com/bradfordwagner/container-go-builder.git
      - name: terraform
        base: ansible
-       repo: git@github.com:bradfordwagner/container-terraform.git
+       repo: https://github.com/bradfordwagner/container-terraform.git
      - name: devtainer
        base: ansible
-       repo: git@github.com:bradfordwagner/devtainer.git
+       repo: https://github.com/bradfordwagner/devtainer.git
 
    - name: '{{ templates_dir }}'
      git:
@@ -283,21 +283,21 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: go.lib
-       repo: git@github.com:bradfordwagner/gh-template-go-lib.git
+       repo: https://github.com/bradfordwagner/gh-template-go-lib.git
      - name: go.cli
-       repo: git@github.com:bradfordwagner/gh-template-go-cli.git
+       repo: https://github.com/bradfordwagner/gh-template-go-cli.git
      - name: container.mirror.image
-       repo: git@github.com:bradfordwagner/gh-template-mirror-image.git
+       repo: https://github.com/bradfordwagner/gh-template-mirror-image.git
      - name: ansible.role
-       repo: git@github.com:bradfordwagner/gh-template-ansible-role.git
+       repo: https://github.com/bradfordwagner/gh-template-ansible-role.git
      - name: ansible.playbook
-       repo: git@github.com:bradfordwagner/gh-template-ansible-playbook.git
+       repo: https://github.com/bradfordwagner/gh-template-ansible-playbook.git
      - name: tf.module
-       repo: git@github.com:bradfordwagner/gh-template-tf-module.git
+       repo: https://github.com/bradfordwagner/gh-template-tf-module.git
      - name: tf.workspaces
-       repo: git@github.com:bradfordwagner/gh-template-tf-workspaces.git
+       repo: https://github.com/bradfordwagner/gh-template-tf-workspaces.git
      - name: helm.chart
-       repo: git@github.com:bradfordwagner/gh-template-helm-chart.git
+       repo: https://github.com/bradfordwagner/gh-template-helm-chart.git
 
    - name: '{{ cookiecutter_dir }}'
      git:
@@ -327,15 +327,15 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: chart.vault
-       repo: git@github.com:bradfordwagner/vault-helm.git
+       repo: https://github.com/bradfordwagner/vault-helm.git
      - name: cert.manager.approver.policy
-       repo: git@github.com:bradfordwagner/approver-policy.git
+       repo: https://github.com/bradfordwagner/approver-policy.git
      - name: ansible.role.go.dev
-       repo: git@github.com:bradfordwagner/ansible-go-dev.git
+       repo: https://github.com/bradfordwagner/ansible-go-dev.git
      - name: ansible.role.go
-       repo: git@github.com:bradfordwagner/ansible-go.git
+       repo: https://github.com/bradfordwagner/ansible-go.git
      - name: gitops.toolkit
-       repo: git@github.com:bradfordwagner/gitops-toolkit.git
+       repo: https://github.com/bradfordwagner/gitops-toolkit.git
 
    # bulds which use yaml lint
    - name: '{{ yaml_dir }}'
@@ -348,4 +348,4 @@
      - name: taskfiles
        repo: https://github.com/bradfordwagner/taskfiles.git
      - name: cicd.smoketests
-       repo: git@github.com:bradfordwagner/cicd-smoketests.git
+       repo: https://github.com/bradfordwagner/cicd-smoketests.git
