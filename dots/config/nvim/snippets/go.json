@@ -1,1 +1,1 @@
-{"hi_friends":{"prefix":"hi_friends","body":"println(\"${1:hi friends}\")"},"it":{"prefix":"it","body":["It(\"$1\", func() {","\tExpect(true).To(BeTrue())","\t$2","})"]}}
+{"unit_test_args":{"prefix":"unit_test_args","body":["type args struct {","\t$1","}","type res struct {","\t$2","}","var test = func(a args, r res) {","\t$3","}"]},"hi_friends":{"prefix":"hi_friends","body":"println(\"${1:hi friends}\")"},"it":{"prefix":"it","body":["It(\"$1\", func() {","\tExpect(true).To(BeTrue())","\t$2","})"]}}

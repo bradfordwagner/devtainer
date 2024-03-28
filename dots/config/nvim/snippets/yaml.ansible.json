@@ -1,0 +1,1 @@
+{"escape":{"prefix":"escape","body":"{{ `{{ $1 }}`}}"},"gh expresion escape":{"body":"{{ `\\${{ $1 }}`}}","prefix":"gh expresion escape"}}
