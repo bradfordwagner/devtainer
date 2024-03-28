@@ -113,7 +113,6 @@ brew "txn2/tap/kubefwd"
 cask "alacritty"
 cask "alfred", args: { appdir: "/Applications" }
 cask "amethyst", args: { appdir: "/Applications" }
-cask "background-music"
 cask "brave-browser", args: { appdir: "/Applications" }
 cask "dozer", args: { appdir: "/Applications" }
 cask "firefox", args: { appdir: "/Applications" }
