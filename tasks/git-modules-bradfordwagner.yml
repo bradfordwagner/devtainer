@@ -19,11 +19,12 @@
     yaml_dir: '{{ personal_dir }}/yaml'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
-    cookiecutter_dir: '{{ personal_dir }}/cookiecutter'
 
     # async control
+    # for async: 45/0
+    # for sync: 0/5
     async_timeout: 0
-    poll_timeout: 5 # async=0, sync=5
+    poll_timeout: 5
   block:
    - name: make workspace dirs
      file:
@@ -108,9 +109,6 @@
      - name: go.testbed
        repo: https://github.com/bradfordwagner/go-testbed.git
        version: main
-     - name: tmux.modal.fork
-       repo: https://github.com/bradfordwagner/tmux-modal.git
-       version: main
      - name: amethyst.fork
        repo: https://github.com/bradfordwagner/Amethyst.git
        version: development
@@ -122,6 +120,7 @@
        version: main
      - name: kmonad
        repo: https://github.com/bradfordwagner/container-kmonad.git
+       version: main
 
    # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
@@ -298,16 +297,6 @@
        repo: https://github.com/bradfordwagner/gh-template-tf-workspaces.git
      - name: helm.chart
        repo: https://github.com/bradfordwagner/gh-template-helm-chart.git
-
-   - name: '{{ cookiecutter_dir }}'
-     git:
-       repo: '{{ item.repo }}'
-       dest: '{{ cookiecutter_dir }}/bradfordwagner.cookiecutter.{{ item.name }}'
-     async: '{{ async_timeout }}'
-     poll: '{{ poll_timeout }}'
-     loop:
-     - name: base
-       repo: https://github.com/bradfordwagner/cookiecutter-base.git
 
    - name: '{{ research_dir }}'
      git:

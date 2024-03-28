@@ -16,8 +16,10 @@
     github_ubersicht_dir: '{{ github_dir }}/ubersicht'
 
     # async control
-    async_timeout: 45
-    poll_timeout: 0
+    # for async: 45/0
+    # for sync: 0/5
+    async_timeout: 0
+    poll_timeout: 5
   block:
    - name: make workspace dirs
      file:
@@ -42,76 +44,73 @@
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
-     - repo: git@github.com:bradfordwagner/pecan.git
+     - repo: https://github.com/bradfordwagner/pecan.git
        name: pecan
        version: feature/yabai
-     - repo: git@github.com:kknopper/ubersicht-calendar.git
+     - repo: https://github.com/kknopper/ubersicht-calendar.git
        name: calendar
-     - repo: git@github.com:bradfordwagner/ubersicht-cpu-usage.git
+     - repo: https://github.com/bradfordwagner/ubersicht-cpu-usage.git
        name: ubersicht-cpu-usage
 
    - name: '{{ github_ansible_dir }}'
      git:
        repo: '{{ item.repo }}'
        dest: '{{ github_ansible_dir }}/github.ansible.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
      - name: andrewrothstein.sudoers
-       repo: git@github.com:andrewrothstein/ansible-sudoers.git
+       repo: https://github.com/andrewrothstein/ansible-sudoers.git
      - name: andrewrothstein.go
-       repo: git@github.com:andrewrothstein/ansible-go.git
+       repo: https://github.com/andrewrothstein/ansible-go.git
      - name: andrewrothstein.go-dev
-       repo: git@github.com:andrewrothstein/ansible-go-dev.git
+       repo: https://github.com/andrewrothstein/ansible-go-dev.git
      - name: andrewrothstein.git
-       repo: git@github.com:andrewrothstein/ansible-git.git
+       repo: https://github.com/andrewrothstein/ansible-git.git
      - name: bradfordwagner.terraform-helm3
-       repo: git@github.com:bradfordwagner/ansible-terraform-helm3.git
+       repo: https://github.com/bradfordwagner/ansible-terraform-helm3.git
      - name: aaronmell.terraform-provider-helm
-       repo: git@github.com:aaronmell/terraform-provider-helm.git
-       version: dev-v3
+       repo: https://github.com/aaronmell/terraform-provider-helm.git
      - name: andrewrothstein.kubernetes-helm
-       repo: git@github.com:andrewrothstein/ansible-kubernetes-helm.git
+       repo: https://github.com/andrewrothstein/ansible-kubernetes-helm.git
      - name: andrewrothstein.openjdk
-       repo: git@github.com:andrewrothstein/ansible-openjdk.git
+       repo: https://github.com/andrewrothstein/ansible-openjdk.git
      - name: andrewrothstein.consul_k8s
-       repo: git@github.com:andrewrothstein/ansible-consul_k8s.git
+       repo: https://github.com/andrewrothstein/ansible-consul_k8s.git
      - name: andrewrothstein.protoc
-       repo: git@github.com:andrewrothstein/ansible-protoc.git
+       repo: https://github.com/andrewrothstein/ansible-protoc.git
      - name: andrewrothstein.alpine.glibc.shim
-       repo: git@github.com:andrewrothstein/ansible-alpine-glibc-shim.git
+       repo: https://github.com/andrewrothstein/ansible-alpine-glibc-shim.git
      - name: bradfordwagner.maven
-       repo: git@github.com:bradfordwagner/ansible-maven.git
+       repo: https://github.com/bradfordwagner/ansible-maven.git
      - name: andrewrothstein.maven
-       repo: git@github.com:andrewrothstein/ansible-maven.git
+       repo: https://github.com/andrewrothstein/ansible-maven.git
      - name: andrewrothstein.trust.ca
-       repo: git@github.com:andrewrothstein/ansible-trust-ca.git
+       repo: https://github.com/andrewrothstein/ansible-trust-ca.git
      - name: andrewrothstein.kafka
-       repo: git@github.com:andrewrothstein/ansible-kafka.git
+       repo: https://github.com/andrewrothstein/ansible-kafka.git
      - name: andrewrothstein.vault
-       repo: git@github.com:andrewrothstein/ansible-vault.git
+       repo: https://github.com/andrewrothstein/ansible-vault.git
      - name: andrewrothstein.prometheus.jmx.exporter
-       repo: git@github.com:andrewrothstein/ansible-prometheus_jmx_exporter.git
+       repo: https://github.com/andrewrothstein/ansible-prometheus_jmx_exporter.git
      - name: andrewrothstein.nats.server
-       repo: git@github.com:andrewrothstein/ansible-nats_server.git
+       repo: https://github.com/andrewrothstein/ansible-nats_server.git
      - name: andrewrothstein.buf
-       repo: git@github.com:andrewrothstein/ansible-buf.git
+       repo: https://github.com/andrewrothstein/ansible-buf.git
      - name: andrewrothstein.miniconda
-       repo: git@github.com:andrewrothstein/ansible-miniconda.git
+       repo: https://github.com/andrewrothstein/ansible-miniconda.git
      - name: andrewrothstein.azurecli
-       repo: git@github.com:andrewrothstein/ansible-azurecli.git
+       repo: https://github.com/andrewrothstein/ansible-azurecli.git
      - name: andrewrothstein.conda.env
-       repo: git@github.com:andrewrothstein/ansible-conda-env.git
+       repo: https://github.com/andrewrothstein/ansible-conda-env.git
      - name: bradfordwagner.protoc
-       repo: git@github.com:bradfordwagner/ansible-protoc.git
-       version: feature/wkt
+       repo: https://github.com/bradfordwagner/ansible-protoc.git
      - name: andrewrothstein.terragrunt
-       repo: git@github.com:andrewrothstein/ansible-terragrunt.git
+       repo: https://github.com/andrewrothstein/ansible-terragrunt.git
      - name: andrewrothstein.k9s
-       repo: git@github.com:andrewrothstein/ansible-k9s.git
+       repo: https://github.com/andrewrothstein/ansible-k9s.git
      - name: andrewrothstein.kubectl
-       repo: git@github.com:andrewrothstein/ansible-kubectl.git
+       repo: https://github.com/andrewrothstein/ansible-kubectl.git
      - name: bradfordwagner.fork.terragrunt
        repo: https://github.com/bradfordwagner/ansible-terragrunt.git
 
@@ -119,75 +118,61 @@
      git:
        repo: '{{ item.repo }}'
        dest: '{{ github_helm_dir }}/github.helm.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
      - name: hashi.consul
-       repo: git@github.com:hashicorp/consul-helm.git
+       repo: https://github.com/hashicorp/consul-helm.git
      - name: chart.vault.mirror
-       repo: git@github.com:hashicorp/vault-helm.git
+       repo: https://github.com/hashicorp/vault-helm.git
      - name: chart.secrets.store.csi.driver.mirror
        repo: https://github.com/kubernetes-sigs/secrets-store-csi-driver.git
      - name: chart.csi-provider-azure.mirror
        repo: https://github.com/Azure/secrets-store-csi-driver-provider-azure
      - name: prometheus
-       repo: git@github.com:prometheus-community/helm-charts.git
-       version: main
+       repo: https://github.com/prometheus-community/helm-charts.git
      - name: cert-manager
-       repo: git@github.com:cert-manager/cert-manager.git
-       version: v1.10.0
+       repo: https://github.com/cert-manager/cert-manager.git
      - name: cert-manager-approver-policy
-       repo: git@github.com:cert-manager/approver-policy.git
-       version: v1.10.0
+       repo: https://github.com/cert-manager/approver-policy.git
      - name: istio
-       repo: git@github.com:istio/istio.git
-       version: 1.16.1
+       repo: https://github.com/istio/istio.git
      - name: kafka.lag.exporter
-       repo: git@github.com:seglo/kafka-lag-exporter.git
-       version: master
-     - name: argo
-       repo: https://github.com/argoproj/argo-helm.git
-       version: main
+       repo: https://github.com/seglo/kafka-lag-exporter.git
      - name: argo.helm
        repo: https://github.com/argoproj/argo-helm.git
-       version: main
 
    - name: '{{ github_python_dir }}'
      git:
        repo: '{{ item.repo }}'
        dest: '{{ github_python_dir }}/github.python.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
      - name: andrewrothstein.dcb
-       repo: git@github.com:andrewrothstein/dcb.git
+       repo: https://github.com/andrewrothstein/dcb.git
      - name: alacritty.color.export
-       repo: git@github.com:egeesin/alacritty-color-export
+       repo: https://github.com/egeesin/alacritty-color-export
 
    - name: '{{ github_go_dir }}'
      git:
        repo: '{{ item.repo }}'
        dest: '{{ github_go_dir }}/github.go.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
      - name: nats.server
-       repo: git@github.com:nats-io/nats-server.git
-       version: main
+       repo: https://github.com/nats-io/nats-server.git
      - name: prototool
-       repo: git@github.com:uber/prototool.git
-       version: dev
+       repo: https://github.com/uber/prototool.git
      - name: raft.grpc.example
-       repo: git@github.com:Jille/raft-grpc-example.git
+       repo: https://github.com/Jille/raft-grpc-example.git
      - name: argo.cd
-       repo: git@github.com:argoproj/argo-cd.git
+       repo: https://github.com/argoproj/argo-cd.git
      - name: kube.switch
-       repo: git@github.com:danielfoehrKn/kubeswitch.git
+       repo: https://github.com/danielfoehrKn/kubeswitch.git
      - name: vault.csi.provider
-       repo: git@github.com:hashicorp/vault-csi-provider.git
+       repo: https://github.com/hashicorp/vault-csi-provider.git
      - name: vault.k8s.webhook.injector
        repo: https://github.com/hashicorp/vault-k8s.git
      - name: azure.sdk.go
@@ -197,66 +182,49 @@
      git:
        repo: '{{ item.repo }}'
        dest: '{{ github_shell_dir }}/github.shell.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
      - name: cli.visualizer
-       repo: git@github.com:dpayne/cli-visualizer.git
-       version: v1.8
+       repo: https://github.com/dpayne/cli-visualizer.git
      - name: xava
-       repo: git@github.com:nikp123/xava.git
-       version: 0.6.2.3
+       repo: https://github.com/nikp123/xava.git
      - name: cava
-       repo: git@github.com:karlstav/cava.git
-       version: 0.7.2
+       repo: https://github.com/karlstav/cava.git
      - name: lyrics-in-terminal
-       repo: git@github.com:Jugran/lyrics-in-terminal.git
-       version: main
+       repo: https://github.com/Jugran/lyrics-in-terminal.git
      - name: tmuxinator
-       repo: git@github.com:tmuxinator/tmuxinator.git
-       version:  v0.15.0
+       repo: https://github.com/tmuxinator/tmuxinator.git
      - name: base2tone.alacritty.theme
-       repo: git@github.com:atelierbram/Base2Tone-alacritty.git
+       repo: https://github.com/atelierbram/Base2Tone-alacritty.git
      - name: alacritty.theme
-       repo: git@github.com:eendroroy/alacritty-theme.git
+       repo: https://github.com/eendroroy/alacritty-theme.git
      - name: alacritty.nord.theme
-       repo: git@github.com:arcticicestudio/nord-alacritty.git
+       repo: https://github.com/arcticicestudio/nord-alacritty.git
      - name: powerline
-       repo: git@github.com:powerline/powerline.git
-       version: 2.8.1
+       repo: https://github.com/powerline/powerline.git
      - name: ncmpcpp
        repo: https://github.com/ncmpcpp/ncmpcpp.git
-       version: 0.9.2
      - name: tmux.powerline.gruvbox.theme
-       repo: git@github.com:PetrusZ/tmux-powerline-gruvbox-colorscheme.git
+       repo: https://github.com/PetrusZ/tmux-powerline-gruvbox-colorscheme.git
      - name: watchexec
-       repo: git@github.com:watchexec/watchexec.git
-       version: 1.14.1
+       repo: https://github.com/watchexec/watchexec.git
      - name: gotbletu.shownotes.dotfiles
-       repo: git@github.com:gotbletu/shownotes.git
-       version: master
+       repo: https://github.com/gotbletu/shownotes.git
      - name: jonaburg.picom.compositor
-       repo: git@github.com:jonaburg/picom.git
-       version: next
+       repo: https://github.com/jonaburg/picom.git
      - name: corkscrew
        repo: https://github.com/bryanpkc/corkscrew.git
-       version: master
      - name: fzf
-       repo: git@github.com:junegunn/fzf.git
-       version: master
+       repo: https://github.com/junegunn/fzf.git
      - name: kmonad
-       repo: git@github.com:kmonad/kmonad.git
-       version: master
+       repo: https://github.com/kmonad/kmonad.git
      - name: tmux-tav-fzf
-       repo: git@github.com:mudox/tav.git
-       version: main
+       repo: https://github.com/mudox/tav.git
      - name: tmux-2k
-       repo: git@github.com:2KAbhishek/tmux2k.git
-       version: main
+       repo: https://github.com/2KAbhishek/tmux2k.git
      - name: amethyst
-       repo: git@github.com:ianyh/Amethyst.git
-       version: development
+       repo: https://github.com/ianyh/Amethyst.git
      - name: nvim.telescope
        repo: https://github.com/nvim-telescope/telescope.nvim.git
 
@@ -264,43 +232,39 @@
      git:
        repo: '{{ item.repo }}'
        dest: '{{ github_terraform_dir }}/github.terraform.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
      - name: terratest
-       repo: git@github.com:gruntwork-io/terratest.git
-       version: v0.28.8
+       repo: https://github.com/gruntwork-io/terratest.git
 
    - name: '{{ github_k8s_dir }}'
      git:
        repo: '{{ item.repo }}'
        dest: '{{ github_k8s_dir }}/github.k8s.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      loop:
      - name: iperf3
-       repo: git@github.com:Pharb/kubernetes-iperf3.git
+       repo: https://github.com/Pharb/kubernetes-iperf3.git
      - name: lens.ui
-       repo: git@github.com:lensapp/lens
-       version: v3.5.3
+       repo: https://github.com/lensapp/lens
      - name: bank.vault
-       repo: git@github.com:banzaicloud/bank-vaults.git
+       repo: https://github.com/banzaicloud/bank-vaults.git
      - name: kurun
-       repo: git@github.com:banzaicloud/kurun.git
+       repo: https://github.com/banzaicloud/kurun.git
      - name: examples
-       repo: git@github.com:kubernetes/examples.git
+       repo: https://github.com/kubernetes/examples.git
      - name: minio
-       repo: git@github.com:minio/minio.git
+       repo: https://github.com/minio/minio.git
      - name: minio.operator
-       repo: git@github.com:minio/operator.git
+       repo: https://github.com/minio/operator.git
      - name: secrets.store.csi.driver
-       repo: git@github.com:kubernetes-sigs/secrets-store-csi-driver.git
+       repo: https://github.com/kubernetes-sigs/secrets-store-csi-driver.git
      - name: argo.workflows
-       repo: git@github.com:argoproj/argo-workflows.git
+       repo: https://github.com/argoproj/argo-workflows.git
      - name: rumstead.gitops.toolkit
-       repo: git@github.com:rumstead/gitops-toolkit.git
+       repo: https://github.com/rumstead/gitops-toolkit.git
      - name: istio
        repo: https://github.com/istio/istio.git
      - name: kubernetes.replicator
