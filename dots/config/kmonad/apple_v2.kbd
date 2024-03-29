@@ -101,7 +101,7 @@
   th_s (tap-hold  175 s lctl)
   th_d (tap-hold  175 d lalt)
   th_f (tap-hold  175 f lmet)
-  th_bg (tap-hold 175 f lalt)
+  th_bg (tap-hold 175 f lmet) ;; geforce_now=lalt,mac=lmet
   ;; right side
   th_j (tap-hold 175 j rmet)
   th_k (tap-hold 175 k ralt)
