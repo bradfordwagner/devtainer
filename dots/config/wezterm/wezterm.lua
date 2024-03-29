@@ -27,7 +27,8 @@ config.font_size                 = 12.0
 config.audible_bell              = "Disabled"
 
 -- window border
-local border_color = '#565575'
+local border_color = '#3578F7'
+-- local border_color = '#565575'
 config.window_frame = {
   border_left_width    = '0.5cell',
   border_right_width   = '0.5cell',
