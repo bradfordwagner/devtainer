@@ -27,6 +27,7 @@ python3 -m pip install --user --upgrade pynvim
 
 ## Alfred
 - [theme: big sur night](http://www.packal.org/theme/big-sur-night)
+- [theme: monterey](https://github.com/chrismessina/alfred-theme-monterey/releases/tag/v0.1)
 
 ## Help with Unknown Sources
 ```bash

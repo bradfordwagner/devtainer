@@ -107,7 +107,6 @@ cask "alacritty"
 cask "alfred", args: { appdir: "/Applications" }
 cask "amethyst", args: { appdir: "/Applications" }
 cask "brave-browser", args: { appdir: "/Applications" }
-cask "dozer", args: { appdir: "/Applications" }
 cask "font-fira-code", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono-nerd-font", args: { appdir: "/Applications" }
