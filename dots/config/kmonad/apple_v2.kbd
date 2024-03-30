@@ -33,7 +33,7 @@
     tab    q      @th_w  @th_e  r      t      y      u      @th_i  @th_o  p      [      ]      \
     @th_pl @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  '      @th_re
     @l_pla @l_arr x      c      v      b      n      m      ,      .      /      _      up
-    @l_med _      _      _             @th_pa                      _      @l_bg  left   down   rght
+    @l_med _      _      _             @th_pa                      M-A-d  @l_bg  left   down   rght
 )
 
 ;; used in order to have a layer with no special keys
