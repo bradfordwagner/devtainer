@@ -261,9 +261,6 @@
        repo: https://github.com/bradfordwagner/container-secrets-store-csi-driver.git
 
      # ansible builds
-     - name: role.builder
-       base: ansible
-       repo: https://github.com/bradfordwagner/container-ansible-role-builder.git
      - name: go.builder
        base: ansible
        repo: https://github.com/bradfordwagner/container-go-builder.git
