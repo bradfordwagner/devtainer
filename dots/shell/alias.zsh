@@ -38,6 +38,7 @@ alias glh="git ll | nl -v1 | sed 's/^ \+/&HEAD~/' | head -n 25" # git log head
 alias grd='cd $(git root)' # git root directory
 alias gpf='git push -f'    # git push force
 alias gpot='git push origin --tags'
+alias gt='git tag'
 ################################################
 
 ################################################
