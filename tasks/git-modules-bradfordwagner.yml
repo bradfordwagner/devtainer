@@ -217,6 +217,8 @@
        repo: https://github.com/bradfordwagner/ansible-role-jumpdir.git
      - name: docker.buildkit
        repo: https://github.com/bradfordwagner/ansible-role-docker-buildkit.git
+     - name: go.releaser.install
+       repo: https://github.com/bradfordwagner/ansible-role-go-releaser-install
 
    - name: '{{ containers_dir }}'
      git:
