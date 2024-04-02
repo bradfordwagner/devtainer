@@ -82,7 +82,7 @@ function argocd_app_login_local_8080() {
   --insecure
 }
 function argocd_app_login_argocd-server.akp-gitops() {
-  argocd login argocd-server.akp-gitops:443 \
+  argocd login argocd-server.akp-gitops.svc.cluster.local:443 \
   --username admin \
   --password admin1234 \
   --insecure
