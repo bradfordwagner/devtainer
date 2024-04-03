@@ -272,6 +272,9 @@
      - name: devtainer
        base: ansible
        repo: https://github.com/bradfordwagner/devtainer.git
+     - name: bkch
+       base: ansible
+       repo: https://github.com/bradfordwagner/container-bkch.git
 
    - name: '{{ templates_dir }}'
      git:
