@@ -2,7 +2,7 @@
 - hosts: localhost, dotfiles
   vars:
     install_vim_shell_packages: true
-    brew_install: true
+    brew_install: false
     git_clone: false
     user:
       # in some cases we need to create the user
@@ -23,7 +23,7 @@
       include_tasks: tasks/packages-arch.yml
       when: ansible_facts.distribution == "Archlinux" and "dotfiles" not in group_names
 
-    # - name: packages - osx
+    - name: packages - osx
       include_tasks: tasks/packages-osx.yml
       when: ansible_facts.distribution == "MacOSX" and brew_install
 
