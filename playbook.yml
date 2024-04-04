@@ -24,8 +24,8 @@
       when: ansible_facts.distribution == "Archlinux" and "dotfiles" not in group_names
 
     # - name: packages - osx
-    #   include_tasks: tasks/packages-osx.yml
-    #   when: ansible_facts.distribution == "MacOSX" and brew_install
+      include_tasks: tasks/packages-osx.yml
+      when: ansible_facts.distribution == "MacOSX" and brew_install
 
     # mostly user space installation
     - name: create user - {{ user.name }}

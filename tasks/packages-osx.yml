@@ -8,9 +8,9 @@
     homebrew_taps:
     - cjbassi/ytop
     - bufbuild/buf
-    - mopidy/mopidy
     homebrew_uninstalled_packages: []
     homebrew_installed_packages:
+
     - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
     - argo
     - argocd
@@ -19,14 +19,12 @@
     - bash-completion                          # bash completions
     - bat
     - buildkit
-    - cmake
     - container-diff
     - coreutils
     - corkscrew
     - ctags                                    # used in vim: TagbarToggle
     - danielfoehrkn/switch/switch              # kubectl switch helper - https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
     - dive                                     # inspect docker images
-    - docker
     - dos2unix
     - expect                                   # for unbuffer command - watch
     - findutils
@@ -36,6 +34,7 @@
     - git-delta                                # git colorized differ
     - gnu-sed
     - gnu-tar
+    - go
     - go-task                                  # task manager - like makefile, but better
     - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
     - helm@3
@@ -49,29 +48,19 @@
     - kubectx
     - kubernetes-cli
     - lsd                                      # nerdfont/icons `ls`
-    - macvim
     - mkcert
-    - mopidy
-    - mopidy-mpd
-    - mopidy-spotify
-    - ncmpcpp
     - neovim
     - node                                     # required for vim-coc
     - nss                                      # required for mkcert - specifically firefox
     - proctools
     - protobuf
-    - prototool
     - pstree
     - pulseaudio
     - pyenv
-    - python-yq
     - reattach-to-user-namespace
     - ripgrep                                  # https://github.com/BurntSushi/ripgrep - used for grep calls following your gitignore
     - rust
     - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
-    - spotify-tui
-    - spotify_player
-    - spotifyd
     - ssh-copy-id
     - terraform
     - terragrunt
@@ -87,8 +76,8 @@
     - watchexec
     - wget
     - yamllint
+    - yq
     - ytop
-
 - include_role:
     name: geerlingguy.mac.homebrew
   vars:
@@ -102,7 +91,6 @@
     # - honer
     # - drawio
     # - virtualbox
-    # - spotify
     # - ubersicht
     # - eqmac
     # - homebrew/cask-fonts/font-meslo-nerd-font-mono
@@ -119,8 +107,6 @@
     - alfred
     - amethyst
     - brave-browser
-    - dozer
-    - firefox
     - font-fira-code
     - font-jetbrains-mono
     - font-jetbrains-mono-nerd-font
