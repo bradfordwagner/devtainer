@@ -56,8 +56,6 @@ function argocd_app_login() {
   items=(
     argocd-server.akp-gitops
     argocd-server.argocd
-    local_8080
-    local_30001
     work_prod
     work_preprod
   )
@@ -65,18 +63,6 @@ function argocd_app_login() {
   argocd_app_login_${choice}
   # update cache as we've changed contexts
   argocd_app_cache_apps
-}
-function argocd_app_login_local_30001() {
-  argocd login localhost:30001 \
-  --username admin \
-  --password admin1234 \
-  --insecure
-}
-function argocd_app_login_local_8080() {
-  argocd login localhost:8080 \
-  --username admin \
-  --password admin1234 \
-  --insecure
 }
 function argocd_app_login_argocd-server.argocd() {
   argocd login argocd-server.argocd.svc.cluster.local:443 \
