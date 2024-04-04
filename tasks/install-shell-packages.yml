@@ -42,24 +42,25 @@
         - repo: https://github.com/not-poma/lazyshell.git
           dest: plugins/lazyshell
 
-    - name: setup vundle / tpm
+    - name: setup tpm
       git:
         repo: '{{ item.repo }}'
         dest: '{{ ansible_env.HOME }}/{{ item.dest }}'
       loop:
-      - repo: https://github.com/VundleVim/Vundle.vim.git
-        dest: .vim/bundle/Vundle.vim
       - repo: https://github.com/tmux-plugins/tpm
         dest: .tmux/plugins/tpm
 
+    # TODO fix pynvim
     - shell: '{{ item }}'
       name: install vim plugins
       loop:
+        - echo todo fix pynvim support for co-pilot
+        - echo todo auto install plugins
         # setup pynvim support for co-pilot
-        - python3 -m pip install --user --upgrade pynvim
-        - nvim +silent +PlugInstall +qall
-        - nvim +silent +PluginInstall +qall
-        - nvim +silent +PackerInstall +qall
+        # - python3 -m pip install --user --upgrade pynvim
+        # - nvim +silent +PlugInstall +qall
+        # - nvim +silent +PluginInstall +qall
+        # - nvim +silent +PackerInstall +qall
 
 - name: npm install language servers
   shell: '{{ item }}'

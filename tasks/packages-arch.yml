@@ -3,8 +3,10 @@
   community.general.pacman:
     update_cache: true
 - name: pacman - install
-  retries: 5
+  retries: 1
   delay: 3
+  # retries: 5
+  # delay: 3
   community.general.pacman:
     update_cache: false
     name:
@@ -21,23 +23,23 @@
     # - community/brave-browser
     # - python-pip
     # - community/awesome
-    - community/the_silver_searcher
-    - community/fzf
+    - extra/the_silver_searcher
+    - extra/fzf
     # - community/exa
     # - community/bat
     # - community/ttf-jetbrains-mono
-    - community/nodejs
-    - community/npm
-    - community/kubectl
-    - community/kubectx
-    - community/k9s
-    - community/helm
+    - extra/nodejs
+    - extra/npm
+    - extra/kubectl
+    - extra/k9s
+    - extra/helm
     # - alacritty
     # - community/yay
-    - community/watchexec
+    - extra/watchexec
     - extra/tree
     - extra/zsh
-    - community/tmux
+    - extra/tmux
+    - extra/rsync
     - core/which
     - core/sudo
     - neovim
