@@ -6,14 +6,13 @@
 xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install ansible gh go-task
-ssh-keygen
 gh auth login -w -p https
-gh auth login -w -p ssh
 
 # install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-task sudoer default
+task sudoer
+task
 
 # still comes from the original dotfiles
 ansible-playbook pb-kubectl-krew.yml
