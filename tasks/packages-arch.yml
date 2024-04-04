@@ -15,6 +15,7 @@
       - core/sudo
       - core/which
       - dnsutils
+      - extra/bat
       - extra/fzf
       - extra/helm
       - extra/k9s
