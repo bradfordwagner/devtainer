@@ -55,7 +55,6 @@
     - proctools
     - protobuf
     - pstree
-    - pulseaudio
     - pyenv
     - reattach-to-user-namespace
     - ripgrep                                  # https://github.com/BurntSushi/ripgrep - used for grep calls following your gitignore
@@ -87,7 +86,6 @@
     # - jd-gui
     # - pandora
     # - sizeup
-    # - bartender
     # - honer
     # - drawio
     # - virtualbox
@@ -106,8 +104,10 @@
     - alacritty
     - alfred
     - amethyst
+    - bartender
     - brave-browser
     - font-fira-code
+    - font-iosevka-term-nerd-font
     - font-jetbrains-mono
     - font-jetbrains-mono-nerd-font
     - google-chrome

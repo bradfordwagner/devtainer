@@ -13,7 +13,9 @@ end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.font = wezterm.font('JetBrains Mono', { weight = 'ExtraBold' })
+-- wezterm ls-fonts --list-system | grep -i Iosevka | grep -i extrabold
+config.font = wezterm.font("JetBrains Mono", { weight = "ExtraBold" })
+config.font = wezterm.font("IosevkaTerm Nerd Font Mono", {weight="ExtraBold", stretch="Normal", style="Normal"})
 
 --
 config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
