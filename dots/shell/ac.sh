@@ -4,7 +4,6 @@
 function ac() {
   clear
   items=(
-    tunnel
     sync
     open_ui
     terminate
@@ -16,9 +15,6 @@ function ac() {
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   argocd_app_${choice}
-}
-function argocd_app_tunnel() {
-  ssh -L 30001:localhost:30001 bwagner@bwagner-studio
 }
 function argocd_find_app() {
   cache=~/.ac.apps
@@ -125,15 +121,11 @@ function argocd_app_wf() {
     resubmit
     delete
     delete_all
-    tunnel
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   argocd_app_wf_${choice}
 }
 
-function argocd_app_wf_tunnel() {
-  ssh -L 30002:localhost:30002 bwagner@bwagner-studio
-}
 function argocd_app_wf_submit_local_branch() {
   clear; argo submit workflow.yaml --log -p git_version=$(git branch --show-current)
 }
