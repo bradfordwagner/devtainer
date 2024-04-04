@@ -55,6 +55,7 @@ function argocd_app_login() {
   clear
   items=(
     argocd-server.akp-gitops
+    argocd-server.argocd
     local_8080
     local_30001
     work_prod
@@ -73,6 +74,12 @@ function argocd_app_login_local_30001() {
 }
 function argocd_app_login_local_8080() {
   argocd login localhost:8080 \
+  --username admin \
+  --password admin1234 \
+  --insecure
+}
+function argocd_app_login_argocd-server.argocd() {
+  argocd login argocd-server.argocd.svc.cluster.local:443 \
   --username admin \
   --password admin1234 \
   --insecure
