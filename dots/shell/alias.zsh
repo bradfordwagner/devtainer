@@ -38,7 +38,36 @@ alias glh="git ll | nl -v1 | sed 's/^ \+/&HEAD~/' | head -n 25" # git log head
 alias grd='cd $(git root)' # git root directory
 alias gpf='git push -f'    # git push force
 function gpot() {
-  git tag ${1}
+  tag=${1}
+  if [ -z "$tag" ]; then
+    echo ${palette_lcyan}Latest Tags:${palette_restore}
+    git tag -l | sort -V | tail -n 5 | sort -V
+    echo -n ${palette_lcyan}current_version= && git sv cv
+    echo -n ${palette_lgreen}next_version= && git sv nv
+
+    # breaking change
+    items=(
+      yes
+      manual
+    )
+    use_next_version=$(printf "%s\n" "${items[@]}" \
+     | fzf --exit-0 --height=4 --prompt="use next_version? "
+    )
+    if [[ "${use_next_version}" == "yes" ]]; then
+      tag=$(git sv nv)
+    else
+      echo -n "tag: "
+      read tag
+    fi
+
+    if [ -z "$tag" ]; then
+      echo "No tag provided"
+      return
+    fi
+
+    echo tag=${tag}
+  fi
+  git tag ${tag}
   git push origin --tags
 }
 alias gt='git tag'
