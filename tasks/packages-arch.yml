@@ -9,42 +9,25 @@
   # delay: 3
   community.general.pacman:
     update_cache: false
-    name:
-    # - community/gping
-    # - net-tools
-    # - go
-    # - extra/snapd         # for teams integration
-    # - community/unclutter # auto hide mouse
-    # - corkscrew # ssh over https
-    # - extra/nitrogen # set background
-    - dnsutils
-    # - community/xsel
-    # - community/rofi
-    # - community/brave-browser
-    # - python-pip
-    # - community/awesome
-    - extra/the_silver_searcher
-    - extra/fzf
-    # - community/exa
-    # - community/bat
-    # - community/ttf-jetbrains-mono
-    - extra/nodejs
-    - extra/npm
-    - extra/kubectl
-    - extra/k9s
-    - extra/helm
-    # - alacritty
-    # - community/yay
-    - extra/watchexec
-    - extra/tree
-    - extra/zsh
-    - extra/tmux
-    - extra/rsync
-    - core/which
-    - core/sudo
-    - neovim
-    - git
-    - gcc
-    - bash
-    # - vim
     state: present
+    name:
+      - bash
+      - core/sudo
+      - core/which
+      - dnsutils
+      - extra/fzf
+      - extra/helm
+      - extra/k9s
+      - extra/kubectl
+      - extra/nodejs
+      - extra/npm
+      - extra/rsync
+      - extra/the_silver_searcher
+      - extra/tmux
+      - extra/tree
+      - extra/watchexec
+      - extra/zsh
+      - gcc
+      - git
+      - go-task
+      - neovim
