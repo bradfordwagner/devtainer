@@ -33,7 +33,7 @@ function argocd_app_get_values() {
     echo helm template ${release_name} -n ${namespace} '.' \\
     echo -f test.values.yaml \\
     echo ${o} \
-      | yq '.spec.source.helm.parameters' -r \
+      | yq '.spec.source.helm.parameters' -r -oj \
       | jq '.[] | .name, .value' -r \
       | xargs -n2 zsh -lc 'echo "--set $1=\"$2\"" \\' zsh
     echo ${value_files} \
