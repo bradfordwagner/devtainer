@@ -244,9 +244,6 @@
      - name: vault
        base: mirrors
        repo: https://github.com/bradfordwagner/container-vault.git
-     - name: vault.k8s.auth
-       base: mirrors
-       repo: https://github.com/bradfordwagner/container-vault-k8s-auth.git
      - name: redis
        base: mirrors
        repo: https://github.com/bradfordwagner/container-redis.git
@@ -275,6 +272,9 @@
      - name: bkch
        base: ansible
        repo: https://github.com/bradfordwagner/container-bkch.git
+     - name: vault.k8s.auth
+       base: ansible
+       repo: https://github.com/bradfordwagner/container-vault-k8s-auth.git
 
    - name: '{{ templates_dir }}'
      git:
