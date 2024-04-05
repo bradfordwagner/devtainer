@@ -17,6 +17,10 @@ end
 config.font = wezterm.font("JetBrains Mono", { weight = "ExtraBold" })
 config.font = wezterm.font("IosevkaTerm Nerd Font Mono", {weight="ExtraBold"})
 
+-- set initial window size
+config.initial_rows = 48
+config.initial_cols = 96
+
 --
 config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
 config.color_scheme              = "Tokyo Night Moon" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
