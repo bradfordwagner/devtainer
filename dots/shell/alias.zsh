@@ -67,6 +67,7 @@ function gpot() {
     fi
 
     echo tag=${tag}
+    echo ${tag} | pbcopy
   fi
   git tag ${tag}
   git push origin --tags
