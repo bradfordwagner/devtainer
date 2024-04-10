@@ -39,6 +39,7 @@ require("lazy").setup({
   { 'echasnovski/mini.nvim', branch = 'stable' }, -- https://github.com/echasnovski/mini.nvim
   -- color scheme
   'miikanissi/modus-themes.nvim',
+  'rebelot/kanagawa.nvim',
   {
     "folke/tokyonight.nvim",
     lazy = false,

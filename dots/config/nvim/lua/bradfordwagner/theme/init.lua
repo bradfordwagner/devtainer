@@ -18,3 +18,4 @@
 -- vim.cmd.colorscheme 'challenger_deep'
 -- vim.cmd.colorscheme 'tokyonight'
 vim.cmd.colorscheme 'tokyonight-moon'
+vim.cmd.colorscheme 'kanagawa-wave'
