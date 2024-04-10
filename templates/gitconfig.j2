@@ -18,6 +18,7 @@
 [pull]
   rebase = true
 [alias]
+  o = open
   logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   rh = "!f() { git rebase -i HEAD~$1; }; f"
