@@ -197,6 +197,7 @@ alias vh='nvim .'           # vim here
 alias wcd='cd ~/workspace' # workspace cd
 alias wa='watch -c -n 1 '
 alias wfd='wcd; fd'
+alias o=open
 
 # Modified version where you can press
 #   - CTRL-O to open with open,
