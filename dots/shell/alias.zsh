@@ -199,6 +199,17 @@ alias wa='watch -c -n 1 '
 alias wfd='wcd; fd'
 alias o=open
 
+dropbox_file() {
+  tofile_dir=~/Dropbox/lisa-brad/to-file
+  cabinet_dir=~/Dropbox/lisa-brad
+  dirs=$(find ${cabinet_dir} -type d -not -path '*/\.*')
+  for file in $(ls $tofile_dir); do
+    echo file=${file}
+    selected_dir=$(echo "$dirs" | fzf --height 90% --prompt "Select a directory for ${file}: ") || continue
+    mv ${tofile_dir}/${file} ${selected_dir}
+  done
+}
+
 # Modified version where you can press
 #   - CTRL-O to open with open,
 #   - CTRL-V to open with vim,
