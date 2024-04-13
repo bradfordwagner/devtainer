@@ -2,7 +2,7 @@
 target_repo: ghcr.io/bradfordwagner/devtainer
 upstream:
   repo: ghcr.io/bradfordwagner/ansible
-  tag: 5.3.2
+  tag: 5.5.0
 builds:
   - os: archlinux_latest
     platforms: [linux/amd64]
