@@ -107,12 +107,16 @@ function kc() {
   clear
   items=(
     k9s
+    delete_clusters
     resources
     context
     auth
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   kc_app_${choice}
+}
+function kc_app_delete_clusters() {
+  k3d cluster delete -a
 }
 function kc_app_context() {
   items=(
