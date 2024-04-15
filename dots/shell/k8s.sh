@@ -29,11 +29,13 @@ alias k=kubectl
 alias sk="kc_app_k9s_select_ns; k9"
 alias snsk="kc_app_k9s_select_ns; k9"
 alias sns="kc_app_k9s_select_ns"
-alias kn="kubens"
-alias knc="kubens -c"
 alias azi="az interactive"
 
-# setup helm
+# kubectl aliases
+alias kgp='kubectl get pods'
+alias kgpa='kubectl get pods --all-namespaces'
+
+# helm aliases
 alias hd='helm delete'
 alias hl='helm ls'
 alias hla='helm ls -a'
