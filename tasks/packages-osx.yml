@@ -10,7 +10,6 @@
     - bufbuild/buf
     homebrew_uninstalled_packages: []
     homebrew_installed_packages:
-
     - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
     - argo
     - argocd
@@ -23,7 +22,6 @@
     - coreutils
     - corkscrew
     - ctags                                    # used in vim: TagbarToggle
-    - danielfoehrkn/switch/switch              # kubectl switch helper - https://github.com/danielfoehrKn/kubeswitch/blob/master/docs/installation.md
     - dive                                     # inspect docker images
     - dos2unix
     - expect                                   # for unbuffer command - watch

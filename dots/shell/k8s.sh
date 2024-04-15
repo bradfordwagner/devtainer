@@ -26,8 +26,6 @@ function k3d_get_all_configs() {
   ls -lh ${output_dir} | grep k3d
 }
 alias k=kubectl
-alias s=switch # used to help with switching contexts and namespaces
-alias sni="switch --no-index" # do not use cached values
 alias sk="kc_app_k9s_select_ns; k9"
 alias snsk="kc_app_k9s_select_ns; k9"
 alias sns="kc_app_k9s_select_ns"
