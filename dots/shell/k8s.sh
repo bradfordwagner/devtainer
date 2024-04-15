@@ -31,6 +31,8 @@ if hash kubecolor 2>/dev/null; then
 fi
 alias k=${k_bin}
 alias kubectl=${k_bin}
+alias kn="kubens"
+alias knc="kubens -c"
 alias sk="kc_app_k9s_select_ns; k9"
 alias snsk="kc_app_k9s_select_ns; k9"
 alias sns="kc_app_k9s_select_ns"
