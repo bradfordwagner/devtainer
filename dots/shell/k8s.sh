@@ -25,15 +25,20 @@ function k3d_get_all_configs() {
     | xargs -I % zsh -lc "k3d kubeconfig get % > ${output_dir}/k3d_%_ctx"
   ls -lh ${output_dir} | grep k3d
 }
-alias k=kubectl
+k_bin=kubectl
+if hash kubecolor 2>/dev/null; then
+  k_bin=kubecolor
+fi
+alias k=${k_bin}
+alias kubectl=${k_bin}
 alias sk="kc_app_k9s_select_ns; k9"
 alias snsk="kc_app_k9s_select_ns; k9"
 alias sns="kc_app_k9s_select_ns"
 alias azi="az interactive"
 
 # kubectl aliases
-alias kgp='kubectl get pods'
-alias kgpa='kubectl get pods --all-namespaces'
+alias kgp="${k_bin} get pods"
+alias kgpa="${k_bin} get pods --all-namespaces"
 
 # helm aliases
 alias hd='helm delete'

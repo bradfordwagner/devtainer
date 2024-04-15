@@ -36,6 +36,7 @@
     - go-task                                  # task manager - like makefile, but better
     - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
     - helm@3
+    - hidetatz/tap/kubecolor
     - inetutils                                # net utilities
     - istioctl                                 # istio controller
     - jq
