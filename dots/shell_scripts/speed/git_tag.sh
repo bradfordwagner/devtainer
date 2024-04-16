@@ -1,4 +1,4 @@
 #!/bin/zsh
 set -e
 
-tmux send "gpot" Enter
+tmux send "git_tag" Enter

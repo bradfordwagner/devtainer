@@ -37,14 +37,15 @@ alias gsd='clear; gs; gd'
 alias glh="git ll | nl -v1 | sed 's/^ \+/&HEAD~/' | head -n 25" # git log head
 alias grd='cd $(git root)' # git root directory
 alias gpf='git push -f'    # git push force
-function gpot() {
+alias gpot='git push origin --tags'
+function git_tag() {
   tag=${1}
   if [ -z "$tag" ]; then
     echo ${palette_lcyan}Latest Tags:${palette_restore}
     git tag -l | sort -V | tail -n 5 | sort -V
     # git sv: https://github.com/bvieira/sv4git
-    echo -n ${palette_lcyan}current_version= && git sv cv
-    echo -n ${palette_lgreen}next_version= && git sv nv
+    echo -n "${palette_lcyan}current_version = " && git sv cv
+    echo -n "${palette_lgreen}next_version =  " && git sv nv
 
     # breaking change
     items=(
