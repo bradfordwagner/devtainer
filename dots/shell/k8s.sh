@@ -47,15 +47,6 @@ alias hd='helm delete'
 alias hl='helm ls'
 alias hla='helm ls -a'
 
-# short for kgpt
-function kg() {
-  [[ -z "${1}" ]] || yes_flag="-yes"
-  echo "Enter your kubectl gpt query: "
-  read query
-  kubectl gpt "${yes_flag}" "${query}"
-}
-alias kgg="kg y"
-
 
 # set interval on k9s to 1 second
 function k9() {
@@ -80,7 +71,7 @@ function k_select_resource() {
   # dne load resource list
   resource_list=${kc_tmp_dir}/resources_list
   [[ -s ${resource_list} ]] || kc_app_resources_load
-  resource_type=$(cat ${resource_list} | fzf +m -0)
+  resource_type=$(cat ${resource_list} | fzf +m -0 --prompt="select a resource type: ")
   [[ "" == "${resource_type}" ]] && return || echo ${resource_type}
 }
 # k9s + select resource
@@ -98,7 +89,7 @@ function kac() {
   [[ "" != "${2}" ]] && all_flag="-A"
   resource_type=$(k_select_resource | tr -d "[:blank:]")
   [[ "" == "${resource_type}" ]] && return
-  selection=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1) || return
+  selection=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1 --prompt="select resource target: ") || return
   [[ "-A" == "${all_flag}" ]] && namespace="-n $(echo ${selection} | awk '{print $1}')"
   [[ "-A" == "${all_flag}" ]] && target=$(echo ${selection} | awk '{print $2}') || target=$(echo ${selection} | awk '{print $1}')
   cmd="k ${action} ${resource_type} ${namespace} ${target}"
