@@ -28,6 +28,7 @@ function k3d_get_all_configs() {
 k_bin=kubectl
 if hash kubecolor 2>/dev/null; then
   k_bin=kubecolor
+  compdef kubecolor=kubectl
 fi
 alias k=${k_bin}
 alias kubectl=${k_bin}
