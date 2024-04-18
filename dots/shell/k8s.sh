@@ -99,8 +99,8 @@ function kac() {
 
     # force all resolution
     all_items=(
-    'yes'
     'no'
+    'yes'
     )
     all_selection=$(printf "%s\n" "${all_items[@]}" | fzf --prompt="all ns?: ")
     [[ 'yes' != "${all_selection}" ]] && all_flag="-A"
