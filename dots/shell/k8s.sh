@@ -87,18 +87,27 @@ alias kga="kac get a"
 function kac() {
   # resolve action
   action=${1}
+  all_flag="${2}"
   if [[ "" == "${action}" ]]; then
-    items=(
-      'neat get'
-      'get'
-      'describe'
+    action_items=(
       'list'
+      'neat get'
+      'describe'
+      'get'
     )
-    action=$(printf "%s\n" "${items[@]}" | fzf --prompt="select a verb: ")
+    action=$(printf "%s\n" "${action_items[@]}" | fzf --prompt="select a verb: ")
+
+    # force all resolution
+    all_items=(
+    'yes'
+    'no'
+    )
+    all_selection=$(printf "%s\n" "${all_items[@]}" | fzf --prompt="all ns?: ")
+    [[ 'yes' != "${all_selection}" ]] && all_flag="-A"
   fi
 
   # resolve scope
-  [[ "" != "${2}" ]] && all_flag="-A"
+  [[ "" != "${all_flag}" ]] && all_flag="-A"
 
   # resolve resource type
   resource_type=$(k_select_resource | tr -d "[:blank:]")
