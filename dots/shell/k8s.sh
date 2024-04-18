@@ -94,6 +94,7 @@ function kdes() {
   echo ${cmd} | tmux loadb -
   eval ${cmd}
 }
+alias kdesa="kdes a"
 
 function kkr() {
   [[ "" != "${1}" ]] && unset k9s_resource_type
