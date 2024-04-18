@@ -85,14 +85,38 @@ alias kg="kac get"
 alias kga="kac get a"
 
 function kac() {
-  action=${1:-describe}
+  # resolve action
+  action=${1}
+  if [[ "" == "${action}" ]]; then
+    items=(
+      'neat get'
+      'get'
+      'describe'
+      'list'
+    )
+    action=$(printf "%s\n" "${items[@]}" | fzf --prompt="select a verb: ")
+  fi
+
+  # resolve scope
   [[ "" != "${2}" ]] && all_flag="-A"
+
+  # resolve resource type
   resource_type=$(k_select_resource | tr -d "[:blank:]")
   [[ "" == "${resource_type}" ]] && return
-  selection=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1 --prompt="select resource target: ") || return
-  [[ "-A" == "${all_flag}" ]] && namespace="-n $(echo ${selection} | awk '{print $1}')"
-  [[ "-A" == "${all_flag}" ]] && target=$(echo ${selection} | awk '{print $2}') || target=$(echo ${selection} | awk '{print $1}')
-  cmd="k ${action} ${resource_type} ${namespace} ${target}"
+
+  # list does not require a selection
+  if [[ 'list' == "${action}" ]]; then
+    cmd="k get ${resource_type}"
+  # process a selection
+  else
+    selection=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1 --prompt="select resource target: ") || return
+    [[ "-A" == "${all_flag}" ]] && namespace="-n $(echo ${selection} | awk '{print $1}')"
+    [[ "-A" == "${all_flag}" ]] && target=$(echo ${selection} | awk '{print $2}') || target=$(echo ${selection} | awk '{print $1}')
+    cmd="k ${action} ${resource_type} ${namespace} ${target}"
+  fi
+
+  # resolve override helpers
+  [[ 'neat get' == "${action}" ]] && cmd="${cmd} -oyaml | bat -lyaml -P"
   echo -n ${cmd} | tmux loadb -
   eval ${cmd}
 }
