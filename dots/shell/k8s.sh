@@ -86,6 +86,15 @@ function k_select_resource() {
 # k9s + select resource
 alias kkrf="kkr f"
 alias kkraf="kar f"
+function kdes() {
+  [[ "" != "${1}" ]] && all_flag="-A"
+  [[ "" == ${resource_type} ]] && resource_type=$(k_select_resource | tr -d "[:blank:]")
+  target=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1 | awk '{ print $1 }')
+  cmd="k describe ${resource_type} ${target}"
+  echo ${cmd} | tmux loadb -
+  eval ${cmd}
+}
+
 function kkr() {
   [[ "" != "${1}" ]] && unset k9s_resource_type
   [[ "" == ${k9s_resource_type} ]] && export k9s_resource_type=$(k_select_resource | tr -d "[:blank:]")
