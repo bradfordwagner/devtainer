@@ -82,6 +82,7 @@ if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 autoload -Uz compinit && compinit
+compdef kubecolor=kubectl
 
 # double source this.. yuck. its mostly to override some of the zsh defaults like "l", and "ll"
 [ -f ~/.dotfiles/dots/shell/alias.zsh ] && source ~/.dotfiles/dots/shell/alias.zsh
