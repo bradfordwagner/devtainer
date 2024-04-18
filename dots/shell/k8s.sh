@@ -88,9 +88,12 @@ alias kkrf="kkr f"
 alias kkraf="kar f"
 function kdes() {
   [[ "" != "${1}" ]] && all_flag="-A"
-  [[ "" == ${resource_type} ]] && resource_type=$(k_select_resource | tr -d "[:blank:]")
-  target=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1 | awk '{ print $1 }')
-  cmd="k describe ${resource_type} ${target}"
+  resource_type=$(k_select_resource | tr -d "[:blank:]")
+  [[ "" == "${resource_type}" ]] && return
+  selection=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1) || return
+  namespace=$(echo ${selection} | awk '{print $1}')
+  target=$(echo ${selection} | awk '{print $2}')
+  cmd="k describe ${resource_type} -n ${namespace} ${target}"
   echo ${cmd} | tmux loadb -
   eval ${cmd}
 }
