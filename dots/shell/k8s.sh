@@ -91,10 +91,12 @@ function kdes() {
   resource_type=$(k_select_resource | tr -d "[:blank:]")
   [[ "" == "${resource_type}" ]] && return
   selection=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1) || return
-  namespace=$(echo ${selection} | awk '{print $1}')
-  target=$(echo ${selection} | awk '{print $2}')
-  cmd="k describe ${resource_type} -n ${namespace} ${target}"
-  echo ${cmd} | tmux loadb -
+  echo selection=${selection}
+  [[ "-A" == "${all_flag}" ]] && namespace="-n $(echo ${selection} | awk '{print $1}')"
+  [[ "-A" == "${all_flag}" ]] && target=$(echo ${selection} | awk '{print $2}') || target=$(echo ${selection} | awk '{print $1}')
+  echo namespace=${namespace}, target=${target}
+  cmd="k describe ${resource_type} ${namespace} ${target}"
+  echo -n ${cmd} | tmux loadb -
   eval ${cmd}
 }
 alias kdesa="kdes a"
