@@ -101,6 +101,21 @@ function kdes() {
 }
 alias kdesa="kdes a"
 
+function kg() {
+  [[ "" != "${1}" ]] && all_flag="-A"
+  resource_type=$(k_select_resource | tr -d "[:blank:]")
+  [[ "" == "${resource_type}" ]] && return
+  selection=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1) || return
+  echo selection=${selection}
+  [[ "-A" == "${all_flag}" ]] && namespace="-n $(echo ${selection} | awk '{print $1}')"
+  [[ "-A" == "${all_flag}" ]] && target=$(echo ${selection} | awk '{print $2}') || target=$(echo ${selection} | awk '{print $1}')
+  echo namespace=${namespace}, target=${target}
+  cmd="k get ${resource_type} ${namespace} ${target}"
+  echo -n ${cmd} | tmux loadb -
+  eval ${cmd}
+}
+alias kga="kg a"
+
 function kkr() {
   [[ "" != "${1}" ]] && unset k9s_resource_type
   [[ "" == ${k9s_resource_type} ]] && export k9s_resource_type=$(k_select_resource | tr -d "[:blank:]")
