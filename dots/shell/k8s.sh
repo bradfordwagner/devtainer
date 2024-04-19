@@ -90,11 +90,12 @@ function kac() {
   all_flag="${2}"
   if [[ "" == "${action}" ]]; then
     action_items=(
-      'list'
+      list
       'neat get'
-      'describe'
-      'get'
-      'edit'
+      describe
+      get
+      edit
+      delete
     )
     action=$(printf "%s\n" "${action_items[@]}" | fzf --prompt="select a verb: ")
 
