@@ -94,6 +94,7 @@ function kac() {
       'neat get'
       'describe'
       'get'
+      'edit'
     )
     action=$(printf "%s\n" "${action_items[@]}" | fzf --prompt="select a verb: ")
 
