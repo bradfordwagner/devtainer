@@ -101,11 +101,11 @@ function kac() {
 
     # force all resolution
     all_items=(
-    'no'
-    'yes'
+      no
+      all
     )
     all_selection=$(printf "%s\n" "${all_items[@]}" | fzf --prompt="all ns?: ")
-    [[ 'yes' != "${all_selection}" ]] && all_flag="-A"
+    [[ 'all' == "${all_selection}" ]] && all_flag="-A"
   fi
 
   # resolve scope
@@ -117,7 +117,7 @@ function kac() {
 
   # list does not require a selection
   if [[ 'list' == "${action}" ]]; then
-    cmd="k get ${resource_type}"
+    cmd="k get ${resource_type} ${all_flag}"
   # process a selection
   else
     selection=$(k get ${resource_type} ${all_flag} | fzf --header-lines=1 --prompt="select resource target: ") || return
