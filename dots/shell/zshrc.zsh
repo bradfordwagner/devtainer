@@ -111,6 +111,7 @@ bindkey -s '\C-kl' 'task \t'
 bindkey -s '\C-k\C-l' ' && task \t'
 bindkey -s '\C-k\C-k' 'taskfiles\n'
 bindkey -s '\C-k\C-s' 'gsd\n' # give git status
+bindkey -s '\C-kj' ' | jq' # give git status
 
 # enable the following for profiling
 # zprof
