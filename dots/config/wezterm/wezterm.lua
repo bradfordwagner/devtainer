@@ -31,7 +31,7 @@ config.colors = {
 }
 config.enable_tab_bar            = false
 config.window_close_confirmation = "NeverPrompt"
-config.font_size                 = 12.0
+config.font_size                 = 13.0
 config.audible_bell              = "Disabled"
 
 -- window border
