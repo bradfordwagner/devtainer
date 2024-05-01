@@ -93,6 +93,7 @@
     # - homebrew/cask-fonts/font-meslo-nerd-font-mono
 
     # newly added ignores
+    - alfred
     - adobe-acrobat-reader
     - font-meslo-lg-nerd-font
     - homebrew/cask-fonts/font-meslo-nerd-font
@@ -101,7 +102,6 @@
     - vlc
     homebrew_cask_apps:
     - alacritty
-    - alfred
     - amethyst
     - bartender
     - brave-browser
