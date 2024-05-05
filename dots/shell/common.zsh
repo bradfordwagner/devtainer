@@ -31,7 +31,7 @@ export PATH=$PATH:~/workspace/github/shell/github.shell.powerline/scripts
 export PATH=$PATH:/snap/bin   # ubuntu snaps
 export PATH=$PATH:~/.krew/bin # kubectl plugins
 ################################################
-export WATCH_INTERVAL=5
+export WATCH_INTERVAL=2
 ################################################
 
 function printColors {
