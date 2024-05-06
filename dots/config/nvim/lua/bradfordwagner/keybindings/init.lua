@@ -72,7 +72,6 @@ wk.register({
   -- maybe change binding later
   ['ZA'] = { '<cmd>update<cr>', 'S(A)ve Current File' },
   ['ZD'] = { '<cmd>r !date<cr>', 'Insert (D)ate' },
-  ['ZR'] = { '<cmd>Restart<cr><cmd>source $MYVIMRC<cr><cmd>noh<cr><cmd>CocRestart<cr>', 'Restart' },
   ['Q'] = { '<cmd>q!<cr>', 'Quit' },
   ['<space>q'] = { '<cmd>qa!<cr>', 'Quit All' },
   ['ZP'] = { '<cmd>set paste<cr>', '' },
@@ -88,10 +87,13 @@ require 'bradfordwagner.keybindings.easypick'
 
 -- visual mode
 wk.register({
-  ['<space>'] = { '"+y<cr>', 'Yank into System Clipboard' },
-  ['<cr>'] = { 'y<cr>:call system("tmux load-buffer -", @0)<cr>', 'Yank into Tmux Buffer' },
-  ['a'] = { ':Align ', 'Align' },
-  ['g'] = { function ()
+  ['<leader><leader>'] = { '"+y<cr>', 'Yank into System Clipboard' },
+  ['<leader><cr>'] = { 'y<cr>:call system("tmux load-buffer -", @0)<cr>', 'Yank into Tmux Buffer' },
+  ['<leader>a'] = { ':Align ', 'Align' },
+  ['<leader>`'] = { 'y:Rg <c-r>"<cr>', 'Ripgrep Selection' },
+  ['<leader>SA'] = { ':%sort u<cr>', 'Sort Ascending' },
+  ['<leader>SR'] = { ':%sort! u<cr>', 'Sort Reverse' },
+  ['<leader>g'] = { function ()
     vim.api.nvim_input('y<cr>')                           -- yank into default register
     vim.api.nvim_input('<cmd>sleep 100m<cr>')             -- need a sleep to let the register get populated
     local input = vim.fn.getreg('"')                      -- get the register
@@ -136,6 +138,7 @@ wk.register({
   ['<space>;k'] = { function() ls.jump(-1) end, {silent = true}, 'prev var' },
   ['<space>;;'] = { '<cmd>Telescope luasnip<cr>', 'select a snippet' },
 })
+
 -- dap debugger configuration
 local dapui = require 'dapui'
 local dap = require 'dap'
