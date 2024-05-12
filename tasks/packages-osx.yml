@@ -63,6 +63,7 @@
     - terraform
     - terragrunt
     - tflint
+    - sysbench
     - the_silver_searcher
     - tmux
     - tmuxinator
