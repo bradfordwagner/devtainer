@@ -198,7 +198,7 @@ select-wide-layout:
   key: s
 
 # Select column layout
-select-column-layout:
+select-floating-layout:
   mod: mod2 # original is mod1
   key: f
 
