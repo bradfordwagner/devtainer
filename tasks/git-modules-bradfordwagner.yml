@@ -17,6 +17,7 @@
     forks_dir: '{{ personal_dir }}/forks'
     research_dir: '{{ personal_dir }}/research'
     yaml_dir: '{{ personal_dir }}/yaml'
+    ansible_playbooks_dir: '{{ personal_dir }}/ansible_playbooks'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
 
@@ -41,6 +42,7 @@
      - '{{ templates_dir }}'
      - '{{ go_lib }}'
      - '{{ go_bin }}'
+     - '{{ ansible_playbooks_dir }}'
 
    - name: '{{ deploy_dir }}'
      git:
@@ -342,3 +344,13 @@
        repo: https://github.com/bradfordwagner/taskfiles.git
      - name: cicd.smoketests
        repo: https://github.com/bradfordwagner/cicd-smoketests.git
+
+   - name: '{{ ansible_playbooks_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ ansible_playbooks_dir }}/ansible.playbook.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     loop:
+     - name: github.runners
+       repo: https://github.com/bradfordwagner/github-runners.git
