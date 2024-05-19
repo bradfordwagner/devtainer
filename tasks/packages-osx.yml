@@ -48,6 +48,7 @@
     - kubernetes-cli
     - lsd                                      # nerdfont/icons `ls`
     - mkcert
+    - nemu
     - neovim
     - node                                     # required for vim-coc
     - nss                                      # required for mkcert - specifically firefox
@@ -55,15 +56,16 @@
     - protobuf
     - pstree
     - pyenv
+    - qemu
     - reattach-to-user-namespace
     - ripgrep                                  # https://github.com/BurntSushi/ripgrep - used for grep calls following your gitignore
     - rust
     - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
     - ssh-copy-id
+    - sysbench
     - terraform
     - terragrunt
     - tflint
-    - sysbench
     - the_silver_searcher
     - tmux
     - tmuxinator
@@ -71,6 +73,7 @@
     - txn2/tap/kubefwd                         # used for forwarding remote k8s cluster to local
     - urlview
     - vault
+    - virt-manager
     - watch
     - watchexec
     - wget
