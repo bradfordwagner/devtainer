@@ -250,11 +250,8 @@ function kc_app_k9s() {
     select_ns
     new_ctx_ns_cp
     select_primary_kube_ctx
-    select_primary_work_ctx
     select_kube_ctx_cp
-    select_work_ctx_cp
     multi_kube_ctx
-    multi_work_ctx
     allns_resource
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="select k9s a helper: ")
@@ -291,23 +288,10 @@ function kc_app_k9s_allns_resource() {
 function kc_app_k9s_select_primary_kube_ctx() {
   tmux send "ks kube " Tab
 }
-function kc_app_k9s_select_primary_work_ctx() {
-  cd ~/.work_ctx
-  tmux send "ks local " Tab
-}
 function kc_app_k9s_select_kube_ctx_cp() {
   # C-Space - ignores globalalias expansion
   tmux send "export KUBECONFIG=\"\$(ks kube --pipe" C-Space ")\"" C-Space "&& kcc" Left Left Left Left Left Left Left Left Left Tab
 }
-function kc_app_k9s_select_work_ctx_cp() {
-  cd ~/.work_ctx
-  # C-Space - ignores globalalias expansion
-  tmux send "export KUBECONFIG=\"\$(ks local --pipe" C-Space ")\"" C-Space "&& kcc" Left Left Left Left Left Left Left Left Left Tab
-}
 function kc_app_k9s_multi_kube_ctx() {
   tmux send "ks kube -t " Tab
-}
-function kc_app_k9s_multi_work_ctx() {
-  cd ~/.work_ctx
-  tmux send "ks local -t " Tab
 }
