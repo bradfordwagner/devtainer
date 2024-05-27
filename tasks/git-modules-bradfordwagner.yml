@@ -221,6 +221,8 @@
        repo: https://github.com/bradfordwagner/ansible-role-docker-buildkit.git
      - name: go.releaser.install
        repo: https://github.com/bradfordwagner/ansible-role-go-releaser-install
+     - name: github.runner
+       repo: https://github.com/bradfordwagner/ansible-role-github-runner.git
 
    - name: '{{ containers_dir }}'
      git:
