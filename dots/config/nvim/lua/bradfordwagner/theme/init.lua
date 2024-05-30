@@ -17,5 +17,5 @@
 -- vim.cmd.colorscheme 'modus_vivendi'
 -- vim.cmd.colorscheme 'challenger_deep'
 -- vim.cmd.colorscheme 'tokyonight'
-vim.cmd.colorscheme 'tokyonight-moon'
 vim.cmd.colorscheme 'kanagawa-wave'
+vim.cmd.colorscheme 'tokyonight-moon'

@@ -23,9 +23,10 @@ config.initial_cols = 96
 
 --
 config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
-config.color_scheme              = "ChallengerDeep" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
 config.color_scheme              = "kanagawabones" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
 config.color_scheme              = "Kanagawa (Gogh)" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
+config.color_scheme              = "ChallengerDeep" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
+config.color_scheme              = "Tokyo Night Moon" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
 config.colors = {
   background = 'black',
 }
