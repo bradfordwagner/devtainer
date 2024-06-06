@@ -25,6 +25,29 @@ challenger_deep.normal = {
     b = { fg = colors.white, bg = colors.dark_asphalt },
     c = { fg = colors.white, bg = colors.dark_asphalt },
 }
+
+local file_name = {'filename', path = 1}
+local buffer_index = {
+  'mode',
+  fmt = function(mode)
+    return 'buffer=' .. vim.api.nvim_get_current_buf()
+  end
+}
+local macro_mode = {
+  'mode',
+  fmt = function()
+    local reg = vim.fn.reg_recording()
+    if reg ~= "" then
+      return "recording macro=" .. reg
+    end
+    return ""
+  end
+}
+-- paste mode from - https://github.com/nvim-lualine/lualine.nvim/issues/325
+local paste_mode = {
+  'mode',
+  fmt = function(mode) return vim.go.paste == true and mode .. ' (paste)' or mode end 
+}
 require 'lualine'.setup {
   options = {
     -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
@@ -35,37 +58,22 @@ require 'lualine'.setup {
   },
   sections = {
     lualine_a = {
-      { 'filename', path = 1 },
-      -- paste mode from - https://github.com/nvim-lualine/lualine.nvim/issues/325
-      { 'mode', fmt = function(mode) return vim.go.paste == true and mode .. ' (paste)' or mode end },
+      file_name,
+      paste_mode,
     },
-    lualine_y = {
-      {'mode', fmt = function(str)
-        return 'buffer=' .. vim.api.nvim_get_current_buf()
-      end
-      },
-    },
-    lualine_c = {
-      {
-        'mode', fmt = function()
-          local reg = vim.fn.reg_recording()
-          if reg ~= "" then
-            return "recording macro=" .. reg
-          end
-          return ""
-        end
-      }
-    },
+    lualine_y = { 'location' },
+    lualine_z = { buffer_index },
+    lualine_c = { macro_mode },
+
     -- default configs
     lualine_b = {'branch', 'diff', 'diagnostics'},
     -- lualine_c = {'filename'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
     -- lualine_y = {'progress'},
-    lualine_z = {'location'}
+    -- lualine_z = {'location'}
   },
   inactive_sections = {
-    lualine_a = {
-      { 'filename', path = 1 },
-    },
+    lualine_a = { file_name },
+    lualine_z = { buffer_index },
   },
 }
