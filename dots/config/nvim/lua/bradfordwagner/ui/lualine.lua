@@ -28,7 +28,8 @@ challenger_deep.normal = {
 require 'lualine'.setup {
   options = {
     -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
-    theme = 'tokyonight',
+    theme = 'auto',
+    -- theme = 'tokyonight',
     -- theme = 'onedark'
     -- theme = challenger_deep
   },
@@ -38,6 +39,29 @@ require 'lualine'.setup {
       -- paste mode from - https://github.com/nvim-lualine/lualine.nvim/issues/325
       { 'mode', fmt = function(mode) return vim.go.paste == true and mode .. ' (paste)' or mode end },
     },
+    lualine_y = {
+      {'mode', fmt = function(str)
+        return 'buffer=' .. vim.api.nvim_get_current_buf()
+      end
+      },
+    },
+    lualine_c = {
+      {
+        'mode', fmt = function()
+          local reg = vim.fn.reg_recording()
+          if reg ~= "" then
+            return "recording macro=" .. reg
+          end
+          return ""
+        end
+      }
+    },
+    -- default configs
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    -- lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    -- lualine_y = {'progress'},
+    lualine_z = {'location'}
   },
   inactive_sections = {
     lualine_a = {
