@@ -49,11 +49,11 @@
 ;; baldur's gate 3
 (deflayer bg3
     @l_ins f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
-    grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+    grv    @bgmt1 @bgmt2 @bgmt3 @bgmt4 5      6      7      8      9      0      -      =      bspc
     tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
     esc    a      s      d      @th_bg g      h      j      k      l      ;      '      ret
     lsft   z      x      c      v      b      n      m      ,      .      /      rsft   up
-    @l_med lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
+    @l_med lctl   lalt   lmet          spc                         f5     f8     left   down   rght
 )
 
 (deflayer arrows
@@ -117,6 +117,12 @@
 
   ;; single button copy and paste
   cp (multi-tap 200 M-c M-v)
+
+  ;; bg f1 f2 f3 f4 on 1 2 3 4
+  bgmt1 (multi-tap 200 1 f1)
+  bgmt2 (multi-tap 200 2 f2)
+  bgmt3 (multi-tap 200 3 f3)
+  bgmt4 (multi-tap 200 4 f4)
 
 ;; v1
 ;;   ;; layers
