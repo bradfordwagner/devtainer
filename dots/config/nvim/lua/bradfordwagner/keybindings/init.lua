@@ -91,8 +91,8 @@ wk.register({
   ['<leader><cr>'] = { 'y<cr>:call system("tmux load-buffer -", @0)<cr>', 'Yank into Tmux Buffer' },
   ['<leader>a'] = { ':Align ', 'Align' },
   ['<leader>`'] = { 'y:Rg <c-r>"<cr>', 'Ripgrep Selection' },
-  ['<leader>SA'] = { ':%sort u<cr>', 'Sort Ascending' },
-  ['<leader>SR'] = { ':%sort! u<cr>', 'Sort Reverse' },
+  ['<leader>sa'] = { ':%sort u<cr>', 'Sort Ascending' },
+  ['<leader>sd'] = { ':%sort! u<cr>', 'Sort Descending' },
   ['<leader>g'] = { function ()
     vim.api.nvim_input('y<cr>')                           -- yank into default register
     vim.api.nvim_input('<cmd>sleep 100m<cr>')             -- need a sleep to let the register get populated
