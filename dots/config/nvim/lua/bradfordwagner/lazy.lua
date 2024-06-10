@@ -47,6 +47,8 @@ require("lazy").setup({
     opts = {},
   },
   'Einenlum/yaml-revealer', -- shows a message as to where we are located in the yaml file as a message, lets see how long it lasts
+  { 'dasupradyumna/midnight.nvim', lazy = false, priority = 1000 },
+  { 'scottmckendry/cyberdream.nvim', lazy = false, priority = 1000 },
   -- github actions
   {
     'topaxi/gh-actions.nvim',

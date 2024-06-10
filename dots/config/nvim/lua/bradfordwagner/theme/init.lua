@@ -19,3 +19,5 @@
 -- vim.cmd.colorscheme 'tokyonight'
 vim.cmd.colorscheme 'tokyonight-moon'
 vim.cmd.colorscheme 'kanagawa-wave'
+vim.cmd.colorscheme 'midnight'
+vim.cmd.colorscheme 'cyberdream'
