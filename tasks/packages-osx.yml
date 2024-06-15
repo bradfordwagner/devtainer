@@ -6,8 +6,9 @@
     homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
     homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
     homebrew_taps:
-    - cjbassi/ytop
     - bufbuild/buf
+    - cjbassi/ytop
+    - dagger/tap
     homebrew_uninstalled_packages: []
     homebrew_installed_packages:
     - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
@@ -37,6 +38,7 @@
     - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
     - helm@3
     - hidetatz/tap/kubecolor
+    - dagger/tap/dagger
     - inetutils                                # net utilities
     - istioctl                                 # istio controller
     - jq
