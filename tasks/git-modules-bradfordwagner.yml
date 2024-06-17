@@ -333,6 +333,8 @@
        repo: https://github.com/bradfordwagner/gitops-toolkit.git
      - name: vault.secrets.operator
        repo: https://github.com/bradfordwagner/vault-secrets-operator.git
+     - name: paketo.go.mod.vendor
+       repo: https://github.com/bradfordwagner/paketo-go-mod-vendor.git
 
    # bulds which use yaml lint
    - name: '{{ yaml_dir }}'
