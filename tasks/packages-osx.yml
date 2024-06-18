@@ -11,6 +11,7 @@
     - dagger/tap
     homebrew_uninstalled_packages: []
     homebrew_installed_packages:
+
     - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
     - argo
     - argocd
@@ -23,6 +24,7 @@
     - coreutils
     - corkscrew
     - ctags                                    # used in vim: TagbarToggle
+    - dagger/tap/dagger
     - dive                                     # inspect docker images
     - dos2unix
     - expect                                   # for unbuffer command - watch
@@ -38,9 +40,9 @@
     - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
     - helm@3
     - hidetatz/tap/kubecolor
-    - dagger/tap/dagger
     - inetutils                                # net utilities
     - istioctl                                 # istio controller
+    - jam
     - jq
     - k3d                                      # installs k3d, partners with rancher for https://github.com/rumstead/gitops-toolkit
     - k9s
@@ -82,6 +84,7 @@
     - yamllint
     - yq
     - ytop
+
 - include_role:
     name: geerlingguy.mac.homebrew
   vars:
