@@ -124,7 +124,7 @@ wk.register({
   ['<space>da'] = { '<cmd>Easypick find<cr>', 'Find' },
   -- misc
   ['<space>dc'] = { builtin.commands, '' },
-  ['<space>dC'] = { builtin.colorscheme, '' },
+  ['<space>de'] = { builtin.colorscheme, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
   -- jumpdir - shares <space>f with vims 'cd'
   ['<space>df'] = { '<cmd>Easypick pick_working_dir<cr>', 'pick_working_dir' },
