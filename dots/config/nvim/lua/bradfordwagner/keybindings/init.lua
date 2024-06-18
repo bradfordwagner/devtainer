@@ -128,8 +128,8 @@ wk.register({
   ['<space>dC'] = { builtin.colorscheme, '' },
   ['<space>dm'] = { builtin.keymaps, '' },
   -- jumpdir - shares <space>f with vims 'cd'
-  ['<space>df'] = { '<cmd>Easypick dirs<cr>', '' },
-  ['<space>dg'] = { '<cmd>Easypick vimgrep<cr>', '' },
+  ['<space>df'] = { '<cmd>Easypick pick_working_dir<cr>', 'pick_working_dir' },
+  ['<space>dg'] = { '<cmd>Easypick vimgrep<cr>', 'vimgrep' },
   -- scissors/snippets
   ['<space>;'] = { name = 'Snippets' },
   ['<space>;e'] = { function() require("scissors").editSnippet() end, 'scissors edit snippet' },

@@ -4,7 +4,7 @@
 local quick_telescope = require 'bradfordwagner.keybindings.quick_telescope'
 
 return quick_telescope.setup {
-  name = 'dirs',
+  name = 'pick_working_dir',
   picker_options = {
     { name = 'jump', cmd = 'Easypick jumpdir' },
     { name = 'fd', cmd = 'Easypick finddir' },
