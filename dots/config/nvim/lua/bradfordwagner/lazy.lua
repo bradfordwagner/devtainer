@@ -23,7 +23,6 @@ require("lazy").setup({
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   -- for easy custom picker configuration
   { 'axkirillov/easypick.nvim', dependencies = 'nvim-telescope/telescope.nvim' },
-  'benfowler/telescope-luasnip.nvim',
   -- end telescope
   -- dap debugger
   { 'mfussenegger/nvim-dap', dependencies = {"nvim-neotest/nvim-nio"} }, -- https://github.com/mfussenegger/nvim-dap
@@ -69,22 +68,6 @@ require("lazy").setup({
     config = function(_, opts)
       require('gh-actions').setup(opts)
     end,
-  },
-
-  -- snippets
-  {
-    "L3MON4D3/LuaSnip",
-    -- follow latest release.
-    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-    -- install jsregexp (optional!).
-    build = "make install_jsregexp"
-  },
-  {
-    "chrisgrieser/nvim-scissors",
-    dependencies = "nvim-telescope/telescope.nvim", -- optional
-    opts = {
-      snippetDir = vim.fn.stdpath("config") .. "/snippets",
-    },
   },
   -- jump
   'ggandor/lightspeed.nvim',

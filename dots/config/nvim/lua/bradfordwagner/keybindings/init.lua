@@ -108,7 +108,6 @@ wk.register({
 -- new stuff
 local builtin = require 'telescope.builtin'
 local oil = require 'oil'
-local ls = require 'luasnip'
 wk.register({
   -- base helpers
   ['<space>dt'] = { builtin.builtin, '' },
@@ -130,14 +129,6 @@ wk.register({
   -- jumpdir - shares <space>f with vims 'cd'
   ['<space>df'] = { '<cmd>Easypick pick_working_dir<cr>', 'pick_working_dir' },
   ['<space>dg'] = { '<cmd>Easypick vimgrep<cr>', 'vimgrep' },
-  -- scissors/snippets
-  ['<space>;'] = { name = 'Snippets' },
-  ['<space>;e'] = { function() require("scissors").editSnippet() end, 'scissors edit snippet' },
-  ['<space>;E'] = { function() require("scissors").addNewSnippet() end, 'scissors add snippet' },
-  ['<space>;a'] = { function() ls.expand() end, {silent = true}, 'expand' },
-  ['<space>;j'] = { function() ls.jump( 2) end, {silent = true}, 'next var' },
-  ['<space>;k'] = { function() ls.jump(-1) end, {silent = true}, 'prev var' },
-  ['<space>;;'] = { '<cmd>Telescope luasnip<cr>', 'select a snippet' },
 })
 
 -- dap debugger configuration
