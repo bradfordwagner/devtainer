@@ -51,10 +51,10 @@ local paste_mode = {
 require 'lualine'.setup {
   options = {
     -- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
-    theme = 'auto',
+    -- theme = 'auto',
     -- theme = 'tokyonight',
     -- theme = 'onedark'
-    -- theme = challenger_deep
+    theme = challenger_deep
   },
   sections = {
     lualine_a = {
