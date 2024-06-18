@@ -3,6 +3,10 @@
 vim.g.maploader = '\\'
 vim.g.maplocalleader = ','
 
+-- treesitter fix markdown ``` hidden
+-- https://github.com/nvim-treesitter/nvim-treesitter/issues/3723#issuecomment-1293050165
+-- vim.g.conceallevel = 0
+
 vim.g.vim_json_conceal = 0
 -- vim rooter to manual mode
 vim.g.rooter_manual_only = 1

@@ -130,8 +130,8 @@ set ignorecase " searches are now case insensitive
 set encoding=UTF-8
 set pastetoggle=ZP " setup paste toggling for indentation issues - removed from neovim 0.9
 
-set list
-set listchars=tab:>- " show tab whitespace
+" set list
+" set listchars=tab:>- " show tab whitespace
 
 " spaces instead of tabs
 " https://timmurphy.org/2012/05/23/using-spaces-instead-of-tabs-in-vim/
@@ -147,6 +147,3 @@ set autoread " https://vimdoc.sourceforge.net/htmldoc/options.html#%27autoread%2
 
 "  vundle settings
 set nocompatible " be iMproved, required
-
-" enable transparency by default
-let g:transparent_enabled=0

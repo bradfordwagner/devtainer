@@ -96,19 +96,20 @@ require("lazy").setup({
   'hashivim/vim-terraform',              -- terraform support with completion of sub commands - https://github.com/hashivim/vim-terraform
   'challenger-deep-theme/vim',           -- {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
   'christoomey/vim-tmux-navigator',      -- https://github.com/christoomey/vim-tmux-navigator
-  'yggdroot/indentline',                 -- https://github.com/yggdroot/indentline
-  -- 'rrethy/vim-illuminate',               -- https://github.com/RRethy/vim-illuminate - highlights word under cursor
+  'rrethy/vim-illuminate',               -- https://github.com/RRethy/vim-illuminate - highlights word under cursor
   'raimondi/delimitmate',                -- auto close brackets, quotes, etc
   'tpope/vim-obsession',                 -- https://github.com/tpope/vim-obsession
   -- markdown support
   'godlygeek/tabular',
   'preservim/vim-markdown',
 
+  -- indentation
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }, -- https://github.com/lukas-reineke/indent-blankline.nvim
+
   -- vim-plug
   { 'junegunn/fzf', build = ':call fzf#install()' },
   'junegunn/fzf.vim',
   'kmonad/kmonad-vim',
-  'tpope/vim-sleuth',            -- indentation
   'norcalli/nvim-colorizer.lua', -- https://github.com/norcalli/nvim-colorizer.lua
   'pearofducks/ansible-vim',
   'TamaMcGlinn/quickfixdd',      -- allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd

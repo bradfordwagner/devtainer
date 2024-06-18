@@ -8,3 +8,4 @@ require 'bradfordwagner.keybindings'
 
 -- second state
 require 'bradfordwagner.theme'
+require 'bradfordwagner.options'
