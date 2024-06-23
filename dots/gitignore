@@ -23,3 +23,5 @@ tmpcharts
 Chart.lock
 test.values.yaml
 .cr-release-packages
+
+dagger_modules
