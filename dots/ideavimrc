@@ -1,22 +1,45 @@
+Plug 'tpope/vim-surround'
 
+let mapleader = " "
+let maplocalleader = ","
+
+" set options
 set multiple-cursors
 set surround
+set pastetoggle=ZP " setup paste toggling for indentation issues
 
+" which-key setup
+set which-key
+set timeoutlen=5000
 
 " Setup AceJump
 " Press `f` to activate AceJump
 map z/ :action AceAction<CR>
 " " Press `F` to activate Target Mode
-map <Leader>F :action AceTargetAction<CR>
+map zj <action>(AceTargetAction)
 " Press `g` to activate Line Mode
 map <Leader>g :action AceLineAction<CR>
 
 " save current file
-map ZA :update<CR>
+map ZA :w<CR>
 " insert current date
 map ZD :r !date<CR>
-map ZR :registers<CR>
-map ZY "y*<CR>
-set pastetoggle=ZP " setup paste toggling for indentation issues
 
+" navigation
+map <M-h> <action>(TabShiftActions.MoveFocusLeft)
+map <M-j> <action>(TabShiftActions.MoveFocusDown)
+map <M-k> <action>(TabShiftActions.MoveFocusUp)
+map <M-l> <action>(TabShiftActions.MoveFocusRight)
 
+" open file configuration
+map <leader>f <action>(GotoFile)
+" copilot.chat.show
+map <C-y> <action>(copilot.applyInlaysNexLine)
+map <leader>wa <action>(copilot.chat.show)
+map <leader>ss <action>(HideAllWindows)
+
+map <leader>rs :source ~/.ideavimrc<CR>
+map <leader>rf <action>(VimFindActionIdAction)
+
+" toggle split maximize
+map <leader>zz <action>(MaximizeEditorInSplit)
