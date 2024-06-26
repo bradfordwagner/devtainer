@@ -216,16 +216,25 @@ dropbox_file() {
 #   - CTRL-V to open with vim,
 #   - Enter key to open with the idea
 fo() {
-  IFS=$'\n' out=("$(fzf --query="$1" --exit-0 --expect=ctrl-o,ctrl-e,ctrl-c)") # no preview
+  IFS=$'\n' out=("$(fzf --query="$1" --exit-0 --expect=ctrl-o,ctrl-e,ctrl-c,esc)") # no preview
   # IFS=$'\n' out=("$(fzf-tmux --preview 'bat --color "always" {}' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)") # with preview
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)
+
+  echo key=${key},file=${file}
+  cmd=""
   if [ -n "$file" ]; then
-    [ "$key" = ctrl-o ] && open "$file" || idea "$file"
-    [ "$key" = ctrl-v ] && vim "${file}"
-    [ "$key" = ctrl-c ] && return 0 # breakout!
+    # enter
+    [ "${key}" = "" ]     && cmd="idea $file"
+    [ "${key}" = ctrl-o ] && cmd="open $file"
+    [ "${key}" = ctrl-c ] && cmd=""
+    [ "${key}" = esc ]    && cmd=""
+    echo cmd=${cmd}
+    if [ "${cmd}" = "" ]; then
+      return
+    fi
+    eval ${cmd}
   fi
-  clear
   fo
 }
 

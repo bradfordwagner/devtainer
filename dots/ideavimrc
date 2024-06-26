@@ -44,6 +44,8 @@ imap <C-y> <action>(copilot.applyInlaysNextLine)
 map <leader>sz <action>(HideAllWindows)
 map <C-M-y> <action>(ActivateTerminalToolWindow)
 
+" close project
+map <leader>Q <action>(CloseProject)
 
 " window management
 map <leader>we :wincmd T<CR>
