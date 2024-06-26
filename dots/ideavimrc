@@ -58,6 +58,9 @@ map <leader>wq :tabclose<CR>
 map <leader>c gT
 map <leader>v gt
 
+" comment
+map gcc <action>(CommentByLineComment)
+
 map <leader>rs :source ~/.ideavimrc<CR>
 map <leader>rf <action>(VimFindActionIdAction)
 
