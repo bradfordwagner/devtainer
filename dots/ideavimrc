@@ -33,14 +33,26 @@ map <M-h> <action>(TabShiftActions.MoveFocusLeft)
 map <M-j> <action>(TabShiftActions.MoveFocusDown)
 map <M-k> <action>(TabShiftActions.MoveFocusUp)
 map <M-l> <action>(TabShiftActions.MoveFocusRight)
+map Q :q!<cr>
 
 " open file configuration
 map <leader>f <action>(GotoFile)
+map <leader>o <action>(RecentFiles)
+
 " copilot.chat.show
 imap <C-y> <action>(copilot.applyInlaysNextLine)
-map <leader>wa <action>(copilot.chat.show)
-map <leader>sz<action>(HideAllWindows)
+map <leader>sz <action>(HideAllWindows)
 map <C-M-y> <action>(ActivateTerminalToolWindow)
+
+
+" window management
+map <leader>we :wincmd T<CR>
+map <leader>wl :vsplit<CR>
+map <leader>wa <action>(copilot.chat.show)
+map <leader>wj :split<CR>
+map <leader>wt :tabonly<CR>
+map <leader>wo :only<CR>
+map <leader>wq :tabclose<CR>
 
 " tab navigation
 map <leader>c gT
