@@ -25,6 +25,9 @@ map ZA :w<CR>
 " insert current date
 map ZD :r !date<CR>
 
+" goto
+map gd <action>(GotoDeclaration)
+
 " navigation
 map <M-h> <action>(TabShiftActions.MoveFocusLeft)
 map <M-j> <action>(TabShiftActions.MoveFocusDown)
@@ -38,6 +41,10 @@ imap <C-y> <action>(copilot.applyInlaysNextLine)
 map <leader>wa <action>(copilot.chat.show)
 map <leader>ss <action>(HideAllWindows)
 map <C-M-y> <action>(ActivateTerminalToolWindow)
+
+" tab navigation
+map <leader>c gT
+map <leader>v gt
 
 map <leader>rs :source ~/.ideavimrc<CR>
 map <leader>rf <action>(VimFindActionIdAction)
