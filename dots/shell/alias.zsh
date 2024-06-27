@@ -212,8 +212,9 @@ dropbox_file() {
 }
 
 function search_file() {
-   local file=$1
-   # prior to awk output=filenaoe:lineNumber:lineContent
+   local wd=$1
+   local file=$2
+   # prior to awk output=filename:lineNumber:lineContent
    line=$(grep -nH "" "$file" \
      | fzf --delimiter :  \
         --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
