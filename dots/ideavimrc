@@ -32,12 +32,13 @@ map Q :q!<cr>
 
 " open file configuration
 map <leader>f <action>(GotoFile)
+map <Leader>F :action Tool_External Tools_file_open<CR>
 map <leader>o <action>(RecentFiles)
 map <leader>ds <action>(FileStructurePopup)
 
 " copilot.chat.show
 imap <C-y> <action>(copilot.applyInlaysNextLine)
-map <leader>sz <action>(HideAllWindows)
+map <leader>sn <action>(HideAllWindows)
 map <C-M-y> <action>(ActivateTerminalToolWindow)
 
 " close project

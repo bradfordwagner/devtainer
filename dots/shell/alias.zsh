@@ -215,7 +215,7 @@ dropbox_file() {
 #   - CTRL-O to open with open,
 #   - CTRL-V to open with vim,
 #   - Enter key to open with the idea
-fo() {
+function fo() {
   IFS=$'\n' out=("$(fzf --preview 'bat --color "always" {}' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e,ctrl-c,esc)") # no preview
 #   IFS=$'\n' out=("$(fzf-tmux --preview 'bat --color "always" {}' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)") # with preview
   key=$(head -1 <<< "$out")
@@ -235,7 +235,7 @@ fo() {
     fi
     eval ${cmd}
   fi
-  fo
+#  fo
 }
 
 # pwd alias
