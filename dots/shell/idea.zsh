@@ -1,3 +1,15 @@
+# _ij_open_file: open file in intellij
+function _ij_open_file() {
+  local file=$1
+  local line=$2
+  if [ -n "$line" ]; then
+    eval idea --line $line $file
+  else
+    eval idea $file
+  fi
+}
+
+# search_file: search file content and open in intellij
 function search_file() {
    local wd=$1
    local file=$2
@@ -8,12 +20,10 @@ function search_file() {
         --preview-window +{2}-/2 \
      | awk -F: '{print $2}'
    )
-   if [ -n "$line" ]; then
-     eval idea --line $line $file
-   fi
+  _ij_open_file $file $line
 }
 
-# TODO: invoke intellij and wrap with tooling
+# live_search_files: search files in git  content and open in intellij
 function live_search_files() {
   git grep --line-number '' |
     fzf --delimiter : \
