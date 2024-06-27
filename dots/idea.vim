@@ -32,8 +32,9 @@ map Q :q!<cr>
 
 " open file configuration
 map <leader>F <action>(GotoFile)
-map <Leader>f :action Tool_External Tools_file_open<CR>
-map <Leader>dd :action Tool_External Tools_search_file<CR>
+map <leader>f :action Tool_External Tools_file_open<CR>
+map <leader>dd :action Tool_External Tools_search_file<CR>
+map <leader>da :action Tool_External Tools_search_files<CR>
 map <leader>o <action>(RecentFiles)
 map <leader>ds <action>(FileStructurePopup)
 
