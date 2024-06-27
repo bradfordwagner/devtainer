@@ -13,12 +13,7 @@ set which-key
 set timeoutlen=5000
 
 " Setup AceJump
-" Press `f` to activate AceJump
-map z/ :action AceAction<CR>
-" " Press `F` to activate Target Mode
-map zj <action>(AceTargetAction)
-" Press `g` to activate Line Mode
-map <Leader>g :action AceLineAction<CR>
+map zj :action AceAction<CR>
 
 " save current file
 map ZA :w<CR>
