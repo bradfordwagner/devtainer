@@ -20,5 +20,4 @@ vim.cmd.colorscheme 'modus_operandi'
 vim.cmd.colorscheme 'modus_vivendi'
 vim.cmd.colorscheme 'tokyonight'
 vim.cmd.colorscheme 'tokyonight-moon'
-
 vim.cmd.colorscheme 'cyberdream'
