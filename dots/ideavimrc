@@ -31,8 +31,8 @@ map <M-l> <action>(TabShiftActions.MoveFocusRight)
 map Q :q!<cr>
 
 " open file configuration
-map <leader>f <action>(GotoFile)
-map <Leader>F :action Tool_External Tools_file_open<CR>
+map <leader>F <action>(GotoFile)
+map <Leader>f :action Tool_External Tools_file_open<CR>
 map <leader>o <action>(RecentFiles)
 map <leader>ds <action>(FileStructurePopup)
 
