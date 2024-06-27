@@ -42,7 +42,21 @@ sudo spctl --master-disable
 -Deditor.distraction.free.mode=true
 ```
 ### idea external tools
-- start -- zsh -lc "cd $ProjectFileDir$; fo"
+```yaml
+- name: open_file
+  program: wezterm
+  args: start -- zsh -lc "ij_open_file $ProjectFileDir$ $FilePath$"
+- name: search_file
+  program: wezterm
+  args: start -- zsh -lc "ij_search_file $ProjectFileDir$ $FilePath$"
+- name: search_files
+  program: wezterm
+  args: start -- zsh -lc "ij_search $ProjectFileDir$ $FilePath$"
+- name: wezterm
+  program: wezterm
+  args: start --cwd $ProjectFileDir$ -- zsh -l
+```
+
 
 - spaceid - https://github.com/dshnkao/SpaceId/releases - to show spaces in menubar
 
