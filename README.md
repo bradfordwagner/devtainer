@@ -41,6 +41,8 @@ sudo spctl --master-disable
 -Xmx2g
 -Deditor.distraction.free.mode=true
 ```
+### idea external tools
+- start -- zsh -lc "cd $ProjectFileDir$; fo"
 
 - spaceid - https://github.com/dshnkao/SpaceId/releases - to show spaces in menubar
 

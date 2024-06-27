@@ -10,7 +10,7 @@ function _ij_open_file() {
 }
 
 # _ij_search: search files and open in intellij
-function _ij_search() {
+function ij_search() {
   local wd=$1
   local file=$2
 
@@ -49,7 +49,7 @@ function _ij_search_live() {
 }
 
 # _ij_search_file: search current file and opens in intellij
-function _ij_search_file() {
+function ij_search_file() {
    local wd=$1
    local file=$2
    # prior to awk output=filename:lineNumber:lineContent
@@ -66,7 +66,9 @@ function _ij_search_file() {
 #   - CTRL-O to open with open,
 #   - CTRL-V to open with vim,
 #   - Enter key to open with the idea
-function fo() {
+function ij_open_file() {
+  local wd=$1
+  cd ${wd}
   files=$(git ls-files)
   IFS=$'\n' out=("$(echo ${files} | fzf --preview 'bat --color "always" {}' --exit-0 --expect=ctrl-o,ctrl-e,ctrl-c,esc)") # no preview
   key=$(head -1 <<< "$out")
