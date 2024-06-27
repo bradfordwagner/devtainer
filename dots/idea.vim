@@ -32,6 +32,7 @@ map <leader>sk <action>(StepOut)
 map <leader>sl <action>(StepInto)
 map <leader>sx <action>(Stop)
 map <leader>sh <action>(ToggleLineBreakpoint)
+map <leader>sH <action>(ViewBreakpoints)
 
 " navigation
 map <M-h> <action>(TabShiftActions.MoveFocusLeft)
