@@ -21,7 +21,15 @@ function _ij_search() {
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   echo choice=$choice
-  res=$(_ij_search_${choice})
+
+  if [ $choice = "input" ]; then
+    echo -n "search: "
+    read input
+    choice=live
+  fi
+
+
+  res=$(_ij_search_${choice} ${input})
   echo res=$res
   if [ -n "$res" ]; then
     file=$(echo $res | awk -F: '{print $1}')
@@ -31,34 +39,12 @@ function _ij_search() {
 }
 
 function _ij_search_live() {
-  echo $(git grep --line-number '' |
+  local input=$1
+  echo $(git grep --line-number "${input}" |
     fzf --delimiter : \
         --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
         --preview-window +{2}-/2
   )
-}
-
-# search_file: search file content and open in intellij
-function search_file() {
-   local wd=$1
-   local file=$2
-   # prior to awk output=filename:lineNumber:lineContent
-   line=$(grep -nH "" "$file" \
-     | fzf --delimiter :  \
-        --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
-        --preview-window +{2}-/2 \
-     | awk -F: '{print $2}'
-   )
-  _ij_open_file $file $line
-}
-
-# live_search: search files in git  content and open in intellij
-function live_search() {
-  search_file $1 $2
-#  git grep --line-number '' |
-#    fzf --delimiter : \
-#        --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
-#        --preview-window +{2}-/2
 }
 
 # Modified version where you can press
