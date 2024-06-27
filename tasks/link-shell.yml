@@ -70,7 +70,7 @@
         path: Library/Application Support/Amethyst/Layouts
 
       # # vim links
-      - src: ideavimrc
+      - src: idea.vim
         path: .ideavimrc
       - src: config/nvim/init.vim
         path: .vimrc
