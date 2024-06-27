@@ -24,6 +24,15 @@ map ZD :r !date<CR>
 map gd <action>(GotoDeclaration)
 map gr <action>(FindUsages)
 
+" debug
+map <leader>sd <action>(Debug)
+map <leader>ss <action>(Resume)
+map <leader>sj <action>(StepOver)
+map <leader>sk <action>(StepOut)
+map <leader>sl <action>(StepInto)
+map <leader>sx <action>(Stop)
+map <leader>sh <action>(ToggleLineBreakpoint)
+
 " navigation
 map <M-h> <action>(TabShiftActions.MoveFocusLeft)
 map <M-j> <action>(TabShiftActions.MoveFocusDown)
