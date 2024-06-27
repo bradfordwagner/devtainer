@@ -38,6 +38,7 @@ function _ij_search() {
   fi
 }
 
+# sub function of _ij_search_ - _ij_search_live: search live and open in intellij
 function _ij_search_live() {
   local input=$1
   echo $(git grep --line-number "${input}" |
@@ -45,6 +46,20 @@ function _ij_search_live() {
         --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
         --preview-window +{2}-/2
   )
+}
+
+# _ij_search_file: search current file and opens in intellij
+function _ij_search_file() {
+   local wd=$1
+   local file=$2
+   # prior to awk output=filename:lineNumber:lineContent
+   line=$(grep -nH "" "$file" \
+     | fzf --delimiter :  \
+        --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
+        --preview-window +{2}-/2 \
+     | awk -F: '{print $2}'
+   )
+  _ij_open_file $file $line
 }
 
 # Modified version where you can press
