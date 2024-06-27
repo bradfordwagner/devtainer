@@ -22,6 +22,7 @@ map ZD :r !date<CR>
 
 " goto
 map gd <action>(GotoDeclaration)
+map gr <action>(FindUsages)
 
 " navigation
 map <M-h> <action>(TabShiftActions.MoveFocusLeft)
