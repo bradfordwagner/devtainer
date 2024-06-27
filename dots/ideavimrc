@@ -33,6 +33,7 @@ map Q :q!<cr>
 " open file configuration
 map <leader>f <action>(GotoFile)
 map <leader>o <action>(RecentFiles)
+map <leader>ds <action>(FileStructurePopup)
 
 " copilot.chat.show
 imap <C-y> <action>(copilot.applyInlaysNextLine)
