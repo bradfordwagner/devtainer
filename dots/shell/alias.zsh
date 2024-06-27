@@ -241,7 +241,6 @@ function live_search_files() {
 function fo() {
   files=$(git ls-files)
   IFS=$'\n' out=("$(echo ${files} | fzf --preview 'bat --color "always" {}' --exit-0 --expect=ctrl-o,ctrl-e,ctrl-c,esc)") # no preview
-#   IFS=$'\n' out=("$(fzf-tmux --preview 'bat --color "always" {}' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)") # with preview
   key=$(head -1 <<< "$out")
   file=$(head -2 <<< "$out" | tail -1)
 
