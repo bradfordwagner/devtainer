@@ -211,6 +211,28 @@ dropbox_file() {
   done
 }
 
+function search_file() {
+   local file=$1
+   # prior to awk output=filenaoe:lineNumber:lineContent
+   line=$(grep -nH "" "$file" \
+     | fzf --delimiter :  \
+        --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
+        --preview-window +{2}-/2 \
+     | awk -F: '{print $2}'
+   )
+   if [ -n "$line" ]; then
+     eval idea --line $line $file
+   fi
+}
+
+# TODO: invoke intellij and wrap with tooling
+function live_search_files() {
+  git grep --line-number '' |
+    fzf --delimiter : \
+        --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
+        --preview-window +{2}-/2
+}
+
 # Modified version where you can press
 #   - CTRL-O to open with open,
 #   - CTRL-V to open with vim,
