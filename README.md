@@ -57,7 +57,6 @@ sudo spctl --master-disable
   args: start --cwd $ProjectFileDir$ -- zsh -l
 ```
 
-
 - spaceid - https://github.com/dshnkao/SpaceId/releases - to show spaces in menubar
 
 ## Iterm
