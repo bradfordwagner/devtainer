@@ -57,6 +57,9 @@ map <C-M-y> :action Tool_External Tools_wezterm<CR>
 " close project
 map <leader>Q <action>(CloseProject)
 
+" select pasted content
+nnoremap gp `[v`]
+
 " window management
 map <leader>we :wincmd T<CR>
 map <leader>wl :vsplit<CR>
