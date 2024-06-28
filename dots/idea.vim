@@ -77,5 +77,5 @@ map <leader>rs :source ~/.ideavimrc<CR>
 map <leader>rf <action>(VimFindActionIdAction)
 
 " toggle split maximize
-map <leader>zz <action>(MaximizeEditorInSplit)
-map <leader>zx <action>(ToggleDistractionFreeMode)
+map <leader>zx <action>(MaximizeEditorInSplit)
+map <leader>zz <action>(ToggleDistractionFreeMode)
