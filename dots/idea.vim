@@ -82,3 +82,4 @@ map <leader>rf <action>(VimFindActionIdAction)
 " toggle split maximize
 map <leader>zx <action>(MaximizeEditorInSplit)
 map <leader>zz <action>(ToggleDistractionFreeMode)
+map <leader>xx <action>(ToggleZenMode)
