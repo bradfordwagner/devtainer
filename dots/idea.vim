@@ -52,7 +52,7 @@ map <leader>ds <action>(FileStructurePopup)
 " copilot.chat.show
 imap <C-y> <action>(copilot.applyInlaysNextLine)
 map <leader>sn <action>(HideAllWindows)
-map <C-M-y> :action Tool_External Tools_wezterm<CR>
+map <C-M-y> :action Tool_External Tools_terminal<CR>
 
 " close project
 map <leader>Q <action>(CloseProject)

@@ -44,17 +44,17 @@ sudo spctl --master-disable
 ### idea external tools
 ```yaml
 - name: open_file
-  program: wezterm
-  args: start -- zsh -lc "ij_open_file $ProjectFileDir$ $FilePath$"
+  program: alacritty
+  args: -e zsh -lc "ij_open_file $ProjectFileDir$ $FilePath$"
 - name: search_file
-  program: wezterm
-  args: start -- zsh -lc "ij_search_file $ProjectFileDir$ $FilePath$"
+  program: alacritty
+  args: -e zsh -lc "ij_search_file $ProjectFileDir$ $FilePath$"
 - name: search_files
-  program: wezterm
-  args: start -- zsh -lc "ij_search $ProjectFileDir$ $FilePath$"
-- name: wezterm
-  program: wezterm
-  args: start --cwd $ProjectFileDir$ -- zsh -l
+  program: alacritty
+  args: -e zsh -lc "ij_search $ProjectFileDir$ $FilePath$"
+- name: terminal
+  program: alacritty
+  args: --working-directory $ProjectFileDir$ -e zsh -l
 ```
 
 - spaceid - https://github.com/dshnkao/SpaceId/releases - to show spaces in menubar
