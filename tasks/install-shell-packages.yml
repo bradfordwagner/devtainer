@@ -50,6 +50,14 @@
       - repo: https://github.com/tmux-plugins/tpm
         dest: .tmux/plugins/tpm
 
+    - name: alacritty
+      git:
+        repo: '{{ item.repo }}'
+        dest: '{{ ansible_env.HOME }}/{{ item.dest }}'
+      loop:
+        - repo: https://github.com/alacritty/alacritty-theme
+          dest: .config/alacritty/themes
+
     # TODO fix pynvim
     - shell: '{{ item }}'
       name: install vim plugins

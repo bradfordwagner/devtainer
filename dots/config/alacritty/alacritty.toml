@@ -1,192 +1,31 @@
 live_config_reload = true
 
+# https://github.com/alacritty/alacritty-theme/tree/master/themes
+import = [
+#    "~/.config/alacritty/themes/themes/kanagawa_wave.toml"
+    "~/.config/alacritty/themes/themes/tokyo-night.toml"
+]
+
+
 [colors]
 draw_bold_text_with_bright_colors = true
 
-[colors.bright]
-black = "0x565575"
-blue = "0x65b2ff"
-cyan = "0x63f2f1"
-green = "0x62d196"
-magenta = "0x906cff"
-red = "0xff5458"
-white = "0xa6b3cc"
-yellow = "0xffb378"
-
-[colors.normal]
-black = "0x100e23"
-blue = "0x91ddff"
-cyan = "0xaaffe4"
-green = "0x95ffa4"
-magenta = "0xc991e1"
-red = "0xff8080"
-white = "0xcbe3e7"
-yellow = "0xffe9aa"
-
 [colors.primary]
-background = "0x1b182c"
-foreground = "0xcbe3e7"
+background = "0x000000"
 
 [font]
 size = 12
 
 [font.normal]
-family = "JetBrainsMono Nerd Font Mono"
-style = "Bold"
+#family = "JetBrainsMono Nerd Font Mono"
+#style = "Bold"
+family = "IosevkaTerm Nerd Font Mono"
+style = "ExtraBold"
 
 [[keyboard.bindings]]
 action = "SpawnNewInstance"
 key = "N"
 mods = "Command"
-
-[[schemes.catpuccin.indexed_colors]]
-color = "0xECBFBD"
-index = 16
-
-[[schemes.catpuccin.indexed_colors]]
-color = "0x3E4058"
-index = 17
-
-[schemes.catpuccin.bright]
-black = "0x6E6C7C"
-blue = "0xA4B9EF"
-cyan = "0xF0AFE1"
-green = "0xB3E1A3"
-magenta = "0xC6AAE8"
-red = "0xE28C8C"
-white = "0xD7DAE0"
-yellow = "0xEADDA0"
-
-[schemes.catpuccin.cursor]
-cursor = "0xB3E1A3"
-text = "0x1E1E28"
-
-[schemes.catpuccin.normal]
-black = "0x6E6C7C"
-blue = "0xA4B9EF"
-cyan = "0xF0AFE1"
-green = "0xB3E1A3"
-magenta = "0xC6AAE8"
-red = "0xE28C8C"
-white = "0xD7DAE0"
-yellow = "0xEADDA0"
-
-[schemes.catpuccin.primary]
-background = "0x1E1E28"
-foreground = "0xD7DAE0"
-
-[schemes.challenger_deep.bright]
-black = "0x565575"
-blue = "0x65b2ff"
-cyan = "0x63f2f1"
-green = "0x62d196"
-magenta = "0x906cff"
-red = "0xff5458"
-white = "0xa6b3cc"
-yellow = "0xffb378"
-
-[schemes.challenger_deep.normal]
-black = "0x100e23"
-blue = "0x91ddff"
-cyan = "0xaaffe4"
-green = "0x95ffa4"
-magenta = "0xc991e1"
-red = "0xff8080"
-white = "0xcbe3e7"
-yellow = "0xffe9aa"
-
-[schemes.challenger_deep.primary]
-background = "0x1b182c"
-foreground = "0xcbe3e7"
-
-[schemes.smyck.bright]
-black = "0x5D5D5D"
-blue = "0x9CD9F0"
-cyan = "0x77DFD8"
-green = "0xCDEE69"
-magenta = "0xFBB1F9"
-red = "0xE09690"
-white = "0xF7F7F7"
-yellow = "0xFFE377"
-
-[schemes.smyck.normal]
-black = "0x000000"
-blue = "0x4E90A7"
-cyan = "0x218693"
-green = "0x8EB33B"
-magenta = "0xC8A0D1"
-red = "0xC75646"
-white = "0xB0B0B0"
-yellow = "0xD0B03C"
-
-[schemes.smyck.primary]
-background = "0x232423"
-bright_foreground = "0xfeffff"
-foreground = "0xF8F8F8"
-
-[schemes.tokyo-night.bright]
-black = "0x444b6a"
-blue = "0x7da6ff"
-cyan = "0x0db9d7"
-green = "0xb9f27c"
-magenta = "0xbb9af7"
-red = "0xff7a93"
-white = "0xacb0d0"
-yellow = "0xff9e64"
-
-[schemes.tokyo-night.cursor]
-cursor = "CellForeground"
-text = "CellBackground"
-
-[schemes.tokyo-night.normal]
-black = "0x32344a"
-blue = "0x7aa2f7"
-cyan = "0x449dab"
-green = "0x9ece6a"
-magenta = "0xad8ee6"
-red = "0xf7768e"
-white = "0x787c99"
-yellow = "0xe0af68"
-
-[schemes.tokyo-night.primary]
-background = "0x1a1b26"
-foreground = "0xa9b1d6"
-
-[schemes.tokyo-night.vi_mode_cursor]
-cursor = "CellForeground"
-text = "CellBackground"
-
-[schemes.tokyo-night-storm.bright]
-black = "0x444b6a"
-blue = "0x7da6ff"
-cyan = "0x0db9d7"
-green = "0xb9f27c"
-magenta = "0xbb9af7"
-red = "0xff7a93"
-white = "0xacb0d0"
-yellow = "0xff9e64"
-
-[schemes.tokyo-night-storm.cursor]
-cursor = "CellForeground"
-text = "CellBackground"
-
-[schemes.tokyo-night-storm.normal]
-black = "0x32344a"
-blue = "0x7aa2f7"
-cyan = "0x449dab"
-green = "0x9ece6a"
-magenta = "0xad8ee6"
-red = "0xf7768e"
-white = "0x9699a8"
-yellow = "0xe0af68"
-
-[schemes.tokyo-night-storm.primary]
-background = "0x24283b"
-foreground = "0xa9b1d6"
-
-[schemes.tokyo-night-storm.vi_mode_cursor]
-cursor = "CellForeground"
-text = "CellBackground"
 
 [selection]
 save_to_clipboard = true
