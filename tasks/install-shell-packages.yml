@@ -58,6 +58,24 @@
         - repo: https://github.com/alacritty/alacritty-theme
           dest: .config/alacritty/themes
 
+    - name: misc
+      git:
+        repo: '{{ item.repo }}'
+        dest: '{{ ansible_env.HOME }}/{{ item.dest }}'
+      loop:
+        - repo: https://github.com/derailed/k9s.git
+          dest: .cache/k9s-skins
+
+    - name: post install link
+      file:
+        path: '{{ ansible_env.HOME }}/{{ item.path }}'
+        state: link
+        src: '{{ ansible_env.HOME }}/{{ item.src }}'
+        force: true
+      loop:
+      - src: .cache/k9s-skins/skins
+        path: Library/Application Support/k9s/skins
+
     # TODO fix pynvim
     - shell: '{{ item }}'
       name: install vim plugins

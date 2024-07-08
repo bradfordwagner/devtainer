@@ -22,3 +22,13 @@
         create: true
         block: "{{ lookup('template', item.source) }}"
 
+    - name: k9s hotkeys
+      loop:
+        - source: templates/k9s.yaml.j2
+          dest: Library/Application Support/k9s/config.yaml
+      ansible.builtin.blockinfile:
+        marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
+        path: '{{ ansible_env.HOME }}/{{ item.dest }}'
+        create: true
+        block: "{{ lookup('template', item.source) }}"
+

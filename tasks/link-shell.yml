@@ -15,7 +15,6 @@
         - .pip
         - .tmux
         - Library/Preferences/k9s
-        - Library/Application Support/k9s/skins
         - Library/Application Support/Amethyst/Layouts
         - source
 
@@ -80,8 +79,6 @@
         path: .gitignore
 
       # # set k9s
-      - src: k9s/skins.yaml
-        path: Library/Application Support/k9s/skins/skins.yaml
       - src: k9s/hotkeys.yaml
         path: Library/Application Support/k9s/hotkeys.yaml
 
