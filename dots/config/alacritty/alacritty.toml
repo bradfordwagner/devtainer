@@ -38,7 +38,8 @@ program = "zsh"
 blur = true
 decorations = "none"
 dynamic_padding = false
-opacity = 0.75
+# opacity = 1.00
+opacity = 0.70
 option_as_alt = "OnlyLeft"
 
 [window.padding]
