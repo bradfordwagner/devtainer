@@ -35,9 +35,10 @@ args = ["--login"]
 program = "zsh"
 
 [window]
+blur = true
 decorations = "none"
 dynamic_padding = false
-opacity = 0.99
+opacity = 0.75
 option_as_alt = "OnlyLeft"
 
 [window.padding]
