@@ -1,4 +1,5 @@
 alias resource='source ~/.zprofile'
+alias x=exit
 
 ################################################
 # git aliases
@@ -310,6 +311,10 @@ function wi() {         # workspace idea
 function wix() {        # workspace idea exit
   wi
   exit
+}
+
+function jdi() {
+  jd && ih
 }
 ################################################
 
