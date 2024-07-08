@@ -40,7 +40,7 @@ decorations = "none"
 dynamic_padding = false
 # opacity = 1.00
 opacity = 0.70
-option_as_alt = "OnlyLeft"
+option_as_alt = "Both"
 
 [window.padding]
 x = 4
