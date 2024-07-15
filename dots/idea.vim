@@ -35,6 +35,9 @@ map <leader>sx <action>(Stop)
 map <leader>sh <action>(ToggleLineBreakpoint)
 map <leader>sH <action>(ViewBreakpoints)
 
+" sort
+vmap <leader>sa <action>(EditorSortLines)
+
 " navigation
 map <M-h> <action>(TabShiftActions.MoveFocusLeft)
 map <M-j> <action>(TabShiftActions.MoveFocusDown)
