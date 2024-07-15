@@ -35,8 +35,10 @@ map <leader>sx <action>(Stop)
 map <leader>sh <action>(ToggleLineBreakpoint)
 map <leader>sH <action>(ViewBreakpoints)
 
+" visual mode
 " sort
 vmap <leader>sa <action>(EditorSortLines)
+vmap <leader>rr <action>(ReformatCode)
 
 " navigation
 map <M-h> <action>(TabShiftActions.MoveFocusLeft)
