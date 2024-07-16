@@ -54,7 +54,7 @@ sudo spctl --master-disable
   args: -e zsh -lc "ij_search $ProjectFileDir$ $FilePath$"
 - name: terminal
   program: alacritty
-  args: --working-directory $ProjectFileDir$ -e zsh -l
+  args: --working-directory $ProjectFileDir$ -e zsh -lc tn
 ```
 
 - spaceid - https://github.com/dshnkao/SpaceId/releases - to show spaces in menubar
