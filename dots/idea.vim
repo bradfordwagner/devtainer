@@ -60,6 +60,9 @@ imap <C-y> <action>(copilot.applyInlaysNextLine)
 map <leader>sn <action>(HideAllWindows)
 map <C-M-y> :action Tool_External Tools_terminal<CR>
 
+" github actions
+map <leader>gh <action>(ActivateGitHubActionsToolWindow)
+
 " close project
 map <leader>Q <action>(CloseProject)
 
