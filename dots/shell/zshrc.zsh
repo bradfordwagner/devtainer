@@ -27,7 +27,6 @@ export ZSH_THEME="agnoster"
 export ZSH_THEME="powerlevel10k/powerlevel10k"
 export plugins=(
   fzf-tab
-  git
   git-open
   zsh-autosuggestions
   vi-mode

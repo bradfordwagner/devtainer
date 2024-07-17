@@ -33,12 +33,12 @@ alias lg=lazygit
 alias gcm='git commit -m'
 alias gd='git diff'
 alias gs='git status -s'
-alias gsl='git status'
 alias gsd='clear; gs; gd'
 alias glh="git ll | nl -v1 | sed 's/^ \+/&HEAD~/' | head -n 25" # git log head
 alias grd='cd $(git root)' # git root directory
 alias gpf='git push -f'    # git push force
-alias gpot='git push origin --tags'
+alias grh='git reset --hard' # git reset hard
+alias gr=git_restore
 function git_tag() {
   tag=${1}
   if [ -z "$tag" ]; then
