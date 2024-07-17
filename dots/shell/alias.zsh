@@ -39,7 +39,8 @@ alias grd='cd $(git root)' # git root directory
 alias gpf='git push -f'    # git push force
 alias grh='git reset --hard' # git reset hard
 alias gr=git_restore
-alias gp='git pull'
+alias gp='git push'
+alias g=git
 function git_tag() {
   tag=${1}
   if [ -z "$tag" ]; then
