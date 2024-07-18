@@ -28,20 +28,22 @@ function lgs() {
 function git_restore() {
   git status -s | awk '{print $2}' | fzf -m --preview="git diff {} | delta" | xargs -I {} git restore {}
 }
-alias lgc=lazyGitCommit;
-alias lg=lazygit
+alias g=git
+alias ga='git add'
+alias gb='git branch'
+alias gc='git clean -fd'
 alias gcm='git commit -m'
 alias gd='git diff'
+alias glh="git ll | nl -v1 | sed 's/^ \+/&HEAD~/' | head -n 25" # git log head
+alias gp='git push'
+alias gpf='git push -f'    # git push force
+alias gr=git_restore
+alias grd='cd $(git root)' # git root directory
+alias grh='git reset --hard' # git reset hard
 alias gs='git status -s'
 alias gsd='clear; gs; gd'
-alias glh="git ll | nl -v1 | sed 's/^ \+/&HEAD~/' | head -n 25" # git log head
-alias grd='cd $(git root)' # git root directory
-alias gpf='git push -f'    # git push force
-alias grh='git reset --hard' # git reset hard
-alias gr=git_restore
-alias gp='git push'
-alias gb='git branch'
-alias g=git
+alias lg=lazygit
+alias lgc=lazyGitCommit;
 function git_tag() {
   tag=${1}
   if [ -z "$tag" ]; then
