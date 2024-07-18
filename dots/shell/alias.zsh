@@ -40,6 +40,7 @@ alias gpf='git push -f'    # git push force
 alias grh='git reset --hard' # git reset hard
 alias gr=git_restore
 alias gp='git push'
+alias gb='git branch'
 alias g=git
 function git_tag() {
   tag=${1}
