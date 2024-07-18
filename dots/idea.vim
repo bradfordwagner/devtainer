@@ -5,8 +5,9 @@ let maplocalleader = ","
 
 " set options
 set multiple-cursors
-set surround
 set pastetoggle=ZP " setup paste toggling for indentation issues
+set smartcase
+set surround
 
 " which-key setup
 set which-key
