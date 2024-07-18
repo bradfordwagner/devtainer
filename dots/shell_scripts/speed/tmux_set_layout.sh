@@ -6,8 +6,8 @@ set -e
 items=(
   even-horizontal
   even-vertical
-  main-horizontal
   main-vertical
+  main-horizontal
   tiled
 )
 choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="tmux layout> ")
