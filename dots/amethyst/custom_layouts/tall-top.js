@@ -9,15 +9,15 @@ function layout() {
         },
         commands: {
             command1: {
-                description: "Increase main pane count",
-                updateState: (state) => {
-                    return { ...state, mainPaneCount: state.mainPaneCount + 1 };
-                }
-            },
-            command2: {
                 description: "Decrease main pane count",
                 updateState: (state) => {
                     return { ...state, mainPaneCount: Math.max(1, state.mainPaneCount - 1) };
+                }
+            },
+            command2: {
+                description: "Increase main pane count",
+                updateState: (state) => {
+                    return { ...state, mainPaneCount: state.mainPaneCount + 1 };
                 }
             },
             command3: {

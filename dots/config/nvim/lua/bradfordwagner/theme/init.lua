@@ -12,6 +12,7 @@
 -- " colorscheme challenger_deep
 
 vim.cmd.colorscheme 'challenger_deep'
+vim.cmd.colorscheme 'cyberdream'
 vim.cmd.colorscheme 'default'
 vim.cmd.colorscheme 'kanagawa-wave'
 vim.cmd.colorscheme 'midnight'
@@ -19,5 +20,5 @@ vim.cmd.colorscheme 'modus'
 vim.cmd.colorscheme 'modus_operandi'
 vim.cmd.colorscheme 'modus_vivendi'
 vim.cmd.colorscheme 'tokyonight'
+
 vim.cmd.colorscheme 'tokyonight-moon'
-vim.cmd.colorscheme 'cyberdream'
