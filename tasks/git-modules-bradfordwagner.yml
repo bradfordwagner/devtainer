@@ -281,6 +281,9 @@
      - name: vault.k8s.auth
        base: ansible
        repo: https://github.com/bradfordwagner/container-vault-k8s-auth.git
+     - name: pack
+       base: ansible
+       repo: https://github.com/bradfordwagner/container-pack.git
 
    - name: '{{ templates_dir }}'
      git:
