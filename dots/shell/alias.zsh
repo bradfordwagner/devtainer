@@ -344,13 +344,18 @@ function loadBackground() {
 ################################################
 # docker
 ################################################
-function dockerCleanImages() {
+function docker_clean_images() {
   docker rmi $(docker images -a -q)
 }
 
-function dockerSettings() {
-  sudo nvim ~/Library/Group\ Containers/group.com.docker/settings.json
+function docker_stop_containers() {
+  docker stop $(docker ps -a -q)
 }
+
+function docker_remove_containers() {
+  docker rm $(docker ps -a -q)
+}
+
 ################################################
 
 
