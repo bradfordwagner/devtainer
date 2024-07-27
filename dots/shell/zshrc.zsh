@@ -15,6 +15,7 @@ plug "jeffreytse/zsh-vi-mode"
 plug "paulirish/git-open"
 plug "zap-zsh/zap-prompt"
 plug "zsh-users/zsh-autosuggestions"
+plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-syntax-highlighting"
 
 # https://github.com/junegunn/fzf/issues/257 - select all support
