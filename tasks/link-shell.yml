@@ -37,6 +37,7 @@
         - spotify-player
         - spotify-tui
         - spotifyd
+        - starship
         - wezterm
 
     - name: link configurations

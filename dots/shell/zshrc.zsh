@@ -1,14 +1,7 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # enable the following for profiling
 # zmodload zsh/zprof
 
-export ZSH=$HOME/.oh-my-zsh
+# export ZSH=$HOME/.oh-my-zsh
 export TERM="xterm-256color"
 
 # https://github.com/junegunn/fzf/issues/257 - select all support
@@ -22,16 +15,14 @@ export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:
 
 export BAT_THEME="TwoDark"
 
-# from https://github.com/romkatv/powerlevel10k#oh-my-zsh
-export ZSH_THEME="agnoster"
-export ZSH_THEME="powerlevel10k/powerlevel10k"
-export plugins=(
-  fzf-tab
-  git-open
-  zsh-autosuggestions
-  vi-mode
-  globalias
-)
+# export ZSH_THEME="agnoster"
+# export plugins=(
+#   fzf-tab
+#   git-open
+#   zsh-autosuggestions
+#   vi-mode
+#   globalias
+# )
 # ignore case for globalias
 GLOBALIAS_FILTER_VALUES=(grep)
 
@@ -57,7 +48,7 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' \
 # export GITSTATUS_LOG_LEVEL=DEBUG
 
 # load oh my zsh
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # load shell interactive components
 [ -f ~/workspace/github/shell/github.shell.tmuxinator/completion/tmuxinator.zsh ] && source ~/workspace/github/shell/github.shell.tmuxinator/completion/tmuxinator.zsh
@@ -68,21 +59,15 @@ else
     echo no fzf installed!
 fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# this is auto generated - keep it
-[[ ! -f ~/.dotfiles/dots/shell/p10k.zsh ]] || source ~/.dotfiles/dots/shell/p10k.zsh
-# show kube ctx always
-unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
-
 # enable fzf tab completions
-enable-fzf-tab
+# enable-fzf-tab
 
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 autoload -Uz compinit && compinit
 compdef kubecolor=kubectl
-complete -o nospace -C /opt/homebrew/bin/vault vault
+# complete -o nospace -C /opt/homebrew/bin/vault vault
 
 # double source this.. yuck. its mostly to override some of the zsh defaults like "l", and "ll"
 [ -f ~/.dotfiles/dots/shell/alias.zsh ] && source ~/.dotfiles/dots/shell/alias.zsh
@@ -111,3 +96,7 @@ bindkey -s '\C-kj' ' | jq' # give git status
 
 # enable the following for profiling
 # zprof
+
+# load starship
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+eval "$(starship init zsh)"
