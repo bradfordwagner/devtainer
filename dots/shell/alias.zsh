@@ -421,14 +421,6 @@ function git_open_ado() {
 
 
 ## mac stuff ###################################
-function alacritty_transparency_disable() {
- alacritty msg config -w -1 window.opacity=1
-}
-
-function alacritty_transparency_enable() {
-  alacritty msg config -w -1 window.opacity=.8
-}
-
 function mac_toggle_menubar() {
   osascript <<END
 tell application "System Events"
