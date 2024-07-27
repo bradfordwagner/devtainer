@@ -4,6 +4,21 @@
 # export ZSH=$HOME/.oh-my-zsh
 export TERM="xterm-256color"
 
+# zap config
+# Created by Zap installer
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+# plug "zap-zsh/supercharge"
+plug "Aloxaf/fzf-tab"
+plug "paulirish/git-open"
+plug "zap-zsh/zap-prompt"
+plug "zsh-users/zsh-autosuggestions"
+plug "zsh-users/zsh-syntax-highlighting"
+
+# Load and initialise completion system
+# autoload -Uz compinit
+# compinit
+
+
 # https://github.com/junegunn/fzf/issues/257 - select all support
 # tokyo night theme for fzf
 # https://github.com/folke/tokyonight.nvim/issues/60#issue-909006048
@@ -19,7 +34,6 @@ export BAT_THEME="TwoDark"
 # export plugins=(
 #   fzf-tab
 #   git-open
-#   zsh-autosuggestions
 #   vi-mode
 #   globalias
 # )
