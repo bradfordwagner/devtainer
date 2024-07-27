@@ -89,9 +89,6 @@ complete -o nospace -C /opt/homebrew/bin/vault vault
 
 # bind keys
 export KEYTIMEOUT=0.7 # default is 0.4
-[ -f ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh ] && source ~/.oh-my-zsh/custom/plugins/lazyshell/lazyshell.zsh
-bindkey '^g' __lazyshell_complete
-bindkey '^e' __lazyshell_explain
 # register functions for bindkey
 zle -N alacritty_transparency_enable
 zle -N alacritty_transparency_disable
