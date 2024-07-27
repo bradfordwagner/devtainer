@@ -8,3 +8,7 @@ disabled = false
 
 [username]
 disabled = true
+
+[kubernetes]
+disabled = false
+style = "bold italic fg:red"
