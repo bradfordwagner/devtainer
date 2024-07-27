@@ -17,8 +17,6 @@ plug "zap-zsh/zap-prompt"
 plug "zsh-users/zsh-autosuggestions"
 plug "zsh-users/zsh-syntax-highlighting"
 
-# bindkey -v
-
 # https://github.com/junegunn/fzf/issues/257 - select all support
 # tokyo night theme for fzf
 # https://github.com/folke/tokyonight.nvim/issues/60#issue-909006048
