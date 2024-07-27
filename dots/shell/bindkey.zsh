@@ -15,4 +15,3 @@ for keytable in "${keytables[@]}"; do
   bindkey -M ${keytable} -s '^k^k' 'taskfiles\n'
   bindkey -M ${keytable} -s '^e' 'gsd\n' # give git status
 done
-
