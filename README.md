@@ -8,8 +8,8 @@ xcode-select --install
 brew install ansible gh go-task
 gh auth login -w -p https
 
-# install oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# install zap package manager
+zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
 
 task sudoer
 task
