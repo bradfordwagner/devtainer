@@ -66,6 +66,7 @@
     - rust
     - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
     - ssh-copy-id
+    - starship
     - sysbench
     - terraform
     - terragrunt
@@ -84,7 +85,6 @@
     - yamllint
     - yq
     - ytop
-
 - include_role:
     name: geerlingguy.mac.homebrew
   vars:
