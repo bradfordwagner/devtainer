@@ -94,16 +94,11 @@ zle -N alacritty_transparency_disable
 # note \M- is used for meta
 # we can also use a modal mode for sequence of binds
 export jump_dir_editor_cmd="v"
-bindkey -s '\C-kj' 'v\n'
 bindkey -s '\C-kk' 'kc_app_k9s\n'
-bindkey '\C-kd' fzf-cd-widget
-bindkey -s '\C-ksd' 'jd \n'
-bindkey -s '\C-ksj' 'jdv \n'
-bindkey -s '\C-ksk' 'wfd \n'
 bindkey -s '\C-kl' 'task \t'
 bindkey -s '\C-k\C-l' ' && task \t'
 bindkey -s '\C-k\C-k' 'taskfiles\n'
-bindkey -s '\C-k\C-s' 'gsd\n' # give git status
+bindkey -s '\C-k\C-i' 'gsd\n' # give git status
 
 # enable the following for profiling
 # zprof
