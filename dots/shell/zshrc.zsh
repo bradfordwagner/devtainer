@@ -98,5 +98,4 @@ bindkey -s '\C-kj' ' | jq' # give git status
 # zprof
 
 # load starship
-export STARSHIP_CONFIG=~/.config/starship/starship.toml
 eval "$(starship init zsh)"

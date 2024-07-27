@@ -37,7 +37,6 @@
         - spotify-player
         - spotify-tui
         - spotifyd
-        - starship
         - wezterm
 
     - name: link configurations
@@ -54,6 +53,8 @@
         path: .p10k.zsh
       - src: shell/sandboxrc.zsh
         path: .sandboxrc
+      - src: config/starship/starship.toml
+        path: .config/starship.toml
 
       # tmux setup
       - src: tmux/tmux.conf
