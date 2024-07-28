@@ -1,7 +1,6 @@
 # enable the following for profiling
 # zmodload zsh/zprof
 
-# export ZSH=$HOME/.oh-my-zsh
 export TERM="xterm-256color"
 
 # https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#initialization-mode

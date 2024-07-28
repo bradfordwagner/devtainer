@@ -1,8 +1,6 @@
 ---
 - src: luizgavalda.aur
   version: v0.43
-- src: gantsign.oh-my-zsh
-  version: 2.2.2
 - src: bradfordwagner.jumpdir
   version: 0.7.5
 - src: andrewrothstein.sudoers

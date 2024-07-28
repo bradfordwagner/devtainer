@@ -21,9 +21,11 @@
         path: '{{ ansible_env.HOME }}/{{ item }}'
         state: directory
       loop:
+        - .cache
         - .ssh
         - .tmux/plugins
         - .vim/bundle
+        - Library/Application Support/k9s
 
     - name: setup tpm
       git:

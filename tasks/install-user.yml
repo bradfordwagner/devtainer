@@ -5,9 +5,3 @@
     password: '{{ user.password }}'
     shell: /bin/zsh
   when: user.create
-- include_role:
-    name: gantsign.oh-my-zsh
-  vars:
-    users:
-    - username: '{{ user.name }}'
-
