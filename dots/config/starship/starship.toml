@@ -11,7 +11,3 @@ disabled = true
 
 [git_metrics]
 disabled = false
-
-[kubernetes]
-disabled = false
-style = "bold italic fg:red"
