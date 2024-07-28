@@ -6,6 +6,7 @@ export TERM="xterm-256color"
 
 # https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#initialization-mode
 ZVM_INIT_MODE=sourcing
+ZVM_CURSOR_STYLE_ENABLED=false
 
 # zap config
 # Created by Zap installer
