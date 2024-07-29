@@ -15,3 +15,7 @@ for keytable in "${keytables[@]}"; do
   bindkey -M ${keytable} -s '^k^k' 'taskfiles\n'
   bindkey -M ${keytable} -s '^e' 'gsd\n' # give git status
 done
+
+# edit command line in editor
+autoload edit-command-line; zle -N edit-command-line
+bindkey -M vicmd v edit-command-line

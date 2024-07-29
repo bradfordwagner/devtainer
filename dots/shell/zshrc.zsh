@@ -3,20 +3,18 @@
 
 export TERM="xterm-256color"
 
-# https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#initialization-mode
-ZVM_INIT_MODE=sourcing
-ZVM_CURSOR_STYLE_ENABLED=false
-
 # zap config
 # Created by Zap installer
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 plug "Aloxaf/fzf-tab"
-plug "jeffreytse/zsh-vi-mode"
 plug "paulirish/git-open"
 plug "zap-zsh/zap-prompt"
 plug "zsh-users/zsh-autosuggestions"
 plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-syntax-highlighting"
+
+# vi mode
+bindkey -v
 
 # https://github.com/junegunn/fzf/issues/257 - select all support
 # tokyo night theme for fzf
