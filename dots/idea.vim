@@ -30,6 +30,12 @@ map gR <action>(RenameElement)
 map cj <action>(NextOccurence)
 map ck <action>(PreviousOccurence)
 
+" bookmarks
+map mm <action>(ToggleBookmark)
+map mn <action>(GotoNextBookmarkInEditor)
+map mp <action>(GotoPreviousBookmarkInEditor)
+map ma <action>(ActivateBookmarksToolWindow)
+
 " debug
 map <leader>sd <action>(Debug)
 map <leader>ss <action>(Resume)
