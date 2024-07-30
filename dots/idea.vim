@@ -26,6 +26,10 @@ map gd <action>(GotoDeclaration)
 map gr <action>(FindUsages)
 map gR <action>(RenameElement)
 
+" change list
+map cj <action>(NextOccurence)
+map ck <action>(PreviousOccurence)
+
 " debug
 map <leader>sd <action>(Debug)
 map <leader>ss <action>(Resume)
