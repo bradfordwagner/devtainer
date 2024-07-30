@@ -14,3 +14,6 @@ disabled = false
 
 [golang]
 disabled = true
+
+[helm]
+disabled = true
