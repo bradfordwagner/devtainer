@@ -68,7 +68,6 @@ map <leader>ds <action>(FileStructurePopup)
 
 " copilot.chat.show
 imap <C-y> <action>(copilot.applyInlaysNextLine)
-map <leader>sn <action>(HideAllWindows)
 map <C-M-y> :action Tool_External Tools_terminal<CR>
 
 " github actions
@@ -96,10 +95,13 @@ map <leader>v gt
 " comment
 map gcc <action>(CommentByLineComment)
 
+" idea vim plugin helpers
 map <leader>rs :source ~/.ideavimrc<CR>
+map <leader>re :e ~/.ideavimrc<CR>
 map <leader>rf <action>(VimFindActionIdAction)
 
-" toggle split maximize
+" views
 map <leader>zx <action>(MaximizeEditorInSplit)
 map <leader>zz <action>(ToggleDistractionFreeMode)
 map <leader>xx <action>(ToggleZenMode)
+map <leader>xc <action>(HideAllWindows)
