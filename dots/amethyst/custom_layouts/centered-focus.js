@@ -6,7 +6,7 @@ function layout() {
             xRatio: 0.75,
             yRatio: 0.85,
             ratioDelta: 0.02,
-            gapRatio: 0.00,     // placeholder space for focused window
+            gapRatio: 0.05,     // placeholder space for focused window
             lastFocusedID: "",  // window id which was last focused
         },
         commands: {
