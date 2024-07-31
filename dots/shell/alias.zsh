@@ -202,7 +202,6 @@ function fd() {
 }
 alias vh='nvim .'           # vim here
 alias wcd='cd ~/workspace' # workspace cd
-alias wa='watch -c -n 1 '
 alias wfd='wcd; fd'
 alias o=open
 
@@ -383,6 +382,8 @@ alias pt='prototool'
 
 alias m='make'
 alias t='task'
+alias we='watchexec -c -r -i="session.vim*" --shell="zsh -l -o aliases"'
+alias wa='watch -c -n 1 unbuffer'
 function taskfiles() {
   clear
   taskfile=$(find -L ~/.taskfiles/tasks -name '*.yml' | fzf) || return
