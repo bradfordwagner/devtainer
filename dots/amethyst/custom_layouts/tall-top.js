@@ -9,27 +9,27 @@ function layout() {
         },
         commands: {
             command1: {
-                description: "Decrease main pane count",
+                description: "Decrease main ratio",
                 updateState: (state) => {
-                    return { ...state, mainPaneCount: Math.max(1, state.mainPaneCount - 1) };
+                    return { ...state, mainRatio: Math.max(0, state.mainRatio - state.ratioDelta) };
                 }
             },
             command2: {
-                description: "Increase main pane count",
-                updateState: (state) => {
-                    return { ...state, mainPaneCount: state.mainPaneCount + 1 };
-                }
-            },
-            command3: {
                 description: "Increase main ratio",
                 updateState: (state) => {
                     return { ...state, mainRatio: Math.min(1, state.mainRatio + state.ratioDelta) };
                 }
             },
-            command4: {
-                description: "Decrease main ratio",
+            command3: {
+                description: "Decrease main pane count",
                 updateState: (state) => {
-                    return { ...state, mainRatio: Math.max(0, state.mainRatio - state.ratioDelta) };
+                    return { ...state, mainPaneCount: Math.max(1, state.mainPaneCount - 1) };
+                }
+            },
+            command4: {
+                description: "Increase main pane count",
+                updateState: (state) => {
+                    return { ...state, mainPaneCount: state.mainPaneCount + 1 };
                 }
             },
         },
