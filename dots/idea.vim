@@ -81,7 +81,7 @@ nnoremap gp `[v`]
 
 " window management
 map <leader>we :wincmd T<CR>
-map <leader>wl :vsplit<CR>
+map <leader>wl <action>(MoveTabRight)
 map <leader>wa <action>(copilot.chat.show)
 map <leader>wj :split<CR>
 map <leader>wt :tabonly<CR>
