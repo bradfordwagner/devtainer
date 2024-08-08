@@ -46,6 +46,8 @@ map <leader>sl <action>(StepInto)
 map <leader>sx <action>(Stop)
 map <leader>sh <action>(ToggleLineBreakpoint)
 map <leader>sH <action>(ViewBreakpoints)
+map <leader>sc <action>(Coverage)
+map <leader>sC <action>(HideCoverage)
 
 " visual mode
 " sort
