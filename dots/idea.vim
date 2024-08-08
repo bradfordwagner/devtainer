@@ -39,6 +39,7 @@ map ma <action>(ActivateBookmarksToolWindow)
 
 " debug
 map <leader>sd <action>(Debug)
+map <leader>sD <action>(ChooseDebugConfiguration)
 map <leader>ss <action>(Resume)
 map <leader>sj <action>(StepOver)
 map <leader>sk <action>(StepOut)
