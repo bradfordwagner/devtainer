@@ -49,6 +49,7 @@ map <leader>sh <action>(ToggleLineBreakpoint)
 map <leader>sH <action>(ViewBreakpoints)
 map <leader>sc <action>(Coverage)
 map <leader>sC <action>(HideCoverage)
+map <leader>sv <action>(ActivateDebugToolWindow)
 
 " visual mode
 " sort
