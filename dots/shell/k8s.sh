@@ -252,6 +252,7 @@ function kc_app_k9s() {
     select_primary_kube_ctx
     select_kube_ctx_cp
     multi_kube_ctx
+    kube_new_window
     allns_resource
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf --prompt="select k9s a helper: ")
@@ -294,4 +295,9 @@ function kc_app_k9s_select_kube_ctx_cp() {
 }
 function kc_app_k9s_multi_kube_ctx() {
   tmux send "ks kube -t " Tab
+}
+function kc_app_k9s_kube_new_window() {
+  new_window='tmux neww -e KUBECONFIG=${KUBECONFIG} -n $(basename ${KUBECONFIG})'
+  tmux send "export KUBECONFIG=\"\$(ks kube --pipe )\"" C-Space "&& kcc && ${new_window}" Escape "2T=3f i" Space Tab Tab
+  exit
 }
