@@ -298,6 +298,5 @@ function kc_app_k9s_multi_kube_ctx() {
 }
 function kc_app_k9s_kube_new_window() {
   new_window='tmux neww -e KUBECONFIG=${KUBECONFIG} -n $(basename ${KUBECONFIG})'
-  tmux send "export KUBECONFIG=\"\$(ks kube --pipe )\"" C-Space "&& kcc && ${new_window}" Escape "2T=3f i" Space Tab Tab
-  exit
+  tmux send "export KUBECONFIG=\"\$(ks kube --pipe )\"" C-Space "&& kcc && ${new_window} && exit" Escape "2T=3f i" Space Tab Tab
 }
