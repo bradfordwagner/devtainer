@@ -225,3 +225,8 @@ esc = 'mode main'
 [[on-window-detected]]
 if.app-name-regex-substring = ".*alacritty.*"
 run = 'layout tiling'
+
+# hack to get the intellij floating alacritty windows working
+[[on-window-detected]]
+if.app-id = 'com.larian.bg3'
+run = 'layout'
