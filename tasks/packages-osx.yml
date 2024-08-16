@@ -37,6 +37,7 @@
     - gnu-tar
     - go
     - go-task                                  # task manager - like makefile, but better
+    - gradle
     - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
     - helm@3
     - hidetatz/tap/kubecolor
