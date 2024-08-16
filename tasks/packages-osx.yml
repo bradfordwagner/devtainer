@@ -90,6 +90,7 @@
   vars:
     homebrew_taps:
     - homebrew/cask-fonts
+    - nikitabobko/tap
     homebrew_cask_uninstalled_apps:
     # - jd-gui
     # - pandora
@@ -110,6 +111,7 @@
     - time-out
     - vlc
     homebrew_cask_apps:
+    - aerospace
     - alacritty
     - amethyst
     - bartender

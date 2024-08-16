@@ -25,6 +25,7 @@
         src: '{{ devtainer.dir }}/dots/config/{{ item }}'
         force: true
       loop:
+        - aerospace
         - alacritty
         - awesome
         - kmonad
