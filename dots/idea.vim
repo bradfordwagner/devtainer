@@ -57,10 +57,10 @@ vmap <leader>sa <action>(EditorSortLines)
 vmap <leader>rr <action>(ReformatCode)
 
 " navigation
-map <M-h> <action>(TabShiftActions.MoveFocusLeft)
-map <M-j> <action>(TabShiftActions.MoveFocusDown)
-map <M-k> <action>(TabShiftActions.MoveFocusUp)
-map <M-l> <action>(TabShiftActions.MoveFocusRight)
+map <leader>h <action>(TabShiftActions.MoveFocusLeft)
+map <leader>j <action>(TabShiftActions.MoveFocusDown)
+map <leader>k <action>(TabShiftActions.MoveFocusUp)
+map <leader>l <action>(TabShiftActions.MoveFocusRight)
 map Q :q!<cr>
 
 " open file configuration
