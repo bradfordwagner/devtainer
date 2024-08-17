@@ -37,6 +37,9 @@ map mn <action>(GotoNextBookmarkInEditor)
 map mp <action>(GotoPreviousBookmarkInEditor)
 map ma <action>(ActivateBookmarksToolWindow)
 
+" git
+map <leader>mA <action>(Annotate)
+
 " debug
 map <leader>sd <action>(Debug)
 map <leader>sD <action>(ChooseDebugConfiguration)
