@@ -25,7 +25,7 @@ map ZD :r !date<CR>
 map gd <action>(GotoDeclaration)
 map gr <action>(FindUsages)
 map gR <action>(RenameElement)
-map gg <action>(ExpressionTypeInfo)
+map gt <action>(ExpressionTypeInfo)
 
 " change list
 map cj <action>(NextOccurence)
