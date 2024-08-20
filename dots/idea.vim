@@ -97,8 +97,8 @@ map <leader>wo :only<CR>
 map <leader>wq :tabclose<CR>
 
 " tab navigation
-map <leader>c gT
-map <leader>v gt
+map <leader>c <action>(PreviousTab)
+map <leader>v <action>(NextTab)
 
 " comment
 map gcc <action>(CommentByLineComment)
