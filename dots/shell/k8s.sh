@@ -290,13 +290,11 @@ function kc_app_k9s_select_primary_kube_ctx() {
   tmux send "ks kube " Tab
 }
 function kc_app_k9s_select_kube_ctx_cp() {
-  # C-Space - ignores globalalias expansion
-  tmux send "export KUBECONFIG=\"\$(ks kube --pipe )\"" C-Space "&& kcc" Escape "BBBi" Tab Tab
+  tmux send "export KUBECONFIG=\"\$(ks pipe)\"" C-Space "&& kcc" Enter
 }
 function kc_app_k9s_multi_kube_ctx() {
-  tmux send "ks kube -t " Tab
+  ks tmux_multi
 }
 function kc_app_k9s_kube_new_window() {
-  new_window='tmux neww -e KUBECONFIG=${KUBECONFIG} -n $(basename ${KUBECONFIG})'
-  tmux send "export KUBECONFIG=\"\$(ks kube --pipe )\"" C-Space "&& kcc && ${new_window} && exit" Escape "2T=3f i" Space Tab Tab
+  ks tmux_window
 }
