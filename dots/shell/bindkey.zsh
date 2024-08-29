@@ -11,7 +11,7 @@ for keytable in "${keytables[@]}"; do
   # implement binds
   bindkey -M ${keytable} -s '^kl' 'task \t'
   bindkey -M ${keytable} -s '^k^l' ' && task \t'
-  bindkey -M ${keytable} -s '^kk' 'kc_app_k9s\n'
+  bindkey -M ${keytable} -s '^kk' 'ks\n'
   bindkey -M ${keytable} -s '^k^k' 'taskfiles\n'
   bindkey -M ${keytable} -s '^e' 'gsd\n' # give git status
 done
