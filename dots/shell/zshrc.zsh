@@ -56,8 +56,6 @@ autoload -Uz compinit && compinit
 compdef kubecolor=kubectl
 # complete -o nospace -C /opt/homebrew/bin/vault vault
 
-# double source this.. yuck. its mostly to override some of the zsh defaults like "l", and "ll"
-[ -f ~/.dotfiles/dots/shell/alias.zsh ] && source ~/.dotfiles/dots/shell/alias.zsh
 [ -f ~/.dotfiles/dots/shell/bindkey.zsh ] && source ~/.dotfiles/dots/shell/bindkey.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

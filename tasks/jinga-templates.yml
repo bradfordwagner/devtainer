@@ -6,11 +6,18 @@
       loop:
         - .profile
         - .zprofile
+      file:
+        path: '{{ ansible_env.HOME }}/{{ item }}'
+        state: absent
+
+    - name: install env
+      loop:
+        - .zshenv
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
         path: '{{ ansible_env.HOME }}/{{ item }}'
         create: true
-        block: "{{ lookup('template', 'templates/profile.sh.j2') }}"
+        block: "{{ lookup('template', 'templates/env.sh.j2') }}"
 
     - name: standard renderings
       loop:
