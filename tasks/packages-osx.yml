@@ -86,6 +86,8 @@
     - yamllint
     - yq
     - ytop
+    - zellij
+
 - include_role:
     name: geerlingguy.mac.homebrew
   vars:
