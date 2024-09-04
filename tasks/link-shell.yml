@@ -39,6 +39,7 @@
         - spotify-tui
         - spotifyd
         - wezterm
+        - zellij
 
     - name: link configurations
       file:
