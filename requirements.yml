@@ -2,6 +2,6 @@
 - src: luizgavalda.aur
   version: v0.43
 - src: bradfordwagner.jumpdir
-  version: 0.7.5
+  version: 0.8.0
 - src: andrewrothstein.sudoers
   version: v1.0.9
