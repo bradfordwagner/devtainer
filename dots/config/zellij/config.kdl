@@ -33,8 +33,12 @@ keybinds clear-defaults=true {
         bind "c" { Clear; }
         bind "/" { SwitchToMode "EnterSearch"; }
 
-        bind "a" { WriteChars "jd\n"; }
-
+        // jumpdir
+        bind "a" { WriteChars "jd\n"; SwitchToMode "Normal";}
+        bind "n" { WriteChars "jdv\n"; SwitchToMode "Normal";}
+        // ks
+        bind "Enter" { WriteChars "ks\n"; SwitchToMode "Normal"; }
+        bind ";" { WriteChars "ks\n"; }
 
         // floating
         bind "w" { ToggleFloatingPanes; SwitchToMode "Normal"; }
@@ -247,14 +251,14 @@ plugins {
 //   - true (default)
 //   - false
 //
-// pane_frames true
+ pane_frames false
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
 //   - true (default)
 //   - false
 //
-// auto_layout true
+ auto_layout false
 
 // Whether sessions should be serialized to the cache folder (including their tabs/panes, cwds and running commands) so that they can later be resurrected
 // Options:
