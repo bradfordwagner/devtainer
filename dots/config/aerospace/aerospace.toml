@@ -202,6 +202,10 @@ alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
 alt-shift-semicolon = 'mode resize'
 
+# monitor focus
+l = ['focus-monitor next']
+h = ['focus-monitor prev']
+
 [mode.resize.binding]
 h = 'resize width -50'
 j = 'resize height +50'
