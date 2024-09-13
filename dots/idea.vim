@@ -20,6 +20,7 @@ map zj <action>(AceAction)
 map ZA :w<CR>
 " insert current date
 map ZD :r !date<CR>
+map ZGB <action>(Annotate)
 
 " goto
 map gd <action>(GotoDeclaration)
