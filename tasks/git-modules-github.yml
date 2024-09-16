@@ -141,6 +141,8 @@
        repo: https://github.com/seglo/kafka-lag-exporter.git
      - name: argo.helm
        repo: https://github.com/argoproj/argo-helm.git
+     - name: bitnami
+       repo: https://github.com/bitnami/charts.git
 
    - name: '{{ github_python_dir }}'
      git:
