@@ -241,6 +241,10 @@ equal = 'resize smart +50'
 shift-minus = 'resize smart -128'
 shift-equal = 'resize smart +128'
 
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+slash = 'layout tiles horizontal vertical'
+comma = 'layout accordion horizontal vertical'
+
 enter = 'mode main'
 esc = 'mode main'
 
