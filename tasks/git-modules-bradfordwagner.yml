@@ -138,6 +138,8 @@
        repo: https://github.com/bradfordwagner/go-threadpool.git
      - name: dagger.modules
        repo: https://github.com/bradfordwagner/dagger-modules.git
+     - name: kubeclient
+       repo: https://github.com/bradfordwagner/go-kubeclient.git
 
    - name: '{{ go_bin }}'
      git:
