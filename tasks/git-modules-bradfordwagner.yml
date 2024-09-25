@@ -140,6 +140,8 @@
        repo: https://github.com/bradfordwagner/dagger-modules.git
      - name: kubeclient
        repo: https://github.com/bradfordwagner/go-kubeclient.git
+     - name: sli.job
+       repo: https://github.com/bradfordwagner/go-sli-job.git
 
    - name: '{{ go_bin }}'
      git:
