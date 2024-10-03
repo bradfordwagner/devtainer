@@ -42,7 +42,7 @@
     grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
     tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
     esc    a      s      d      f      g      h      j      k      l      ;      '      ret
-    lsft   z      x      c      v      b      n      m      ,      .      /      rsft   up
+    lsft   z      x      c      @v_cv  b      n      m      ,      .      /      rsft   up
     @l_med lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
 )
 
@@ -124,6 +124,11 @@
   bgmt2 (multi-tap 200 2 f2)
   bgmt3 (multi-tap 200 3 f3)
   bgmt4 (multi-tap 200 4 f4)
+
+  v_cv (multi-tap 150 v #(C-v))
+  c_cc (multi-tap 150 c #(C-c))
+  x_cx (multi-tap 150 x #(C-x))
+  z_cz (multi-tap 150 z #(C-z))
 
 ;; v1
 ;;   ;; layers
