@@ -39,7 +39,7 @@
 ;; used in order to have a layer with no special keys
 (deflayer plain
     @l_ins f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
-    grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+    grv    @1_c1  @2_c2  @3_c3  @4_c4  @5_c5  6      7      8      9      0      -      =      bspc
     tab    @q_cq  w      @e_ce  @r_cr  @t_ct  y      u      i      o      p      [      ]      \
     esc    a      s      d      @f_cf  @g_cg  h      j      k      l      ;      '      ret
     lsft   @z_cz  @x_cx  @c_cc  @v_cv  b      n      m      ,      .      /      rsft   up
@@ -135,6 +135,11 @@
   t_ct (multi-tap 150 t #(C-t))
   f_cf (multi-tap 150 f #(C-f))
   g_cg (multi-tap 150 g #(C-g))
+  1_c1 (multi-tap 150 1 #(C-1))
+  2_c2 (multi-tap 150 2 #(C-2))
+  3_c3 (multi-tap 150 3 #(C-3))
+  4_c4 (multi-tap 150 4 #(C-4))
+  5_c5 (multi-tap 150 5 #(C-5))
 
 ;; v1
 ;;   ;; layers
