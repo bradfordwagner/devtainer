@@ -14,6 +14,8 @@ autocmd VimResized * wincmd = " evenly resize splits when resizing window
 " select pasted content
 nnoremap gp `[v`]
 
+" swap go to mark exact instead of the line
+nnoremap ' `
 
 " tmux mappings
 map <silent> <Space>aa :! tmux resize-pane -Z<CR>

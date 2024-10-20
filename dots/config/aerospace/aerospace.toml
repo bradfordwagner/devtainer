@@ -222,7 +222,8 @@ x = 'close'
 
 # open apps
 b = 'exec-and-forget open -n "/Applications/Brave Browser.app"'
-a = 'exec-and-forget open -n "/Applications/Alacritty.app"'
+# a = 'exec-and-forget open -n "/Applications/Alacritty.app"'
+a = 'exec-and-forget open -n "/Applications/WezTerm.app"'
 
 [mode.resize.binding]
 h = 'resize width -50'

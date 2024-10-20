@@ -88,6 +88,7 @@ require("lazy").setup({
   'tpope/vim-surround',
   'vim-scripts/Align',
   'mattesgroeger/vim-bookmarks',
+  'kshenoy/vim-signature',               -- shows marks in the gutter https://github.com/kshenoy/vim-signature
   'auwsmit/vim-active-numbers',          -- show numbers in gutter from 0 current line up and down
   'tpope/vim-commentary',
   'christianrondeau/vim-base64',         -- used for base64 easy encoding wahoo
