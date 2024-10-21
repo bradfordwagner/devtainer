@@ -326,7 +326,7 @@ function jdi() {
 # other
 ################################################
 alias runSocat='echo starting socat on port 2333; socat -v tcp-l:2333,fork exec:"/bin/cat"'
-alias c=clear
+alias c=tc
 alias vv='virsh'
 ################################################
 
