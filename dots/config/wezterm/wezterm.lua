@@ -25,14 +25,14 @@ config.initial_cols = 96
 config.window_decorations        = "RESIZE | MACOS_FORCE_DISABLE_SHADOW"
 config.color_scheme              = "Kanagawa (Gogh)" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
 config.color_scheme              = "ChallengerDeep" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
-config.color_scheme              = "Tokyo Night Moon" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
 config.color_scheme              = "kanagawabones" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
+config.color_scheme              = "Tokyo Night Moon" -- "Tokyo Night|ChallengerDeep|GruvboxDarkHard|One Half Black (Gogh)|Modus-Vivendi"
 config.colors = {
   background = 'black',
 }
 config.enable_tab_bar            = false
 config.window_close_confirmation = "NeverPrompt"
-config.font_size                 = 12.0
+config.font_size                 = 16
 config.audible_bell              = "Disabled"
 
 -- window border
