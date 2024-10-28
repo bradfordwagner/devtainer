@@ -209,8 +209,6 @@
        repo: https://github.com/bradfordwagner/tf-m-az-acr.git
      - name: ws.az.acr
        repo: https://github.com/bradfordwagner/tf-ws-az-acr.git
-     - name: vault.idp.testbed
-       repo: https://github.com/bradfordwagner/tf-vault-idp-testbed.git
 
    - name: '{{ ansible_roles_dir }}'
      git:
@@ -324,6 +322,8 @@
      loop:
      - name: vault.sharedsecrets
        repo: https://github.com/bradfordwagner/vault.k8s.sharedsecrets.git
+     - name: vault.idp
+       repo: https://github.com/bradfordwagner/tf-vault-idp-testbed.git
 
    - name: '{{ forks_dir }}'
      git:
