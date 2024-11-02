@@ -41,7 +41,7 @@
     @l_ins f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
     grv    @1_c1  @2_c2  @3_c3  @4_c4  @5_c5  6      7      8      9      0      -      =      bspc
     tab    @q_cq  w      @e_ce  @r_cr  @t_ct  y      u      i      o      p      [      ]      \
-    esc    a      s      d      @f_cf  @g_cg  h      j      k      l      ;      '      ret
+    esc    a      s      d      @f_cf  @g_cg  h      j      @th_k  l      ;      '      ret
     lsft   @z_cz  @x_cx  @c_cc  @v_cv  b      n      m      ,      .      /      rsft   up
     @l_med lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
 )
