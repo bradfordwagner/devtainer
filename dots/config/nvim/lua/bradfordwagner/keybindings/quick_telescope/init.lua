@@ -38,7 +38,9 @@ function M.setup(config)
     name = config.name,
     command = "cat " .. picker_options,
     action = action_handler(name_to_command),
-    opts = require('telescope.themes').get_dropdown({}),
+    opts = require('telescope.themes').get_dropdown({
+      layout_config = util.telescope_layout_config,
+    }),
   }
 end
 

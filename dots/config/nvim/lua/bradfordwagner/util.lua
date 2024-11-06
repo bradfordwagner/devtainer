@@ -32,6 +32,11 @@ function M.reduce(list, delim)
   return res
 end
 
+M.telescope_layout_config = {
+  height = 0.66,
+  width = 0.66,
+}
+
 local res = M.reduce({"a", "b"}, '\n')
 print('res=' .. res)
 

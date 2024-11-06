@@ -1,5 +1,6 @@
 -- init telescope - this can't be default forever right?
 local telescope = require 'telescope'
+local util = require 'bradfordwagner.util'
 
 -- enable multi multi_selection
 -- https://github.com/nvim-telescope/telescope.nvim/issues/1048#issuecomment-1220846367
@@ -70,6 +71,8 @@ telescope.setup {
         ["<cr>"]  = stopinsert(custom_actions.multi_selection_open)
       },
     },
+    layout_strategy = 'vertical',
+    layout_config = util.telescope_layout_config,
   },
   pickers = {
     buffers = {
