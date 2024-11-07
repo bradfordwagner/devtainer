@@ -40,6 +40,7 @@ alias gpf='git push -f'    # git push force
 alias gr=git_restore
 alias grd='cd $(git root)' # git root directory
 alias grh='git reset --hard' # git reset hard
+alias grv='git remote -v'
 alias gs='git status -s'
 alias gsd='clear; gs; gd'
 alias lg=lazygit
