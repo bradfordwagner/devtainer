@@ -401,7 +401,7 @@ function taskfiles() {
   echo ${taskfile} | bat -P --file-name="Taskfile.yml"
   echo ${task_desc} | bat -P --file-name="${task_name}.description"
   echo ${task_vars} | bat -P --file-name="${task_name}.vars" -lproperties
-  tmux send "task -t ${taskfile} ${task_name}" Tab
+  tmux send "c && task -t ${taskfile} ${task_name}" Tab
 }
 
 # File Helpers #################################
