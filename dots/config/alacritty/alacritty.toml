@@ -1,6 +1,4 @@
-[general]
 live_config_reload = true
-
 # https://github.com/alacritty/alacritty-theme/tree/master/themes
 import = [
 #    "~/.config/alacritty/themes/themes/kanagawa_wave.toml"
@@ -29,7 +27,7 @@ mods = "Command"
 [selection]
 save_to_clipboard = true
 
-[terminal.shell]
+[shell]
 args = ["--login"]
 program = "zsh"
 
