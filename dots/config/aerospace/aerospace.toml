@@ -13,7 +13,7 @@ after-login-command = []
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
-  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
+  'exec-and-forget borders'
 ]
 
 # Start AeroSpace at login
@@ -224,8 +224,8 @@ x = 'close'
 
 # open apps
 b = 'exec-and-forget open -n "/Applications/Brave Browser.app"'
-# a = 'exec-and-forget open -n "/Applications/Alacritty.app"'
-a = 'exec-and-forget open -n "/Applications/WezTerm.app"'
+a = 'exec-and-forget open -n "/Applications/Alacritty.app"'
+# a = 'exec-and-forget open -n "/Applications/WezTerm.app"'
 
 [mode.resize.binding]
 h = 'resize width -128'
