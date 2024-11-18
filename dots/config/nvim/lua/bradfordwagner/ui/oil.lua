@@ -21,5 +21,6 @@ require("oil").setup({
       oil.select({tab = true})
       reset_window_focus()
     end },
+    ["<space><space>"] = actions.toggle_hidden,
   }
 })
