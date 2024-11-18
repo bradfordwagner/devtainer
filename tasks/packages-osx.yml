@@ -6,6 +6,7 @@
     homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
     homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
     homebrew_taps:
+    - FelixKratz/formulae
     - bufbuild/buf
     - cjbassi/ytop
     - dagger/tap
@@ -19,6 +20,7 @@
     - azure-cli
     - bash-completion                          # bash completions
     - bat
+    - borders
     - buildkit
     - container-diff
     - coreutils
