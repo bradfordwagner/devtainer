@@ -20,7 +20,7 @@
     - azure-cli
     - bash-completion                          # bash completions
     - bat
-    - borders
+    - borders                                  # window borders - https://github.com/FelixKratz/JankyBorders
     - buildkit
     - container-diff
     - coreutils
