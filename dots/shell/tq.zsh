@@ -2,6 +2,7 @@ export tmux_actions_dir=~/.tmux/actions_dir.sh
 
 # touch ${tmux_actions_dir} if dne
 [[ ! -f ${tmux_actions_dir} ]] && touch ${tmux_actions_dir}
+source ${tmux_actions_dir}
 
 # entrypoint
 function tq() {
@@ -25,7 +26,10 @@ function tq() {
 
 function _tq_get() {
   dir=$(cat ${tmux_actions_dir} | fzf)
-  echo ${dir}
+# format is "export ${var_name}=${value}"
+  # extract ${var_name} from the line
+  var_name=$(echo ${dir} | awk -F'=' '{print $1}' | awk -F' ' '{print $2}')
+  tmux send "cd \$${var_name}; "
 }
 
 function _tq_edit() {
@@ -42,6 +46,7 @@ function _tq_add() {
   [[ "" == "${dir_name}" ]] && dir_name=${current_basename}
 
   echo "export tq_${dir_name}=${current_dir}" >> ${tmux_actions_dir}
+  _tq_source
 }
 
 function _tq_list() {
