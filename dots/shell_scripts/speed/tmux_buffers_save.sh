@@ -13,7 +13,7 @@ for buffer_name in $(echo ${buffer_names}); do
   buffer_value=$(tmux show-buffer -b ${buffer_name})
   encoded_buffer_value=$(echo ${buffer_value} | base64)
   echo ${palette_lpurple}${buffer_name} ${palette_cyan}${buffer_value}${palette_restore}
-  echo "${buffer_name} ${encoded_buffer_value}" >> ${buffer_file}
+  echo "${buffer_name} ${buffer_value}" >> ${buffer_file}
 done
 
 # echo buffer file:
