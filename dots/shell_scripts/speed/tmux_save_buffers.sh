@@ -18,4 +18,4 @@ bat -P ${buffer_file}
 
 # wait for input
 echo -n "Press enter to continue"
-read 
+read
