@@ -1,4 +1,7 @@
-export tmux_actions_dir=~/.tmux_actions_dir
+export tmux_actions_dir=~/.tmux/actions_dir.sh
+
+# touch ${tmux_actions_dir} if dne
+[[ ! -f ${tmux_actions_dir} ]] && touch ${tmux_actions_dir}
 
 # entrypoint
 function tq() {
