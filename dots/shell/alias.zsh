@@ -277,6 +277,21 @@ alias t_edit_none="tmux list-panes -F '#{pane_index}' | awk '{print $1}' | xargs
 function tmuxCopyLayout() {
   tmux list-windows | sed -n 's/.*layout \(.*\)] @.*/\1/p' | fzf --reverse | tmux loadb -
 }
+
+## tmux buffers ################################
+# this is for saving/loading buffers
+# specificallyh to edit the  backed up buffer file and edit it
+function tmux_buffers_edit() {
+  mkdir ~/.tmux 2> /dev/null
+  buffer_file=~/.tmux/buffers.txt
+
+  ${EDITOR} ${buffer_file}
+
+  # load buffers after making changes
+  ~/.dotfiles/dots/shell_scripts/speed/tmux_buffers_load.sh
+
+  exit
+}
 ################################################
 
 ################################################
