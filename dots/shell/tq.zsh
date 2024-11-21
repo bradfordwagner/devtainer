@@ -38,8 +38,9 @@ function _tq_edit() {
 
 function _tq_add() {
   current_dir=$(pwd)
+  # get base name and replace "-" with "_"
+  current_basename=$(basename ${current_dir} | sed 's/-/_/g')
   # prompt user for a name save in dir_name variable
-  current_basename=$(basename ${current_dir})
   echo -n "Enter a name for the directory (default=${current_basename}): "
   read dir_name
   # if dir_name is empty, use the current directory name
