@@ -143,8 +143,6 @@
        repo: https://github.com/argoproj/argo-helm.git
      - name: bitnami
        repo: https://github.com/bitnami/charts.git
-     - name: trust.manager
-       repo: https://github.com/cert-manager/trust-manager.git
 
    - name: '{{ github_python_dir }}'
      git:
@@ -279,6 +277,8 @@
        repo: https://github.com/hashicorp/vault-secrets-operator.git
      - name: docker.buildkit
        repo: https://github.com/moby/buildkit.git
+     - name: trust.manager
+       repo: https://github.com/cert-manager/trust-manager.git
 
    - name: '{{ github_azure_dir }}'
      git:
