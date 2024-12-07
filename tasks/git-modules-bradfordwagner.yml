@@ -371,3 +371,5 @@
      loop:
      - name: github.runners
        repo: https://github.com/bradfordwagner/github-runners.git
+     - name: local.k8s
+       repo: https://github.com/bradfordwagner/ansible-playbook-local-k8s
