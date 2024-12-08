@@ -326,6 +326,8 @@
        repo: https://github.com/bradfordwagner/vault.k8s.sharedsecrets.git
      - name: vault.idp
        repo: https://github.com/bradfordwagner/tf-vault-idp-testbed.git
+     - name: vault.testbed
+       repo: https://github.com/bradfordwagner/tf-vault-testbed.git
 
    - name: '{{ forks_dir }}'
      git:
