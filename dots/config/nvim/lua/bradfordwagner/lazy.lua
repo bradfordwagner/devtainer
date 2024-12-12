@@ -35,7 +35,6 @@ require("lazy").setup({
   'stevearc/oil.nvim',
   -- rainbow delims
   'HiPhish/rainbow-delimiters.nvim',
-  { 'echasnovski/mini.nvim', branch = 'stable' }, -- https://github.com/echasnovski/mini.nvim
   -- color scheme
   'miikanissi/modus-themes.nvim',
   'rebelot/kanagawa.nvim',
@@ -75,14 +74,11 @@ require("lazy").setup({
   -- utility
   -- change project directory
   'airblade/vim-rooter',
-  -- reload nvim configuration
-  { 'famiu/nvim-reload', dependencies = { 'nvim-lua/plenary.nvim' } },
 
   -- vundle plugins
   'leafgarland/typescript-vim',
   'ryanoasis/vim-devicons',
   'towolf/vim-helm',
-  'junegunn/goyo.vim',
   'airblade/vim-gitgutter',
   'ntpeters/vim-better-whitespace',      -- shows trailing whitespace
   'tpope/vim-surround',
@@ -103,9 +99,6 @@ require("lazy").setup({
   -- markdown support
   'godlygeek/tabular',
   'preservim/vim-markdown',
-
-  -- indentation
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }, -- https://github.com/lukas-reineke/indent-blankline.nvim
 
   -- vim-plug
   { 'junegunn/fzf', build = ':call fzf#install()' },
@@ -140,4 +133,70 @@ require("lazy").setup({
   -- completion
   {'neoclide/coc.nvim', branch = 'release' },
   'github/copilot.vim',
+
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      bigfile = { enabled = true },
+      dashboard = { enabled = true },
+      indent = { enabled = true },
+      input = { enabled = true },
+      notifier = {
+        enabled = true,
+        timeout = 3000,
+      },
+      quickfile = { enabled = true },
+      scroll = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+      toggle = {
+        enabled = true,
+        notify = true,
+        which_key = true,
+      },
+      styles = {
+        notification = {
+        }
+      },
+      zen = {
+        enabled = true,
+        toggles = {
+          dim = true,
+          git_signs = false,
+          mini_diff_signs = false,
+        },
+        show = {
+          statusline = false, -- can only be shown when using the global statusline
+          tabline = false,
+        },
+        win = { style = "zen" },
+        zoom = {
+          toggles = {},
+          show = { statusline = true, tabline = true },
+          win = {
+            backdrop = false,
+            width = 0, -- full width
+          },
+        },
+      }
+    },
+    keys = {
+      { "<leader>zz", function() Snacks.zen({
+        win = { width = 0.65,},
+      }) end, desc = "Toggle Zen Mode", },
+      { "<leader>zx",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
+      { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse" },
+      { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
+    },
+  init = function()
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "VeryLazy",
+      callback = function()
+        Snacks.toggle.dim():map("<leader>x")
+      end,
+    })
+  end,
+  }
 })

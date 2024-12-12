@@ -49,6 +49,7 @@ vim.o.timeout = true
 vim.o.timeoutlen = 300
 local wk = require 'which-key'
 wk.setup {
+  notify = false,
   window = {
     border = "single", -- none, single, double, shadow
     position = "bottom", -- bottom, top
@@ -61,10 +62,6 @@ wk.setup {
 wk.register({
   ['<space>'] = { name = 'Customized Binds' },
   ['<space>F'] = { '<cmd>FzfLua<cr>', 'fzf-lua' },
-  -- goyo keymaps
-  ['<space>zx'] = { '<cmd>Goyo!<cr><cmd>! tmux resize-pane -Z<cr>' , 'Exit Goyo, Tmux Fullscreen' },
-  ['<space>zz'] = { '<cmd>Goyo<cr>' , 'Goyo Toggle, Tmux Fullscreen' },
-  ['<space>z'] = { 'Zoom' },
   ['<space>as'] = { '<cmd>AIChat<cr>', 'send to ai chat' },
   ['<space>i'] = { '<cmd>Windows<cr>', 'select window' },
   ['<space>zc'] = { '<cmd>let &scrolloff=999-&scrolloff<CR>', 'toggle auto center cursor' },
