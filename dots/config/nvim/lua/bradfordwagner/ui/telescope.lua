@@ -71,7 +71,7 @@ telescope.setup {
         ["<cr>"]  = stopinsert(custom_actions.multi_selection_open)
       },
     },
-    layout_strategy = 'vertical',
+    layout_strategy = 'horizontal',
     layout_config = util.telescope_layout_config,
   },
   pickers = {
