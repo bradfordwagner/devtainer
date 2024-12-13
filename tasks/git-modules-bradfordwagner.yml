@@ -180,8 +180,8 @@
        repo: https://github.com/bradfordwagner/chart-vault-k8s-auth.git
      - name: docker.buildkit
        repo: https://github.com/bradfordwagner/chart-docker-buildkit.git
-     - name: vault.kubernetes.auth
-       repo: https://github.com/bradfordwagner/chart-vault-kubernetes-auth
+     - name: vault.kubernetes.sa
+       repo: https://github.com/bradfordwagner/chart-vault-kubernetes-sa.git
 
    - name: '{{ terraform_dir }}'
      git:
