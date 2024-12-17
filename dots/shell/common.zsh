@@ -16,10 +16,6 @@ export ACK_GINKGO_DEPRECATIONS=1.16.4 # stop the annoying deprecation popups
 
 export VAULT_FORMAT=json         # set default vault output format
 
-# go task - enable map vars
-# https://taskfile.dev/experiments/map-variables/#references
-export TASK_X_MAP_VARIABLES=1
-
 export PATH=~/bin:~/.rd/bin:/usr/local/bin:$PATH
 export PATH=$PATH:$NODE_PATH
 export PATH=$PATH:$NPM_PATH
