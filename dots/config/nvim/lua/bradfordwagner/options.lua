@@ -22,7 +22,7 @@ vim.g.bookmark_save_per_working_dir = 1
 
 
 -- options -------------------------------------------------
-vim.o.scrolloff = 999 -- auto center cursor
+-- vim.o.scrolloff = 999 -- auto center cursor
 vim.o.mouse = '' -- disable mouse
 vim.o.number = true
 -- vim.o.relativenumber = true
