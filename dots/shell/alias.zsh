@@ -411,7 +411,6 @@ function taskfiles() {
   clear
   taskfile=$(find -L ~/.taskfiles/tasks -name '*.yml' | fzf) || return
   taskfile_info
-  tmux send "c && task -t ${taskfile} ${task_name}" Tab
 }
 function taskfile_info() {
   taskfile=${1:-./Taskfile.yml}
@@ -421,6 +420,7 @@ function taskfile_info() {
   echo ${taskfile} | bat -P --file-name="Taskfile.yml"
   echo ${task_desc} | bat -P --file-name="${task_name}.description"
   echo ${task_vars} | bat -P --file-name="${task_name}.vars" -lproperties
+  tmux send "c && task -t ${taskfile} ${task_name}" Tab
 }
 
 # File Helpers #################################
