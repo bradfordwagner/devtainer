@@ -410,13 +410,17 @@ alias wa='watch -c -n 1 unbuffer'
 function taskfiles() {
   clear
   taskfile=$(find -L ~/.taskfiles/tasks -name '*.yml' | fzf) || return
+  taskfile_info
+  tmux send "c && task -t ${taskfile} ${task_name}" Tab
+}
+function taskfile_info() {
+  taskfile=${1:-./Taskfile.yml}
   task_name=$(yq -r '.tasks | to_entries[] | select(.value.internal == null or .value.internal == false) | .key' ${taskfile} | fzf) || return
   task_vars=$(yq -r ".tasks.${task_name}.vars | to_entries[] | .key + \" = \" + .value" ${taskfile}) > /dev/null 2>&1
   task_desc=$(yq -r ".tasks.${task_name}.desc" ${taskfile}) > /dev/null 2>&1
   echo ${taskfile} | bat -P --file-name="Taskfile.yml"
   echo ${task_desc} | bat -P --file-name="${task_name}.description"
   echo ${task_vars} | bat -P --file-name="${task_name}.vars" -lproperties
-  tmux send "c && task -t ${taskfile} ${task_name}" Tab
 }
 
 # File Helpers #################################

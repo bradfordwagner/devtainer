@@ -13,6 +13,7 @@ for keytable in "${keytables[@]}"; do
   bindkey -M ${keytable} -s '^k^l' ' && task \t'
   bindkey -M ${keytable} -s '^kk' 'ks\n'
   bindkey -M ${keytable} -s '^k^k' 'taskfiles\n'
+  bindkey -M ${keytable} -s '^ki' 'taskfile_info\n'
   bindkey -M ${keytable} -s '^e' 'gsd\n' # give git status
 done
 
