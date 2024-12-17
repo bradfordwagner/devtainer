@@ -16,7 +16,7 @@ nnoremap gp `[v`]
 
 " swap go to mark exact instead of the line, and center it
 " https://stackoverflow.com/questions/59408739/how-to-bring-the-marker-to-middle-of-the-screen
-nnoremap <expr> ' "`" . nr2char(getchar()) . 'zz'
+nnoremap <expr> ' "`"
 
 " tmux mappings
 map <silent> <Space>aa :! tmux resize-pane -Z<CR>
