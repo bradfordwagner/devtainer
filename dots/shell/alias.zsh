@@ -410,7 +410,7 @@ alias wa='watch -c -n 1 unbuffer'
 function taskfiles() {
   clear
   taskfile=$(find -L ~/.taskfiles/tasks -name '*.yml' | fzf) || return
-  taskfile_info
+  taskfile_info ${taskfile}
 }
 function taskfile_info() {
   taskfile=${1:-./Taskfile.yml}
