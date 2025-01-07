@@ -20,6 +20,6 @@ vim.cmd.colorscheme 'modus'
 vim.cmd.colorscheme 'modus_vivendi'
 vim.cmd.colorscheme 'tokyonight'
 vim.cmd.colorscheme 'tokyonight-night'
-vim.cmd.colorscheme 'tokyonight-moon'
-
 vim.cmd.colorscheme 'morta'
+
+vim.cmd.colorscheme 'tokyonight-moon'
