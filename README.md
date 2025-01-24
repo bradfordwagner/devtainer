@@ -32,6 +32,9 @@ python3 -m pip install --user --upgrade pynvim
 ```bash
 sudo spctl --master-enable
 sudo spctl --master-disable
+
+# manually add it
+xattr -d com.apple.quarantine /Applications/Alacritty.app
 ```
 
 ## Intellij Settings
