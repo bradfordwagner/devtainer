@@ -1,4 +1,6 @@
 
+require 'bradfordwagner.theme.kanagawa'
+
 --- let's not lose these just yet
 -- " for tokyo night only
 -- let g:tokyonight_style = 'night' " available: night, storm
@@ -14,7 +16,6 @@
 vim.cmd.colorscheme 'challenger_deep'
 vim.cmd.colorscheme 'cyberdream'
 vim.cmd.colorscheme 'default'
-vim.cmd.colorscheme 'kanagawa-wave'
 vim.cmd.colorscheme 'midnight'
 vim.cmd.colorscheme 'modus'
 vim.cmd.colorscheme 'modus_vivendi'
@@ -23,3 +24,4 @@ vim.cmd.colorscheme 'tokyonight-night'
 vim.cmd.colorscheme 'morta'
 
 vim.cmd.colorscheme 'tokyonight-moon'
+vim.cmd.colorscheme 'kanagawa-wave'
