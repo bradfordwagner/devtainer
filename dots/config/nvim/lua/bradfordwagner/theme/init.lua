@@ -25,3 +25,4 @@ vim.cmd.colorscheme 'morta'
 
 vim.cmd.colorscheme 'tokyonight-moon'
 vim.cmd.colorscheme 'kanagawa-wave'
+vim.cmd.colorscheme 'oldworld'
