@@ -1,4 +1,4 @@
 set -e
 
-argo delete --completed
+argo delete -A
 

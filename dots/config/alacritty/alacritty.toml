@@ -15,10 +15,10 @@ primary.background = "0x000000"
 size = 12
 
 [font.normal]
-#family = "JetBrainsMono Nerd Font Mono"
-#style = "Bold"
-family = "IosevkaTerm Nerd Font Mono"
-style = "ExtraBold"
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold"
+# family = "IosevkaTerm Nerd Font Mono"
+# style = "ExtraBold"
 
 [[keyboard.bindings]]
 action = "SpawnNewInstance"

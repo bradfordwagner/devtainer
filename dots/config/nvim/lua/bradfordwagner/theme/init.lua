@@ -23,6 +23,6 @@ vim.cmd.colorscheme 'tokyonight'
 vim.cmd.colorscheme 'tokyonight-night'
 vim.cmd.colorscheme 'morta'
 
-vim.cmd.colorscheme 'tokyonight-moon'
-vim.cmd.colorscheme 'kanagawa-wave'
 vim.cmd.colorscheme 'oldworld'
+vim.cmd.colorscheme 'kanagawa-wave'
+vim.cmd.colorscheme 'tokyonight-moon'
