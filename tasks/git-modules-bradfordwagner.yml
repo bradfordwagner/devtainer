@@ -123,6 +123,9 @@
      - name: kmonad
        repo: https://github.com/bradfordwagner/container-kmonad.git
        version: main
+     - name: tmux.buoyshell
+       repo: https://github.com/bradfordwagner/tmux-buoyshell.git
+       version: main
 
    # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
