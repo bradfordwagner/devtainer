@@ -1,5 +1,6 @@
 
 require 'bradfordwagner.theme.kanagawa'
+require 'bradfordwagner.theme.tokyonight'
 
 --- let's not lose these just yet
 -- " for tokyo night only
