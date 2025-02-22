@@ -126,6 +126,9 @@
      - name: tmux.buoyshell
        repo: https://github.com/bradfordwagner/tmux-buoyshell.git
        version: main
+     - name: zmk.config.corne
+       repo: https://github.com/bradfordwagner/zmk-config-corne.git
+       version: main
 
    # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
