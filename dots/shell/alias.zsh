@@ -201,6 +201,7 @@ function fd() {
                    fzf)
   cd "$dir"
 }
+alias fdo='fd; open .'
 alias vh='nvim .'           # vim here
 alias wcd='cd ~/workspace' # workspace cd
 alias wfd='wcd; fd'
