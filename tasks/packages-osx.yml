@@ -57,6 +57,7 @@
     - mkcert
     - nemu
     - neovim
+    - newsboat
     - node                                     # required for vim-coc
     - nss                                      # required for mkcert - specifically firefox
     - proctools
@@ -89,7 +90,6 @@
     - yq
     - ytop
     - zellij
-
 - include_role:
     name: geerlingguy.mac.homebrew
   vars:
