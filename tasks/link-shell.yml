@@ -12,10 +12,11 @@
         - .config
         - .k9s
         - .kube
+        - .newsboat
         - .pip
         - .tmux
-        - Library/Preferences/k9s
         - Library/Application Support/Amethyst/Layouts
+        - Library/Preferences/k9s
         - source
 
     - name: link configdir
@@ -90,3 +91,9 @@
       # # kubectl switch
       - src: kube-switch/switch-config.yaml
         path: .kube/switch-config.yaml
+
+      # newsboard rss feeds
+      - src: newsboat/config
+        path: .newsboat/config
+      - src: newsboat/urls
+        path: .newsboat/urls

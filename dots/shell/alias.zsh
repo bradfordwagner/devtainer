@@ -1,5 +1,6 @@
 alias resource='source ~/.zprofile'
 alias x=exit
+alias nb=newsboat
 
 ################################################
 # git aliases
