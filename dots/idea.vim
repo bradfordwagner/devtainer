@@ -75,6 +75,7 @@ map <leader>dd :action Tool_External Tools_search_file<CR>
 map <leader>da :action Tool_External Tools_search_files<CR>
 " map <leader>o <action>(RecentFiles) -- default idea action for recent files
 map <leader>o <action>(com.fuzzyfilesearch.FzfRecentFiles)
+map <leader>O <action>(OptimizeImports)
 map <leader>ds <action>(FileStructurePopup)
 
 " copilot.chat.show
