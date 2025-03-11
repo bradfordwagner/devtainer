@@ -35,6 +35,7 @@ sudo spctl --master-disable
 
 # manually add it
 xattr -d com.apple.quarantine /Applications/Alacritty.app
+xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
 ```
 
 ## Intellij Settings
