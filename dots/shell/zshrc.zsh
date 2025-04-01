@@ -65,4 +65,4 @@ export jump_dir_editor_cmd="v"
 # zprof
 
 # load starship
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
