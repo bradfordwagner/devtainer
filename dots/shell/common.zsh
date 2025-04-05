@@ -7,6 +7,9 @@ NPM_PATH=/usr/local/bin/npm
 MAVEN_PATH=/Users/bwagner/bin/apache-maven-3.6.3
 ANT_PATH=/Users/bwagner/bin/apache-ant-1.8.2
 
+# XQuartz
+export DISPLAY=:0
+
 GOPATH_BIN=~/go/bin
 export GOPATH="${HOME}/go"
 export GOBIN="${HOME}/bin"

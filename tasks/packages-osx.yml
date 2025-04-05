@@ -136,3 +136,4 @@
     - raycast
     - stats # https://github.com/exelban/stats
     - wezterm
+    - xquartz
