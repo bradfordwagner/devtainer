@@ -41,7 +41,7 @@
     - go-task                                  # task manager - like makefile, but better
     - gradle
     - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
-    - helm@3
+    - helm
     - hidetatz/tap/kubecolor
     - inetutils                                # net utilities
     - istioctl                                 # istio controller
@@ -106,31 +106,33 @@
     # - ubersicht
     # - eqmac
     # - homebrew/cask-fonts/font-meslo-nerd-font-mono
+    # - alfred
+    # - adobe-acrobat-reader
+    # - font-meslo-lg-nerd-font
+    # - homebrew/cask-fonts/font-meslo-nerd-font
+    # - keyman
+    # - time-out
+    # - vlc
 
     # newly added ignores
-    - alfred
-    - adobe-acrobat-reader
-    - font-meslo-lg-nerd-font
-    - homebrew/cask-fonts/font-meslo-nerd-font
-    - keyman
-    - time-out
-    - vlc
+    - istat-menus
+    - bartender
     homebrew_cask_apps:
     - aerospace
     - alacritty
     - amethyst
-    - bartender
     - brave-browser
     - font-fira-code
     - font-iosevka-term-nerd-font
     - font-jetbrains-mono
     - font-jetbrains-mono-nerd-font
     - google-chrome
-    - istat-menus
     - iterm2
     - jetbrains-toolbox
+    - jordanbaird-ice
     - microsoft-office
     - postman
     - rancher
     - raycast
+    - stats # https://github.com/exelban/stats
     - wezterm
