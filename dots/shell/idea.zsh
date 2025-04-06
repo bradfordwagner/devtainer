@@ -99,6 +99,6 @@ function ij_open_file_v2() {
   # find all files in version control
   cd ${wd}
   git ls-files \
-   | rofi -dmenu -i -p "Open file" -no-fixed -width 1000 -columns 1 -lines 10 -theme ${theme} \
+   | rofi -dmenu -i -p "Open file" -no-fixed -theme ${theme} \
    | xargs -I {} sh -c 'idea {}'
 }
