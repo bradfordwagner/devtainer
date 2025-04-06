@@ -68,11 +68,13 @@ map <leader>l <action>(TabShiftActions.MoveFocusRight)
 map Q :q!<cr>
 
 " open file configuration
-map <leader>F <action>(GotoFile)
-" map <leader>f :action Tool_External Tools_open_file<CR>
-map <leader>f <action>(com.fuzzyfilesearch.FzfOpen)
+" map <leader>F <action>(GotoFile)
+map <leader>f :action Tool_External Tools_open_file_v2<CR>
+
 map <leader>dd :action Tool_External Tools_search_file<CR>
 map <leader>da :action Tool_External Tools_search_files<CR>
+" map <leader>da <action>(com.mituuz.fuzzier.FuzzierVCS)
+" map <leader>dA <action>(com.mituuz.fuzzier.Fuzzier)
 " map <leader>o <action>(RecentFiles) -- default idea action for recent files
 map <leader>o <action>(com.fuzzyfilesearch.FzfRecentFiles)
 map <leader>O <action>(OptimizeImports)

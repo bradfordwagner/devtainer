@@ -193,7 +193,7 @@ alt-space = 'fullscreen'
 # custom xquartz launchers
 # ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/dmenu_start.sh'
 ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_apps.sh'
-ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_screen_shots.sh'
+ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_jdi.sh'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes

@@ -90,3 +90,15 @@ function ij_open_file() {
   fi
 #  fo
 }
+
+function ij_open_file_v2() {
+  open -a XQuartz
+  theme=~/.config/rofi/launchers/type-4/style-2.rasi
+  # default to current directory
+  local wd=${1:-$(pwd)}
+  # find all files in version control
+  cd ${wd}
+  git ls-files \
+   | rofi -dmenu -i -p "Open file" -no-fixed -width 1000 -columns 1 -lines 10 -theme ${theme} \
+   | xargs -I {} sh -c 'idea {}'
+}

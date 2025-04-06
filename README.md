@@ -59,6 +59,9 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
 - name: terminal
   program: alacritty
   args: --working-directory $ProjectFileDir$ -e zsh -lc tn
+- name: open_file_v2
+  program: /bin/zsh
+  args: -lc "ij_open_file_v2 $ProjectFileDir$"
 ```
 
 - spaceid - https://github.com/dshnkao/SpaceId/releases - to show spaces in menubar
