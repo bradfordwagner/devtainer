@@ -68,9 +68,7 @@ map <leader>l <action>(TabShiftActions.MoveFocusRight)
 map Q :q!<cr>
 
 " open file configuration
-" map <leader>F <action>(GotoFile)
 map <leader>f :action Tool_External Tools_open_file_v2<CR>
-
 map <leader>dd :action Tool_External Tools_search_file<CR>
 map <leader>da :action Tool_External Tools_search_files<CR>
 " map <leader>da <action>(com.mituuz.fuzzier.FuzzierVCS)
