@@ -68,3 +68,11 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
 - https://stackoverflow.com/questions/196357/making-iterm-to-translate-meta-key-in-the-same-way-as-in-other-oses
 - transparency: 25
 - blur: 20
+
+## Install rofi themes
+```bash
+cd /tmp
+git clone https://github.com/adi1090x/rofi
+cd rofi
+./setup.sh
+```
