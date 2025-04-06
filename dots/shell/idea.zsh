@@ -88,7 +88,6 @@ function ij_open_file() {
     fi
     eval ${cmd}
   fi
-#  fo
 }
 
 function ij_open_file_v2() {
