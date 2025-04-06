@@ -1,8 +1,6 @@
 #!/bin/zsh
 
 open -a "Xquartz"
-cd /Applications
-ls -d *.app \
-  | sed 's/\.app$//' \
+(ls -d /Applications/*; ls -d ~/Applications/*; ls -d /System/Applications/*) \
   | rofi -dmenu -i -p ">" \
-  | xargs -I {} open "{}.app"
+  | xargs -I {} open "{}"
