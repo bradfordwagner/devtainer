@@ -37,7 +37,7 @@ blur = true
 decorations = "None"
 dynamic_padding = false
 # opacity = 1.00
-opacity = 0.10
+opacity = 0.40
 option_as_alt = "Both"
 
 [window.padding]
