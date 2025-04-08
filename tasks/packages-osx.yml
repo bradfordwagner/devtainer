@@ -10,10 +10,17 @@
     - bufbuild/buf
     - cjbassi/ytop
     - dagger/tap
-    homebrew_uninstalled_packages: []
+    - hidetatz/tap
+    homebrew_uninstalled_packages: 
+    - jam
+    #- sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
+    - vault
+    #- hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
+    - ytop
+    - zellij
     homebrew_installed_packages:
 
-    - Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
+    #- Azure/kubelogin/kubelogin                # kubelogin - for azure aks login
     - argo
     - argocd
     - awscli
@@ -40,12 +47,10 @@
     - go
     - go-task                                  # task manager - like makefile, but better
     - gradle
-    - hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
     - helm
-    - hidetatz/tap/kubecolor
+    - kubecolor
     - inetutils                                # net utilities
     - istioctl                                 # istio controller
-    - jam
     - jq
     - k3d                                      # installs k3d, partners with rancher for https://github.com/rumstead/gitops-toolkit
     - k9s
@@ -68,7 +73,6 @@
     - reattach-to-user-namespace
     - ripgrep                                  # https://github.com/BurntSushi/ripgrep - used for grep calls following your gitignore
     - rust
-    - sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
     - ssh-copy-id
     - starship
     - sysbench
@@ -79,22 +83,19 @@
     - tmux
     - tmuxinator
     - tree
-    - txn2/tap/kubefwd                         # used for forwarding remote k8s cluster to local
+    #- txn2/tap/kubefwd                         # used for forwarding remote k8s cluster to local
     - urlview
-    - vault
     - virt-manager
     - watch
     - watchexec
     - wget
     - yamllint
     - yq
-    - ytop
-    - zellij
 - include_role:
     name: geerlingguy.mac.homebrew
   vars:
     homebrew_taps:
-    - homebrew/cask-fonts
+    #- homebrew/cask-fonts
     - nikitabobko/tap
     homebrew_cask_uninstalled_apps:
     # - jd-gui
@@ -117,21 +118,19 @@
     # newly added ignores
     - istat-menus
     - bartender
+    - iterm2
+    - amethyst
+    - postman
     homebrew_cask_apps:
     - aerospace
     - alacritty
-    - amethyst
-    - brave-browser
+    - bitwarden
     - font-fira-code
     - font-iosevka-term-nerd-font
     - font-jetbrains-mono
     - font-jetbrains-mono-nerd-font
-    - google-chrome
-    - iterm2
     - jetbrains-toolbox
     - jordanbaird-ice
-    - microsoft-office
-    - postman
     - rancher
     - raycast
     - stats # https://github.com/exelban/stats
