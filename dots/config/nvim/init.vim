@@ -131,7 +131,6 @@ au BufReadPost *.tmux.conf set syntax=tmux
 filetype on
 set ignorecase " searches are now case insensitive
 set encoding=UTF-8
-set pastetoggle=ZP " setup paste toggling for indentation issues - removed from neovim 0.9
 
 " set list
 " set listchars=tab:>- " show tab whitespace
