@@ -24,10 +24,6 @@ python3 -m pip install --user --upgrade pynvim
 # https://network.pivotal.io/products/pivotal-container-service/#/releases/1293578/file_groups/13745
 ```
 
-## Alfred
-- [theme: big sur night](http://www.packal.org/theme/big-sur-night)
-- [theme: monterey](https://github.com/chrismessina/alfred-theme-monterey/releases/tag/v0.1)
-
 ## Help with Unknown Sources
 ```bash
 sudo spctl --master-enable
@@ -63,14 +59,6 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
   program: /bin/zsh
   args: -lc "ij_open_file_v2 $ProjectFileDir$"
 ```
-
-- spaceid - https://github.com/dshnkao/SpaceId/releases - to show spaces in menubar
-
-## Iterm
-- https://github.com/challenger-deep-theme/iterm
-- https://stackoverflow.com/questions/196357/making-iterm-to-translate-meta-key-in-the-same-way-as-in-other-oses
-- transparency: 25
-- blur: 20
 
 ## Install rofi themes
 ```bash
