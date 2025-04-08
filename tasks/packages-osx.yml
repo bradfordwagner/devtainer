@@ -11,6 +11,7 @@
     - cjbassi/ytop
     - dagger/tap
     - hidetatz/tap
+    - txn2/tap
     homebrew_uninstalled_packages: 
     - jam
     #- sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
@@ -48,7 +49,6 @@
     - go-task                                  # task manager - like makefile, but better
     - gradle
     - helm
-    - kubecolor
     - inetutils                                # net utilities
     - istioctl                                 # istio controller
     - jq
@@ -56,7 +56,9 @@
     - k9s
     - kind
     - krew                                     # kubectl plugin manager
+    - kubecolor
     - kubectx
+    - kubefwd                         # used for forwarding remote k8s cluster to local
     - kubernetes-cli
     - lsd                                      # nerdfont/icons `ls`
     - mkcert
@@ -83,7 +85,6 @@
     - tmux
     - tmuxinator
     - tree
-    #- txn2/tap/kubefwd                         # used for forwarding remote k8s cluster to local
     - urlview
     - virt-manager
     - watch
