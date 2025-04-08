@@ -129,6 +129,7 @@
     - font-iosevka-term-nerd-font
     - font-jetbrains-mono
     - font-jetbrains-mono-nerd-font
+    - git-credential-manager
     - jetbrains-toolbox
     - jordanbaird-ice
     - rancher
