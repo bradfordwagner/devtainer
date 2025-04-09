@@ -8,7 +8,7 @@ export TERM="xterm-256color"
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 plug "Aloxaf/fzf-tab"
 plug "paulirish/git-open"
-plug "zap-zsh/zap-prompt"
+# plug "zap-zsh/zap-prompt"
 plug "zsh-users/zsh-autosuggestions"
 plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-syntax-highlighting"
@@ -65,4 +65,4 @@ export jump_dir_editor_cmd="v"
 # zprof
 
 # load starship
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
