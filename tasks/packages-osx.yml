@@ -11,8 +11,9 @@
     - cjbassi/ytop
     - dagger/tap
     - hidetatz/tap
+    - thegeeklab/tap
     - txn2/tap
-    homebrew_uninstalled_packages: 
+    homebrew_uninstalled_packages:
     - jam
     #- sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
     - vault
@@ -43,6 +44,7 @@
     - gawk
     - gh                                       # github cli
     - git-delta                                # git colorized differ
+    - git-sv                                   # https://github.com/thegeeklab/git-sv
     - gnu-sed
     - gnu-tar
     - go
