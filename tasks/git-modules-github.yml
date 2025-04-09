@@ -188,7 +188,7 @@
      poll: '{{ poll_timeout }}'
      loop:
      - name: cli.visualizer
-       repo: https://github.com/dpayne/cli-visualizer.git
+       repo: https://github.com/PosixAlchemist/cli-visualizer.git
      - name: xava
        repo: https://github.com/nikp123/xava.git
      - name: cava
