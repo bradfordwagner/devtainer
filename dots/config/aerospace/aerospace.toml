@@ -192,8 +192,8 @@ alt-space = 'fullscreen'
 
 # custom xquartz launchers
 # ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/dmenu_start.sh'
-ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_apps.sh'
-ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_jdi.sh'
+# ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_apps.sh'
+# ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_jdi.sh'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -229,7 +229,8 @@ x = 'close'
 
 # open apps
 # b = 'exec-and-forget open -n "/Applications/Brave Browser.app"'
-b = 'exec-and-forget open -n "/Applications/Firefox.app"'
+# b = 'exec-and-forget open -n "/Applications/Firefox.app"'
+b = 'exec-and-forget open -n "/Applications/Zen.app"'
 a = 'exec-and-forget open -n "/Applications/Alacritty.app"'
 # a = 'exec-and-forget open -n "/Applications/WezTerm.app"'
 
