@@ -61,7 +61,17 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
 ```
 
 ## Install rofi themes
+- install macports
+    - work requires installing using - https://guide.macports.org/#installing.macports.git as rsync does not work
 ```bash
+
+# only for work
+# to get broken python tbz2
+docker run --rm -it -v $(pwd):/host/ quay.io/bradfordwagner/rofi sh -c 'cp -v /tmp/* /host/'
+sudo cp python313-3.13.2_0+lto+optimizations.darwin_24.arm64.tbz2 /opt/local/var/macports/incoming/verified/
+sudo cp python313-3.13.2_0+lto+optimizations.darwin_24.arm64.tbz2.rmd160 /opt/local/var/macports/incoming/verified
+# end only for work
+
 cd /tmp
 git clone https://github.com/adi1090x/rofi
 cd rofi
