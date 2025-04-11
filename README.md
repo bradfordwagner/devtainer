@@ -64,7 +64,6 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
 - install macports
     - work requires installing using - https://guide.macports.org/#installing.macports.git as rsync does not work
 ```bash
-
 # only for work
 # to get broken python tbz2
 docker run --rm -it -v $(pwd):/host/ quay.io/bradfordwagner/rofi sh -c 'cp -v /tmp/* /host/'
