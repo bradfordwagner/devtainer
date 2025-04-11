@@ -188,12 +188,13 @@ alt-shift-ctrl-tab = 'move-workspace-to-monitor --wrap-around prev'
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = 'mode service'
 
-alt-space = 'fullscreen'
+# alt-space = 'fullscreen'
 
 # custom xquartz launchers
 # ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/dmenu_start.sh'
 # ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_apps.sh'
-# ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_jdi.sh'
+ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_apps.sh'
+alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_jdi.sh'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes

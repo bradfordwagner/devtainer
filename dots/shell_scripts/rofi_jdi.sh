@@ -1,8 +1,7 @@
 #!/bin/zsh
 
-# theme=~/.config/rofi/launchers/type-3/style-3.rasi
-theme=~/.config/rofi/launchers/type-1/style-10.rasi
-# theme=~/.config/rofi/launchers/type-2/style-7.rasi
+theme=~/.config/rofi/launchers/type-1/style-10.rasi # dmenu
+theme=~/.config/rofi/launchers/type-4/style-2.rasi  # centered launcher
 open -a Xquartz
 (jdl) \
   | rofi -dmenu -i -p ">" -theme ${theme} \
