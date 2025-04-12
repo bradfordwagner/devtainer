@@ -294,6 +294,22 @@ function tmux_buffers_edit() {
 
   exit
 }
+
+# https://github.com/AleckAstan/tmux-zap/blob/cd38ada1d521c66d4e3bb3a72242b2fa2ba2ed1e/scripts/zap.sh
+function tmux_zap() {
+  session_window=${1} # example=edit:1:buoyshell
+  # if no session window passed in return
+  if [ -z "${session_window}" ]; then
+    return
+  fi
+
+  # split by :, assign to session and window
+  session=$(echo ${session_window} | cut -d':' -f1)
+  window=$(echo ${session_window} | cut -d':' -f2)
+
+  tmux select-window -t "${session}:${window}"
+  tmux attach -t "${session}"
+}
 ################################################
 
 ################################################
