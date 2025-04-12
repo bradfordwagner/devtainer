@@ -6,5 +6,5 @@ prompt='app>'
 open -a Xquartz
 (cd /Applications && ls -d *.app; cd ~/Applications/ && ls -d *.app; cd /System/Applications/ && ls -d *.app) \
   | sed 's/\.app$//' \
-  | rofi -dmenu -i -theme ${theme} -show-icons -p ${prompt} \
+  | rofi -dmenu -i -theme ${theme} -p ${prompt} \
   | xargs -I {} open -a "{}"
