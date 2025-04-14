@@ -7,4 +7,4 @@ prompt='jump_idea>'
 open -a Xquartz
 (jdl) \
   | rofi -dmenu -i -theme ${theme} -p ${prompt} \
-  | xargs -I {} zsh -lc 'cd {} && ih'
+  | xargs -I {} zsh -lc 'jumpdir addweight "{}" && cd {} && ih'
