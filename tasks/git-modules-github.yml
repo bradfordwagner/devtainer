@@ -279,6 +279,8 @@
        repo: https://github.com/moby/buildkit.git
      - name: trust.manager
        repo: https://github.com/cert-manager/trust-manager.git
+     - name: reloader
+       repo: https://github.com/stakater/Reloader.git
 
    - name: '{{ github_azure_dir }}'
      git:
