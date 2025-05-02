@@ -69,6 +69,7 @@
     - newsboat
     - node                                     # required for vim-coc
     - nss                                      # required for mkcert - specifically firefox
+    - podman
     - proctools
     - protobuf
     - pstree
