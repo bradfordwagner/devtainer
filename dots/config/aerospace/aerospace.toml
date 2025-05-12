@@ -203,7 +203,10 @@ ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_jdi.sh'
 esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
 #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+# force floating layout on all windows within a workspace
+f = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_layout_all.sh floating', 'mode main']
+# force tiling layout on all windows within a workspace
+shift-f = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_layout_all.sh tiling', 'mode main']
 alt-shift-o = ['close-all-windows-but-current', 'mode main']
 
 alt-shift-h = ['join-with left']
