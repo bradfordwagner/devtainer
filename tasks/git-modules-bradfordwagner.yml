@@ -239,6 +239,8 @@
        repo: https://github.com/bradfordwagner/ansible-role-go-releaser-install
      - name: github.runner
        repo: https://github.com/bradfordwagner/ansible-role-github-runner.git
+     - name: wiz
+       repo: https://github.com/bradfordwagner/ansible-role-wiz.git
 
    - name: '{{ containers_dir }}'
      git:
