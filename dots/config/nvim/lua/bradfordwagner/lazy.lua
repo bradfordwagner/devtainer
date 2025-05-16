@@ -113,7 +113,6 @@ require("lazy").setup({
   'norcalli/nvim-colorizer.lua', -- https://github.com/norcalli/nvim-colorizer.lua
   'pearofducks/ansible-vim',
   'TamaMcGlinn/quickfixdd',      -- allows deleting entries in quickfix list using dd - https://github.com/TamaMcGlinn/quickfixdd
-  'madox2/vim-ai',               -- open ai integration: https://github.com/madox2/vim-ai
   'tribela/vim-transparent',     -- https://github.com/tribela/vim-transparent - enable transparency
   'folke/noice.nvim',        -- https://github.com/folke/noice.nvim - replaces messages, cmdline, popupmenu
   'MunifTanjim/nui.nvim',    -- required by noice
