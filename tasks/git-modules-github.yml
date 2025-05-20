@@ -281,7 +281,7 @@
        repo: https://github.com/cert-manager/trust-manager.git
      - name: reloader
        repo: https://github.com/stakater/Reloader.git
-     - name: vault.plugin.secrets
+     - name: vault.plugin.secrets.kubernetes
        repo: https://github.com/hashicorp/vault-plugin-secrets-kubernetes.git
 
    - name: '{{ github_azure_dir }}'
