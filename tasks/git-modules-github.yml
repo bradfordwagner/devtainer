@@ -283,6 +283,8 @@
        repo: https://github.com/stakater/Reloader.git
      - name: vault.plugin.secrets.kubernetes
        repo: https://github.com/hashicorp/vault-plugin-secrets-kubernetes.git
+     - name: kubernetes.client.go
+       repo: https://github.com/kubernetes/client-go.git
 
    - name: '{{ github_azure_dir }}'
      git:
