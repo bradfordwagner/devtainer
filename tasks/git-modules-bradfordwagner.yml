@@ -241,6 +241,8 @@
        repo: https://github.com/bradfordwagner/ansible-role-github-runner.git
      - name: wiz
        repo: https://github.com/bradfordwagner/ansible-role-wiz.git
+     - name: argo
+       repo: https://github.com/bradfordwagner/ansible-role-argo.git
 
    - name: '{{ containers_dir }}'
      git:
