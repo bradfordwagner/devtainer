@@ -26,6 +26,7 @@
     # for sync: 0/5
     async_timeout: 0
     poll_timeout: 5
+    ignore_errors: yes
   block:
    - name: make workspace dirs
      file:
@@ -51,6 +52,7 @@
        version: '{{ item.version | default("main") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: argo.workflow
        repo: https://github.com/bradfordwagner/deploy-argoworkflow.git
@@ -72,6 +74,7 @@
        version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: dotfiles
        repo: https://github.com/bradfordwagner/dotfiles.git
@@ -83,6 +86,7 @@
        version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: cheatsheet
        repo: https://github.com/bradfordwagner/cheatsheet.git
@@ -137,6 +141,7 @@
        dest: '{{ go_lib }}/bradfordwagner.go.lib.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: util
        repo: https://github.com/bradfordwagner/go-util.git
@@ -157,6 +162,7 @@
        dest: '{{ go_bin }}/bradfordwagner.go.bin.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: azure.blob.cli
        repo: https://github.com/bradfordwagner/go-azure-blob-cli.git
@@ -173,6 +179,7 @@
        dest: '{{ charts_dir }}/bradfordwagner.chart.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: argocd.workflows
        repo: https://github.com/bradfordwagner/chart-argo-workflows.git
@@ -195,6 +202,7 @@
        dest: '{{ terraform_dir }}/bradfordwagner.tf.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      # build - k8s cluster
      - name: az.infra
@@ -226,6 +234,7 @@
        dest: '{{ ansible_roles_dir }}/bradfordwagner.ansible.role.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: azure.blob.cli
        repo: https://github.com/bradfordwagner/ansible-role-azure-blob-cli.git
@@ -250,6 +259,7 @@
        dest: '{{ containers_dir }}/{{ item.base }}/bradfordwagner.container.{{ item.base }}.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      # containers
      # mirrors
@@ -309,6 +319,7 @@
        dest: '{{ templates_dir }}/bradfordwagner.template.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: go.lib
        repo: https://github.com/bradfordwagner/gh-template-go-lib.git
@@ -333,6 +344,7 @@
        dest: '{{ research_dir }}/research.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: vault.sharedsecrets
        repo: https://github.com/bradfordwagner/vault.k8s.sharedsecrets.git
@@ -347,6 +359,7 @@
        dest: '{{ forks_dir }}/gh.forks.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: chart.vault
        repo: https://github.com/bradfordwagner/vault-helm.git
@@ -372,6 +385,7 @@
        dest: '{{ yaml_dir }}/yaml.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: taskfiles
        repo: https://github.com/bradfordwagner/taskfiles.git
@@ -384,6 +398,7 @@
        dest: '{{ ansible_playbooks_dir }}/ansible.playbook.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: github.runners
        repo: https://github.com/bradfordwagner/github-runners.git

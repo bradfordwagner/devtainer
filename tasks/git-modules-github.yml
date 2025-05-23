@@ -20,12 +20,14 @@
     # for sync: 0/5
     async_timeout: 0
     poll_timeout: 5
+    ignore_errors: yes
   block:
    - name: make workspace dirs
      file:
        path: '{{ item }}'
        state: directory
        mode: 0755
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - '{{ github_ansible_dir }}'
      - '{{ github_azure_dir }}'
@@ -43,6 +45,7 @@
        version: '{{ item.version | default("master") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - repo: https://github.com/bradfordwagner/pecan.git
        name: pecan
@@ -58,6 +61,7 @@
        dest: '{{ github_ansible_dir }}/github.ansible.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: andrewrothstein.sudoers
        repo: https://github.com/andrewrothstein/ansible-sudoers.git
@@ -120,6 +124,7 @@
        dest: '{{ github_helm_dir }}/github.helm.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: hashi.consul
        repo: https://github.com/hashicorp/consul-helm.git
@@ -150,6 +155,7 @@
        dest: '{{ github_python_dir }}/github.python.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: andrewrothstein.dcb
        repo: https://github.com/andrewrothstein/dcb.git
@@ -162,6 +168,7 @@
        dest: '{{ github_go_dir }}/github.go.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: nats.server
        repo: https://github.com/nats-io/nats-server.git
@@ -186,6 +193,7 @@
        dest: '{{ github_shell_dir }}/github.shell.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: cli.visualizer
        repo: https://github.com/PosixAlchemist/cli-visualizer.git
@@ -236,6 +244,7 @@
        dest: '{{ github_terraform_dir }}/github.terraform.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: terratest
        repo: https://github.com/gruntwork-io/terratest.git
@@ -246,6 +255,7 @@
        dest: '{{ github_k8s_dir }}/github.k8s.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: iperf3
        repo: https://github.com/Pharb/kubernetes-iperf3.git
@@ -292,6 +302,7 @@
        dest: '{{ github_azure_dir }}/github.azure.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: ado.devops.pipelines.docs
        repo: https://github.com/MicrosoftDocs/azure-devops-docs.git
