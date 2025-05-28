@@ -65,5 +65,8 @@ export jump_dir_editor_cmd="v"
 # enable the following for profiling
 # zprof
 
+# i can't figure out where /usr/bin is being added again, and we want homebrew first
+[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # load starship
 eval "$(starship init zsh)"
