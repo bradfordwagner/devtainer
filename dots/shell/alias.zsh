@@ -36,6 +36,7 @@ alias gc='git clean -fd'
 alias gcm='git commit -m'
 alias gd='git diff'
 alias glh="git ll | nl -v1 | sed 's/^ \+/&HEAD~/' | head -n 25" # git log head
+alias glt='git log --tags --oneline --simplify-by-decoration --date-order --date=short --expand-tabs --color=always --no-walk --reverse --pretty=format:"%Cblue%ad|%Cred%ae|%Cgreen%D" | column -t -s "|"'
 alias gp='git push'
 alias gpf='git push -f'    # git push force
 alias gr=git_restore
@@ -43,6 +44,7 @@ alias grd='cd $(git root)' # git root directory
 alias grh='git reset --hard' # git reset hard
 alias grv='git remote -v'
 alias gs='git status -s'
+alias gss='git switch'
 alias gsd='clear; gs; gd'
 alias lg=lazygit
 alias lgc=lazyGitCommit;
