@@ -36,7 +36,7 @@ alias gc='git clean -fd'
 alias gcm='git commit -m'
 alias gd='git diff'
 alias glh="git ll | nl -v1 | sed 's/^ \+/&HEAD~/' | head -n 25" # git log head
-alias glt='git log --tags --oneline --simplify-by-decoration --date-order --date=short --expand-tabs --color=always --no-walk --reverse --pretty=format:"%Cblue%ad (%cr)|%Cred%ae|%Cgreen%D" | column -t -s "|"'
+alias glt='git log --tags --oneline --simplify-by-decoration --date-order --date=short --expand-tabs --color=always --no-walk --reverse --pretty=format:"%Cblue%ad (%cr)|%Cred%ae|%Cgreen%D%n" | column -t -s "|"'
 alias gp='git push'
 alias gpf='git push -f'    # git push force
 alias gr=git_restore
