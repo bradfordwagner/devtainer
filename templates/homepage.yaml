@@ -1,5 +1,6 @@
 font_size: 22
 theme: void
 tree_1:
-  general:
-    github: https://github.com/bradfordwagner?tab=repositories
+  github:
+    repos: https://github.com/bradfordwagner?tab=repositories
+    packages: https://github.com/bradfordwagner?tab=packages
