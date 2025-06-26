@@ -41,7 +41,7 @@
 
     - name: homepage
       loop:
-        - source: templates/homepage.yaml.j2
+        - source: templates/homepage.yaml
           dest: .config/StartTree/config.yaml
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
