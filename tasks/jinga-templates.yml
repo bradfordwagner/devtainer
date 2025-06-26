@@ -39,3 +39,13 @@
         create: true
         block: "{{ lookup('template', item.source) }}"
 
+    - name: homepage
+      loop:
+        - source: templates/homepage.yaml.j2
+          dest: .config/StartTree/config.yaml
+      ansible.builtin.blockinfile:
+        marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
+        path: '{{ ansible_env.HOME }}/{{ item.dest }}'
+        create: true
+        block: "{{ lookup('template', item.source) }}"
+
