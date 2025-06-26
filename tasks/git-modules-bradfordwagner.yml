@@ -18,6 +18,7 @@
     research_dir: '{{ personal_dir }}/research'
     yaml_dir: '{{ personal_dir }}/yaml'
     ansible_playbooks_dir: '{{ personal_dir }}/ansible_playbooks'
+    github_web_dir: '{{ github_dir }}/web'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
 
@@ -44,6 +45,7 @@
      - '{{ go_lib }}'
      - '{{ go_bin }}'
      - '{{ ansible_playbooks_dir }}'
+     - '{{ github_web_dir }}'
 
    - name: '{{ deploy_dir }}'
      git:
@@ -406,3 +408,14 @@
        repo: https://github.com/bradfordwagner/github-runners.git
      - name: local.k8s
        repo: https://github.com/bradfordwagner/ansible-playbook-local-k8s
+
+   - name: '{{ github_web_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ github_web_dir }}/web.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
+     loop:
+     - name: homepage
+       repo: https://github.com/bradfordwagner/homepage
