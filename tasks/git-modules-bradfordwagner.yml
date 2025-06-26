@@ -18,7 +18,7 @@
     research_dir: '{{ personal_dir }}/research'
     yaml_dir: '{{ personal_dir }}/yaml'
     ansible_playbooks_dir: '{{ personal_dir }}/ansible_playbooks'
-    github_web_dir: '{{ github_dir }}/web'
+    github_web_dir: '{{ personal_dir }}/web'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
 
