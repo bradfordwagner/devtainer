@@ -209,6 +209,8 @@ f = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_layout_all.sh flo
 shift-f = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_layout_all.sh tiling', 'mode main']
 alt-shift-o = ['close-all-windows-but-current', 'mode main']
 
+semicolon = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_toggle_window_focus.sh', 'mode main']
+
 alt-shift-h = ['join-with left']
 alt-shift-j = ['join-with down']
 alt-shift-k = ['join-with up']
