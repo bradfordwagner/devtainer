@@ -180,10 +180,11 @@ alt-shift-z = 'move-node-to-workspace Z'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
-alt-quote = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 alt-shift-ctrl-tab = 'move-workspace-to-monitor --wrap-around prev'
+
+alt-quote = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_toggle_window_focus.sh', 'mode main']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = 'mode service'
@@ -208,8 +209,6 @@ f = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_layout_all.sh flo
 # force tiling layout on all windows within a workspace
 shift-f = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_layout_all.sh tiling', 'mode main']
 alt-shift-o = ['close-all-windows-but-current', 'mode main']
-
-semicolon = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_toggle_window_focus.sh', 'mode main']
 
 alt-shift-h = ['join-with left']
 alt-shift-j = ['join-with down']
