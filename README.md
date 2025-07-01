@@ -58,6 +58,15 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
 - name: open_file_v2
   program: /bin/zsh
   args: -lc "ij_open_file_v2 $ProjectFileDir$"
+# kubectl
+- name: kubectl_apply
+  program: kubecolor
+  args: apply -f $FileRelativePath$
+  working_directory: $ProjectFileDir$
+- name: kubectl_delete
+  program: kubecolor
+  args: delete -f $FileRelativePath$
+  working_directory: $ProjectFileDir$
 ```
 
 ## Install rofi themes
