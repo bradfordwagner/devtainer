@@ -2,11 +2,13 @@ https://openrss.org/github.com/Azure/secrets-store-csi-driver-provider-azure/rel
 https://openrss.org/github.com/buildpacks/pack/releases
 https://openrss.org/github.com/cert-manager/trust-manager/releases
 https://openrss.org/github.com/dagger/dagger/releases
+https://openrss.org/github.com/epam/edp-keycloak-operator/releases
 https://openrss.org/github.com/hashicorp/vault-csi-provider/releases
 https://openrss.org/github.com/hashicorp/vault-helm/releases
 https://openrss.org/github.com/hashicorp/vault-k8s/releases
 https://openrss.org/github.com/hashicorp/vault-secrets-operator/releases
 https://openrss.org/github.com/hashicorp/vault/releases
+https://openrss.org/github.com/keycloak/keycloak/releases
 https://openrss.org/github.com/kubernetes-sigs/secrets-store-csi-driver/releases
 https://openrss.org/github.com/moby/buildkit/releases
 https://openrss.org/github.com/nikitabobko/AeroSpace/releases
