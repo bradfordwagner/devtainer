@@ -37,5 +37,5 @@ echo done
 # move current window to swap_workspace
 echo ${current_workspace} > ${focused_window_file}
 aerospace move-node-to-workspace --window-id ${focused_window} ${swap_workspace}
-    aerospace workspace ${swap_workspace}
+aerospace workspace ${swap_workspace}
 
