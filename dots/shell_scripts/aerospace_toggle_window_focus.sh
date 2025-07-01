@@ -26,7 +26,8 @@ if [[ -f "${focused_window_file}" ]]; then
   else
     # in focused namespace, move and break
     echo target_workspace=${target_workspace} - moving windows back
-    aerospace move-node-to-workspace --window-id ${focused_window} ${target_workspace}
+    move_windows=$(aerospace list-windows --workspace ${swap_workspace} --format '%{window-id}')
+    echo ${move_windows} | xargs -I {} aerospace move-node-to-workspace --window-id {} ${target_workspace}
     aerospace workspace ${target_workspace}
     return
   fi
