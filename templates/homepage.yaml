@@ -4,3 +4,5 @@ tree_1:
   github:
     repos: https://github.com/bradfordwagner?tab=repositories
     packages: https://github.com/bradfordwagner?tab=packages
+  ai:
+    chatgpt: https://chat.openai.com/chat
