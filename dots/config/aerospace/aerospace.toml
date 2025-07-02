@@ -232,11 +232,12 @@ l = 'focus right --boundaries-action wrap-around-the-workspace'
 
 # close
 x = 'close'
+b = 'close'
 
 # open apps
-# b = 'exec-and-forget open -n "/Applications/Brave Browser.app"'
-# b = 'exec-and-forget open -n "/Applications/Firefox.app"'
-b = 'exec-and-forget open -n "/Applications/Zen.app"'
+# s = 'exec-and-forget open -n "/Applications/Brave Browser.app"'
+# s = 'exec-and-forget open -n "/Applications/Firefox.app"'
+s = 'exec-and-forget open -n "/Applications/Zen.app"'
 a = 'exec-and-forget open -n "/Applications/Alacritty.app"'
 # a = 'exec-and-forget open -n "/Applications/WezTerm.app"'
 
