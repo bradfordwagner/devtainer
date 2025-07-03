@@ -237,8 +237,8 @@ b = 'close'
 # open apps
 # s = 'exec-and-forget open -n "/Applications/Brave Browser.app"'
 # s = 'exec-and-forget open -n "/Applications/Firefox.app"'
-s = 'exec-and-forget open -n "/Applications/Zen.app"'
-a = 'exec-and-forget open -n "/Applications/Alacritty.app"'
+s = ['exec-and-forget open -n "/Applications/Zen.app"', 'mode main']
+a = ['exec-and-forget open -n "/Applications/Alacritty.app"', 'mode main']
 # a = 'exec-and-forget open -n "/Applications/WezTerm.app"'
 
 [mode.resize.binding]
