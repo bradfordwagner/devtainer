@@ -32,6 +32,7 @@ function git_restore() {
 alias g=git
 alias ga='git add'
 alias gb='git branch'
+alias gcb='git rev-parse --abbrev-ref HEAD'
 alias gc='git clean -fd'
 alias gcm='git commit -m'
 alias gd='git diff'
