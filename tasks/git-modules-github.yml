@@ -295,6 +295,8 @@
        repo: https://github.com/hashicorp/vault-plugin-secrets-kubernetes.git
      - name: kubernetes.client.go
        repo: https://github.com/kubernetes/client-go.git
+     - name: epam.keycloak.operator
+       repo: https://github.com/epam/edp-keycloak-operator.git
 
    - name: '{{ github_azure_dir }}'
      git:
