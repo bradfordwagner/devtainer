@@ -72,9 +72,9 @@ function argocd_app_login_argocd-server.argocd() {
 }
 function argocd_app_login_argocd-server.akp-gitops() {
   argocd login argocd-server.akp-gitops.svc.cluster.local:443 \
-  --username admin \
-  --password admin1234 \
-  --insecure
+    --skip-test-tls \
+    --username admin \
+    --password admin1234
 }
 function argocd_app_login_work_prod() {
   argocd login ${argocd_work_prod} --sso --insecure
