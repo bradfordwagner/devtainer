@@ -176,6 +176,8 @@
        repo: https://github.com/bradfordwagner/go-cli-buildkit-ch.git
      - name: idp.client
        repo: https://github.com/bradfordwagner/idp_client.git
+     - name: vault.jwt.auth
+       repo: https://github.com/bradfordwagner/vault-jwt-auth.git
 
    - name: '{{ charts_dir }}'
      git:
