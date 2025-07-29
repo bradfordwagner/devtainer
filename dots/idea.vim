@@ -17,7 +17,7 @@ set timeoutlen=5000
 map zj <action>(AceAction)
 
 " save current file
-map ZA :w<CR>
+map ZA :up<CR>
 " insert current date
 map ZD :r !date<CR>
 map ZGB <action>(Annotate)
