@@ -36,4 +36,4 @@ fi
 # swap the two windows using tmux swapw
 source_index=$(echo "$source_window" | cut -d: -f1)
 target_index=$(echo "$target_window" | cut -d: -f1)
-tmux swap-window -s "$current_session:$source_index" -t "$current_session:$target_index"
+tmux swap-window -s "$current_session:$source_index" -t "$current_session:$target_index" -d

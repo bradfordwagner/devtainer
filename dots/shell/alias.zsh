@@ -326,7 +326,7 @@ alias z=zellij
 ################################################
 # this is deeply integrated with coc/vim-go
 alias gopls_daemon='rm /tmp/gopls-daemon-socket; gopls -listen="unix;/tmp/gopls-daemon-socket"'
-alias go_watch_test='watchexec -cr -f "*.go" -- go test ./...'
+alias go_watch_test='watchexec -c -r -f "*.go" -- go test ./...'
 function go_init_godap_properties() {
   file_name=.go_dap.properties
   cat > ${file_name} << EOF
