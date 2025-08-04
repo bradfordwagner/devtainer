@@ -127,7 +127,7 @@ function kac() {
   fi
 
   # resolve override helpers
-  [[ 'neat get' == "${action}" ]] && cmd="${cmd} -oyaml | bat -lyaml -P"
+  [[ 'neat get' == "${action}" ]] && cmd="k ${action} -- ${resource_type} ${namespace} ${target} -oyaml | bat -lyaml -P"
   echo -n ${cmd} | tmux loadb -
   eval ${cmd}
 }
