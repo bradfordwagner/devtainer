@@ -477,6 +477,14 @@ tell application "System Events"
 end tell
 END
 }
+function mac_trust_certificate() {
+  certificate=${1}
+  sudo security add-trusted-cert \
+    -d \
+    -r trustRoot \
+    -k /Library/Keychains/System.keychain \
+    ${certificate}
+}
 ################################################
 
 ## ai aliases ##################################################
