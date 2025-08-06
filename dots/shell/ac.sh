@@ -5,6 +5,7 @@ function ac() {
   clear
   items=(
     sync
+    sync_replace
     open_ui
     terminate
     delete
@@ -47,7 +48,7 @@ function argocd_app_get_values() {
 function argocd_app_cache_apps() {
   cache=~/.ac.apps
   rm ${cache}
-  argocd app list -o name > ${cache}
+  argocd app list --grpc-web -o name > ${cache}
   bat ${cache}
 }
 ## AUTH #################################################################
@@ -85,6 +86,9 @@ function argocd_app_login_work_preprod() {
 ## END AUTH #############################################################
 function argocd_app_sync() {
   argocd_find_app | xargs -I % argocd app sync % --force --prune
+}
+function argocd_app_sync_replace() {
+  argocd_find_app | xargs -I % argocd app sync % --force --prune --replace
 }
 function argocd_app_open_ui() {
   # argocd_server=argocd.example.com
