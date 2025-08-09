@@ -140,6 +140,7 @@
     - raycast
     - spotify
     - stats # https://github.com/exelban/stats
+    - visual-studio-code
     - wezterm
     - xquartz
     - zen-browser
