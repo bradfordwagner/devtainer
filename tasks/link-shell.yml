@@ -96,3 +96,9 @@
         path: .newsboat/config
       - src: newsboat/urls
         path: .newsboat/urls
+
+      # windsurf configurations
+      - src: config/windsurf/workflows
+        path: .codeium/windsurf/workflows
+      - src: config/windsurf/memories
+        path: .codeium/memories
