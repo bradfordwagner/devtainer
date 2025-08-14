@@ -1,0 +1,12 @@
+# Alacritty Configuration
+# Copy this file to variables.local.yml and uncomment/modify values as needed
+
+# Font configuration
+alacritty_font_size: 14
+
+# Window configuration
+alacritty_window_opacity: 1.0
+
+# Theme name (without .toml extension)
+# Will be used as: ~/.alacritty-themes/themes/{theme}.toml
+alacritty_theme: tokyo-night

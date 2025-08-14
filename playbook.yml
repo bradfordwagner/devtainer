@@ -1,5 +1,7 @@
 ---
 - hosts: localhost, dotfiles
+  vars_files:
+    - variables.yml
   vars:
     install_vim_shell_packages: true
     brew_install: false
@@ -17,8 +19,13 @@
         strategy: https
         https: https://github.com/bradfordwagner/devtainer.git
         ssh: git@github.com:bradfordwagner/devtainer.git
-    # ansible_facts.distribution == "MacOSX"
   tasks:
+    - name: Include variables.local.yml if exists
+      include_vars:
+        file: variables.local.yml
+      ignore_errors: yes
+      when: lookup('file', 'variables.local.yml', errors='ignore') != ''
+
     - name: packages - arch
       include_tasks: tasks/packages-arch.yml
       when: ansible_facts.distribution == "Archlinux" and "dotfiles" not in group_names
@@ -39,13 +46,15 @@
       include_tasks: tasks/jinga-templates.yml
     - name: link shell
       include_tasks: tasks/link-shell.yml
+    - name: configure alacritty
+      include_tasks: tasks/alacritty.yml
 
     # link is required first to setup init.vim
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
       include_tasks: tasks/install-shell-packages.yml
       when: install_vim_shell_packages
 
-    # # mac configs
+    # mac configs
     - name: mac [dock-speed,fzf,screenshots-dir]
       include_tasks: tasks/mac-specific.yml
       when: ansible_facts.distribution == "MacOSX"

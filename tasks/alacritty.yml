@@ -1,0 +1,20 @@
+---
+- name: Ensure Alacritty config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/alacritty"
+    state: directory
+    mode: '0755'
+
+- name: Clone Alacritty themes
+  ansible.builtin.git:
+    repo: https://github.com/alacritty/alacritty-theme.git
+    dest: "{{ ansible_env.HOME }}/.alacritty-themes"
+    depth: 1
+    force: yes
+
+- name: Install Alacritty configuration
+  ansible.builtin.template:
+    src: "{{ playbook_dir }}/templates/alacritty.toml.j2"
+    dest: "{{ ansible_env.HOME }}/.config/alacritty/alacritty.toml"
+    mode: '0644'
+    backup: yes

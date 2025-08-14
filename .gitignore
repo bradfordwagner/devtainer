@@ -5,3 +5,4 @@ dots/config/nvim/lua/packer_plugins
 dots/config/nvim/lazy-lock.json
 Dockerfile
 dots/config/alacritty/themes/
+variables.local.yml

@@ -27,7 +27,6 @@
         force: true
       loop:
         - aerospace
-        - alacritty
         - awesome
         - borders
         - kmonad
