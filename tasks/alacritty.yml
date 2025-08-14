@@ -17,4 +17,4 @@
     src: "{{ playbook_dir }}/templates/alacritty.toml.j2"
     dest: "{{ ansible_env.HOME }}/.config/alacritty/alacritty.toml"
     mode: '0644'
-    backup: yes
+    backup: no
