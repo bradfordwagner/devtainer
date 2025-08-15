@@ -14,7 +14,7 @@
       password: '!'
       create: '{{ ansible_facts.distribution == "Archlinux" }}'
     devtainer:
-      dir: '{{ ansible_env.HOME }}/.dotfiles'
+      dir: '{{ ansible_env.HOME }}/dotfiles'
       clone:
         strategy: https
         https: https://github.com/bradfordwagner/devtainer.git

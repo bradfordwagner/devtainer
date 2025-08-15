@@ -1,5 +1,13 @@
 ---
 - name: copy dotfiles {{ playbook_dir }} => {{ devtainer.dir }}
   synchronize:
-    src: '{{ playbook_dir }}/'
-    dest: '{{ devtainer.dir }}/'
+    src: '{{ playbook_dir }}'
+    dest: '{{ devtainer.dir }}'
+    delete: yes
+
+- name: Create symlink from ~/.dotfiles to ~/dotfiles for backward compatibility
+  file:
+    src: '{{ devtainer.dir }}'
+    dest: '{{ ansible_env.HOME }}/.dotfiles'
+    state: link
+    force: yes
