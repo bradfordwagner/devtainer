@@ -1,8 +1,8 @@
 ---
 - name: copy dotfiles {{ playbook_dir }} => {{ devtainer.dir }}
   synchronize:
-    src: '{{ playbook_dir }}'
-    dest: '{{ devtainer.dir }}'
+    src: '{{ playbook_dir }}/'
+    dest: '{{ devtainer.dir }}/'
     delete: yes
 
 - name: Create symlink from ~/.dotfiles to ~/dotfiles for backward compatibility
