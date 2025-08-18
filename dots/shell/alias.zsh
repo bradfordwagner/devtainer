@@ -457,7 +457,6 @@ alias t='task'
 alias we='watchexec -c -r -i="session.vim*" --shell="zsh -l -o aliases"'
 alias wa='watch -c -n 1 unbuffer'
 function taskfiles() {
-  clear
   taskfile=$(find -L ~/.taskfiles/tasks -name '*.yml' | fzf) || return
   taskfile_info ${taskfile}
 }
@@ -469,7 +468,7 @@ function taskfile_info() {
   echo ${taskfile} | bat -P --file-name="Taskfile.yml"
   echo ${task_desc} | bat -P --file-name="${task_name}.description"
   echo ${task_vars} | bat -P --file-name="${task_name}.vars" -lproperties
-  tmux send "c && task -t ${taskfile} ${task_name}" Tab
+  tmux send "task -t ${taskfile} ${task_name}" Tab
 }
 
 # File Helpers #################################
