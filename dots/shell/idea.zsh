@@ -97,7 +97,12 @@ function ij_open_file_v2() {
   local wd=${1:-$(pwd)}
   # find all files in version control
   cd ${wd}
-  git ls-files \
+  files=$(git ls-files)
+  if [ -z "${files}" ]; then
+    files=$(ls | xargs -I{} git -C {} ls-files --format='{}/%(path)')
+  fi
+
+  echo ${files} \
    | rofi -dmenu -i -p "Open file" -no-fixed -theme ${theme} \
    | xargs -I {} sh -c 'idea {}'
 }

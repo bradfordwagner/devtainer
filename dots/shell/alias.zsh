@@ -49,6 +49,34 @@ alias gss='git switch'
 alias gsd='clear; gs; gd'
 alias lg=lazygit
 alias lgc=lazyGitCommit;
+function gsl() {
+  echo "${palette_lcyan}Git Status List - Checking directories...${palette_restore}\n"
+
+  for dir in */; do
+    if [[ -d "$dir" && -d "$dir/.git" ]]; then
+      cd "$dir"
+      git_status=$(git status --porcelain 2>/dev/null)
+      branch=$(git branch --show-current 2>/dev/null)
+
+      if [[ -n "$git_status" ]]; then
+        # Dirty repo
+        echo "${palette_lred}📁 $dir ${palette_lyellow}[$branch]${palette_lred} - DIRTY${palette_restore}"
+        echo "$git_status" | head -3 | sed 's/^/  /'
+      else
+        # Clean repo
+        echo "${palette_lgreen}📁 $dir ${palette_lyellow}[$branch]${palette_lgreen} - CLEAN${palette_restore}"
+      fi
+      cd ..
+      echo
+    elif [[ -d "$dir" ]]; then
+      # Not a git repo
+      echo "${palette_lgray}📁 $dir - Not a git repository${palette_restore}"
+      echo
+    fi
+  done
+
+  echo "${palette_lcyan}Summary complete.${palette_restore}"
+}
 function git_tag() {
   tag=${1}
   if [ -z "$tag" ]; then
