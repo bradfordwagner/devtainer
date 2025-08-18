@@ -9,5 +9,5 @@ alacritty_window_opacity: 1.0
 
 # Theme name (without .toml extension)
 # Will be used as: ~/.alacritty-themes/themes/{theme}.toml
-# favorites: tokyo-night,catppuccin_mocha
-alacritty_theme: tokyo-night
+# favorites: tokyo_night,catppuccin_mocha
+alacritty_theme: tokyo_night
