@@ -99,7 +99,7 @@ function ij_open_file_v2() {
   cd ${wd}
   files=$(git ls-files)
   if [ -z "${files}" ]; then
-    files=$(ls | xargs -I{} git -C {} ls-files --format='{}/%(path)')
+    files=$(ls | xargs -I{} git -C {} ls-files --sparse -v | grep -e '^H' | awk '{print $2}' | xargs -I{} echo ${wd}/{})
   fi
 
   echo ${files} \
