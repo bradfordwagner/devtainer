@@ -272,6 +272,47 @@ function fds() {
   # Arrange panes in main-vertical layout for better organization
   tmux select-layout main-vertical
 }
+
+# fdg - automatically split tmux for dirty git directories (depth 1)
+function fdg() {
+  local dirty_dirs current_dir current_window first_dir
+  
+  # Find directories at depth 1 that are git repos with changes
+  dirty_dirs=()
+  for dir in */; do
+    if [[ -d "$dir" && -d "$dir/.git" ]]; then
+      cd "$dir"
+      git_status=$(git status --porcelain 2>/dev/null)
+      if [[ -n "$git_status" ]]; then
+        dirty_dirs+=("$dir")
+      fi
+      cd ..
+    fi
+  done
+  
+  if [[ ${#dirty_dirs[@]} -eq 0 ]]; then
+    echo "No dirty git repositories found"
+    return 1
+  fi
+  
+  echo "Found ${#dirty_dirs[@]} dirty git repositories:"
+  printf '  %s\n' "${dirty_dirs[@]}"
+  
+  current_dir=$(pwd)
+  current_window=$(tmux display-message -p '#I')
+  
+  # Set initial layout to tiled
+  tmux select-layout -t "$current_window" tiled
+  
+  # Create tmux splits for each dirty directory
+  for dir in "${dirty_dirs[@]}"; do
+    # Create vertical splits for all directories
+    tmux split-window -t "$current_window" -v -c "${current_dir}/$dir"
+  done
+  
+  # Arrange panes in main-vertical layout for better organization
+  tmux select-layout main-vertical
+}
 alias fdo='fd; open .'
 alias vh='nvim .'           # vim here
 alias wcd='cd ~/workspace' # workspace cd
