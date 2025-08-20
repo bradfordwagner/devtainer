@@ -99,8 +99,20 @@ function ij_open_file_v2() {
   cd ${wd}
   files=$(git ls-files)
   if [ -z "${files}" ]; then
-    files=$(ls | xargs -I{} git -C {} ls-files --sparse -v | grep -e '^H' | awk '{print $2}' | xargs -I{} echo ${wd}/{})
+  files=""
+    for dir in */; do
+      if [ -d "$dir" ]; then
+        sparse_files=$(git -C "$dir" ls-files --sparse -v 2>/dev/null | grep -e '^H' | awk '{print $2}' | xargs -I{} echo ${dir}{})
+        if [ -n "$sparse_files" ]; then
+          files="${files}${sparse_files}\n"
+        fi
+      fi
+    done
   fi
+  files=$(echo -e "$files" | sed '/^$/d')  # Remove empty lines
+
+#  echo ${files}
+#  return
 
   echo ${files} \
    | rofi -dmenu -i -p "Open file" -no-fixed -theme ${theme} \
