@@ -211,7 +211,6 @@ fi
 # navigation
 ################################################
 # copied from - https://github.com/junegunn/fzf/wiki/examples#changing-directory
-# fd - cd to selected directory
 if hash lsd 2>/dev/null; then
   alias l="lsd -lha"
   alias ll="lsd -lh"
@@ -226,12 +225,52 @@ function fs() {
   source ${file}
 }
 alias fa="find . | fzf"
+# fd - cd to selected directory
 function fd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | \
                    fzf)
   cd "$dir"
+}
+
+# fds - cd to selected directories with tmux split (depth 1, includes hidden)
+function fds() {
+  local dirs split_type selected_dirs
+
+  # Find directories at depth 1 (including hidden ones)
+  dirs=$(find ${1:-.} -maxdepth 1 -type d -not -path '.' | sort)
+
+  if [[ -z "$dirs" ]]; then
+    echo "No directories found"
+    return 1
+  fi
+
+  # Use fzf-tmux to select multiple directories
+  selected_dirs=$(echo "$dirs" | fzf-tmux -m -p 80%,60% --prompt="Select directories (Tab to multi-select, / to select & clear): " --bind="/:toggle+clear-query") || return
+
+  current_dir=$(pwd)
+  current_window=$(tmux display-message -p '#I')
+
+  # Set initial layout to tiled
+  tmux select-layout -t "$current_window" tiled
+
+  # Create tmux splits for each selected directory
+  local first_dir=true
+  echo "$selected_dirs" | while IFS= read -r dir; do
+    echo dir=${dir}
+    if [[ "$first_dir" == true ]]; then
+      # Change current pane to first directory
+      cd "$dir"
+      first_dir=false
+    else
+      # Create vertical splits for subsequent directories
+      tmux split-window -t "$current_window" -v -c "${current_dir}/$dir"
+    fi
+  done
+
+  # Arrange panes in main-vertical layout for better organization
+  tmux select-layout main-vertical
 }
 alias fdo='fd; open .'
 alias vh='nvim .'           # vim here
