@@ -103,3 +103,5 @@
         path: .codeium/windsurf/workflows
       - src: config/windsurf/memories
         path: .codeium/memories
+      - src: config/windsurf/global_workflows
+        path: .codeium/global_workflows
