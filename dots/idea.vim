@@ -81,6 +81,11 @@ map <leader>ds <action>(FileStructurePopup)
 " copilot.chat.show
 imap <C-y> <action>(copilot.applyInlaysNextLine)
 map <C-M-y> :action Tool_External Tools_terminal<CR>
+" map <leader>wa <action>(copilot.chat.show)
+
+" windsurf
+map <leader>wa <action>(com.codeium.intellij.chat_window.OpenChatBrowserAction)
+
 
 " github actions
 map <leader>gh <action>(ActivateGitHubActionsToolWindow)
@@ -94,7 +99,6 @@ nnoremap gp `[v`]
 " window management
 map <leader>we :wincmd T<CR>
 map <leader>wl :vsplit<cr>
-map <leader>wa <action>(copilot.chat.show)
 map <leader>wj :split<CR>
 map <leader>wt :tabonly<CR>
 map <leader>wo :only<CR>
