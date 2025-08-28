@@ -247,7 +247,7 @@ function fds() {
   fi
 
   # Use fzf-tmux to select multiple directories
-  selected_dirs=$(echo "$dirs" | fzf-tmux -m -p 80%,60% --prompt="Select directories (Tab to multi-select, / to select & clear): " --bind="/:toggle+clear-query") || return
+  selected_dirs=$(echo "$dirs" | fzf-tmux -m -p 80%,60% --prompt="Select directories (Tab to multi-select, / to select & clear): ") || return
 
   current_dir=$(pwd)
   current_window=$(tmux display-message -p '#I')
@@ -256,17 +256,10 @@ function fds() {
   tmux select-layout -t "$current_window" tiled
 
   # Create tmux splits for each selected directory
-  local first_dir=true
   echo "$selected_dirs" | while IFS= read -r dir; do
     echo dir=${dir}
-    if [[ "$first_dir" == true ]]; then
-      # Change current pane to first directory
-      cd "$dir"
-      first_dir=false
-    else
-      # Create vertical splits for subsequent directories
-      tmux split-window -t "$current_window" -v -c "${current_dir}/$dir"
-    fi
+    # Always create a new vertical split for each selected directory
+    tmux split-window -t "$current_window" -v -c "${current_dir}/$dir"
   done
 
   # Arrange panes in main-vertical layout for better organization
@@ -276,7 +269,7 @@ function fds() {
 # fdg - automatically split tmux for dirty git directories (depth 1)
 function fdg() {
   local dirty_dirs current_dir current_window first_dir
-  
+
   # Find directories at depth 1 that are git repos with changes
   dirty_dirs=()
   for dir in */; do
@@ -289,27 +282,27 @@ function fdg() {
       cd ..
     fi
   done
-  
+
   if [[ ${#dirty_dirs[@]} -eq 0 ]]; then
     echo "No dirty git repositories found"
     return 1
   fi
-  
+
   echo "Found ${#dirty_dirs[@]} dirty git repositories:"
   printf '  %s\n' "${dirty_dirs[@]}"
-  
+
   current_dir=$(pwd)
   current_window=$(tmux display-message -p '#I')
-  
+
   # Set initial layout to tiled
   tmux select-layout -t "$current_window" tiled
-  
+
   # Create tmux splits for each dirty directory
   for dir in "${dirty_dirs[@]}"; do
     # Create vertical splits for all directories
     tmux split-window -t "$current_window" -v -c "${current_dir}/$dir"
   done
-  
+
   # Arrange panes in main-vertical layout for better organization
   tmux select-layout main-vertical
 }

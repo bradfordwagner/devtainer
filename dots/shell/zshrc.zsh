@@ -19,7 +19,7 @@ bindkey -v
 # https://github.com/junegunn/fzf/issues/257 - select all support
 # tokyo night theme for fzf
 # https://github.com/folke/tokyonight.nvim/issues/60#issue-909006048
-export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all,ctrl-s:toggle "'
+export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all,ctrl-s:toggle,/:toggle+clear-query"'
   --color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
   --color=fg+:#ffffff,bg+:#1a1b26,hl+:#7dcfff
   --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff
