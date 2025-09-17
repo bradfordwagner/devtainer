@@ -268,28 +268,48 @@ function fds() {
 
 # fdg - automatically split tmux for dirty git directories (depth 1)
 function fdg() {
-  local dirty_dirs current_dir current_window first_dir
+  local target_dirs current_dir current_window
 
-  # Find directories at depth 1 that are git repos with changes
-  dirty_dirs=()
+  # Find directories at depth 1 that are git repos with changes or on a non-default branch
+  target_dirs=()
   for dir in */; do
     if [[ -d "$dir" && -d "$dir/.git" ]]; then
       cd "$dir"
+
+      local git_status current_branch default_branch origin_head
       git_status=$(git status --porcelain 2>/dev/null)
-      if [[ -n "$git_status" ]]; then
-        dirty_dirs+=("$dir")
+      current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+      # Determine default branch from origin/HEAD when available; otherwise fallback to main/master
+      origin_head=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null)
+      if [[ -n "$origin_head" ]]; then
+        default_branch="${origin_head#origin/}"
+      else
+        if git show-ref --verify --quiet refs/heads/main; then
+          default_branch="main"
+        elif git show-ref --verify --quiet refs/heads/master; then
+          default_branch="master"
+        else
+          default_branch=""
+        fi
       fi
+
+      # Include if dirty OR on a non-default branch (when a default branch is known)
+      if [[ -n "$git_status" || ( -n "$current_branch" && -n "$default_branch" && "$current_branch" != "$default_branch" ) ]]; then
+        target_dirs+=("$dir")
+      fi
+
       cd ..
     fi
   done
 
-  if [[ ${#dirty_dirs[@]} -eq 0 ]]; then
-    echo "No dirty git repositories found"
+  if [[ ${#target_dirs[@]} -eq 0 ]]; then
+    echo "No dirty or non-default-branch git repositories found"
     return 1
   fi
 
-  echo "Found ${#dirty_dirs[@]} dirty git repositories:"
-  printf '  %s\n' "${dirty_dirs[@]}"
+  echo "Found ${#target_dirs[@]} git repositories (dirty or non-default branch):"
+  printf '  %s\n' "${target_dirs[@]}"
 
   current_dir=$(pwd)
   current_window=$(tmux display-message -p '#I')
@@ -297,8 +317,8 @@ function fdg() {
   # Set initial layout to tiled
   tmux select-layout -t "$current_window" tiled
 
-  # Create tmux splits for each dirty directory
-  for dir in "${dirty_dirs[@]}"; do
+  # Create tmux splits for each matching directory
+  for dir in "${target_dirs[@]}"; do
     # Create vertical splits for all directories
     tmux split-window -t "$current_window" -v -c "${current_dir}/$dir"
   done
