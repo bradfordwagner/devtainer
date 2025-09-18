@@ -610,3 +610,63 @@ function mac_trust_certificate() {
 ## ai aliases ##################################################
 alias gg='gh copilot suggest'
 ## end ai aliases ##############################################
+
+################################################
+# security helpers
+################################################
+# Decode base64url (JWT-safe) string in a portable way
+function b64url_decode() {
+  local input="$1"
+  if [ -z "$input" ]; then
+    echo "b64url_decode: missing input" >&2
+    return 1
+  fi
+  # fix padding
+  local mod=$(( ${#input} % 4 ))
+  if [ $mod -eq 2 ]; then input="${input}=="; elif [ $mod -eq 3 ]; then input="${input}="; fi
+  # translate URL-safe chars and decode (GNU and BSD base64 compatibility)
+  local data
+  data=$(printf '%s' "$input" | tr '_-' '/+')
+  printf '%s' "$data" | base64 --decode 2>/dev/null || printf '%s' "$data" | base64 -D 2>/dev/null
+}
+
+# jwt_decode: decode JWT header and payload (pretty-prints with jq when available)
+function jwt_decode() {
+  local token="$1"
+  if [ -z "$token" ]; then
+    if [ -t 0 ]; then
+      echo "Usage: jwt_decode <jwt>  |  echo <jwt> | jwt_decode" >&2
+      return 1
+    else
+      token=$(cat)
+    fi
+  fi
+  # Strip optional 'Bearer ' prefix
+  token="${token#Bearer }"
+  # Split into parts
+  local header payload signature
+  IFS='.' read -r header payload signature <<< "$token"
+  if [ -z "$header" ] || [ -z "$payload" ]; then
+    echo "Invalid JWT (expected header.payload[.signature])" >&2
+    return 1
+  fi
+  echo "Header:"
+  if command -v jq >/dev/null 2>&1; then
+    b64url_decode "$header" | jq .
+  else
+    b64url_decode "$header"
+  fi
+  echo
+  echo "Payload:"
+  if command -v jq >/dev/null 2>&1; then
+    b64url_decode "$payload" | jq .
+  else
+    b64url_decode "$payload"
+  fi
+  if [ -n "$signature" ]; then
+    echo
+    echo "Signature (base64url):"
+    echo "$signature"
+  fi
+}
+################################################
