@@ -235,11 +235,21 @@ function fd() {
 }
 
 # fds - cd to selected directories with tmux split (depth 1, includes hidden)
+
 function fds() {
   local dirs split_type selected_dirs
 
-  # Find directories at depth 1 (including hidden ones)
+  local -a ignore_names
+  ignore_names=(.idea)
+
+  # Find directories at depth 1, then filter out hidden (dot) dirs and items in ignore_names
   dirs=$(find ${1:-.} -maxdepth 1 -type d -not -path '.' | sort)
+  # Remove hidden directories (those beginning with .)
+  dirs=$(echo "$dirs" | grep -vE '^\./\.')
+  # Remove any explicitly ignored directory names
+  for name in "${ignore_names[@]}"; do
+    dirs=$(echo "$dirs" | grep -vE "^\./${name}$")
+  done
 
   if [[ -z "$dirs" ]]; then
     echo "No directories found"
