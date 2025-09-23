@@ -52,6 +52,10 @@ map <silent> <Space>en :tabe<CR>:terminal<CR>i clear<CR>
 map <silent> <Space>ee :let $VIM_DIR=expand('%:p:h')<CR>:tabe<CR>:terminal<CR>icd $VIM_DIR; clear<CR>
 map <silent> <Space>er :tabe<CR>:terminal<CR>igrd; clear<CR>
 
+" k8s
+map <silent> <Space>es :let $VIM_DIR=expand('%')<CR>:tabe<CR>:terminal<CR>ikubectl apply -f ${VIM_DIR}<CR>
+map <silent> <Space>ed :let $VIM_DIR=expand('%')<CR>:tabe<CR>:terminal<CR>ikubectl delete -f ${VIM_DIR}<CR>
+
 " resizing
 map <silent> <Space>rj :horizontal resize -10<CR>
 map <silent> <Space>rk :horizontal resize +10<CR>
