@@ -106,8 +106,8 @@ map <leader>wq :tabclose<CR>
 
 " kubernetes
 map <leader><leader>a <action>(ServiceView.ActivateKubernetesServiceViewContributor)
-map <leader><leader>s <action>(Tool_External Tools_kubectl_apply)
-map <leader><leader>d <action>(Tool_External Tools_kubectl_delete)
+map <leader>es <action>(Tool_External Tools_kubectl_apply)
+map <leader>ed <action>(Tool_External Tools_kubectl_delete)
 
 " tab navigation
 map <leader>c <action>(PreviousTab)
