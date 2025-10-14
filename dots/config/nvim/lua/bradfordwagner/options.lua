@@ -22,6 +22,8 @@ vim.g.bookmark_save_per_working_dir = 1
 
 
 -- options -------------------------------------------------
+vim.opt.autoindent = true -- enable auto indent
+vim.opt.smartindent = true -- or vim.opt.cindent = true
 -- vim.o.scrolloff = 999 -- auto center cursor
 vim.o.mouse = '' -- disable mouse
 vim.o.number = true
