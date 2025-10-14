@@ -97,7 +97,9 @@ function ij_open_file_v2() {
   local wd=${1:-$(pwd)}
   # find all files in version control
   cd ${wd}
-  files=$(git ls-files)
+  # find sparse files in present dir
+  files=$(git -C "$dir" ls-files --sparse -v 2>/dev/null | grep -e '^H' | awk '{print $2}' | xargs -I{} echo ${dir}{})
+  files=$(echo -e "$files" | sed '/^$/d')  # Remove empty lines
   if [ -z "${files}" ]; then
   files=""
     for dir in */; do
