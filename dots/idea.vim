@@ -14,7 +14,7 @@ set which-key
 set timeoutlen=5000
 
 " Setup AceJump
-map zj <action>(AceAction)
+map zj <action>(AceWordStartAction)
 
 " save current file
 map ZA :up<CR>
