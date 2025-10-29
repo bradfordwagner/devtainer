@@ -33,6 +33,7 @@ export PATH=$PATH:~/Library/Python/3.8/bin
 export PATH=$PATH:~/workspace/github/shell/github.shell.powerline/scripts
 export PATH=$PATH:/snap/bin   # ubuntu snaps
 export PATH=$PATH:~/.krew/bin # kubectl plugins
+export PATH=$PATH:${HOME}/.local/bin
 
 # force python 3.12 into path
 [ -d /opt/homebrew/opt/python@3.12/libexec/bin ] && export PATH=${PATH}:/opt/homebrew/opt/python@3.12/libexec/bin
