@@ -6,3 +6,4 @@ dots/config/nvim/lazy-lock.json
 Dockerfile
 dots/config/alacritty/themes/
 variables.local.yml
+dots/config/windsurf/memories/
