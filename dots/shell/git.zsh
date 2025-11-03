@@ -153,6 +153,12 @@ function gscs() {
   echo "Adding directories to sparse-checkout:"
   echo "$selected" | sed 's/^/  /'
   
+  # Initialize sparse-checkout if not already enabled
+  if ! git config --get core.sparsecheckout >/dev/null 2>&1; then
+    echo "\nInitializing sparse-checkout..."
+    git sparse-checkout init --cone
+  fi
+  
   # Add selected directories to sparse-checkout
   echo "$selected" | xargs git sparse-checkout add
   
@@ -187,6 +193,12 @@ function gscset() {
 
   echo "Setting sparse-checkout to:"
   echo "$selected" | sed 's/^/  /'
+  
+  # Initialize sparse-checkout if not already enabled
+  if ! git config --get core.sparsecheckout >/dev/null 2>&1; then
+    echo "\nInitializing sparse-checkout..."
+    git sparse-checkout init --cone
+  fi
   
   # Set sparse-checkout to selected directories (replaces existing patterns)
   echo "$selected" | xargs git sparse-checkout set
