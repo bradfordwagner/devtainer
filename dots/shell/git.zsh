@@ -112,6 +112,16 @@ alias gt='git tag'
 ################################################################
 # git sparse-checkout
 ################################################################
+# Helper function to display sparse-checkout patterns with proper indentation
+function _gsc_show_patterns() {
+  local patterns
+  patterns=$(git sparse-checkout list 2>/dev/null)
+  if [[ -n "$patterns" ]]; then
+    echo "$patterns" | sed 's/^/  /'
+  else
+    echo "  (disabled)"
+  fi
+}
 # git sparse-checkout select - interactively select directories to add to sparse-checkout
 function gscs() {
   # Check if we're in a git repo
@@ -147,7 +157,7 @@ function gscs() {
   echo "$selected" | xargs git sparse-checkout add
   
   echo "\nSparse-checkout updated. Current patterns:"
-  git sparse-checkout list
+  _gsc_show_patterns
 }
 # git sparse-checkout set - interactively select directories to SET (replace) sparse-checkout
 function gscset() {
@@ -182,7 +192,7 @@ function gscset() {
   echo "$selected" | xargs git sparse-checkout set
   
   echo "\nSparse-checkout set. Current patterns:"
-  git sparse-checkout list
+  _gsc_show_patterns
 }
 # git sparse-checkout remove - interactively remove directories from sparse-checkout
 function gscr() {
@@ -227,7 +237,18 @@ function gscr() {
   fi
   
   echo "\nSparse-checkout updated. Current patterns:"
-  git sparse-checkout list 2>/dev/null || echo "  (disabled)"
+  _gsc_show_patterns
+}
+# git sparse-checkout list - show current sparse-checkout configuration
+function gscl() {
+  # Check if we're in a git repo
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Not in a git repository"
+    return 1
+  fi
+
+  echo "Current sparse-checkout patterns:"
+  _gsc_show_patterns
 }
 # git sparse-checkout menu - select action to perform
 function gsc() {
@@ -238,17 +259,19 @@ function gsc() {
   fi
 
   local actions=(
+    "list|List current sparse-checkout patterns"
     "add|Add directories to current sparse-checkout"
     "replace|Replace all sparse-checkout patterns"
     "remove|Remove directories from sparse-checkout"
   )
 
   local selected
-  selected=$(printf "%s\n" "${actions[@]}" | awk -F'|' '{printf "%-10s - %s\n", $1, $2}' | fzf --prompt="Select sparse-checkout action: " --height=6) || return
+  selected=$(printf "%s\n" "${actions[@]}" | awk -F'|' '{printf "%-10s - %s\n", $1, $2}' | fzf --prompt="Select sparse-checkout action: " --height=7) || return
 
   local action=$(echo "$selected" | awk '{print $1}')
 
   case "$action" in
+    list) gscl ;;
     add) gscs ;;
     replace) gscset ;;
     remove) gscr ;;
