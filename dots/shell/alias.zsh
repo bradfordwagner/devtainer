@@ -113,6 +113,149 @@ function git_tag() {
   git push origin --tags
 }
 alias gt='git tag'
+# git sparse-checkout select - interactively select directories to add to sparse-checkout
+function gscs() {
+  # Check if we're in a git repo
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Not in a git repository"
+    return 1
+  fi
+
+  # Get all directories from the git tree
+  local dirs
+  dirs=$(git ls-tree -r -d --name-only HEAD | sort)
+  
+  if [[ -z "$dirs" ]]; then
+    echo "No directories found in repository"
+    return 1
+  fi
+
+  # Let user select directories with fzf (multi-select enabled)
+  local selected
+  selected=$(echo "$dirs" | fzf -m --prompt="Select directories for sparse-checkout (Tab for multi-select): " --preview="echo {}") || return
+
+  if [[ -z "$selected" ]]; then
+    echo "No directories selected"
+    return 1
+  fi
+
+  # Convert newlines to space-separated list for display
+  local dirs_list=$(echo "$selected" | tr '\n' ' ')
+  echo "Adding directories to sparse-checkout:"
+  echo "$selected" | sed 's/^/  /'
+  
+  # Add selected directories to sparse-checkout
+  echo "$selected" | xargs git sparse-checkout add
+  
+  echo "\nSparse-checkout updated. Current patterns:"
+  git sparse-checkout list
+}
+# git sparse-checkout set - interactively select directories to SET (replace) sparse-checkout
+function gscset() {
+  # Check if we're in a git repo
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Not in a git repository"
+    return 1
+  fi
+
+  # Get all directories from the git tree
+  local dirs
+  dirs=$(git ls-tree -r -d --name-only HEAD | sort)
+  
+  if [[ -z "$dirs" ]]; then
+    echo "No directories found in repository"
+    return 1
+  fi
+
+  # Let user select directories with fzf (multi-select enabled)
+  local selected
+  selected=$(echo "$dirs" | fzf -m --prompt="Select directories for sparse-checkout SET (Tab for multi-select): " --preview="echo {}") || return
+
+  if [[ -z "$selected" ]]; then
+    echo "No directories selected"
+    return 1
+  fi
+
+  echo "Setting sparse-checkout to:"
+  echo "$selected" | sed 's/^/  /'
+  
+  # Set sparse-checkout to selected directories (replaces existing patterns)
+  echo "$selected" | xargs git sparse-checkout set
+  
+  echo "\nSparse-checkout set. Current patterns:"
+  git sparse-checkout list
+}
+# git sparse-checkout remove - interactively remove directories from sparse-checkout
+function gscr() {
+  # Check if we're in a git repo
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Not in a git repository"
+    return 1
+  fi
+
+  # Get current sparse-checkout patterns
+  local current_patterns
+  current_patterns=$(git sparse-checkout list 2>/dev/null)
+  
+  if [[ -z "$current_patterns" ]]; then
+    echo "No sparse-checkout patterns currently set"
+    return 1
+  fi
+
+  # Let user select patterns to remove with fzf (multi-select enabled)
+  local to_remove
+  to_remove=$(echo "$current_patterns" | fzf -m --prompt="Select directories to REMOVE from sparse-checkout (Tab for multi-select): " --preview="echo {}") || return
+
+  if [[ -z "$to_remove" ]]; then
+    echo "No directories selected for removal"
+    return 1
+  fi
+
+  echo "Removing directories from sparse-checkout:"
+  echo "$to_remove" | sed 's/^/  /'
+  
+  # Calculate remaining patterns (all current minus selected)
+  local remaining
+  remaining=$(comm -23 <(echo "$current_patterns" | sort) <(echo "$to_remove" | sort))
+  
+  if [[ -z "$remaining" ]]; then
+    echo "\nWarning: This would remove all patterns. Disabling sparse-checkout instead."
+    git sparse-checkout disable
+  else
+    echo "\nUpdating sparse-checkout to remaining directories:"
+    echo "$remaining" | sed 's/^/  /'
+    echo "$remaining" | xargs git sparse-checkout set
+  fi
+  
+  echo "\nSparse-checkout updated. Current patterns:"
+  git sparse-checkout list 2>/dev/null || echo "  (disabled)"
+}
+# git sparse-checkout menu - select action to perform
+function gsc() {
+  # Check if we're in a git repo
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Not in a git repository"
+    return 1
+  fi
+
+  local actions=(
+    "add|Add directories to current sparse-checkout"
+    "replace|Replace all sparse-checkout patterns"
+    "remove|Remove directories from sparse-checkout"
+  )
+
+  local selected
+  selected=$(printf "%s\n" "${actions[@]}" | awk -F'|' '{printf "%-10s - %s\n", $1, $2}' | fzf --prompt="Select sparse-checkout action: " --height=6) || return
+
+  local action=$(echo "$selected" | awk '{print $1}')
+
+  case "$action" in
+    add) gscs ;;
+    replace) gscset ;;
+    remove) gscr ;;
+    *) echo "Unknown action: $action"; return 1 ;;
+  esac
+}
 ################################################
 
 ################################################
