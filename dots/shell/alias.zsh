@@ -1,4 +1,4 @@
-alias resource='source ~/.zprofile'
+alias resource='source ~/.zshrc'
 alias x=exit
 alias nb=newsboat
 
