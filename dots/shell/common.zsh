@@ -10,9 +10,8 @@ ANT_PATH=/Users/bwagner/bin/apache-ant-1.8.2
 # XQuartz
 export DISPLAY=:0
 
-GOPATH_BIN=~/go/bin
 export GOPATH="${HOME}/go"
-export GOBIN="${HOME}/bin"
+export GOBIN="${GOPATH}/bin"
 export GINKGO_EDITOR_INTEGRATION=true # allow unit tests coverage to run in focus mode
 export GORACE=history_size=7
 export ACK_GINKGO_DEPRECATIONS=1.16.4 # stop the annoying deprecation popups
