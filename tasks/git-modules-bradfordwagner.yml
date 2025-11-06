@@ -387,6 +387,8 @@
        repo: https://github.com/bradfordwagner/paketo-go-mod-vendor.git
      - name: envoy.sidecar.helper
        repo: https://github.com/bradfordwagner/envoy-sidecar-helper.git
+     - name: paketo.buildpacks.go.dist
+       repo: https://github.com/bradfordwagner/paketo-buildpacks-go-dist.git
 
    # bulds which use yaml lint
    - name: '{{ yaml_dir }}'
