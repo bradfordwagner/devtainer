@@ -389,6 +389,8 @@
        repo: https://github.com/bradfordwagner/envoy-sidecar-helper.git
      - name: paketo.buildpacks.go.dist
        repo: https://github.com/bradfordwagner/paketo-buildpacks-go-dist.git
+     - name: mcp.argocd
+       repo: https://github.com/bradfordwagner/mcp-for-argocd.git
 
    # bulds which use yaml lint
    - name: '{{ yaml_dir }}'
