@@ -17,3 +17,5 @@ argocd_mcp_dir: "{{ ansible_env.HOME }}/workspace/github/bradfordwagner/forks/gh
 argocd_mcp_url: https://argocd-server.akp-gitops.svc.cluster.local
 argocd_mcp_issue_token_enabled: false
 argocd_mcp_api_token: '' # set this in variables.local.yml
+
+bradfordwagner_mcp_dir: "{{ ansible_env.HOME }}/workspace/github/bradfordwagner/go.bin/bradfordwagner.go.bin.mcp"

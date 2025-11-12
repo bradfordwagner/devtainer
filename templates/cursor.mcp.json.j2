@@ -15,6 +15,13 @@
         "ARGOCD_BASE_URL": "{{ argocd_mcp_url }}",
         "ARGOCD_API_TOKEN": "{{ argocd_mcp_api_token }}"
       }
+    },
+    "bw-mcp": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "cd {{ bradfordwagner_mcp_dir }} && go run './cmd/mcp_server'"
+      ]
     }
   }
 }
