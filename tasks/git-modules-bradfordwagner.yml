@@ -178,6 +178,8 @@
        repo: https://github.com/bradfordwagner/idp_client.git
      - name: vault.jwt.auth
        repo: https://github.com/bradfordwagner/vault-jwt-auth.git
+     - name: mcp
+       repo: https://github.com/bradfordwagner/go-mcp
 
    - name: '{{ charts_dir }}'
      git:
