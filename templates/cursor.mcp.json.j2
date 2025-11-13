@@ -21,7 +21,11 @@
       "args": [
         "-c",
         "cd {{ bradfordwagner_mcp_dir }} && go run './cmd/mcp_server'"
-      ]
+      ],
+      "env": {
+        "ARGOCD_BASE_URL": "{{ argocd_mcp_url }}",
+        "ARGOCD_API_TOKEN": "{{ argocd_mcp_api_token }}"
+      }
     }
   }
 }
