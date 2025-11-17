@@ -24,7 +24,9 @@
       ],
       "env": {
         "ARGOCD_BASE_URL": "{{ argocd_mcp_url }}",
-        "ARGOCD_API_TOKEN": "{{ argocd_mcp_api_token }}"
+        "ARGOCD_API_TOKEN": "{{ argocd_mcp_api_token }}",
+        "ARGOCD_INSECURE": "{{ argocd_mcp_skip_verify }}",
+        "ARGOCD_GRPC_MAX_SIZE_MB": "500"
       }
     }
   }
