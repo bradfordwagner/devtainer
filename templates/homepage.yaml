@@ -10,3 +10,6 @@ tree_1:
     windsurf: https://windsurf.com/profile
   financial:
     401k: https://www.benefits.ml.com/Login/Login?src=LGO&p=0
+  azure:
+    pim: https://portal.azure.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadmigratedroles
+    all_aad_groups: https://portal.azure.com/?feature.msaljs=true#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups
