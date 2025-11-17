@@ -19,6 +19,7 @@
         - Library/Preferences/k9s
         - source
         - .codeium/windsurf
+        - .cursor
 
     - name: link configdir
       file:
@@ -105,3 +106,7 @@
         path: .codeium/memories
       - src: config/windsurf/global_workflows
         path: .codeium/global_workflows
+
+      # cursor configurations
+      - src: config/cursor/commands
+        path: .cursor/commands
