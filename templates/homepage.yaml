@@ -1,15 +1,16 @@
 font_size: 14
 theme: tokyo-night
-tree_1:
-  github:
-    repos: https://github.com/bradfordwagner?tab=repositories
-    packages: https://github.com/bradfordwagner?tab=packages
-  ai:
-    chatgpt: https://chat.openai.com/chat
-    cursor: https://cursor.com/dashboard?tab=usage
-    windsurf: https://windsurf.com/profile
-  financial:
-    401k: https://www.benefits.ml.com/Login/Login?src=LGO&p=0
-  azure:
-    pim: https://portal.azure.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadmigratedroles
-    all_aad_groups: https://portal.azure.com/?feature.msaljs=true#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups
+trees:
+  - bookmarks:
+      github:
+        repos: https://github.com/bradfordwagner?tab=repositories
+        packages: https://github.com/bradfordwagner?tab=packages
+      ai:
+        chatgpt: https://chat.openai.com/chat
+        cursor: https://cursor.com/dashboard?tab=usage
+        windsurf: https://windsurf.com/profile
+      financial:
+        401k: https://www.benefits.ml.com/Login/Login?src=LGO&p=0
+      azure:
+        pim: https://portal.azure.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadmigratedroles
+        all_aad_groups: https://portal.azure.com/?feature.msaljs=true#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups
