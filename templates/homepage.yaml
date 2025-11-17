@@ -6,3 +6,5 @@ tree_1:
     packages: https://github.com/bradfordwagner?tab=packages
   ai:
     chatgpt: https://chat.openai.com/chat
+    cursor: https://cursor.com/dashboard?tab=usage
+    windsurf: https://windsurf.com/profile
