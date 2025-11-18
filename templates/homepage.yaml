@@ -16,10 +16,10 @@ trees:
         all_aad_groups: https://portal.azure.com/?feature.msaljs=true#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups
   - bookmarks:
       github_releases:
-        argo-events: https://github.com/argoproj/argo-events/releases
-        argo-workflows: https://github.com/argoproj/argo-workflows/releases
+        argo_events: https://github.com/argoproj/argo-events/releases
+        argo_workflows: https://github.com/argoproj/argo-workflows/releases
         argocd: https://github.com/argoproj/argo-cd/releases
         buildkit: https://github.com/moby/buildkit/releases
         dagger: https://github.com/dagger/dagger/releases
-        trust-manager: https://github.com/cert-manager/trust-manager/releases
+        trust_manager: https://github.com/cert-manager/trust-manager/releases
         vault: https://github.com/hashicorp/vault/releases
