@@ -308,3 +308,5 @@
      loop:
      - name: ado.devops.pipelines.docs
        repo: https://github.com/MicrosoftDocs/azure-devops-docs.git
+     - name: ado.devops.mcp
+       repo: https://github.com/microsoft/azure-devops-mcp.git
