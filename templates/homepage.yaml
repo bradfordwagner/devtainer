@@ -14,3 +14,11 @@ trees:
       azure:
         pim: https://portal.azure.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadmigratedroles
         all_aad_groups: https://portal.azure.com/?feature.msaljs=true#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups
+  - bookmarks:
+      github_releases:
+        argo-events: https://github.com/argoproj/argo-events/releases
+        argo-workflows: https://github.com/argoproj/argo-workflows/releases
+        argocd: https://github.com/argoproj/argo-cd/releases
+        buildkit: https://github.com/moby/buildkit/releases
+        dagger: https://github.com/dagger/dagger/releases
+        vault: https://github.com/hashicorp/vault/releases
