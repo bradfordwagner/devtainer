@@ -21,4 +21,5 @@ trees:
         argocd: https://github.com/argoproj/argo-cd/releases
         buildkit: https://github.com/moby/buildkit/releases
         dagger: https://github.com/dagger/dagger/releases
+        trust-manager: https://github.com/cert-manager/trust-manager/releases
         vault: https://github.com/hashicorp/vault/releases
