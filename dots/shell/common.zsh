@@ -18,6 +18,8 @@ export ACK_GINKGO_DEPRECATIONS=1.16.4 # stop the annoying deprecation popups
 
 export VAULT_FORMAT=json         # set default vault output format
 
+export ARGOCD_GRPC_MAX_SIZE_MB=500 # increase the max size of the grpc request
+
 export PATH=~/bin:~/.rd/bin:/usr/local/bin:$PATH
 export PATH=$PATH:$NODE_PATH
 export PATH=$PATH:$NPM_PATH
