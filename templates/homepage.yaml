@@ -24,6 +24,8 @@ trees:
         trust_manager: https://github.com/cert-manager/trust-manager/releases
         vault: https://github.com/hashicorp/vault/releases
         vso: https://github.com/hashicorp/vault-secrets-operator/releases
+        secrets-store-csi-driver-provider-azure: https://github.com/Azure/secrets-store-csi-driver-provider-azure/releases
+        secrets-store-csi-driver: https://github.com/kubernetes-sigs/secrets-store-csi-driver/releases
   - bookmarks:
       vault_docs:
         oidc_provider_scope_templates: https://developer.hashicorp.com/vault/docs/concepts/oidc-provider#scopes
