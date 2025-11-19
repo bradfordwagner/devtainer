@@ -2,7 +2,7 @@
 
 2. Prompt user if ok. note if the user also indicates to push the changes
 
-3. commit as indicated by user
+3. commit as indicated by user (requires git_write permissions)
 
-4. if the user said to push then also push them
+4. if the user said to push then also push them (requires 'all' permissions for SSL cert access)
 
