@@ -116,7 +116,8 @@ function ij_open_file_v2() {
 #  echo ${files}
 #  return
 
+  # multi-select allows for shift+enter to select an item
   echo ${files} \
-   | rofi -dmenu -i -p "Open file" -no-fixed -theme ${theme} \
+   | rofi -dmenu -i -p "Open file" -no-fixed -theme ${theme} -multi-select \
    | xargs -I {} sh -c 'idea {}'
 }
