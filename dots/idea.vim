@@ -71,12 +71,17 @@ map Q :q!<cr>
 map <leader>f :action Tool_External Tools_open_file_v2<CR>
 map <leader>dd :action Tool_External Tools_search_file<CR>
 map <leader>da :action Tool_External Tools_search_files<CR>
-" map <leader>da <action>(com.mituuz.fuzzier.FuzzierVCS)
-" map <leader>dA <action>(com.mituuz.fuzzier.Fuzzier)
 " map <leader>o <action>(RecentFiles) -- default idea action for recent files
 map <leader>o <action>(com.fuzzyfilesearch.FzfRecentFiles)
 map <leader>O <action>(OptimizeImports)
 map <leader>ds <action>(FileStructurePopup)
+
+" fuzzier
+" map <Leader>pf <action>(com.mituuz.fuzzier.Fuzzier)
+" map <Leader>mf <action>(com.mituuz.fuzzier.FuzzyMover)
+" map <Leader>ff <action>(com.mituuz.fuzzier.FuzzyGrep)
+map <Leader>F <action>(com.mituuz.fuzzier.FuzzierVCS)
+map <Leader>dA <action>(com.mituuz.fuzzier.FuzzyGrepCaseInsensitive)
 
 " copilot.chat.show
 imap <C-y> <action>(copilot.applyInlaysNextLine)
