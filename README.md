@@ -2,6 +2,8 @@
 - Bradford's happy dotfiles, finally made public! Also as a container at https://quay.io/repository/bradfordwagner/devtainer?tab=tags it's a bit of a WIP so bear with me.
 
 ## Mac Quickstart
+- This is for setting up this repo
+- If you need to set up sudoer just run `task sudoer`
 ```bash
 xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -36,6 +38,7 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
 
 ## Intellij Settings
 - plugins: smart align, gruvbox, go, EasyChangeFontSize, Gitlab Integration, Hashicorp Terraform / HCL Language Support, IdeaVim, Kubernetes, Makefile Language, Nord, Python, Rainbow Brakets, Yaml / Ansible Support
+- themes: Trash Panda (Blacklight), Catppuccin, Tokyo Night
 ```vm options
 -Xms512m
 -Xmx2g
@@ -68,9 +71,6 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
   args: delete -f $FileRelativePath$
   working_directory: $ProjectFileDir$
 ```
-
-## Intellij Theme
-- Trash Panda (Blacklight)
 
 ## Install rofi themes
 - install macports
