@@ -69,6 +69,9 @@ xattr -d com.apple.quarantine '/Applications/QMK Toolbox.app'
   working_directory: $ProjectFileDir$
 ```
 
+## Intellij Theme
+- Trash Panda (Blacklight)
+
 ## Install rofi themes
 - install macports
     - work requires installing using - https://guide.macports.org/#installing.macports.git as rsync does not work
