@@ -185,6 +185,7 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 alt-shift-ctrl-tab = 'move-workspace-to-monitor --wrap-around prev'
 
 alt-quote = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_toggle_window_focus.sh', 'mode main']
+alt-shift-quote = ['exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_swap_prev_current_workspace.sh', 'mode main']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = 'mode service'
