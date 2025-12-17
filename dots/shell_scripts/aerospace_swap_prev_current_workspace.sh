@@ -30,4 +30,4 @@ aerospace summon-workspace ${prev_workspace}
 
 # ensure our workspace-back-and-forth is correct - sometimes move-workspace-to-monitor lands at a new workspace (1 or 11 sometimes)
 aerospace workspace ${current_workspace}
-aerospace workspace ${prev_workspace}
+#aerospace workspace ${prev_workspace}
