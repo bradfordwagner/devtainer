@@ -8,9 +8,4 @@ description: conventional commit
     - you do not need to add "update" at beginning oversion upgrades
     - if possible keep component name in snake_case.
 
-2. Prompt user if ok. note if the user also indicates to push the changes
-
-3. commit as indicated by user (requires git_write permissions)
-
-4. if the user said to push then also push them (requires 'all' permissions for SSL cert access)
-
+2. prompt user if they want to copy to clipboard by echo ${msg} | pbcopy
