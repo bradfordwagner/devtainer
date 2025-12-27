@@ -14,7 +14,6 @@
     - thegeeklab/tap
     - txn2/tap
     homebrew_uninstalled_packages:
-    - jam
     #- sonatype-nexus-community/nancy-tap/nancy # install nancy cli for golang cve detection
     - vault
     #- hashicorp/tap/terraform-ls               # terraform completions in vim using lsp
