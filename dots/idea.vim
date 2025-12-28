@@ -77,11 +77,20 @@ map <leader>O <action>(OptimizeImports)
 map <leader>ds <action>(FileStructurePopup)
 
 " fuzzier
-" map <Leader>mf <action>(com.mituuz.fuzzier.FuzzyMover)
-" map <Leader>ff <action>(com.mituuz.fuzzier.FuzzyGrep)
-" map <Leader>f <action>(com.mituuz.fuzzier.Fuzzier)
-map <Leader>f <action>(com.mituuz.fuzzier.FuzzierVCS)
-map <Leader>dA <action>(com.mituuz.fuzzier.FuzzyGrepCaseInsensitive)
+" File search
+" map <Leader>sf <action>(com.mituuz.fuzzier.search.Fuzzier)
+" map <Leader>sg <action>(com.mituuz.fuzzier.search.FuzzierVCS)
+" Mover
+" nmap <Leader>fm <action>(com.mituuz.fuzzier.operation.FuzzyMover)
+" Grepping
+" map <Leader>ss <action>(com.mituuz.fuzzier.grep.FuzzyGrepCI)
+" map <Leader>sS <action>(com.mituuz.fuzzier.grep.FuzzyGrep)
+" map <Leader>st <action>(com.mituuz.fuzzier.grep.FuzzyGrepOpenTabsCI)
+" map <Leader>sT <action>(com.mituuz.fuzzier.grep.FuzzyGrepOpenTabs)
+" map <Leader>sb <action>(com.mituuz.fuzzier.grep.FuzzyGrepCurrentBufferCI)
+" map <Leader>sB <action>(com.mituuz.fuzzier.grep.FuzzyGrepCurrentBuffer)
+map <Leader>f <action>(com.mituuz.fuzzier.search.FuzzierVCS)
+map <Leader>dA <action>(com.mituuz.fuzzier.grep.FuzzyGrepCI)
 
 " copilot.chat.show
 imap <C-y> <action>(copilot.applyInlaysNextLine)
