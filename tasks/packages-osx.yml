@@ -68,6 +68,7 @@
     - newsboat
     - node                                     # required for vim-coc
     - nss                                      # required for mkcert - specifically firefox
+    - openbao
     - podman
     - proctools
     - protobuf
@@ -94,6 +95,7 @@
     - wget
     - yamllint
     - yq
+
 - include_role:
     name: geerlingguy.mac.homebrew
   vars:
