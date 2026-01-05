@@ -28,6 +28,6 @@ trees:
         secrets-store-csi-driver: https://github.com/kubernetes-sigs/secrets-store-csi-driver/releases
         vault-k8s: https://github.com/hashicorp/vault-k8s/releases
         vault_csi_provider: https://github.com/hashicorp/vault-csi-provider/releases
-  - bookmarks:
-      vault_docs:
-        oidc_provider_scope_templates: https://developer.hashicorp.com/vault/docs/concepts/oidc-provider#scopes
+#  - bookmarks:
+#      vault_docs:
+#        oidc_provider_scope_templates: https://developer.hashicorp.com/vault/docs/concepts/oidc-provider#scopes
