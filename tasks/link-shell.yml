@@ -20,6 +20,7 @@
         - source
         - .codeium/windsurf
         - .cursor
+        - Library/Containers/net.sonuscape.mouseless/Data/.mouseless/configs
 
     - name: link configdir
       file:
@@ -110,3 +111,7 @@
       # cursor configurations
       - src: config/cursor/commands
         path: .cursor/commands
+
+      # mouseless configurations
+      - src: config/mouseless/config.yaml
+        path: Library/Containers/net.sonuscape.mouseless/Data/.mouseless/configs/config.yaml
