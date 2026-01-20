@@ -424,6 +424,7 @@ function docker_remove_containers() {
   docker rm $(docker ps -a -q)
 }
 
+alias rancher_restart='rdctl shutdown && rdctl start'
 ################################################
 
 
