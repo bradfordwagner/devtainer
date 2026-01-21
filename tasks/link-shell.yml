@@ -45,7 +45,7 @@
         - wezterm
         - zellij
 
-    - name: link configurations
+    - name: link configurations [soft]
       file:
         path: '{{ ansible_env.HOME }}/{{ item.path }}'
         state: link
@@ -112,6 +112,13 @@
       - src: config/cursor/commands
         path: .cursor/commands
 
+    - name: link configurations [hard]
+      file:
+        path: '{{ ansible_env.HOME }}/{{ item.path }}'
+        state: hard
+        src: '{{ devtainer.dir }}/dots/{{ item.src }}'
+        force: true
+      loop:
       # mouseless configurations
       - src: config/mouseless/config.yaml
         path: Library/Containers/net.sonuscape.mouseless/Data/.mouseless/configs/config.yaml
