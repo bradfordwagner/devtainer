@@ -109,13 +109,8 @@ cask "jetbrains-toolbox", args: { appdir: "/Applications" }
 cask "jordanbaird-ice", args: { appdir: "/Applications" }
 cask "mouseless"
 cask "rancher", args: { appdir: "/Applications" }
-cask "raycast", args: { appdir: "/Applications" }
 cask "spotify", args: { appdir: "/Applications" }
 cask "stats", args: { appdir: "/Applications" }
 cask "wezterm", args: { appdir: "/Applications" }
 cask "xquartz", args: { appdir: "/Applications" }
 cask "zen", args: { appdir: "/Applications" }
-vscode "golang.go"
-vscode "hashicorp.terraform"
-vscode "vscodevim.vim"
-go "github.com/golangci/golangci-lint/v2/cmd/golangci-lint"
