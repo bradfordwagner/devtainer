@@ -45,7 +45,7 @@ alias kgpa="${k_bin} get pods --all-namespaces"
 # helm aliases
 alias hd='helm delete'
 alias hl='helm ls'
-alias hla='helm ls -a'
+alias hla='helm ls -A'
 
 
 # set interval on k9s to 1 second
