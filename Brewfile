@@ -114,3 +114,4 @@ cask "stats", args: { appdir: "/Applications" }
 cask "wezterm", args: { appdir: "/Applications" }
 cask "xquartz", args: { appdir: "/Applications" }
 cask "zen", args: { appdir: "/Applications" }
+cask "maccy"
