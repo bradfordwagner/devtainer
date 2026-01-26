@@ -65,6 +65,9 @@ tasks:
       - task: playbook
         vars:
           install_vim_shell_packages: true
+  brew_check:
+    cmds:
+      - brew bundle check --verbose
   brew_install:
     cmds:
       - task: playbook

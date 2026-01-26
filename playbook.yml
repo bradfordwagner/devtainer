@@ -19,6 +19,10 @@
         strategy: https
         https: https://github.com/bradfordwagner/devtainer.git
         ssh: git@github.com:bradfordwagner/devtainer.git
+    gri_become_user:
+      become: True
+      user: root
+      method: sudo
   tasks:
     - name: Include variables.local.yml if exists
       include_vars:
