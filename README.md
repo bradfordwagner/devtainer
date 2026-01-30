@@ -94,4 +94,7 @@ cd rofi
 ```
 zen.tabs.dim-pending=false               # https://github.com/zen-browser/desktop/issues/225
 zen.view.grey-out-inactive-windows=false # https://www.reddit.com/r/zen_browser/comments/1ikpc9i/is_it_possible_to_make_it_so_when_i_click_off_of/
+
+# disable same tabs across all windows
+zen.window-sync.enabled=false
 ```
