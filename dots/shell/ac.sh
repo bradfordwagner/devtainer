@@ -41,7 +41,7 @@ function argocd_app_get_values() {
       | xargs -n1 zsh -lc 'echo "-f \"$1\"" \\' zsh
   }
   f > test.sh
-  echo '| kubectl ${action} -f -' >> test.sh
+  echo '| kubecolor ${action} -f -' >> test.sh
   chmod +x test.sh
   bat -P test.sh
 }
