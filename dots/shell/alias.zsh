@@ -218,6 +218,7 @@ function fdg() {
   for dir in "${target_dirs[@]}"; do
     # Create vertical splits for all directories
     tmux split-window -t "$current_window" -v -c "${current_dir}/$dir"
+    tmux select-layout -t "$current_window" tiled
   done
 
   # Arrange panes in main-vertical layout for better organization
