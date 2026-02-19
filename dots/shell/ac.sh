@@ -13,6 +13,7 @@ function ac() {
     login
     cache_apps
     wf
+    list_clusters
   )
   choice=$(printf "%s\n" "${items[@]}" | fzf)
   argocd_app_${choice}
@@ -20,6 +21,15 @@ function ac() {
 function argocd_find_app() {
   cache=~/.ac.apps
   cat ${cache} | fzf -m --exit-0
+}
+function argocd_app_list_clusters() {
+  clusters_file="./clusters.json"
+  argocd cluster list -o json | jq '[.[] | {name, server, labels, annotations}]' > "${clusters_file}"
+  if [[ $? -ne 0 ]]; then
+    echo "Error: Failed to fetch clusters from ArgoCD"
+    return 1
+  fi
+  echo "total_clusters=$(cat "${clusters_file}" | jq '. | length')"
 }
 function argocd_app_get_values() {
   app=$(argocd_find_app)
