@@ -233,10 +233,49 @@ alias o=open
 dropbox_file() {
   tofile_dir=~/Dropbox/lisa-brad/to-file
   cabinet_dir=~/Dropbox/lisa-brad
-  dirs=$(find ${cabinet_dir} -type d -not -path '*/\.*')
   for file in $(ls $tofile_dir); do
     echo file=${file}
-    selected_dir=$(echo "$dirs" | fzf --height 90% --prompt "Select a directory for ${file}: ") || continue
+    
+    # Open file for review/inspection
+    open "${tofile_dir}/${file}"
+    
+    # Prompt for file rename with key bindings
+    echo "Press :wq to save, :q! to skip, Ctrl-X to delete"
+    temp_file=$(mktemp)
+    echo "${file}" > "${temp_file}"
+    
+    nvim -c "norm gg" -c "nnoremap <C-x> :call writefile(['DELETE'], '${temp_file}')<CR>:qa!<CR>" "${temp_file}"
+    
+    new_name=$(cat "${temp_file}")
+    rm "${temp_file}"
+    
+    # Handle user actions
+    if [[ "${new_name}" == "DELETE" ]]; then
+      echo "Deleting file: ${file}"
+      rm "${tofile_dir}/${file}"
+      continue
+    elif [[ -z "${new_name}" ]]; then
+      echo "Skipping file: ${file}"
+      continue
+    elif [[ "${new_name}" != "${file}" ]]; then
+      echo "Renaming ${file} to ${new_name}"
+      mv "${tofile_dir}/${file}" "${tofile_dir}/${new_name}"
+      file="${new_name}"
+    fi
+    
+    # Continue with directory selection and move
+    dirs=$(find ${cabinet_dir} -type d -not -path '*/\.*')
+    selected_dir=$(echo "$dirs" | fzf --height 90% --prompt "Select a directory for ${file} (Esc: skip, Ctrl-C: exit): ")
+    exit_code=$?
+    if [ $exit_code -eq 130 ]; then
+      echo "Ctrl-C pressed, exiting loop"
+      break
+    elif [ $exit_code -eq 1 ]; then
+      echo "Skipping file: ${file}"
+      continue
+    elif [ $exit_code -ne 0 ]; then
+      continue
+    fi
     mv ${tofile_dir}/${file} ${selected_dir}
   done
 }
