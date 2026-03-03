@@ -315,9 +315,6 @@
      - name: devtainer
        base: ansible
        repo: https://github.com/bradfordwagner/devtainer.git
-     - name: bkch
-       base: ansible
-       repo: https://github.com/bradfordwagner/container-bkch.git
      - name: vault.k8s.auth
        base: ansible
        repo: https://github.com/bradfordwagner/container-vault-k8s-auth.git
