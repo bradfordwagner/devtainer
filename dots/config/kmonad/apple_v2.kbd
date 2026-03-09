@@ -38,12 +38,12 @@
 
 ;; used in order to have a layer with no special keys
 (deflayer plain
-    @l_ins f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+    @l_ins A-esc  f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
     grv    @1_c1  @2_c2  @3_c3  @4_c4  @5_c5  6      7      8      9      0      -      =      bspc
     tab    @q_cq  w      @e_ce  @r_cr  @t_ct  y      u      i      o      p      [      ]      \
     esc    a      s      d      @f_cf  @g_cg  h      j      @th_k  l      ;      '      ret
-    lsft   @z_cz  @x_cx  @c_cc  @v_cv  @b_cb  n      m      ,      .      /      rsft   up
-    @l_med lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
+    bspc   @z_cz  @x_cx  @c_cc  @v_cv  @b_cb  n      m      ,      .      /      rsft   up
+    @l_med lctl   lalt   lmet          @th_spc                     rmet   ralt   left   down   rght
 )
 
 ;; baldur's gate 3
@@ -108,12 +108,17 @@
   th_; (tap-hold 175 ; rsft)
 
   ;; kmonad's crazy meta hotkeys
+  ;; orginally i think i used this for amethyst layering
   m1 (around lshft lalt)
   m2 (around lshft (around lalt lctrl))
   th_w (tap-hold 175 w @m1)
   th_e (tap-hold 175 e @m2)
   th_i (tap-hold 175 i @m1)
   th_o (tap-hold 175 o @m2)
+
+  ;;
+  th_v (tap-hold 175 v lctl)
+  th_spc (tap-hold 175 spc lsft)
 
   ;; single button copy and paste
   cp (multi-tap 200 M-c M-v)
