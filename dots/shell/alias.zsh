@@ -465,6 +465,7 @@ function docker_remove_containers() {
 }
 
 alias rancher_restart='rdctl shutdown && rdctl start'
+alias rr=rancher_restart
 ################################################
 
 
