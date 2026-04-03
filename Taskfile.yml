@@ -70,9 +70,7 @@ tasks:
       - brew bundle check --verbose
   brew_install:
     cmds:
-      - task: playbook
-        vars:
-          brew_install: true
+      - brew bundle install --verbose
   git:
     cmds:
       - task: playbook
