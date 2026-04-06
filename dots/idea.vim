@@ -138,5 +138,5 @@ map <leader>rf <action>(VimFindActionIdAction)
 " views
 map <leader>zx <action>(MaximizeEditorInSplit)
 map <leader>zz <action>(ToggleDistractionFreeMode)
-map <leader>xx <action>(ToggleZenMode)
-map <leader>xc <action>(HideAllWindows)
+map <leader>xc <action>(ToggleZenMode)
+map <leader>xx <action>(HideAllWindows)
