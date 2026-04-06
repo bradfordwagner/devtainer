@@ -37,7 +37,4 @@ M.telescope_layout_config = {
   width = 0.66,
 }
 
-local res = M.reduce({"a", "b"}, '\n')
-print('res=' .. res)
-
 return M
