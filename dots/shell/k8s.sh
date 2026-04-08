@@ -37,6 +37,9 @@ alias sk="kc_app_k9s_select_ns; k9"
 alias snsk="kc_app_k9s_select_ns; k9"
 alias sns="kc_app_k9s_select_ns"
 alias azi="az interactive"
+function az_login_sp() {
+  az login --service-principal --username $ARM_CLIENT_ID --password $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+}
 
 # kubectl aliases
 alias kgp="${k_bin} get pods"
