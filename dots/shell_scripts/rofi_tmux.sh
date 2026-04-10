@@ -15,4 +15,4 @@ res=$(tmux list-windows -a -F '#{session_name}:#{window_index}:#{window_name}' \
 if [ -z "$res" ]; then
   return
 fi
-alacritty -e zsh -lc "tmux_zap ${res}"
+ghostty -e zsh -lc "tmux_zap ${res}"

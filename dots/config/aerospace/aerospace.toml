@@ -241,7 +241,7 @@ b = 'close'
 # s = 'exec-and-forget open -n "/Applications/Brave Browser.app"'
 # s = 'exec-and-forget open -n "/Applications/Firefox.app"'
 s = ['exec-and-forget open -n "/Applications/Zen.app"', 'mode main']
-a = ['exec-and-forget open -n "/Applications/Alacritty.app"', 'mode main']
+a = ['exec-and-forget open -n "/Applications/Ghostty.app"', 'mode main']
 # a = 'exec-and-forget open -n "/Applications/WezTerm.app"'
 
 [mode.resize.binding]
@@ -272,7 +272,7 @@ comma = 'layout accordion horizontal vertical'
 enter = 'mode main'
 esc = 'mode main'
 
-# hack to get the intellij floating alacritty windows working
+# hack to get the intellij floating alacritty/ghostty windows working
 [[on-window-detected]]
-if.app-name-regex-substring = ".*alacritty.*"
+if.app-name-regex-substring = ".*(alacritty|ghostty).*"
 run = 'layout tiling'
