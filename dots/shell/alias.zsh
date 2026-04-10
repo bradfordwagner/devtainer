@@ -121,8 +121,15 @@ function fd() {
   cd "$dir"
 }
 
-# fds - cd to selected directories with tmux split (depth 1, includes hidden)
 
+# cd up to 5 levels
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+
+# fds - cd to selected directories with tmux split (depth 1, includes hidden)
 function fds() {
   local dirs split_type selected_dirs
 
