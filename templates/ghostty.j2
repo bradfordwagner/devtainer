@@ -1,0 +1,17 @@
+# Ghostty Terminal Configuration
+# https://ghostty.org/docs
+
+# Font configuration
+font-family = {{ ghostty_font_family | default("IosevkaTerm Nerd Font Mono") }}
+font-size = {{ ghostty_font_size | default(14) }}
+font-style = {{ ghostty_font_style | default("Heavy") }}
+
+# Theme
+theme = {{ ghostty_theme | default("TokyoNight Storm") }}
+background = 000000
+
+# shell setup
+initial-command = /bin/zsh --login
+command = /bin/zsh --login
+
+macos-titlebar-style = hidden

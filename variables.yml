@@ -12,6 +12,17 @@ alacritty_window_opacity: 1.0
 # favorites: tokyo_night,catppuccin_mocha
 alacritty_theme: tokyo_night
 
+# Ghostty Configuration
+# Font configuration
+ghostty_font_family: IosevkaTerm Nerd Font Mono
+ghostty_font_size: 12
+ghostty_font_style: Heavy
+
+# Theme name
+# Built-in themes: https://ghostty.org/docs/config/reference#theme
+# favorites: tokyo-night, catppuccin-mocha, gruvbox-dark
+ghostty_theme: TokyoNight Storm
+
 # MCP Configuration
 argocd_mcp_dir: "{{ ansible_env.HOME }}/workspace/github/bradfordwagner/forks/gh.forks.mcp.argocd"
 argocd_mcp_url: https://argocd-server.akp-gitops.svc.cluster.local

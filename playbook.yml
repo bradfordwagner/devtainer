@@ -52,6 +52,8 @@
       include_tasks: tasks/link-shell.yml
     - name: configure alacritty
       include_tasks: tasks/alacritty.yml
+    - name: configure ghostty
+      include_tasks: tasks/ghostty.yml
 
     # link is required first to setup init.vim
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
