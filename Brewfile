@@ -115,6 +115,7 @@ cask "wezterm", args: { appdir: "/Applications" }
 cask "xquartz", args: { appdir: "/Applications" }
 cask "zen", args: { appdir: "/Applications" }
 cask "maccy"
+cask "ghostty"
 tap "oven-sh/bun"
 brew "oven-sh/bun/bun"
 cask "claude-code"
