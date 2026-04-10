@@ -96,6 +96,7 @@ brew "felixkratz/formulae/borders"
 brew "jfryy/tap/qq"
 brew "thegeeklab/tap/git-sv"
 brew "txn2/tap/kubefwd"
+brew "lazygit"
 cask "aerospace"
 cask "alacritty", args: { appdir: "/Applications" }
 cask "bitwarden"
