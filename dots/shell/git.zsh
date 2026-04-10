@@ -1,7 +1,7 @@
 ################################################
 # git aliases
 ################################################
-function lazygit() {
+function lg() {
     git add --all
     echo provide a commit message
     read commit_msg
@@ -43,7 +43,6 @@ alias grv='git remote -v'
 alias gs='git status -s'
 alias gss='git switch'
 alias gsd='clear; gs; gd'
-alias lg=lazygit
 alias lgc=lazyGitCommit;
 function gsl() {
   echo "${palette_lcyan}Git Status List - Checking directories...${palette_restore}\n"
