@@ -54,6 +54,8 @@
       include_tasks: tasks/alacritty.yml
     - name: configure ghostty
       include_tasks: tasks/ghostty.yml
+    - name: install windsurf workflows
+      include_tasks: tasks/install-windsurf-workflows.yml
 
     # link is required first to setup init.vim
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}

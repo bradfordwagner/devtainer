@@ -1,0 +1,21 @@
+---
+- name: ensure windsurf global workflows directory exists
+  file:
+    path: '{{ ansible_env.HOME }}/.codeium/windsurf/global_workflows'
+    state: directory
+    mode: 0755
+
+- name: find windsurf workflow files in repo
+  find:
+    paths: '{{ devtainer.dir }}/dots/config/windsurf/global_workflows'
+    patterns: '*.md'
+  register: workflow_files
+
+- name: link individual windsurf workflow files
+  file:
+    src: '{{ item.path }}'
+    dest: '{{ ansible_env.HOME }}/.codeium/windsurf/global_workflows/{{ item.path | basename }}'
+    state: link
+    force: true
+  loop: '{{ workflow_files.files }}'
+  when: workflow_files.files | length > 0
