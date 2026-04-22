@@ -100,12 +100,6 @@
       - src: newsboat/urls
         path: .newsboat/urls
 
-      # windsurf configurations
-      - src: config/windsurf/workflows
-        path: .codeium/windsurf/workflows
-      - src: config/windsurf/memories
-        path: .codeium/memories
-
       # cursor configurations
       - src: config/cursor/commands
         path: .cursor/commands

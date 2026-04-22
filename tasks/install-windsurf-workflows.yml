@@ -11,11 +11,10 @@
     patterns: '*.md'
   register: workflow_files
 
-- name: link individual windsurf workflow files
-  file:
+- name: copy individual windsurf workflow files
+  copy:
     src: '{{ item.path }}'
     dest: '{{ ansible_env.HOME }}/.codeium/windsurf/global_workflows/{{ item.path | basename }}'
-    state: link
-    force: true
+    mode: 0644
   loop: '{{ workflow_files.files }}'
   when: workflow_files.files | length > 0
