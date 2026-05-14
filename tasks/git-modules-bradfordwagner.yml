@@ -136,7 +136,7 @@
        repo: https://github.com/bradfordwagner/zmk-config-corne.git
        version: main
      - name: zmk.config.keyball.44
-       repo: git@github.com:bradfordwagner/zmk-config-Keyball44.git
+       repo: https://github.com/bradfordwagner/zmk-config-Keyball44.git
        version: niceview
 
    # also uses go releaser just like the go.bins
