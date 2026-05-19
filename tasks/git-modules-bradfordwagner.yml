@@ -85,15 +85,17 @@
      git:
        repo: '{{ item.repo }}'
        dest: '{{ src_dir }}/bradfordwagner.src.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
+       version: '{{ item.version | default("main") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      ignore_errors: '{{ ignore_errors }}'
      loop:
      - name: cheatsheet
        repo: https://github.com/bradfordwagner/cheatsheet.git
+       version: master
      - name: java.firecode
        repo: https://github.com/bradfordwagner/fire-code.git
+       version: master
      - name: grpc
        repo: https://github.com/bradfordwagner/grpc.git
        version: feature/init
@@ -102,41 +104,32 @@
        version: feature/yabai
      - name: algo.expert
        repo: https://github.com/bradfordwagner/algo-expert.git
-       version: main
      - name: docker.cdktf
        repo: https://github.com/bradfordwagner/docker-cdktf.git
      - name: aws.cdktf
        repo: https://github.com/bradfordwagner/aws-cdktf.git
-       version: main
      - name: aws.testbed
        repo: https://github.com/bradfordwagner/aws-testbed.git
-       version: main
      - name: script.testbed
        repo: https://github.com/bradfordwagner/script-testbed.git
-       version: main
      - name: go.testbed
        repo: https://github.com/bradfordwagner/go-testbed.git
-       version: main
      - name: amethyst.fork
        repo: https://github.com/bradfordwagner/Amethyst.git
        version: development
      - name: taskfiles
        repo: https://github.com/bradfordwagner/taskfiles.git
-       version: main
      - name: gh.actions.testbed
        repo: https://github.com/bradfordwagner/gh-actions-testbed.git
-       version: main
      - name: kmonad
        repo: https://github.com/bradfordwagner/container-kmonad.git
-       version: main
      - name: tmux.buoyshell
        repo: https://github.com/bradfordwagner/tmux-buoyshell.git
-       version: main
      - name: zmk.config.corne
        repo: https://github.com/bradfordwagner/zmk-config-corne.git
-       version: main
      - name: zmk.config.keyball.44
        repo: https://github.com/bradfordwagner/zmk-config-Keyball44.git
+       version: niceview
      - name: resume
        repo: https://github.com/bradfordwagner/resume.git
 
