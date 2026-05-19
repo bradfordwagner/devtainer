@@ -137,7 +137,8 @@
        version: main
      - name: zmk.config.keyball.44
        repo: https://github.com/bradfordwagner/zmk-config-Keyball44.git
-       version: niceview
+     - name: resume
+       repo: https://github.com/bradfordwagner/resume.git
 
    # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
