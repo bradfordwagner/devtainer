@@ -1,0 +1,1 @@
+Run `git diff HEAD` and `git status --short` to see all staged and unstaged changes, then produce a single conventional commit message line. Format: `type(scope): description` — under 72 characters. Copy it to the clipboard using `pbcopy` on macOS or `xclip -selection clipboard` on Linux (detect via `uname`). Output only the commit message line.

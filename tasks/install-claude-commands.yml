@@ -1,0 +1,20 @@
+---
+- name: ensure claude commands directory exists
+  file:
+    path: '{{ ansible_env.HOME }}/.claude/commands'
+    state: directory
+    mode: 0755
+
+- name: find claude command files in repo
+  find:
+    paths: '{{ devtainer.dir }}/dots/config/claude/commands'
+    patterns: '*.md'
+  register: claude_command_files
+
+- name: copy claude command files
+  copy:
+    src: '{{ item.path }}'
+    dest: '{{ ansible_env.HOME }}/.claude/commands/{{ item.path | basename }}'
+    mode: 0644
+  loop: '{{ claude_command_files.files }}'
+  when: claude_command_files.files | length > 0
