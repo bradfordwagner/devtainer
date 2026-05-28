@@ -597,6 +597,7 @@ function mac_trust_certificate() {
 
 ## ai aliases ##################################################
 alias gg='gh copilot suggest'
+alias ccc='claude'
 ## end ai aliases ##############################################
 
 ################################################
