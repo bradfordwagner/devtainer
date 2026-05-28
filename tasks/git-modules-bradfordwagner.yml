@@ -129,7 +129,8 @@
        repo: https://github.com/bradfordwagner/zmk-config-corne.git
      - name: zmk.config.keyball.44
        repo: https://github.com/bradfordwagner/zmk-config-Keyball44.git
-       version: niceview
+     - name: zmk.pmw3610.driver
+       repo: https://github.com/bradfordwagner/zmk-pmw3610-driver.git
      - name: resume
        repo: https://github.com/bradfordwagner/resume.git
 
