@@ -296,6 +296,9 @@
      - name: helm
        base: mirrors
        repo: https://github.com/bradfordwagner/container-helm.git
+     - name: goreleaser
+       base: mirrors
+       repo: https://github.com/bradfordwagner/container-goreleaser.git
 
      # custom builds
      - name: ansible
