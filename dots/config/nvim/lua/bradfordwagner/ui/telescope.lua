@@ -86,4 +86,6 @@ telescope.setup {
 }
 
 -- https://github.com/nvim-telescope/telescope-fzf-native.nvim
-require('telescope').load_extension('fzf')
+-- requires `build = 'make'` to have run in lazy (`:Lazy build telescope-fzf-native.nvim`)
+local ok, err = pcall(require('telescope').load_extension, 'fzf')
+if not ok then vim.notify('telescope-fzf-native not built: ' .. err, vim.log.levels.WARN) end

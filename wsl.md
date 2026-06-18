@@ -39,6 +39,15 @@ task linux_brew_install && task bare_bones
 
 ```
 
+## troubleshooting
+
+### nvim
+- `<space>f` or other keybindings not working: telescope-fzf-native may need recompiling
+  ```
+  cd ~/.local/share/nvim/lazy/telescope-fzf-native.nvim && make
+  ```
+  Or from inside nvim: `:Lazy build telescope-fzf-native.nvim`
+
 ## swaywm
 - https://github.com/bmo1177/sway_setup
 - cheatsheet - https://wiki.garudalinux.org/en/sway-cheatsheet
