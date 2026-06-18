@@ -58,6 +58,7 @@ tasks:
           git_clone: true
           install_vim_shell_packages: true
   bare_bones:
+    aliases: [bb]
     cmds:
       - task: playbook
   install_vim_shell_packages:
@@ -71,6 +72,10 @@ tasks:
   brew_install:
     cmds:
       - brew bundle install --verbose
+  linux_brew_check:
+    aliases: [lbc]
+    cmds:
+      - brew bundle check --verbose --file Brewfile.linux
   linux_brew_install:
     aliases: [lbi]
     cmds:
