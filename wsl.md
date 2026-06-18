@@ -26,6 +26,6 @@ zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) 
 ## swaywm
 - https://github.com/bmo1177/sway_setup
 - cheatsheet - https://wiki.garudalinux.org/en/sway-cheatsheet
-- app finder -> session and startup -> current session
+- XFCE - app finder -> session and startup -> current session
   - disable: xfwm4,xfce-panel
   - add sway to startup
