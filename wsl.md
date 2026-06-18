@@ -13,6 +13,11 @@ brew install ansible gh go-task -y
 sudo apt install zsh ghostty alacritty -y
 ```
 
+## zap
+```
+zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
+```
+
 ## swaywm
 - https://github.com/bmo1177/sway_setup
 - in ~/.config/sway/config - output X11-1 resolution 2496x1644 position 2496,0 scale 1.8
