@@ -43,5 +43,5 @@ task linux_brew_install && task bare_bones
 - https://github.com/bmo1177/sway_setup
 - cheatsheet - https://wiki.garudalinux.org/en/sway-cheatsheet
 - XFCE - app finder -> session and startup -> current session
-  - disable: xfwm4,xfce-panel
+  - disable: xfwm4,xfce-panel,xfce4-power-manager
   - add sway to startup
