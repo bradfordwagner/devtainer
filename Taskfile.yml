@@ -71,6 +71,15 @@ tasks:
   brew_install:
     cmds:
       - brew bundle install --verbose
+  linux_brew_install:
+    aliases: [lbi]
+    cmds:
+      - brew trust dagger/tap
+      - brew trust hashicorp/tap
+      - brew trust jfryy/tap
+      - brew trust thegeeklab/tap
+      - brew trust txn2/tap
+      - brew bundle install --verbose --file Brewfile.linux
   git:
     cmds:
       - task: playbook
