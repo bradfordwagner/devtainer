@@ -25,5 +25,7 @@ zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) 
 
 ## swaywm
 - https://github.com/bmo1177/sway_setup
-- in ~/.config/sway/config - output X11-1 resolution 2496x1644 position 2496,0 scale 1.8
 - cheatsheet - https://wiki.garudalinux.org/en/sway-cheatsheet
+- app finder -> session and startup -> current session
+  - disable: xfwm4,xfce-panel
+  - add sway to startup
