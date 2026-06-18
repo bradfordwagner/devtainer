@@ -1,5 +1,5 @@
 brew "ansible"
-brew "claude-code"
+cask "claude-code"
 brew "argo"
 brew "argocd"
 brew "awscli"
