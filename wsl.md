@@ -1,6 +1,6 @@
 # wsl
 
-## linux install
+## linux install XFCE
 - https://wsl-ui.octasoft.co.uk/blog/wsl2-ubuntu-desktop-xrdp#step-1-install-your-desktop
 
 ## homebrew
