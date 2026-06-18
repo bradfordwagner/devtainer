@@ -17,7 +17,7 @@ cd
 git clone https://github.com/bradfordwagner/devtainer.git dotfiles
 
 cd dotfiles
-alias task="/home/linuxbrew/.linuxbrew/bin/task"
+export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 task linux_brew_install && task bare_bones
 ```
 
