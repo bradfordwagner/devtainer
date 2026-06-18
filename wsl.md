@@ -5,8 +5,10 @@
 
 ## homebrew
 ```
+sudo apt update && sudo apt upgrade -y
 sudo apt-get install build-essential procps curl file git -y
 sudo apt install zsh ghostty alacritty -y
+sudo apt install sway swaybg swayidle swaylock foot -y
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 cd /home/linuxbrew/.linuxbrew/bin
