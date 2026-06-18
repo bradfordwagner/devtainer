@@ -14,13 +14,12 @@ sudo apt install sway swaybg swayidle swaylock foot -y
 cd /home/linuxbrew/.linuxbrew/bin
 ./brew install ansible gh go-task -y
 
-cd && git clone https://github.com/bradfordwagner/devtainer.git dotfiles && cd dotfiles
-export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
-task linux_brew_install && task bare_bones
-
 # zap
 zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
 
+cd && git clone https://github.com/bradfordwagner/devtainer.git dotfiles && cd dotfiles
+export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+task linux_brew_install && task bare_bones
 ```
 
 ## swaywm
