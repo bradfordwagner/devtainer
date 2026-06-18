@@ -40,6 +40,9 @@ export PATH=$PATH:/Applications/Ghostty.app/Contents/MacOS
 # force python 3.12 into path
 [ -d /opt/homebrew/opt/python@3.12/libexec/bin ] && export PATH=${PATH}:/opt/homebrew/opt/python@3.12/libexec/bin
 
+# linux homebrew
+[ -d /home/linuxbrew/.linuxbrew/bin ] && export PATH=/home/linuxbrew/.linuxbrew/bin:${PATH}
+
 ################################################
 export WATCH_INTERVAL=1
 ################################################
