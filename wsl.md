@@ -11,6 +11,8 @@ sudo apt-get install build-essential procps curl file git
 
 brew install ansible gh go-task -y
 sudo apt install zsh ghostty alacritty -y
+
+task lbi && task bare_bones
 ```
 
 ## zap
