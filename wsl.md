@@ -37,8 +37,6 @@ cd && git clone https://github.com/bradfordwagner/devtainer.git dotfiles && cd d
 export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 task linux_brew_install && task bare_bones
 
-# xrdp - ensure .xsession uses sh shebang so changing login shell doesn't break the UI session
-printf '#!/bin/sh\nstartxfce4\n' > ~/.xsession && chmod +x ~/.xsession
 ```
 
 ## swaywm
