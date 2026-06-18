@@ -3,6 +3,21 @@
 ## linux install XFCE
 - https://wsl-ui.octasoft.co.uk/blog/wsl2-ubuntu-desktop-xrdp#step-1-install-your-desktop
 
+```
+sudo apt update
+sudo apt install xfce4 xfce4-goodies xrdp -y
+sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
+printf '#!/bin/sh\nstartxfce4\n' > ~/.xsession && chmod +x ~/.xsession
+grep -q 'systemd=true' /etc/wsl.conf 2>/dev/null || sudo tee -a /etc/wsl.conf << 'EOF'
+[boot]
+systemd=true
+EOF
+sudo systemctl enable xrdp --now
+```
+
+- connect: `Win+R` → `mstsc` → `localhost:3390`
+- if systemd wasn't enabled, restart wsl first from powershell: `wsl --shutdown`
+
 ## homebrew
 ```
 sudo apt update && sudo apt upgrade -y
