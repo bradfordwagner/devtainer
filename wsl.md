@@ -18,6 +18,12 @@ sudo systemctl enable xrdp --now
 - connect: `Win+R` → `mstsc` → `localhost:3390`
 - if systemd wasn't enabled, restart wsl first from powershell: `wsl --shutdown`
 
+### remove default XFCE shortcuts that conflict with tmux
+```
+xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Primary><Alt>l" -r 2>/dev/null || true
+xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/default/<Primary><Alt>l" -r 2>/dev/null || true
+```
+
 ## homebrew
 ```
 sudo apt update && sudo apt upgrade -y
