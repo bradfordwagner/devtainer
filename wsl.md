@@ -5,7 +5,7 @@
 
 ```
 sudo apt update
-sudo apt install xfce4 xfce4-goodies xrdp -y
+sudo apt install xfce4 xfce4-goodies xrdp xclip -y
 sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
 printf '#!/bin/sh\nstartxfce4\n' > ~/.xsession && chmod +x ~/.xsession
 grep -q 'systemd=true' /etc/wsl.conf 2>/dev/null || sudo tee -a /etc/wsl.conf << 'EOF'
