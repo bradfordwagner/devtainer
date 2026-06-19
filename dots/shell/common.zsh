@@ -7,8 +7,8 @@ NPM_PATH=/usr/local/bin/npm
 MAVEN_PATH=/Users/bwagner/bin/apache-maven-3.6.3
 ANT_PATH=/Users/bwagner/bin/apache-ant-1.8.2
 
-# XQuartz
-export DISPLAY=:0
+# XQuartz / xrdp - detect active display, fallback to :0
+export DISPLAY=$(ls /tmp/.X11-unix/ 2>/dev/null | head -1 | tr -d 'X' | sed 's/^/:/' || echo ':0')
 
 export GOPATH="${HOME}/go"
 export GOBIN="${GOPATH}/bin"
