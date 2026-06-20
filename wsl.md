@@ -60,3 +60,7 @@ task linux_brew_install && task bare_bones
 - XFCE - app finder -> session and startup -> current session
   - disable: xfwm4,xfce-panel,xfce4-power-manager
   - add sway to startup
+
+## docker
+- https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+- post install: https://docs.docker.com/engine/install/linux-postinstall/
