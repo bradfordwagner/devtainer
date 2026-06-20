@@ -43,6 +43,7 @@
         - spotify-tui
         - spotifyd
         - sway
+        - waybar
         - wezterm
         - zellij
 

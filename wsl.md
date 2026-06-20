@@ -30,7 +30,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt-get install build-essential procps curl file git -y
 sudo apt install zsh ghostty alacritty firefox -y
 chsh -s /usr/bin/zsh
-sudo apt install sway swaybg swayidle swaylock foot rofi -y
+sudo apt install sway swaybg swayidle swaylock foot rofi waybar fonts-font-awesome -y
 
 # rofi themes
 cd /tmp && git clone https://github.com/adi1090x/rofi && cd rofi && ./setup.sh
