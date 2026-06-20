@@ -1,0 +1,143 @@
+;; Windows port of apple_v2.kbd
+;; Changes from macOS:
+;;   - input/output: low-level-hook + send-event-sink (Windows API)
+;;   - fn key: XX (not capturable on Windows) — media layer trigger is lost, rebind @l_med manually
+;;   - Mac media keys (brdn, brup, lp, mctl, bldn, blup): replaced with _ (no Windows equivalent)
+;;   - copy/paste: M-c/M-v → C-c/C-v (Ctrl instead of Cmd)
+;;   - M-A-d (show Dock): → M-d (Win+D, show desktop)
+
+(defcfg
+  input  (low-level-hook)
+  output (send-event-sink)
+  fallthrough false
+  allow-cmd true
+)
+
+(defsrc
+    esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    power  del
+    grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+    tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
+    caps   a      s      d      f      g      h      j      k      l      ;      '      ret
+    lsft   z      x      c      v      b      n      m      ,      .      /      rsft   up
+    XX     lctl   lalt   lmet          spc                         rmet   ralt   left   down   rght
+)
+
+;; default layer
+(deflayer insert
+    esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    power  del
+    grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+    tab    q      @th_w  @th_e  r      t      y      u      @th_i  @th_o  p      [      ]      \
+    @th_pl @th_a  @th_s  @th_d  @th_f  g      h      @th_j  @th_k  @th_l  @th_;  @qfo   ret
+    @l_pla @l_arr x      c      v      b      n      m      ,      .      /      _      up
+    _      _      _      @cp           @th_pa                      M-d    @l_bg  left   down   rght
+)
+
+;; used in order to have a layer with no special keys
+(deflayer plain
+    @l_ins A-esc  f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    power  del
+    grv    @1_c1  @2_c2  @3_c3  @4_c4  @5_c5  6      7      8      9      0      -      =      bspc
+    tab    @q_cq  w      @e_ce  @r_cr  @t_ct  y      u      i      o      p      [      ]      \
+    esc    a      s      d      @f_cf  @g_cg  h      j      @th_k  l      ;      '      ret
+    bspc   @z_cz  @x_cx  @c_cc  @v_cv  @b_cb  n      m      ,      .      /      rsft   up
+    _      lctl   lalt   lmet          @th_spc                     rmet   ralt   left   down   rght
+)
+
+;; baldur's gate 3
+(deflayer bg3
+    @l_ins f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    power  del
+    grv    @bgmt1 @bgmt2 @bgmt3 @bgmt4 5      6      7      8      9      0      -      =      bspc
+    tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
+    esc    a      s      d      @th_bg g      h      j      @th_k  l      ;      '      ret
+    lsft   z      x      c      v      b      n      m      ,      .      /      rsft   up
+    _      lctl   lalt   lmet          spc                         f5     f8     left   down   rght
+)
+
+(deflayer arrows
+    _      _      _      _      _      _      _      _      _      _      _      _      _      power  del
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      left   down   up     rght   _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _             C-s                         _      _      _      _      _
+)
+
+(deflayer paren
+    _      _      _      _      _      _      _      _      _      _      _      _      _      power  del
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    @l_ins lsft   lctl   lalt   lmet   _      $      [      ]      \      spc    _      _
+    _      _      _      _      _      $      S-9    S-0    _      _      _      _      _
+    _      _      _      _             _                           _      _      _      _      _
+)
+
+;; Mac brightness/backlight keys have no Windows equivalent — media transport keys still work
+(deflayer media
+    _      _      _      _      _      _      _      prev   pp     next   mute   vold   volu   power  del
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _      _      _      _      _      _      _      _      _      _
+    _      _      _      _             _                           _      _      _      _      _
+)
+
+;; A=alt, C=control, M=windows-key, S=shift
+(defalias
+  ;; layers
+  l_ins  (layer-switch insert)                    ;; default insert - typing
+  l_arr  (tap-hold 175 z (layer-toggle arrows))   ;; arrows
+  th_pl  (tap-hold 175 esc (layer-toggle plain))  ;; plain
+  th_pa  (tap-hold 175 spc (layer-toggle paren))  ;; paren
+  l_pla  (layer-switch plain)                     ;; plain
+  l_med  (layer-toggle media)                     ;; media (fn key lost on Windows — rebind this)
+  l_bg   (layer-switch bg3)                       ;; bg3
+
+  ;; home row mods
+  th_a (tap-hold-next-release  175 a lsft)
+  th_s (tap-hold-next-release  175 s lctl)
+  th_d (tap-hold-next-release  175 d lalt)
+  th_f (tap-hold-next-release  175 f lmet)
+  th_bg (tap-hold 175 f lmet)
+  ;; right side
+  th_j (tap-hold-next-release 175 j rmet)
+  th_k (tap-hold-next-release 175 k ralt)
+  th_l (tap-hold-next-release 175 l rctl)
+  th_; (tap-hold-next-release 175 ; rsft)
+
+  ;; meta hotkeys (window manager combos)
+  m1 (around lshft lalt)
+  m2 (around lshft (around lalt lctrl))
+  th_w (tap-hold 175 w @m1)
+  th_e (tap-hold 175 e @m2)
+  th_i (tap-hold 175 i @m1)
+  th_o (tap-hold 175 o @m2)
+
+  th_v (tap-hold 175 v lctl)
+  th_spc (tap-hold 175 spc lsft)
+
+  ;; single button copy and paste (Ctrl+C / Ctrl+V on Windows)
+  cp (multi-tap 200 C-c C-v)
+  qfo (multi-tap 200 ' #(A-S-f))
+
+  ;; bg f1 f2 f3 f4 on 1 2 3 4
+  bgmt1 (multi-tap 200 1 f1)
+  bgmt2 (multi-tap 200 2 f2)
+  bgmt3 (multi-tap 200 3 f3)
+  bgmt4 (multi-tap 200 4 f4)
+
+  b_cb (multi-tap 200 b #(C-b))
+  v_cv (multi-tap 200 v #(C-v))
+  c_cc (multi-tap 200 c #(C-c))
+  x_cx (multi-tap 200 x #(C-x))
+  z_cz (multi-tap 200 z #(C-z))
+  q_cq (multi-tap 200 q #(C-q))
+  e_ce (multi-tap 200 e #(C-e))
+  r_cr (multi-tap 200 r #(C-r))
+  t_ct (multi-tap 200 t #(C-t))
+  f_cf (multi-tap 200 f #(C-f))
+  g_cg (multi-tap 200 g #(C-g))
+  1_c1 (multi-tap 200 1 #(C-1))
+  2_c2 (multi-tap 200 2 #(C-2))
+  3_c3 (multi-tap 200 3 #(C-3))
+  4_c4 (multi-tap 200 4 #(C-4))
+  5_c5 (multi-tap 200 5 #(C-5))
+)
