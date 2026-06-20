@@ -235,8 +235,17 @@ alias fdo='fd; open .'
 alias vh='nvim .'           # vim here
 alias wcd='cd ~/workspace' # workspace cd
 alias wfd='wcd; fd'
-alias o=open
+################################################################
+# open
+################################################################
+if command -v xdg-open &>/dev/null; then
+  alias open=xdg-open
+  alias o=xdg-open
+else
+  alias o=open
+fi
 alias openw='/mnt/c/Windows/System32/cmd.exe /c start'
+################################################################
 
 dropbox_file() {
   tofile_dir=~/Dropbox/lisa-brad/to-file
