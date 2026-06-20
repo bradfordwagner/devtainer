@@ -45,6 +45,14 @@ task linux_brew_install && task bare_bones
 
 ```
 
+## passwordless sudo
+From Windows Terminal / PowerShell, open WSL as root, then add a sudoers entry:
+```
+wsl -u root
+echo 'bw ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/bw
+chmod 440 /etc/sudoers.d/bw
+```
+
 ## troubleshooting
 
 ### nvim
