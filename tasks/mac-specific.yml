@@ -10,7 +10,7 @@
       - screenshots
 
   - name: install fzf completions
-    shell: $(brew --prefix)/opt/fzf/install
+    shell: $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc
   - name: dock speed
     shell: defaults write com.apple.dock autohide-time-modifier -float 0.15; killall Dock
   - name: screenshots dir

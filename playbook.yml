@@ -69,6 +69,11 @@
       include_tasks: tasks/mac-specific.yml
       when: ansible_facts.distribution == "MacOSX"
 
+    # linux configs
+    - name: linux [fzf]
+      include_tasks: tasks/linux-specific.yml
+      when: ansible_facts.distribution != "MacOSX"
+
     # # git clone blocks
     - name: git clone modules
       include_tasks: "{{ task.task }}"
