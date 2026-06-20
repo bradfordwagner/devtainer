@@ -17,7 +17,8 @@ set $right l
 # Your preferred terminal emulator
 set $term ghostty
 # Your preferred application launcher
-set $menu wmenu-run
+# dmenu style: type-1/style-10.rasi
+set $menu ~/dotfiles/dots/shell_scripts/rofi_launcher.sh -show drun
 
 include /etc/sway/config-vars.d/*
 

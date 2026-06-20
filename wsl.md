@@ -30,7 +30,10 @@ sudo apt update && sudo apt upgrade -y
 sudo apt-get install build-essential procps curl file git -y
 sudo apt install zsh ghostty alacritty firefox -y
 chsh -s /usr/bin/zsh
-sudo apt install sway swaybg swayidle swaylock foot -y
+sudo apt install sway swaybg swayidle swaylock foot rofi -y
+
+# rofi themes
+cd /tmp && git clone https://github.com/adi1090x/rofi && cd rofi && ./setup.sh
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 cd /home/linuxbrew/.linuxbrew/bin
