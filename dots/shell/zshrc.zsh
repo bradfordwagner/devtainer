@@ -28,6 +28,13 @@ zstyle ':fzf-tab:*' fzf-flags ${(Q)${(Z:nC:)FZF_DEFAULT_OPTS}} # https://github.
 
 export BAT_THEME="TwoDark"
 
+# history
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+
 # avoid duplications in history
 # https://unix.stackexchange.com/questions/599641/why-do-i-have-duplicates-in-my-zsh-history
 setopt HIST_EXPIRE_DUPS_FIRST

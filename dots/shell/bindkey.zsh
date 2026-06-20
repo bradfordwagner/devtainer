@@ -16,6 +16,8 @@ for keytable in "${keytables[@]}"; do
   bindkey -M ${keytable} -s '^ki' 'taskfile_info\n'
   bindkey -M ${keytable} -s '^e' 'gsd\n' # give git status
   bindkey -M ${keytable} -s '^o' 'glt\n' # give git tag list
+  bindkey -M ${keytable} '^p' up-line-or-history
+  bindkey -M ${keytable} '^n' down-line-or-history
 done
 
 # edit command line in editor
