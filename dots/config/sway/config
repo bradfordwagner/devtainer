@@ -4,6 +4,26 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+### Catppuccin theme
+# Source: https://github.com/catppuccin/i3 (themes/ dir)
+# To swap flavor, change the include below to one of:
+#   catppuccin-latte | catppuccin-frappe | catppuccin-macchiato | catppuccin-mocha
+include ~/.config/sway/catppuccin-mocha
+
+# target                 title     bg    text   indicator  border
+client.focused           $lavender $base $text  $rosewater $lavender
+client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
+client.unfocused         $overlay0 $base $text  $rosewater $overlay0
+client.urgent            $peach    $base $peach $overlay0  $peach
+client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
+client.background        $base
+
+### Appearance
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 8
+gaps outer 4
+
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
