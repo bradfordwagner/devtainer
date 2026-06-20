@@ -20,10 +20,10 @@ bindkey -v
 # tokyo night theme for fzf
 # https://github.com/folke/tokyonight.nvim/issues/60#issue-909006048
 export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all,ctrl-s:toggle,/:toggle+clear-query"'
-  --color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
-  --color=fg+:#ffffff,bg+:#1a1b26,hl+:#7dcfff
-  --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff
-  --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a'
+  --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8
+  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc
+  --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8
+  --color=selected-bg:#45475a'
 zstyle ':fzf-tab:*' fzf-flags ${(Q)${(Z:nC:)FZF_DEFAULT_OPTS}} # https://github.com/Aloxaf/fzf-tab/pull/479#discussion_r1794558759
 
 export BAT_THEME="TwoDark"

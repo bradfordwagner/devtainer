@@ -20,8 +20,8 @@ ghostty_font_style: Heavy
 
 # Theme name
 # Built-in themes: https://ghostty.org/docs/config/reference#theme
-# favorites: tokyo-night, catppuccin-mocha, gruvbox-dark
-ghostty_theme: TokyoNight Storm
+# favorites: TokyoNight Storm, Catppuccin Mocha, gruvbox-dark
+ghostty_theme: Catppuccin Mocha
 
 # MCP Configuration
 argocd_mcp_dir: "{{ ansible_env.HOME }}/workspace/github/bradfordwagner/forks/gh.forks.mcp.argocd"
