@@ -13,7 +13,6 @@
     "modules-right": [
         "cpu",
         "memory",
-        "network",
         "pulseaudio",
         "idle_inhibitor",
         "clock",
@@ -98,12 +97,5 @@
         },
         "escape": true,
         "exec": "/usr/share/waybar/custom_modules/mediaplayer.py 2> /dev/null"
-    },
-    "network": {
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
     }
 }
