@@ -56,8 +56,8 @@
       include_tasks: tasks/ghostty.yml
     - name: install windsurf workflows
       include_tasks: tasks/install-windsurf-workflows.yml
-    - name: install claude commands
-      include_tasks: tasks/install-claude-commands.yml
+    - name: install claude
+      include_tasks: tasks/install-claude.yml
 
     # link is required first to setup init.vim
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
