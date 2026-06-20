@@ -243,7 +243,8 @@ bindsym $mod+r mode "resize"
 #
 # Status Bar:
 #
-exec_always pkill -x waybar; waybar &
+exec_always sh -c 'pkill -x waybar; waybar'
+exec_always pkill nm-applet
 
 include /etc/sway/config.d/*
 

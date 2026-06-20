@@ -87,6 +87,19 @@
     border-radius: 0 1rem 1rem 0;
 }
 
+#network {
+    background-color: @surface0;
+    color: @sapphire;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    margin: 5px 0;
+    margin-left: 0.5rem;
+}
+
+#network.disconnected {
+    color: @red;
+}
+
 #pulseaudio {
     color: @yellow;
     border-radius: 1rem;
