@@ -61,6 +61,11 @@ task linux_brew_install && task bare_bones
   - disable: xfwm4,xfce-panel,xfce4-power-manager
   - add sway to startup
 
+## fonts
+```
+mkdir -p ~/.local/share/fonts && curl -fL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/IosevkaTerm.zip" -o /tmp/IosevkaTerm.zip && unzip -o /tmp/IosevkaTerm.zip -d ~/.local/share/fonts/IosevkaTerm && fc-cache -fv
+```
+
 ## docker
 - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 - post install: https://docs.docker.com/engine/install/linux-postinstall/
