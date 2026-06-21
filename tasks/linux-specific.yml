@@ -3,3 +3,20 @@
 - block:
   - name: install fzf completions
     shell: $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc
+
+- name: xfce - check xfconf-query exists
+  shell: command -v xfconf-query
+  register: xfconf_query
+  failed_when: false
+  changed_when: false
+
+- block:
+  - name: xfce - remove Ctrl+Alt+F thunar binding (custom)
+    shell: xfconf-query -c xfce4-keyboard-shortcuts -p '/commands/custom/<Primary><Alt>f' --reset
+    failed_when: false
+
+  - name: xfce - remove Ctrl+Alt+F thunar binding (default)
+    shell: xfconf-query -c xfce4-keyboard-shortcuts -p '/commands/default/<Primary><Alt>f' --reset
+    failed_when: false
+
+  when: xfconf_query.rc == 0
