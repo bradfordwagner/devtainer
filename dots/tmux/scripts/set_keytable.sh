@@ -2,12 +2,12 @@ set -x
 
 layer=${1}
 
-# colors
-[[ "${layer}" == "insert" ]] && color=magenta
-[[ "${layer}" == "base" ]] && color=brightyellow
-[[ "${layer}" == "speed" ]] && color=brightmagenta
-[[ "${layer}" == "resize" ]] && color=brightblue
-[[ "${layer}" == "kube" ]] && color=red
+# colors - catppuccin mocha: https://github.com/catppuccin/catppuccin
+[[ "${layer}" == "insert" ]] && color='#b4befe' # lavender
+[[ "${layer}" == "base" ]] && color='#f9e2af'   # yellow
+[[ "${layer}" == "speed" ]] && color='#cba6f7'  # mauve
+[[ "${layer}" == "resize" ]] && color='#89b4fa' # blue
+[[ "${layer}" == "kube" ]] && color='#f38ba8'   # red
 
 # active border
 # bg=default to make it a thin bar, bg=${color} to make it a full bar
@@ -17,9 +17,9 @@ border_style="bg=default fg=${color}" # thin bar
 tmux set -g pane-active-border-style "${border_style}"
 
 # set status left color
-standard_status_color="#[fg=green]"
+standard_status_color="#[fg=#cdd6f4 bg=#1e1e2e]"
 #{?pane_synchronized, #[bg=blue]SYNC!!!#[default],}
-tmux set -g status-left "${standard_status_color}kt=[#[fg=${color}]#{client_key_table}${standard_status_color}] ws=[#{?pane_synchronized,#[fg=brightred]sync#[fg=green],no_sync}] "
+tmux set -g status-left "${standard_status_color}kt=[#[fg=${color}]#{client_key_table}${standard_status_color}] ws=[#{?pane_synchronized,#[fg=#eba0ac]sync#[fg=#cdd6f4],no_sync}] "
 
 # keytables/layers
 [[ "${layer}" == "base" ]] && key_table=b
