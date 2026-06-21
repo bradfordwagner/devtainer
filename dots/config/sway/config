@@ -239,6 +239,8 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
     # Special key to take a screenshot with grim
     bindsym Print exec grim
+    # Select region, copy to clipboard (Mac-style Cmd+Shift+4)
+    bindsym Mod4+Shift+4 exec bash -c 'grim -g "$(slurp)" - | wl-copy'
 
 #
 # Status Bar:
