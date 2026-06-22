@@ -7,3 +7,14 @@ color background        red black
 color article           red black
 
 browser "open %u"
+
+bind j everywhere down
+bind k everywhere up
+bind h everywhere quit
+bind l everywhere open
+bind g everywhere home
+bind G everywhere end
+bind ^d everywhere pagedown
+bind ^u everywhere pageup
+bind ^f everywhere pagedown
+bind ^b everywhere pageup
