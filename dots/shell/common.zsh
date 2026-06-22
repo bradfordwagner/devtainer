@@ -16,6 +16,8 @@ export GINKGO_EDITOR_INTEGRATION=true # allow unit tests coverage to run in focu
 export GORACE=history_size=7
 export ACK_GINKGO_DEPRECATIONS=1.16.4 # stop the annoying deprecation popups
 
+export BROWSER=xdg-open          # xdg-open uses rundll32 to open URLs in Windows; fixes git-open
+
 export VAULT_FORMAT=json         # set default vault output format
 
 export ARGOCD_GRPC_MAX_SIZE_MB=1000 # increase the max size of the grpc request
