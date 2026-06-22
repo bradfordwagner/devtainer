@@ -14,7 +14,6 @@
         "cpu",
         "memory",
         "pulseaudio",
-        "idle_inhibitor",
         "clock",
         "tray"
     ],
@@ -43,13 +42,6 @@
         },
         "tooltip-format": "MPD (connected)",
         "tooltip-format-disconnected": "MPD (disconnected)"
-    },
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
     },
     "tray": {
         "spacing": 10
