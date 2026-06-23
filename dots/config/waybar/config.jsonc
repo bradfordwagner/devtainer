@@ -52,10 +52,12 @@
     },
     "cpu": {
         "format": " {usage}%",
-        "tooltip": false
+        "tooltip": false,
+        "on-click": "ghostty -e sh -c 'top -o %CPU -E g -e g'"
     },
     "memory": {
-        "format": " {}%"
+        "format": " {}%",
+        "on-click": "ghostty -e sh -c 'top -o %MEM -E g -e g'"
     },
     "pulseaudio": {
         "format": "{icon} {volume}% {format_source}",
