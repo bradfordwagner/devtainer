@@ -93,6 +93,9 @@ sudo_fkill() {
 if hash xsel 2>/dev/null; then
   alias pbcopy='xsel --clipboard --input'
   alias pbpaste='xsel --clipboard --output'
+elif hash wl-copy 2>/dev/null; then
+  alias pbcopy='wl-copy'
+  alias pbpaste='wl-paste'
 fi
 ################################################
 # navigation
