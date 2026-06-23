@@ -17,7 +17,8 @@ border_style="bg=default fg=${color}" # thin bar
 tmux set -g pane-active-border-style "${border_style}"
 
 # set status left color
-standard_status_color="#[fg=#cdd6f4 bg=#1e1e2e]"
+bg="#000000"
+standard_status_color="#[fg=#cdd6f4 bg=${bg}]"
 #{?pane_synchronized, #[bg=blue]SYNC!!!#[default],}
 tmux set -g status-left "${standard_status_color}kt=[#[fg=${color}]#{client_key_table}${standard_status_color}] ws=[#{?pane_synchronized,#[fg=#eba0ac]sync#[fg=#cdd6f4],no_sync}] "
 
