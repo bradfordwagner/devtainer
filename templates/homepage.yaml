@@ -7,6 +7,7 @@ trees:
         packages: https://github.com/bradfordwagner?tab=packages
       ai:
         chatgpt: https://chat.openai.com/chat
+        claude: https://claude.ai/new#settings/usage
         cursor: https://cursor.com/dashboard?tab=usage
         windsurf: https://windsurf.com/profile
       financial:
