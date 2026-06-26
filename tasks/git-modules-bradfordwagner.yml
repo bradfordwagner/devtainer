@@ -121,6 +121,8 @@
        repo: https://github.com/bradfordwagner/taskfiles.git
      - name: gh.actions.testbed
        repo: https://github.com/bradfordwagner/gh-actions-testbed.git
+     - name: gh.actions.templates
+       repo: https://github.com/bradfordwagner/gh-actions-templates.git
      - name: kmonad
        repo: https://github.com/bradfordwagner/container-kmonad.git
      - name: tmux.buoyshell
