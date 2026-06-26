@@ -9,7 +9,7 @@
     user:
       # in some cases we need to create the user
       # so current user would not suffice
-      name: bwagner
+      name: '{{ user_name }}'
       # no password
       password: '!'
       create: '{{ ansible_facts.distribution == "Archlinux" }}'

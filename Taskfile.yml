@@ -93,6 +93,17 @@ tasks:
   remote:
     cmds:
       - task: playbook_remote
+  init_local_variables:
+    aliases: [ilv]
+    desc: Copy variables.yml to variables.local.yml (skips if already exists)
+    cmds:
+      - |
+        if [ -f variables.local.yml ]; then
+          echo "variables.local.yml already exists, skipping"
+        else
+          cp variables.yml variables.local.yml
+          echo "created variables.local.yml"
+        fi
   lua_link:
     cmds:
       - ln -s ~/.local/share/nvim/site/pack/packer/start ./dots/config/nvim/lua/packer_plugins
