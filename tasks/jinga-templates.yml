@@ -29,10 +29,16 @@
         create: true
         block: "{{ lookup('template', item.source) }}"
 
-    - name: k9s hotkeys
+    - name: ensure k9s config dir exists
+      ansible.builtin.file:
+        path: '{{ ansible_env.HOME }}/{{ k9s_config_dir }}'
+        state: directory
+        mode: '0755'
+
+    - name: k9s config
       loop:
         - source: templates/k9s.yaml.j2
-          dest: Library/Application Support/k9s/config.yaml
+          dest: "{{ k9s_config_dir }}/config.yaml"
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
         path: '{{ ansible_env.HOME }}/{{ item.dest }}'

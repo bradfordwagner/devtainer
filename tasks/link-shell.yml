@@ -10,13 +10,12 @@
         mode: 0755
       loop:
         - .config
-        - .k9s
+        - "{{ k9s_config_dir }}"
         - .kube
         - .newsboat
         - .pip
         - .tmux
         - Library/Application Support/Amethyst/Layouts
-        - Library/Preferences/k9s
         - source
         - .codeium/windsurf
         - .cursor
@@ -88,7 +87,7 @@
 
       # # set k9s
       - src: k9s/hotkeys.yaml
-        path: Library/Application Support/k9s/hotkeys.yaml
+        path: "{{ k9s_config_dir }}/hotkeys.yaml"
 
       # # kubectl switch
       - src: kube-switch/switch-config.yaml

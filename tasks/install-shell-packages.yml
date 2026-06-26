@@ -25,7 +25,7 @@
         - .ssh
         - .tmux/plugins
         - .vim/bundle
-        - Library/Application Support/k9s
+        - "{{ k9s_config_dir }}"
 
     - name: setup tpm
       git:
@@ -59,7 +59,7 @@
         force: true
       loop:
       - src: .cache/k9s-skins/skins
-        path: Library/Application Support/k9s/skins
+        path: "{{ k9s_config_dir }}/skins"
 
     # TODO fix pynvim
     - shell: '{{ item }}'

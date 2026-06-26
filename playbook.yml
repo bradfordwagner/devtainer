@@ -45,6 +45,24 @@
     - name: install dotfiles - this repo!
       include_tasks: tasks/install-dotfiles.yml
 
+    - name: resolve k9s config directory
+      ansible.builtin.shell: >
+        k9s info 2>/dev/null
+        | sed 's/\x1b\[[0-9;]*m//g'
+        | grep -m1 'Config:'
+        | awk '{print $2}'
+        | xargs dirname
+      register: k9s_config_dir_cmd
+      changed_when: false
+      failed_when: false
+
+    - name: set k9s_config_dir
+      ansible.builtin.set_fact:
+        k9s_config_dir: >-
+          {{ k9s_config_dir_cmd.stdout | replace(ansible_env.HOME + '/', '')
+             if (k9s_config_dir_cmd is succeeded and k9s_config_dir_cmd.stdout | length > 0)
+             else ('.config/k9s' if ansible_system == 'Linux' else 'Library/Application Support/k9s') }}
+
     # setup login/etc
     - name: jinga templates
       include_tasks: tasks/jinga-templates.yml
