@@ -611,6 +611,7 @@ function mac_trust_certificate() {
 alias gg='gh copilot suggest'
 alias ccc='claude'
 alias cccr='claude --resume'
+alias ccca='claude agents'
 ## end ai aliases ##############################################
 
 ################################################
