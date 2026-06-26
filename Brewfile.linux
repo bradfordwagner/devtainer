@@ -1,4 +1,5 @@
 brew "ansible"
+cask "font-iosevka-term-nerd-font"
 cask "claude-code"
 brew "argo"
 brew "argocd"
