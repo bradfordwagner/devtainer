@@ -127,15 +127,15 @@ seat seat0 keyboard_grouping none
     bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
+    bindsym $mod+Shift+$left move left $resize_step
+    bindsym $mod+Shift+$down move down $resize_step
+    bindsym $mod+Shift+$up move up $resize_step
+    bindsym $mod+Shift+$right move right $resize_step
     # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
+    bindsym $mod+Shift+Left move left $resize_step
+    bindsym $mod+Shift+Down move down $resize_step
+    bindsym $mod+Shift+Up move up $resize_step
+    bindsym $mod+Shift+Right move right $resize_step
 #
 # Workspaces:
 #
@@ -223,6 +223,16 @@ mode "resize" {
     bindsym Right resize grow width $resize_step
 
     bindsym $mod+c move position center, mode "default"
+
+    # Move floating windows
+    bindsym $mod+Shift+$left move left $resize_step
+    bindsym $mod+Shift+$down move down $resize_step
+    bindsym $mod+Shift+$up move up $resize_step
+    bindsym $mod+Shift+$right move right $resize_step
+    bindsym $mod+Shift+Left move left $resize_step
+    bindsym $mod+Shift+Down move down $resize_step
+    bindsym $mod+Shift+Up move up $resize_step
+    bindsym $mod+Shift+Right move right $resize_step
 
     # Return to default mode
     bindsym Return mode "default"
