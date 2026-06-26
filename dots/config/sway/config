@@ -38,6 +38,7 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term ghostty
+set $resize_step 50px
 # Your preferred application launcher
 # dmenu style: type-1/style-10.rasi
 set $menu ~/dotfiles/dots/shell_scripts/rofi_launcher.sh -show drun
@@ -210,16 +211,16 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+    bindsym $left resize shrink width $resize_step
+    bindsym $down resize grow height $resize_step
+    bindsym $up resize shrink height $resize_step
+    bindsym $right resize grow width $resize_step
 
     # Ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+    bindsym Left resize shrink width $resize_step
+    bindsym Down resize grow height $resize_step
+    bindsym Up resize shrink height $resize_step
+    bindsym Right resize grow width $resize_step
 
     # Return to default mode
     bindsym Return mode "default"
