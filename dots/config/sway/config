@@ -38,7 +38,8 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term ghostty
-set $resize_step 100px
+set $move_step 100px
+set $resize_step 5 ppt
 # Your preferred application launcher
 # dmenu style: type-1/style-10.rasi
 set $menu ~/dotfiles/dots/shell_scripts/rofi_launcher.sh -show drun
@@ -127,15 +128,15 @@ seat seat0 keyboard_grouping none
     bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left $resize_step
-    bindsym $mod+Shift+$down move down $resize_step
-    bindsym $mod+Shift+$up move up $resize_step
-    bindsym $mod+Shift+$right move right $resize_step
+    bindsym $mod+Shift+$left move left $move_step
+    bindsym $mod+Shift+$down move down $move_step
+    bindsym $mod+Shift+$up move up $move_step
+    bindsym $mod+Shift+$right move right $move_step
     # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left $resize_step
-    bindsym $mod+Shift+Down move down $resize_step
-    bindsym $mod+Shift+Up move up $resize_step
-    bindsym $mod+Shift+Right move right $resize_step
+    bindsym $mod+Shift+Left move left $move_step
+    bindsym $mod+Shift+Down move down $move_step
+    bindsym $mod+Shift+Up move up $move_step
+    bindsym $mod+Shift+Right move right $move_step
 #
 # Workspaces:
 #
@@ -225,14 +226,14 @@ mode "resize" {
     bindsym $mod+c move position center
 
     # Move floating windows
-    bindsym $mod+Shift+$left move left $resize_step
-    bindsym $mod+Shift+$down move down $resize_step
-    bindsym $mod+Shift+$up move up $resize_step
-    bindsym $mod+Shift+$right move right $resize_step
-    bindsym $mod+Shift+Left move left $resize_step
-    bindsym $mod+Shift+Down move down $resize_step
-    bindsym $mod+Shift+Up move up $resize_step
-    bindsym $mod+Shift+Right move right $resize_step
+    bindsym $mod+Shift+$left move left $move_step
+    bindsym $mod+Shift+$down move down $move_step
+    bindsym $mod+Shift+$up move up $move_step
+    bindsym $mod+Shift+$right move right $move_step
+    bindsym $mod+Shift+Left move left $move_step
+    bindsym $mod+Shift+Down move down $move_step
+    bindsym $mod+Shift+Up move up $move_step
+    bindsym $mod+Shift+Right move right $move_step
 
     # Return to default mode
     bindsym Return mode "default"
