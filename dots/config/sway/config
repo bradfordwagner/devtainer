@@ -222,6 +222,8 @@ mode "resize" {
     bindsym Up resize shrink height $resize_step
     bindsym Right resize grow width $resize_step
 
+    bindsym $mod+c move position center, mode "default"
+
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
