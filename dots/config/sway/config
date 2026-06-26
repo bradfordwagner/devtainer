@@ -222,7 +222,7 @@ mode "resize" {
     bindsym Up resize shrink height $resize_step
     bindsym Right resize grow width $resize_step
 
-    bindsym $mod+c move position center, mode "default"
+    bindsym $mod+c move position center
 
     # Move floating windows
     bindsym $mod+Shift+$left move left $resize_step
