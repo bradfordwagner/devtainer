@@ -21,6 +21,7 @@
     github_web_dir: '{{ personal_dir }}/web'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
+    gh_actions_dir: '{{ personal_dir }}/gh_actions'
 
     # async control
     # for async: 45/0
@@ -42,6 +43,7 @@
      - '{{ terraform_dir }}'
      - '{{ deploy_dir }}'
      - '{{ templates_dir }}'
+     - '{{ gh_actions_dir }}'
      - '{{ go_lib }}'
      - '{{ go_bin }}'
      - '{{ ansible_playbooks_dir }}'
@@ -119,10 +121,6 @@
        version: development
      - name: taskfiles
        repo: https://github.com/bradfordwagner/taskfiles.git
-     - name: gh.actions.testbed
-       repo: https://github.com/bradfordwagner/gh-actions-testbed.git
-     - name: gh.actions.templates
-       repo: https://github.com/bradfordwagner/gh-actions-templates.git
      - name: kmonad
        repo: https://github.com/bradfordwagner/container-kmonad.git
      - name: tmux.buoyshell
@@ -351,6 +349,19 @@
        repo: https://github.com/bradfordwagner/gh-template-tf-workspaces.git
      - name: helm.chart
        repo: https://github.com/bradfordwagner/gh-template-helm-chart.git
+
+   - name: '{{ gh_actions_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ gh_actions_dir }}/bradfordwagner.gh.actions.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
+     loop:
+     - name: testbed
+       repo: https://github.com/bradfordwagner/gh-actions-testbed.git
+     - name: templates
+       repo: https://github.com/bradfordwagner/gh-actions-templates.git
 
    - name: '{{ research_dir }}'
      git:
