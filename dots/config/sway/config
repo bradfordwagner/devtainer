@@ -73,21 +73,16 @@ output X11-1 resolution 2496x1664 position 2496,0 scale 1.4
 
 ### Input configuration
 #
-# Example configuration:
-#
-#   input type:touchpad {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-#   input type:keyboard {
-#       xkb_layout "eu"
-#   }
-#
 # You can also configure each device individually.
 # Read `man 5 sway-input` for more information about this section.
+
+input type:keyboard {
+    xkb_rules "base"
+    xkb_model "pc104"
+    xkb_layout "us"
+}
+
+seat seat0 keyboard_grouping none
 
 ### Key bindings
 #
@@ -245,6 +240,7 @@ bindsym $mod+r mode "resize"
 #
 # Status Bar:
 #
+exec_always setxkbmap -layout us -model pc105
 exec_always sh -c 'pkill -x waybar; waybar'
 exec_always pkill nm-applet
 
