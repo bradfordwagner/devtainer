@@ -203,8 +203,6 @@
        repo: https://github.com/karlstav/cava.git
      - name: lyrics-in-terminal
        repo: https://github.com/Jugran/lyrics-in-terminal.git
-     - name: tmuxinator
-       repo: https://github.com/tmuxinator/tmuxinator.git
      - name: base2tone.alacritty.theme
        repo: https://github.com/atelierbram/Base2Tone-alacritty.git
      - name: alacritty.theme

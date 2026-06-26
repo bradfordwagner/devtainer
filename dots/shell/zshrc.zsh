@@ -55,8 +55,6 @@ export LESS_TERMCAP_ue=$'\E[0m' \
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' \
 
 # load shell interactive components
-[ -f ~/workspace/github/shell/github.shell.tmuxinator/completion/tmuxinator.zsh ] && source ~/workspace/github/shell/github.shell.tmuxinator/completion/tmuxinator.zsh
-
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi

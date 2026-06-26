@@ -327,7 +327,6 @@ if hash tmux-non-dead.tmux 2>/dev/null; then
   alias tmux='tmux-non-dead.tmux'
 fi
 alias tc='clear && tmux clear-history'
-alias mux='tmuxinator start'
 alias ta='tmux attach -t'
 function tns() {
   # adapted from: https://gist.github.com/jyurek/7be666a88e06f68d45cf

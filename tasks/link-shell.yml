@@ -67,8 +67,6 @@
       # tmux setup
       - src: tmux/tmux.conf
         path: .tmux.conf
-      - src: tmux/tmuxinator
-        path: .tmuxinator
       - src: tmux
         path: .tmux/conf
 
