@@ -39,7 +39,7 @@ set $right l
 # Your preferred terminal emulator
 set $term ghostty
 set $move_step 100px
-set $resize_step 5 ppt
+set $resize_step 100px
 # Your preferred application launcher
 # dmenu style: type-1/style-10.rasi
 set $menu ~/dotfiles/dots/shell_scripts/rofi_launcher.sh -show drun
