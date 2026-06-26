@@ -73,8 +73,17 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
 
 Custom slash commands live in `dots/config/claude/commands/*.md` and are copied (not symlinked) to `~/.claude/commands/` by `tasks/install-claude.yml`. Re-run `task bb` to deploy new commands.
 
+Keybindings live in `dots/config/claude/keybindings.json` and are copied to `~/.claude/keybindings.json` by `tasks/install-claude.yml`. When suggesting or adding keybindings, check for conflicts in:
+- `dots/tmux/tmux.conf` — prefix is `ctrl+space`; plain ctrl bindings: `ctrl+h`; most others are `ctrl+alt+*`
+- `dots/config/sway/config` — `$mod = Mod1` (Alt); all sway bindings use `alt+*`
+- `dots/config/aerospace/aerospace.toml` — uses `alt+*` (workspaces/focus) and `ctrl+alt+*` (launchers)
+- `dots/shell/bindkey.zsh` — zsh vi-mode bindings: `ctrl+k` (chord leader), `ctrl+n`/`ctrl+p` (history), `ctrl+e`/`ctrl+o` (git shortcuts); these only apply at the zsh prompt, not inside TUI apps
+
 Available custom commands:
 - `/cc` — conventional commit: diffs, stages session files, commits, and pushes
+
+Custom keybindings (`dots/config/claude/keybindings.json`):
+- `ctrl+y` — background current task/agent (return to fleet view)
 
 ### MCP servers
 

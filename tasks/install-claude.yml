@@ -18,3 +18,9 @@
     mode: 0644
   loop: '{{ claude_command_files.files }}'
   when: claude_command_files.files | length > 0
+
+- name: copy claude keybindings
+  copy:
+    src: '{{ devtainer.dir }}/dots/config/claude/keybindings.json'
+    dest: '{{ ansible_env.HOME }}/.claude/keybindings.json'
+    mode: 0644
