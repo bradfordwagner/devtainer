@@ -19,6 +19,7 @@
     yaml_dir: '{{ personal_dir }}/yaml'
     ansible_playbooks_dir: '{{ personal_dir }}/ansible_playbooks'
     github_web_dir: '{{ personal_dir }}/web'
+    arch_dir: '{{ personal_dir }}/arch'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
     gh_actions_dir: '{{ personal_dir }}/gh_actions'
@@ -48,6 +49,7 @@
      - '{{ go_bin }}'
      - '{{ ansible_playbooks_dir }}'
      - '{{ github_web_dir }}'
+     - '{{ arch_dir }}'
 
    - name: '{{ deploy_dir }}'
      git:
@@ -444,3 +446,14 @@
      loop:
      - name: homepage
        repo: https://github.com/bradfordwagner/homepage
+
+   - name: '{{ arch_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ arch_dir }}/arch.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
+     loop:
+     - name: bradfordwagner.com
+       repo: https://github.com/bradfordwagner/bw-arch.git
