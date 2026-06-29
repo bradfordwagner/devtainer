@@ -10,6 +10,7 @@ trees:
         claude: https://claude.ai/new#settings/usage
         cursor: https://cursor.com/dashboard?tab=usage
         windsurf: https://windsurf.com/profile
+        trmnl: https://trmnl.com/devices/60560/edit
       financial:
         401k: https://www.benefits.ml.com/Login/Login?src=LGO&p=0
       azure:
