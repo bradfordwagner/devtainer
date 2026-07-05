@@ -1,49 +1,22 @@
 ################################################
 # setup PATH
 ################################################
-#export JAVA_HOME=${JAVA_HOME:-/usr/local/java/jdk_8u202_x64}
-NODE_PATH=/usr/local/bin/node
-NPM_PATH=/usr/local/bin/npm
-MAVEN_PATH=/Users/bwagner/bin/apache-maven-3.6.3
-ANT_PATH=/Users/bwagner/bin/apache-ant-1.8.2
-
-# XQuartz / xrdp - detect active display, fallback to :0
-export DISPLAY=$(ls /tmp/.X11-unix/ 2>/dev/null | head -1 | tr -d 'X' | sed 's/^/:/' || echo ':0')
-
 export GOPATH="${HOME}/go"
 export GOBIN="${GOPATH}/bin"
 export GINKGO_EDITOR_INTEGRATION=true # allow unit tests coverage to run in focus mode
 export GORACE=history_size=7
 export ACK_GINKGO_DEPRECATIONS=1.16.4 # stop the annoying deprecation popups
 
-export BROWSER=xdg-open          # xdg-open uses rundll32 to open URLs in Windows; fixes git-open
-
 export VAULT_FORMAT=json         # set default vault output format
 
 export ARGOCD_GRPC_MAX_SIZE_MB=1000 # increase the max size of the grpc request
 
 export PATH=~/bin:~/.rd/bin:/usr/local/bin:$PATH
-export PATH=$PATH:$NODE_PATH
-export PATH=$PATH:$NPM_PATH
-#export PATH=$PATH:$JAVA_HOME/bin
-export PATH=$PATH:$MAVEN_PATH/bin
-export PATH=$PATH:$ANT_PATH/bin
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/opt/local/bin:/bin:/usr/local/bin:/usr/bin:/sbin:/usr/sbin:/opt/local/sbin
 export PATH=$PATH:~/shell_scripts
-export PATH=$PATH:~/Library/Python/3.7/bin
-export PATH=$PATH:~/Library/Python/3.8/bin
-export PATH=$PATH:~/workspace/github/shell/github.shell.powerline/scripts
-export PATH=$PATH:/snap/bin   # ubuntu snaps
 export PATH=$PATH:~/.krew/bin # kubectl plugins
 export PATH=$PATH:${HOME}/.local/bin
-export PATH=$PATH:/Applications/Ghostty.app/Contents/MacOS
-
-# force python 3.12 into path
-[ -d /opt/homebrew/opt/python@3.12/libexec/bin ] && export PATH=${PATH}:/opt/homebrew/opt/python@3.12/libexec/bin
-
-# linux homebrew
-[ -d /home/linuxbrew/.linuxbrew/bin ] && export PATH=/home/linuxbrew/.linuxbrew/bin:${PATH}
 
 ################################################
 export WATCH_INTERVAL=1
