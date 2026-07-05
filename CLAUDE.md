@@ -11,6 +11,7 @@ Bradford's personal dotfiles ("devtainer"). Ansible is the deployment engine; `g
 ```bash
 task              # full install: brew + git clones + vim/shell packages
 task bb           # bare-bones: links + templates only, no package installs
+task git          # git clones only: syncs all workspace repos (bradfordwagner + github modules)
 task lbc          # check linux brew bundle
 task lbi          # install linux brew bundle
 task sudoer       # run sudoer playbook (asks for become password)
@@ -35,14 +36,17 @@ ansible-playbook --syntax-check -i localhost, -c local playbook.yml
 
 ```
 Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
-                                                        ├── tasks/packages-arch.yml    (Arch pacman)
-                                                        ├── tasks/packages-osx.yml     (Homebrew)
-                                                        ├── tasks/install-dotfiles.yml (rsync repo, remote only)
-                                                        ├── tasks/jinga-templates.yml  (render .gitconfig, .zshenv, MCP configs)
-                                                        ├── tasks/link-shell.yml       (symlinks dots/ → ~/.config/, ~/.zshrc, etc.)
-                                                        ├── tasks/install-claude.yml   (copy dots/config/claude/commands/ → ~/.claude/commands/)
+                                                        ├── tasks/packages-arch.yml           (Arch pacman)
+                                                        ├── tasks/packages-osx.yml            (Homebrew)
+                                                        ├── tasks/install-dotfiles.yml        (rsync repo, remote only)
+                                                        ├── tasks/jinga-templates.yml         (render .gitconfig, .zshenv, MCP configs)
+                                                        ├── tasks/link-shell.yml              (symlinks dots/ → ~/.config/, ~/.zshrc, etc.)
+                                                        ├── tasks/install-claude.yml          (copy dots/config/claude/commands/ → ~/.claude/commands/)
                                                         ├── tasks/install-windsurf-workflows.yml
-                                                        └── tasks/install-shell-packages.yml
+                                                        ├── tasks/install-shell-packages.yml
+                                                        └── [when git_clone=true]
+                                                            ├── tasks/git-modules-bradfordwagner.yml  (clone ~/workspace/github/bradfordwagner/*)
+                                                            └── tasks/git-modules-github.yml
 ```
 
 ### Directory layout
