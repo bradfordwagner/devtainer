@@ -20,6 +20,7 @@
     ansible_playbooks_dir: '{{ personal_dir }}/ansible_playbooks'
     github_web_dir: '{{ personal_dir }}/web'
     arch_dir: '{{ personal_dir }}/arch'
+    tmux_dir: '{{ personal_dir }}/tmux'
 
     templates_dir: '{{ personal_dir }}/gh_templates'
     gh_actions_dir: '{{ personal_dir }}/gh_actions'
@@ -50,6 +51,7 @@
      - '{{ ansible_playbooks_dir }}'
      - '{{ github_web_dir }}'
      - '{{ arch_dir }}'
+     - '{{ tmux_dir }}'
 
    - name: '{{ deploy_dir }}'
      git:
@@ -125,8 +127,6 @@
        repo: https://github.com/bradfordwagner/taskfiles.git
      - name: kmonad
        repo: https://github.com/bradfordwagner/container-kmonad.git
-     - name: tmux.buoyshell
-       repo: https://github.com/bradfordwagner/tmux-buoyshell.git
      - name: zmk.config.corne
        repo: https://github.com/bradfordwagner/zmk-config-corne.git
      - name: zmk.config.keyball.44
@@ -457,3 +457,16 @@
      loop:
      - name: bradfordwagner.com
        repo: https://github.com/bradfordwagner/bw-arch.git
+
+   - name: '{{ tmux_dir }}'
+     git:
+       repo: '{{ item.repo }}'
+       dest: '{{ tmux_dir }}/tmux.{{ item.name }}'
+     async: '{{ async_timeout }}'
+     poll: '{{ poll_timeout }}'
+     ignore_errors: '{{ ignore_errors }}'
+     loop:
+     - name: buoyshell
+       repo: https://github.com/bradfordwagner/tmux-buoyshell.git
+     - name: claude.notify
+       repo: https://github.com/bradfordwagner/tmux-claude-notify.git
