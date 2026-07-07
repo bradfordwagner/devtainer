@@ -16,6 +16,8 @@ trees:
       azure:
         pim: https://portal.azure.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadmigratedroles
         all_aad_groups: https://portal.azure.com/?feature.msaljs=true#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups
+      networking:
+        tailscale: https://login.tailscale.com/admin/machines
   - bookmarks:
       github_releases:
         argo_events: https://github.com/argoproj/argo-events/releases
