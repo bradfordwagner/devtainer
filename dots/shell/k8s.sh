@@ -1,6 +1,10 @@
 ################################################
 # kubectl / kubernetes / k8s helpers
 ################################################
+
+# ks - kubeconfig/k9s CLI helper
+export KS_DIR=${KS_DIR:-~/.kube}
+export KS_DATA_DIR=${KS_DATA_DIR:-~/.ks}
 function set_pod_name() {
   export pod_name=$(k get po | fzf --header-lines=1 | awk '{ print $1 }')
 }
