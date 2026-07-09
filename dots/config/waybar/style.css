@@ -25,11 +25,12 @@
     color: @lavender;
     border-radius: 1rem;
     padding: 0.4rem;
+    transition: all 0.4s ease-in-out;
 }
 
 #workspaces button.active,
 #workspaces button.focused {
-    background-color: @sky;
+    background-color: @lavender;
     color: @base;
     border-radius: 1rem;
 }
