@@ -29,7 +29,8 @@
 
 #workspaces button.active,
 #workspaces button.focused {
-    color: @sky;
+    background-color: @sky;
+    color: @base;
     border-radius: 1rem;
 }
 
