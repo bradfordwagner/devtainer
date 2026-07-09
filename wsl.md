@@ -80,3 +80,8 @@ mkdir -p ~/.local/share/fonts && curl -fL "https://github.com/ryanoasis/nerd-fon
 ## docker
 - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 - post install: https://docs.docker.com/engine/install/linux-postinstall/
+
+## az cli
+```
+curl -fsSL 'https://azurecliprod.blob.core.windows.net/$root/deb_install.sh' | sudo bash
+```
