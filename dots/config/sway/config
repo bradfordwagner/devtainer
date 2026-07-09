@@ -19,7 +19,7 @@ client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
 
 ### Appearance
-font pango:Iosevka 10
+font pango:IosevkaTerm NF ExtraBold 10
 titlebar_padding 4 2
 default_border pixel 2
 default_floating_border pixel 2
