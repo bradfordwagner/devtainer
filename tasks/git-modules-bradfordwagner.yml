@@ -266,6 +266,8 @@
        repo: https://github.com/bradfordwagner/ansible-role-qq.git
      - name: golang
        repo: https://github.com/bradfordwagner/ansible-role-golang.git
+     - name: vault
+       repo: https://github.com/bradfordwagner/ansible-role-vault.git
 
    - name: '{{ containers_dir }}'
      git:
