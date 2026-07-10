@@ -86,6 +86,7 @@ Keybindings live in `dots/config/claude/keybindings.json` and are copied to `~/.
 
 Available custom commands:
 - `/cc` — conventional commit: diffs, stages session files, commits, and pushes
+- `/role-update [name]` — checks local `bradfordwagner.ansible.role.*` repos for upstream version drift (table report), then on confirmation bumps + releases the ones that need it (branch → PR → CI → merge → tag → Galaxy publish → verify)
 
 Custom keybindings (`dots/config/claude/keybindings.json`):
 - `ctrl+y` — background current task/agent (return to fleet view)
