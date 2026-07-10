@@ -19,6 +19,16 @@
       vars:
         vault_scope: local
 
+- name: terraform
+  become: yes
+  become_user: '{{ user.name }}'
+  block:
+    - gather_facts:
+    - include_role:
+        name: bradfordwagner.terraform
+      vars:
+        terraform_scope: local
+
 - name: setup oh my zsh plugins/themes
   become: yes
   become_user: '{{ user.name }}'
