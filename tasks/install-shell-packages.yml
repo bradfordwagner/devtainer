@@ -9,6 +9,16 @@
       vars:
         jd_validate_certs: false
 
+- name: vault
+  become: yes
+  become_user: '{{ user.name }}'
+  block:
+    - gather_facts:
+    - include_role:
+        name: bradfordwagner.vault
+      vars:
+        vault_scope: local
+
 - name: setup oh my zsh plugins/themes
   become: yes
   become_user: '{{ user.name }}'

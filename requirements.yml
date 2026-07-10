@@ -3,5 +3,7 @@
   version: v0.43
 - src: bradfordwagner.jumpdir
   version: 0.10.0
+- src: bradfordwagner.vault
+  version: 1.0.1
 - src: andrewrothstein.sudoers
   version: v1.0.9
