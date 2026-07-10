@@ -29,6 +29,13 @@
         create: true
         block: "{{ lookup('template', item.source) }}"
 
+    - name: install .xsession (launches sway directly, skips XFCE session manager)
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/templates/xsession.j2"
+        dest: "{{ ansible_env.HOME }}/.xsession"
+        mode: '0755'
+      when: ansible_system == 'Linux'
+
     - name: ensure k9s config dir exists
       ansible.builtin.file:
         path: '{{ ansible_env.HOME }}/{{ k9s_config_dir }}'

@@ -72,6 +72,7 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
 | `templates/alacritty.toml.j2` | via alacritty task |
 | `templates/ghostty.j2` | via ghostty task |
 | `templates/k9s.yaml.j2` | `~/Library/Application Support/k9s/config.yaml` |
+| `templates/xsession.j2` | `~/.xsession` (Linux only, launches sway directly for xrdp) |
 
 ### Claude Code integration
 

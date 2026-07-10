@@ -8,6 +8,8 @@ sudo apt update
 sudo apt install xfce4 xfce4-goodies xrdp xclip -y
 sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
 printf '#!/bin/sh\nstartxfce4\n' > ~/.xsession && chmod +x ~/.xsession
+# ^ bootstrap only — once dotfiles are cloned and `task bb` has run, this file is
+# overwritten by the Ansible-managed templates/xsession.j2 (`exec sway`), see swaywm section below
 grep -q 'systemd=true' /etc/wsl.conf 2>/dev/null || sudo tee -a /etc/wsl.conf << 'EOF'
 [boot]
 systemd=true
@@ -68,9 +70,17 @@ chmod 440 /etc/sudoers.d/bw
 ## swaywm
 - https://github.com/bmo1177/sway_setup
 - cheatsheet - https://wiki.garudalinux.org/en/sway-cheatsheet
-- XFCE - app finder -> session and startup -> current session
-  - disable: xfwm4,xfce-panel,xfce4-power-manager
-  - add sway to startup
+- sway replaces XFCE as the session entirely rather than running nested inside it.
+  `~/.xsession` is Ansible-managed (`templates/xsession.j2` → `tasks/jinga-templates.yml`,
+  Linux-only) and just does `exec sway` — no more toggling xfwm4/xfce-panel/xfce4-power-manager
+  through the XFCE session-and-startup GUI.
+  - xrdp still provides the underlying X11 display (WSL2 has no DRM/GPU seat), so sway runs
+    against sway's X11 backend automatically since `DISPLAY` is set — it's just no longer
+    nested inside a running XFCE desktop.
+  - after cloning dotfiles and running `task bb` (which renders this template), reconnect via
+    mstsc — the next xrdp login launches sway directly instead of XFCE.
+  - if you ever need XFCE back (e.g. to debug something outside sway), temporarily replace
+    `~/.xsession` with `startxfce4` and reconnect; re-running `task bb` restores `exec sway`.
 
 ## fonts
 ```
