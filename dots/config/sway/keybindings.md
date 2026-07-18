@@ -44,9 +44,10 @@ Reference table for keybindings defined in `dots/config/sway/config`. `$mod` is 
 | `$mod+w` | Layout: tabbed |
 | `$mod+e` | Layout: toggle split |
 | `$mod+f` | Toggle fullscreen |
-| `$mod+Shift+space` | Toggle floating |
+| `$mod+Shift+space` | Toggle floating (resizes to 65%×80% and forces pixel border when floating) |
 | `$mod+space` | Toggle focus between tiling/floating |
 | `$mod+c` | Center focused floating window |
+| `$mod+p` | Toggle waybar visibility |
 
 ## Scratchpad
 

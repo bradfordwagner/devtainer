@@ -23,8 +23,8 @@ font pango:IosevkaTerm NF ExtraBold 10
 titlebar_padding 4 2
 default_border pixel 2
 default_floating_border pixel 2
-gaps inner 8
-gaps outer 4
+gaps inner 0
+# gaps outer 4
 
 ### Variables
 #
@@ -182,7 +182,7 @@ seat seat0 keyboard_grouping none
     bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+Shift+space floating toggle; [floating] resize set width 65 ppt height 80 ppt; [floating] border pixel 2
 
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
@@ -192,6 +192,9 @@ seat seat0 keyboard_grouping none
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+
+    # Toggle waybar visibility
+    bindsym $mod+p exec killall -SIGUSR1 waybar
 #
 # Scratchpad:
 #
