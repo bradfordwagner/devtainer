@@ -27,6 +27,7 @@
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
         path: '{{ ansible_env.HOME }}/{{ item.dest }}'
         create: true
+        mode: '0600'
         block: "{{ lookup('template', item.source) }}"
 
     - name: install per-path git identity fragments
