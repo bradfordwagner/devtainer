@@ -1,6 +1,6 @@
 [user]
-  name = bradfordwagner
-  email = wagner.bradford@gmail.com
+  name = {{ git_user_name }}
+  email = {{ git_user_email }}
 [core]
   pager = delta
   autocrlf = input
@@ -16,7 +16,7 @@
 [credential]
   helper = store --file ~/.my-credentials
 [credential "https://github.com"]
-  username = bradfordwagner
+  username = {{ git_user_name }}
 [pull]
   rebase = true
 [alias]
@@ -35,4 +35,8 @@
     colorMoved = default
 [push]
   autoSetupRemote = true
+{% for identity in git_identities %}
+[includeIf "gitdir:{{ identity.path }}"]
+  path = {{ ansible_env.HOME }}/.gitconfig-{{ identity.name }}
+{% endfor %}
 

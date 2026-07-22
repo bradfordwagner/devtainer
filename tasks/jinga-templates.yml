@@ -29,6 +29,18 @@
         create: true
         block: "{{ lookup('template', item.source) }}"
 
+    - name: install per-path git identity fragments
+      loop: "{{ git_identities }}"
+      loop_control:
+        label: "{{ item.name }}"
+      ansible.builtin.copy:
+        dest: "{{ ansible_env.HOME }}/.gitconfig-{{ item.name }}"
+        content: |
+          [user]
+            name = {{ item.name }}
+            email = {{ item.email }}
+        mode: '0644'
+
     - name: install .xsession (launches sway directly, skips XFCE session manager)
       ansible.builtin.template:
         src: "{{ playbook_dir }}/templates/xsession.j2"

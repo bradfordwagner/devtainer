@@ -34,3 +34,17 @@ argocd_mcp_skip_verify: true
 
 # User Configuration
 user_name: bwagner
+
+# Git identity configuration (default identity used everywhere)
+git_user_name: bradfordwagner
+git_user_email: wagner.bradford@gmail.com
+
+# Path-based git identity overrides.
+# Each entry generates a `[includeIf "gitdir:<path>/"]` block in ~/.gitconfig
+# pointing at a generated ~/.gitconfig-<name> fragment with its own [user].
+# Example:
+#   git_identities:
+#     - path: "{{ ansible_env.HOME }}/workspace/github/work/"
+#       name: work-username
+#       email: work@example.com
+git_identities: []
