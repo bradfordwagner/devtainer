@@ -61,7 +61,7 @@ current_index() {
 while true; do
   # fzf's pos() bind is 1-indexed from the top of the list.
   pos=$(( $(current_index) + 1 ))
-  choice=$(printf '%s\n' "${labels[@]}" | fzf --prompt="Display: " --height=~10 --bind "start:pos($pos)")
+  choice=$(printf '%s\n' "${labels[@]}" | fzf --prompt="Display: " --height=100% --bind "start:pos($pos)")
   [ -z "$choice" ] && break  # Escape/Ctrl-C exits the loop
 
   for i in "${!labels[@]}"; do
