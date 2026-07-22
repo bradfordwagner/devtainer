@@ -2,7 +2,11 @@
 output="X11-1"
 
 labels=(
-  '34" screen 1.0'
+  '34" extra small 0.8'
+  '34" small 0.9'
+  '34" medium 1.0'
+  '34" large 1.1'
+  '34" extra large 1.2'
   'laptop extra small 1.0'
   'laptop small 1.2'
   'laptop medium 1.4'
@@ -11,6 +15,10 @@ labels=(
 )
 resolutions=(
   "3440x1440"
+  "3440x1440"
+  "3440x1440"
+  "3440x1440"
+  "3440x1440"
   "2496x1664"
   "2496x1664"
   "2496x1664"
@@ -18,7 +26,11 @@ resolutions=(
   "2496x1664"
 )
 scales=(
+  "0.8"
+  "0.9"
   "1.0"
+  "1.1"
+  "1.2"
   "1.0"
   "1.2"
   "1.4"
