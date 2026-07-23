@@ -290,3 +290,45 @@ function gsc() {
   esac
 }
 ################################################################
+# gh account switching (github.com, multiple accounts logged in at once).
+# One-time setup per account, run manually: `gh auth login`
+# Lists the authenticated github.com accounts, pick one with fzf, switch the
+# *active* gh account, then sync commit identity from that account (gh api user).
+function ghs() {
+  local auth_status users active user login_cmd='gh auth login --hostname github.com'
+  auth_status=$(gh auth status 2>/dev/null)
+  users=$(printf '%s\n' "$auth_status" \
+    | sed -n 's/.*Logged in to github.com account \([^ ]*\).*/\1/p')
+  if [ -z "$users" ]; then
+    echo "ghs: no authenticated github.com accounts" >&2
+    echo "ghs: to authenticate an account: $login_cmd" >&2
+    return 1
+  fi
+  if [ "$(printf '%s\n' "$users" | wc -l)" -eq 1 ]; then
+    echo "ghs: only one github.com account authenticated ($users) — nothing to switch"
+    echo "ghs: to authenticate another account: $login_cmd"
+    return 0
+  fi
+  # currently active account gets a ** marker in the picker
+  active=$(printf '%s\n' "$auth_status" | awk '
+    /Logged in to github.com account/ { for (i=1;i<=NF;i++) if ($i=="account") u=$(i+1) }
+    /Active account: true/            { print u; exit }')
+  user=$(printf '%s\n' "$users" \
+    | sed "s/^${active}\$/& **/" \
+    | fzf --prompt='gh account> ' --height=~40% --no-multi) || return
+  user=${user% **}
+  [ -n "$user" ] || return
+  gh auth switch --hostname github.com --user "$user" || return
+  # pull commit identity from the now-active account (no identity hardcoded here);
+  # fall back to login / GitHub noreply address when the fields are private.
+  local name email login id
+  IFS=$'\t' read -r name email login id \
+    <<< "$(gh api user --jq '[.name, .email, .login, (.id|tostring)] | @tsv' 2>/dev/null)"
+  [ -n "$name" ]  || name=$login
+  [ -n "$email" ] || email="${id}+${login}@users.noreply.github.com"
+  git config --global --replace-all user.name  "$name"
+  git config --global --replace-all user.email "$email"
+  echo "ghs: identity → $name <$email>"
+  echo "ghs: to authenticate another account: $login_cmd"
+}
+################################################################
