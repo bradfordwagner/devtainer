@@ -5,15 +5,18 @@ Check all locally cloned `bradfordwagner.ansible.role.*` Ansible role repos for 
 Default location: `~/workspace/github/bradfordwagner/ansible_roles/bradfordwagner.ansible.role.*` — if not found there, ask where they live.
 
 For each role directory:
-1. Read `defaults/main.yml` for the pinned upstream version variable (commonly named `<prefix>_ver` or `<prefix>_version`).
-2. Determine the upstream source:
+1. Sync the repo before reading anything from it: `git fetch origin`, then check the current branch (`git branch --show-current`).
+   - If it's the default branch (`main`): fast-forward it to `origin/main`. If the working tree has uncommitted changes that block the fast-forward, stop and ask the user what to do for that repo rather than stashing/discarding automatically.
+   - If it's a non-default branch: stop and ask the user what to do for that repo before proceeding — options like switch to `main` and fast-forward (stashing or leaving uncommitted changes as they choose), check upstream against the current branch as-is, or skip this repo entirely. Don't guess; this decides which commit the version check reads from.
+2. Read `defaults/main.yml` (from the now-synced checkout) for the pinned upstream version variable (commonly named `<prefix>_ver` or `<prefix>_version`).
+3. Determine the upstream source:
    - Check `vars/main.yml` and `tasks/main.yml` for a `repo: owner/name` entry (the `go-releaser-install` convention) or a `_mirror:` pointing at a GitHub releases URL — these map to a GitHub repo.
    - Check the role's `CLAUDE.md` if present — some roles document non-GitHub upstreams with exact instructions on how to check the latest version.
    - `bradfordwagner.ansible.role.golang` tracks a Go minor line (e.g. `"1.26"`) and auto-resolves the latest patch at install time — compare against `https://go.dev/dl/?mode=json&include=all` (stable minors only) and flag only if a newer *minor* line exists, not a newer patch.
    - `bradfordwagner.ansible.role.wiz` has no public GitHub releases page. List the S3 bucket via `curl -s https://downloads.wiz.io/v1/wizcli/manifest.json`, extract version-looking key prefixes (`v1/wizcli/X.Y.Z/...`), and take the highest semver directory that actually contains real binaries (not just a `RELEASE_NOTES` stub) as the latest version.
    - `bradfordwagner.ansible.role.go.releaser.install` is a generic installer helper with no fixed upstream of its own — skip it.
-3. For GitHub-hosted upstreams, query `https://api.github.com/repos/<owner>/<repo>/releases/latest` for the current tag.
-4. Compare pinned vs latest and report the outcome per role in a single markdown table: `Role | Upstream | Current | Latest | Update?`.
+4. For GitHub-hosted upstreams, query `https://api.github.com/repos/<owner>/<repo>/releases/latest` for the current tag.
+5. Compare pinned vs latest and report the outcome per role in a single markdown table: `Role | Upstream | Current | Latest | Update?`.
 
 If nothing needs updating, stop here and say so.
 
