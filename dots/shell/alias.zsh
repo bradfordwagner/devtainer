@@ -1,6 +1,7 @@
 alias resource='source ~/.zshrc'
 alias x=exit
 alias nb=newsboat
+alias sway_select_display='~/.dotfiles/dots/shell_scripts/speed/sway_select_display.sh'
 
 ################################################
 # ansible
