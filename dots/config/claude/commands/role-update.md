@@ -22,7 +22,20 @@ If nothing needs updating, stop here and say so.
 
 ## Phase 2 — confirm
 
-If any roles need updates, ask the user which of them to release (default suggestion: all that need it). Do not proceed to phase 3 without this confirmation — it does hard-to-reverse, publicly-visible things (PR merges, tag pushes, public Galaxy releases).
+If any roles need updates, ask a yes/no question per role via `AskUserQuestion` — each role gets its own explicit answer (don't lump them into one "which of these?" question), so the user can say yes to some and no to others without a clarifying round-trip. Default/first option is "Yes". `AskUserQuestion` allows up to 4 questions per call; if more than 4 roles need updates, batch the calls (4 at a time) rather than skipping any. Do not proceed to phase 3 for a role without its explicit yes — this does hard-to-reverse, publicly-visible things (PR merges, tag pushes, public Galaxy releases).
+
+## Phase 2.5 — release progress pane (tmux only)
+
+If `$TMUX` is set and at least one role was confirmed, stand up a live dashboard pane before starting phase 3. Skip this whole phase (no pane, just narrate progress inline as usual) if not running inside tmux.
+
+1. Capture the current pane as the split target: `tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}'`.
+2. Split a dashboard pane and capture its id directly: `NEWPANE=$(tmux split-window -t <target> -h -l 50 -P -F '#{pane_id}')`.
+3. In the scratchpad directory, write `role-update-status.tsv` with one tab-separated line per `<confirmed role> x <step>`, all starting `pending`:
+   `<role>\t<step_num>\t<step_label>\t<status>\t<start_epoch>\t<end_epoch>`
+   Steps are the 10 from phase 3: sync-main, branch, edit-version, commit-pr, ci-watch-branch, merge, tag, push-tag, ci-watch-tag, verify. `status` is one of `pending|active|done|failed`; epochs are `0` until set. Also write `role-update-started` containing the overall start epoch.
+4. Write a small self-contained bash renderer to `role-update-progress.sh` in the scratchpad (no `jq` — it must run unattended, so keep it to `awk`/`read`/plain bash): a `while true` loop that clears the pane, prints a header with elapsed time since the overall start epoch, then per role a done/total progress bar plus each step with a glyph (✓ done, a spinner frame for `active`, `○` pending, `✗` failed), and the step's duration once it's done. `sleep 1` between redraws.
+5. Launch it in the new pane: `tmux send-keys -t "$NEWPANE" "bash <scratchpad>/role-update-progress.sh" Enter`.
+6. During phase 3, keep the status file current: rewrite it (it's small) whenever a step starts (`active` + start epoch) or finishes (`done`/`failed` + end epoch). The pane picks up the change on its next redraw — no further tmux calls needed mid-release.
 
 ## Phase 3 — release (per confirmed role)
 
@@ -30,7 +43,7 @@ Each role is its own git repo (remote `bradfordwagner/ansible-role-<name>` on Gi
 - `.github/workflows/container_branches.yml` — runs on every branch push, builds+tests the role across its OS/arch container matrix.
 - `.github/workflows/container_tags.yml` — runs on tag push, rebuilds the matrix, then runs a `publish` job (`robertdebock/galaxy-action`) that publishes the role to Ansible Galaxy under namespace `bradfordwagner`.
 
-Steps, for each confirmed role:
+Steps, for each confirmed role (if a progress pane is running per phase 2.5, mark the matching step `active`+start-epoch before it begins and `done`/`failed`+end-epoch right after — rewrite `role-update-status.tsv` at each transition):
 1. `cd` into the role directory. `git fetch origin`, checkout `main`, fast-forward merge to `origin/main` — local `main` is often stale even if a local feature branch looks up to date.
 2. Create a new branch off the freshly-synced main, e.g. `chore/bump-<tool>-version`. Don't reuse an old `feature/upgrades`-style branch — these repos squash-merge PRs, so old feature branches go stale/diverge from main after merge and reusing one silently drags in unrelated already-merged history.
 3. Edit the version variable in `defaults/main.yml` (per what phase 1 found). If `defaults/main.yml` also has an embedded per-version checksums map (e.g. `azure.blob.cli`), add the new version's checksums too — most roles don't pin checksums and can skip this.
@@ -44,4 +57,17 @@ Steps, for each confirmed role:
 
 If releasing multiple roles, run their CI/release watches in parallel (background the `gh run watch` calls) rather than doing them fully sequentially.
 
-Report, per role: the PR URL, the release tag, and the Galaxy confirmation.
+## Phase 4 — final report
+
+Once every confirmed role has finished (released or failed):
+
+1. If a progress pane is running: let it redraw once more with the final state (everything `done` or `failed`), then stop its refresh loop without closing the pane — `tmux send-keys -t "$NEWPANE" C-c` — so the finished dashboard stays on screen for reference.
+2. From `role-update-status.tsv`, compute:
+   - Total wall-clock elapsed since the overall start epoch.
+   - Per-step duration for every role.
+   - The single slowest step overall — that's the headline bottleneck (name role, step, duration, and its share of total wall-clock time).
+   - Total time spent in the two `ci-watch-*` steps vs. everything else — CI wait is usually the dominant cost, call it out explicitly if it's >50% of wall-clock.
+   - If roles released concurrently, the parallelism payoff: sum of all per-role durations vs. actual wall-clock elapsed.
+3. Close out the chat response with:
+   - The existing per-role report (PR URL, release tag, Galaxy confirmation).
+   - A "Nerd stats" block: total elapsed, roles released, PRs merged, tags pushed, the bottleneck step called out by name, and the CI-wait-vs-mechanics split. Keep it tight — a small table or a few punchy lines, not a wall of numbers.
