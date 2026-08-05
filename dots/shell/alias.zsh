@@ -625,3 +625,11 @@ function jwt_decode() {
 ################################################
 alias npm_openspec='npm install -g @fission-ai/openspec@latest'
 ################################################
+
+################################################
+# packages
+################################################
+# update + upgrade brew/apt, then summarize what changed per manager
+alias pkg_upgrade='~/.dotfiles/dots/shell_scripts/pkg_upgrade.sh'
+alias pu=pkg_upgrade
+################################################

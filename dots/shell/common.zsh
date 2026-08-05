@@ -15,6 +15,8 @@ export PATH=~/bin:~/.rd/bin:/usr/local/bin:$PATH
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/opt/local/bin:/bin:/usr/local/bin:/usr/bin:/sbin:/usr/sbin:/opt/local/sbin
 export PATH=$PATH:~/shell_scripts
+export PATH=$PATH:~/.dotfiles/dots/shell_scripts
+export PATH=$PATH:~/.dotfiles/dots/shell_scripts/speed
 export PATH=$PATH:~/.krew/bin # kubectl plugins
 export PATH=$PATH:${HOME}/.local/bin
 
