@@ -42,7 +42,8 @@ sudo apt update
 sudo apt install -y \
   xrdp xorgxrdp xserver-xorg-core dbus-x11 xwayland rsync \
   sway swaybg swayidle swaylock foot rofi waybar fonts-font-awesome \
-  grim slurp wl-clipboard brightnessctl x11-xserver-utils psmisc ghostty
+  grim slurp wl-clipboard brightnessctl x11-xserver-utils psmisc ghostty \
+  zsh
 
 # xrdp on 3390 (matches the port-forward)
 sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
