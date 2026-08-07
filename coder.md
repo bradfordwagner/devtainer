@@ -42,8 +42,12 @@ sudo apt update
 sudo apt install -y \
   xrdp xorgxrdp xserver-xorg-core dbus-x11 xwayland rsync \
   sway swaybg swayidle swaylock foot rofi waybar fonts-font-awesome \
-  grim slurp wl-clipboard brightnessctl x11-xserver-utils psmisc file ghostty \
+  grim slurp wl-clipboard brightnessctl x11-xserver-utils psmisc file unzip ghostty \
   zsh
+
+# make zsh the login shell. /etc/passwd is on the wiped layer, so re-run per rebuild;
+# passwordless sudo avoids the interactive chsh password prompt.
+sudo chsh -s /usr/bin/zsh coder
 
 # xrdp on 3390 (matches the port-forward)
 sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
@@ -108,6 +112,11 @@ sudo apt-get install -y --allow-downgrades firefox
 # without them it silently falls back to an unstyled menu. adi1090x's installer populates them.
 # This writes to ~/.config/rofi (on the persistent ~/), so it's one-time — not per-rebuild.
 rm -rf /tmp/rofi && git clone --depth 1 https://github.com/adi1090x/rofi /tmp/rofi && (cd /tmp/rofi && ./setup.sh)
+
+# nerd font (IosevkaTerm) — the ghostty/alacritty configs default to "IosevkaTerm Nerd Font Mono";
+# without it terminals fall back to a glyph-less font (broken powerline/icons). Writes to
+# ~/.local/share/fonts (persistent ~/), so one-time — not per-rebuild. Needs unzip (apt block above).
+mkdir -p ~/.local/share/fonts && curl -fL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/IosevkaTerm.zip" -o /tmp/IosevkaTerm.zip && unzip -o /tmp/IosevkaTerm.zip -d ~/.local/share/fonts/IosevkaTerm && fc-cache -fv
 ```
 
 Then reconnect via mstsc. Verify the fix landed: `/run/xrdp/sockdir/1000` should be group
