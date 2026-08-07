@@ -27,7 +27,7 @@ sudo apt update
 sudo apt install -y \
   xrdp xorgxrdp xserver-xorg-core dbus-x11 xwayland rsync \
   sway swaybg swayidle swaylock foot rofi waybar fonts-font-awesome \
-  grim slurp wl-clipboard brightnessctl x11-xserver-utils psmisc file unzip ghostty \
+  grim slurp slop wl-clipboard brightnessctl x11-xserver-utils psmisc file unzip ghostty \
   zsh
 
 # make zsh the login shell. /etc/passwd is on the wiped layer, so re-run per rebuild;
