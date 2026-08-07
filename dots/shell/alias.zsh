@@ -328,12 +328,14 @@ if hash tmux-non-dead.tmux 2>/dev/null; then
   alias tmux='tmux-non-dead.tmux'
 fi
 alias tc='clear && tmux clear-history'
-alias ta='tmux attach -t'
+# -u forces UTF-8 output. tmux only guesses UTF-8 support, and over `coder ssh`
+# it guesses wrong (client_utf8=0) and blanks out every nerd-font glyph.
+alias ta='tmux -u attach -t'
 function tns() {
   # adapted from: https://gist.github.com/jyurek/7be666a88e06f68d45cf
   if [ -z "$TMUX" ]; then
       echo not tmux
-      tmux new-session -As $1 -c $(pwd)
+      tmux -u new-session -As $1 -c $(pwd)
   else
     # inside tmux
     echo in tmux
@@ -347,7 +349,7 @@ function tns() {
     fi
   fi
 }
-alias tn='tmux new'
+alias tn='tmux -u new'
 alias ts='tmux ls'
 function tmux_dir() { # tmux open dir
   ls | fzf | xargs -n 1 zsh -c 'index=$(tmux splitw -d -P -F "#{pane_index}"); tmux send -t ${index} "cd $0" ENTER; tmux select-layout tiled'

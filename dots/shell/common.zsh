@@ -1,4 +1,22 @@
 ################################################
+# force a UTF-8 locale
+################################################
+# A bare container (Coder pod) starts with LANG/LC_* completely unset, which
+# leaves LC_CTYPE=POSIX. tmux then marks the client as non-UTF-8
+# (`tmux list-clients -F '#{client_utf8}'` reports 0) and substitutes every
+# multibyte glyph, so nerd-font icons in the status bar / starship / nvim come
+# out as placeholders. nvim, less and sort mis-handle multibyte input the same way.
+# C.UTF-8 is built into glibc, so it needs no locale-gen and survives a pod
+# rebuild that wipes `/`. macOS has no C.UTF-8, hence the split.
+if [[ -z ${LC_ALL} && -z ${LC_CTYPE} && -z ${LANG} ]]; then
+  if [[ $OSTYPE == darwin* ]]; then
+    export LANG=en_US.UTF-8
+  else
+    export LANG=C.UTF-8
+  fi
+fi
+
+################################################
 # setup PATH
 ################################################
 export GOPATH="${HOME}/go"
