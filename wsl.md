@@ -101,6 +101,19 @@ sudo rm -f /var/run/xrdp/xrdp-sesman.pid             # clear stale sesman pid
 sudo service xrdp start                              # starts both xrdp + sesman
 # verify both are up: `ps aux | grep -E 'xrdp|sesman'` should show /usr/sbin/xrdp AND
 # /usr/sbin/xrdp-sesman. If sesman is missing, start it directly: `sudo /usr/sbin/xrdp-sesman`
+
+# firefox — Ubuntu's `firefox` .deb is only a stub that launches the firefox SNAP, and snaps
+# need snapd → systemd, which the pod doesn't have. So install the real native .deb from
+# Mozilla's APT repo instead (pinned so it wins over the stub; --allow-downgrades because the
+# stub carries a fake high epoch version). No snap/systemd required.
+sudo install -d -m 0755 /etc/apt/keyrings
+wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee /etc/apt/sources.list.d/mozilla.list > /dev/null
+printf 'Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000\n' | sudo tee /etc/apt/preferences.d/mozilla > /dev/null
+sudo apt-get update -qq
+sudo apt-get install -y --allow-downgrades firefox
+# verify it's the real thing (not the snap stub): `file /usr/bin/firefox` should be an ELF
+# binary / symlink into /usr/lib/firefox, and `firefox --version` should print a version.
 ```
 
 Then reconnect via mstsc. Verify the fix landed: `/run/xrdp/sockdir/1000` should be group
