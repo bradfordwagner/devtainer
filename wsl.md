@@ -68,24 +68,39 @@ sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
 sudo sed -i -E 's/^[#; ]*SessionSockdirGroup=.*/SessionSockdirGroup=xrdp/' /etc/xrdp/sesman.ini
 
 # session driver = sway. `task bb` (dotfiles) renders this same file via templates/xsession.j2,
-# so it's only needed before dotfiles is set up — harmless to run either way. (sway runs fine
-# over xrdp once the socket fix above is in; the WM was never the problem.)
+# which now carries the identical XDG_RUNTIME_DIR guard below — so `task bb` no longer clobbers
+# this fix. Running it here before dotfiles is set up is still harmless. (sway runs fine over
+# xrdp once the socket fix above is in; the WM was never the problem.)
 #
-# The XDG_RUNTIME_DIR export is NOT optional: without it sway aborts on startup with
+# The XDG_RUNTIME_DIR guard is NOT optional: without it sway aborts on startup with
 # "XDG_RUNTIME_DIR is not set in the environment. Aborting." and the RDP window opens then
-# instantly closes. The pod has no systemd / pam_systemd to create /run/user/<uid>, so nothing
-# sets XDG_RUNTIME_DIR — we point it at a tmp dir ourselves. Don't trim this back to `exec sway`.
+# instantly closes (xrdp.log shows a successful lib_mod_connect immediately followed by
+# "Xorg server closed connection"). The pod has no systemd / pam_systemd to create
+# /run/user/<uid>, so nothing sets XDG_RUNTIME_DIR — we point it at a tmp dir ourselves when
+# it's unset. Don't trim this back to a bare `exec sway`.
 cat > ~/.xsession <<'EOF'
 #!/bin/sh
-export XDG_RUNTIME_DIR=/tmp/xdg-runtime-$(id -u)
-mkdir -p "$XDG_RUNTIME_DIR"; chmod 700 "$XDG_RUNTIME_DIR"
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+  export XDG_RUNTIME_DIR=/tmp/xdg-runtime-$(id -u)
+  mkdir -p "$XDG_RUNTIME_DIR"
+  chmod 700 "$XDG_RUNTIME_DIR"
+fi
 exec sway
 EOF
 chmod +x ~/.xsession
 
-# (re)start xrdp — the pod has no systemd, so use `service`, not `systemctl`
-sudo rm -rf /run/xrdp/sockdir/*   # clear any stale group-root sockdir from before the fix
-sudo service xrdp restart
+# (re)start xrdp — the pod has no systemd, so use `service`, not `systemctl`.
+# NOTE: `service xrdp restart` is unreliable here — its PID tracking is broken, so it can
+# leave orphan xrdp processes bound to 3390 (new starts then fail with
+# "g_tcp_bind ... errno=98 address already in use") and a stale xrdp-sesman.pid that makes
+# sesman refuse to start ("xrdp-sesman is already running"). On a fresh workspace a plain
+# `service xrdp start` is enough; if you've already been fighting it, do a full clean start:
+sudo pkill -9 -f xrdp; sleep 2                       # kill any orphan front-ends/sesman
+sudo rm -rf /run/xrdp/sockdir/*                      # clear stale (and pre-fix group-root) sockets
+sudo rm -f /var/run/xrdp/xrdp-sesman.pid             # clear stale sesman pid
+sudo service xrdp start                              # starts both xrdp + sesman
+# verify both are up: `ps aux | grep -E 'xrdp|sesman'` should show /usr/sbin/xrdp AND
+# /usr/sbin/xrdp-sesman. If sesman is missing, start it directly: `sudo /usr/sbin/xrdp-sesman`
 ```
 
 Then reconnect via mstsc. Verify the fix landed: `/run/xrdp/sockdir/1000` should be group
@@ -148,8 +163,9 @@ chmod 440 /etc/sudoers.d/bw
 - cheatsheet - https://wiki.garudalinux.org/en/sway-cheatsheet
 - sway replaces XFCE as the session entirely rather than running nested inside it.
   `~/.xsession` is Ansible-managed (`templates/xsession.j2` → `tasks/jinga-templates.yml`,
-  Linux-only) and just does `exec sway` — no more toggling xfwm4/xfce-panel/xfce4-power-manager
-  through the XFCE session-and-startup GUI.
+  Linux-only) and does `exec sway` after setting a fallback `XDG_RUNTIME_DIR` when one isn't
+  already present (needed for bare containers like Coder pods; a no-op on systemd/WSL hosts) —
+  no more toggling xfwm4/xfce-panel/xfce4-power-manager through the XFCE session-and-startup GUI.
   - xrdp still provides the underlying X11 display (WSL2 has no DRM/GPU seat), so sway runs
     against sway's X11 backend automatically since `DISPLAY` is set — it's just no longer
     nested inside a running XFCE desktop.
