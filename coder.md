@@ -33,8 +33,16 @@ Then paste the rest in one shot — it's all non-interactive:
 
 ```bash
 # desktop bits — the pod is bare (no window manager). xrdp/xorgxrdp are usually already present.
+# The sway userland (waybar, swaybg, rofi, etc.) is what the dotfiles sway config actually drives:
+# without it you get a black screen (no wallpaper/bar) even though sway itself launches fine.
+# x11-xserver-utils provides setxkbmap, which the sway config execs on startup.
+# NOTE: sway starts at the small resolution pinned in dots/config/sway/config; after connecting,
+# bump it to your monitor via dots/shell_scripts/speed/sway_select_display.sh (fzf res/scale picker).
 sudo apt update
-sudo apt install -y xrdp xorgxrdp xserver-xorg-core dbus-x11 sway foot xwayland rsync
+sudo apt install -y \
+  xrdp xorgxrdp xserver-xorg-core dbus-x11 xwayland rsync \
+  sway swaybg swayidle swaylock foot rofi waybar fonts-font-awesome \
+  grim slurp wl-clipboard brightnessctl x11-xserver-utils psmisc
 
 # xrdp on 3390 (matches the port-forward)
 sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
