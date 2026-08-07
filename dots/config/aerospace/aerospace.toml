@@ -198,7 +198,7 @@ alt-shift-semicolon = 'mode service'
 # ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/dmenu_start.sh'
 # ctrl-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_apps.sh'
 #ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_apps.sh'
-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_tmux.sh'
+# alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_tmux.sh'
 ctrl-alt-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/rofi_jdi.sh'
 
 # 'service' binding mode declaration.
