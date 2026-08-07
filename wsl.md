@@ -58,7 +58,7 @@ Then paste the rest in one shot — it's all non-interactive:
 ```bash
 # desktop bits — the pod is bare (no window manager). xrdp/xorgxrdp are usually already present.
 sudo apt update
-sudo apt install -y xrdp xorgxrdp xserver-xorg-core dbus-x11 sway foot xwayland
+sudo apt install -y xrdp xorgxrdp xserver-xorg-core dbus-x11 sway foot xwayland rsync
 
 # xrdp on 3390 (matches the port-forward)
 sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
