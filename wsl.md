@@ -26,109 +26,12 @@ xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Primary><Alt>l" -
 xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/default/<Primary><Alt>l" -r 2>/dev/null || true
 ```
 
-## coder — remote desktop (RDP)
+## coder
 
-RDP into the xrdp desktop running in a Coder Kubernetes workspace. Same xrdp/Xorg stack as
-the XFCE section above, but the pod is bare (no systemd, no window manager) and ships xrdp
-with a broken default, so it needs the extra fixes below.
-
-Forward the workspace's xrdp port (`3390`) to a local port, then point mstsc at it:
-
-```bash
-coder port-forward bwagner --tcp 5900:3390
-```
-
-- connect: `Win+R` → `mstsc` → `localhost:5900`
-- log in as the `coder` user with the password you set in the first setup step below
-
-### first-time setup inside a fresh workspace
-
-Inside the workspace (`coder ssh bwagner`). First the one interactive bit — run it and answer
-the prompts (it reads the new password twice, so it can't live in a pasted block):
-
-```bash
-sudo passwd coder   # give the coder login a password
-```
-
-Then paste the rest in one shot — it's all non-interactive:
-
-```bash
-# desktop bits — the pod is bare (no window manager). xrdp/xorgxrdp are usually already present.
-sudo apt update
-sudo apt install -y xrdp xorgxrdp xserver-xorg-core dbus-x11 sway foot xwayland rsync
-
-# xrdp on 3390 (matches the port-forward)
-sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
-
-# THE fix: let the xrdp front-end reach the Xorg backend socket.
-#   The pod's xrdp daemon runs as group `xrdp`, but sesman defaults the per-session socket
-#   dir (/run/xrdp/sockdir/<uid>) to group `root`. The front-end then gets EACCES entering
-#   it, and lib_mod_connect retries for 30s before failing with
-#   "Error connecting to user session" — even though login + the X backend both succeed.
-sudo sed -i -E 's/^[#; ]*SessionSockdirGroup=.*/SessionSockdirGroup=xrdp/' /etc/xrdp/sesman.ini
-
-# session driver = sway. `task bb` (dotfiles) renders this same file via templates/xsession.j2,
-# which now carries the identical XDG_RUNTIME_DIR guard below — so `task bb` no longer clobbers
-# this fix. Running it here before dotfiles is set up is still harmless. (sway runs fine over
-# xrdp once the socket fix above is in; the WM was never the problem.)
-#
-# The XDG_RUNTIME_DIR guard is NOT optional: without it sway aborts on startup with
-# "XDG_RUNTIME_DIR is not set in the environment. Aborting." and the RDP window opens then
-# instantly closes (xrdp.log shows a successful lib_mod_connect immediately followed by
-# "Xorg server closed connection"). The pod has no systemd / pam_systemd to create
-# /run/user/<uid>, so nothing sets XDG_RUNTIME_DIR — we point it at a tmp dir ourselves when
-# it's unset. Don't trim this back to a bare `exec sway`.
-cat > ~/.xsession <<'EOF'
-#!/bin/sh
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-  export XDG_RUNTIME_DIR=/tmp/xdg-runtime-$(id -u)
-  mkdir -p "$XDG_RUNTIME_DIR"
-  chmod 700 "$XDG_RUNTIME_DIR"
-fi
-exec sway
-EOF
-chmod +x ~/.xsession
-
-# (re)start xrdp — the pod has no systemd, so use `service`, not `systemctl`.
-# NOTE: `service xrdp restart` is unreliable here — its PID tracking is broken, so it can
-# leave orphan xrdp processes bound to 3390 (new starts then fail with
-# "g_tcp_bind ... errno=98 address already in use") and a stale xrdp-sesman.pid that makes
-# sesman refuse to start ("xrdp-sesman is already running"). On a fresh workspace a plain
-# `service xrdp start` is enough; if you've already been fighting it, do a full clean start:
-sudo pkill -9 -f xrdp; sleep 2                       # kill any orphan front-ends/sesman
-sudo rm -rf /run/xrdp/sockdir/*                      # clear stale (and pre-fix group-root) sockets
-sudo rm -f /var/run/xrdp/xrdp-sesman.pid             # clear stale sesman pid
-sudo service xrdp start                              # starts both xrdp + sesman
-# verify both are up: `ps aux | grep -E 'xrdp|sesman'` should show /usr/sbin/xrdp AND
-# /usr/sbin/xrdp-sesman. If sesman is missing, start it directly: `sudo /usr/sbin/xrdp-sesman`
-
-# firefox — Ubuntu's `firefox` .deb is only a stub that launches the firefox SNAP, and snaps
-# need snapd → systemd, which the pod doesn't have. So install the real native .deb from
-# Mozilla's APT repo instead (pinned so it wins over the stub; --allow-downgrades because the
-# stub carries a fake high epoch version). No snap/systemd required.
-sudo install -d -m 0755 /etc/apt/keyrings
-wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
-echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee /etc/apt/sources.list.d/mozilla.list > /dev/null
-printf 'Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000\n' | sudo tee /etc/apt/preferences.d/mozilla > /dev/null
-sudo apt-get update -qq
-sudo apt-get install -y --allow-downgrades firefox
-# verify it's the real thing (not the snap stub): `file /usr/bin/firefox` should be an ELF
-# binary / symlink into /usr/lib/firefox, and `firefox --version` should print a version.
-```
-
-Then reconnect via mstsc. Verify the fix landed: `/run/xrdp/sockdir/1000` should be group
-`xrdp`, and `/var/log/xrdp.log` should show `lib_mod_connect` followed immediately by
-`lib_mod_log_peer: ... connected to Xorg_pid=...` (no 30-second gap).
-
-> [!NOTE]
-> The pod has no systemd (`systemctl` is likely absent) — start/restart xrdp with
-> `sudo service xrdp start` / `restart`, not `systemctl`.
-
-> [!CAUTION]
-> A Coder pod's writable layer is wiped on rebuild, so all of the above (the `sesman.ini`
-> fix and the installed packages especially) vanishes and must be re-run. The durable home
-> for the package installs and config edits is the workspace's base container image / template —
-> bake them in there so every workspace comes up RDP-ready.
+Coder Kubernetes workspace setup (RDP, firefox, persistent homebrew) lives in its own file:
+[coder.md](coder.md). It shares the xrdp/Xorg/sway stack with the WSL sections here but the pod
+is bare (no systemd) and its writable layer is wiped on rebuild, so the two diverge in
+important ways.
 
 ## homebrew
 ```

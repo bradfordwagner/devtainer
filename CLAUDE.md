@@ -98,3 +98,24 @@ Configured via `templates/cursor.mcp.json.j2` (rendered to `~/.cursor/mcp.json`)
 - `bw-mcp` — Bradford's custom Go MCP server, path set via `bradfordwagner_mcp_dir`
 
 Token/URL config goes in `variables.local.yml`.
+
+### Setup docs: `wsl.md` vs `coder.md`
+
+Two hand-run setup guides. They share the same desktop stack (xrdp → Xorg → sway via
+`~/.xsession`, tmux/nvim conflict notes) but target different hosts — keep platform-specific
+steps in the right file and don't cross-contaminate.
+
+- **`wsl.md`** — WSL2 on Windows. Has systemd (`systemd=true` in `/etc/wsl.conf`), so
+  `systemctl enable --now`, snaps, and the default Homebrew prefix (`/home/linuxbrew`) all work
+  normally. The whole filesystem is persistent.
+- **`coder.md`** — bare Coder Kubernetes pod. **No systemd** (use `service`, not `systemctl`;
+  no snaps → firefox comes from Mozilla's APT repo, not the Ubuntu stub), no window manager,
+  and the writable layer (`/`) is **wiped on rebuild** while only `~/` (`/home/coder`, a PV)
+  persists. Hence the `XDG_RUNTIME_DIR` guard in `templates/xsession.j2`, the `sesman.ini`
+  socket-group fix, and the Homebrew symlink (`~/linuxbrew` ← `/home/linuxbrew/.linuxbrew`) so
+  bottles keep working while the store lives on the PV. Anything touching `/` must be re-run
+  per rebuild or baked into the base image.
+
+When editing: a change to the shared stack (e.g. the `.xsession`/sway launch) usually belongs
+in `templates/xsession.j2` and should be reflected in **both** docs; a systemd/persistence/snap
+detail belongs in exactly one.

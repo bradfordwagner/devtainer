@@ -1,5 +1,53 @@
 ---
 
+# Homebrew persistence for hosts with an ephemeral / (e.g. Coder pods):
+# keep the blessed prefix string /home/linuxbrew/.linuxbrew (so pre-built bottles
+# are used) but back its storage with a symlink into the persistent home volume.
+# Only the symlink lives on the throwaway layer, so re-creating it after a rebuild
+# restores brew without reinstalling. See coder.md.
+- name: linuxbrew - ensure persistent store dir exists in home
+  ansible.builtin.file:
+    path: '{{ ansible_env.HOME }}/linuxbrew'
+    state: directory
+    mode: '0755'
+
+- name: linuxbrew - stat the blessed prefix
+  ansible.builtin.stat:
+    path: /home/linuxbrew/.linuxbrew
+  register: linuxbrew_dest
+
+# creating /home/linuxbrew + the symlink needs root. The normal playbook flow
+# avoids root become, so probe for passwordless sudo and skip gracefully if we
+# don't have it (mirrors the xfconf/argocd rc==0 gating below).
+- name: linuxbrew - check for passwordless sudo
+  ansible.builtin.command: sudo -n true
+  register: linuxbrew_sudo
+  failed_when: false
+  changed_when: false
+
+- name: linuxbrew - enforce prefix symlink onto persistent store
+  become: true
+  ansible.builtin.file:
+    src: '{{ ansible_env.HOME }}/linuxbrew'
+    dest: /home/linuxbrew/.linuxbrew
+    state: link
+    force: true
+  # only when we can sudo AND the dest is safe to (re)link — i.e. absent or already
+  # a symlink. Never clobber a real brew install (a real dir), e.g. on WSL.
+  when:
+    - linuxbrew_sudo.rc == 0
+    - not linuxbrew_dest.stat.exists or linuxbrew_dest.stat.islnk
+
+- name: linuxbrew - warn if symlink needed but no passwordless sudo
+  ansible.builtin.debug:
+    msg: >-
+      /home/linuxbrew/.linuxbrew is missing and passwordless sudo is unavailable —
+      skipping brew prefix symlink. Create it manually (see coder.md) or run once
+      with sudo.
+  when:
+    - linuxbrew_sudo.rc != 0
+    - not linuxbrew_dest.stat.exists
+
 - block:
   - name: install fzf completions
     shell: $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc
