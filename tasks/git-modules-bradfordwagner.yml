@@ -86,6 +86,10 @@
      loop:
      - name: dotfiles
        repo: https://github.com/bradfordwagner/dotfiles.git
+     # infrastructure mono repo
+     - name: infra
+       repo: https://github.com/bradfordwagner/infra.git
+       version: main
 
    - name: '{{ src_dir }}'
      git:
