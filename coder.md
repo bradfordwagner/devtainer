@@ -133,8 +133,9 @@ brew install ansible gh go-task
 # zap
 zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
 
-# clone dotfiles and bring the box up (~/ persists across rebuilds, so clone only if missing)
-cd && { [ -d dotfiles/.git ] || git clone https://github.com/bradfordwagner/devtainer.git dotfiles; } && cd dotfiles
+# clone dotfiles and bring the box up (~/ persists across rebuilds, so clone only if
+# missing, then always pull so a persisted checkout picks up upstream changes)
+cd && { [ -d dotfiles/.git ] || git clone https://github.com/bradfordwagner/devtainer.git dotfiles; } && cd dotfiles && git pull
 task linux_brew_install && task bare_bones
 ```
 
