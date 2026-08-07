@@ -95,13 +95,19 @@ sudo service xrdp start                              # starts both xrdp + sesman
 # Mozilla's APT repo instead (pinned so it wins over the stub; --allow-downgrades because the
 # stub carries a fake high epoch version). No snap/systemd required.
 sudo install -d -m 0755 /etc/apt/keyrings
-wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+curl -fsSL https://packages.mozilla.org/apt/repo-signing-key.gpg | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
 echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee /etc/apt/sources.list.d/mozilla.list > /dev/null
 printf 'Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000\n' | sudo tee /etc/apt/preferences.d/mozilla > /dev/null
 sudo apt-get update -qq
 sudo apt-get install -y --allow-downgrades firefox
 # verify it's the real thing (not the snap stub): `file /usr/bin/firefox` should be an ELF
 # binary / symlink into /usr/lib/firefox, and `firefox --version` should print a version.
+
+# rofi theming — the sway launcher (dots/shell_scripts/rofi_launcher.sh, bound to alt+d) themes
+# rofi with catppuccin + type-1/style-5, but only if those .rasi files exist under ~/.config/rofi;
+# without them it silently falls back to an unstyled menu. adi1090x's installer populates them.
+# This writes to ~/.config/rofi (on the persistent ~/), so it's one-time — not per-rebuild.
+rm -rf /tmp/rofi && git clone --depth 1 https://github.com/adi1090x/rofi /tmp/rofi && (cd /tmp/rofi && ./setup.sh)
 ```
 
 Then reconnect via mstsc. Verify the fix landed: `/run/xrdp/sockdir/1000` should be group
