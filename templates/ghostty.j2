@@ -16,3 +16,9 @@ command = /bin/zsh --login
 
 macos-titlebar-style = hidden
 confirm-close-surface = false
+
+# Don't fork each surface into a systemd transient cgroup scope. The default
+# (single-instance) needs a systemd user session over D-Bus; on systemd-less
+# hosts (e.g. a bare Coder pod) that call fails and the surface dies on launch,
+# so ghostty opens then instantly closes. Ignored on macOS; harmless on WSL.
+linux-cgroup = never
