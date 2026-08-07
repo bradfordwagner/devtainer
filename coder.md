@@ -29,7 +29,7 @@ the prompts (it reads the new password twice, so it can't live in a pasted block
 sudo passwd coder   # give the coder login a password
 ```
 
-Then paste the rest in one shot — it's all non-interactive:
+Then paste the rest in one shot — desktop **and** homebrew, all non-interactive:
 
 ```bash
 # desktop bits — the pod is bare (no window manager). xrdp/xorgxrdp are usually already present.
@@ -117,6 +117,28 @@ rm -rf /tmp/rofi && git clone --depth 1 https://github.com/adi1090x/rofi /tmp/ro
 # without it terminals fall back to a glyph-less font (broken powerline/icons). Writes to
 # ~/.local/share/fonts (persistent ~/), so one-time — not per-rebuild. Needs unzip (apt block above).
 mkdir -p ~/.local/share/fonts && curl -fL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/IosevkaTerm.zip" -o /tmp/IosevkaTerm.zip && unzip -o /tmp/IosevkaTerm.zip -d ~/.local/share/fonts/IosevkaTerm && fc-cache -fv
+
+# ---- homebrew (persistent store on the PV — see the "homebrew" section below for the why) ----
+# keep the blessed prefix string but back its storage with a symlink into the persistent home
+# volume (~/ = /home/coder). This one symlink is the only brew bit on the ephemeral layer.
+mkdir -p ~/linuxbrew
+sudo mkdir -p /home/linuxbrew
+sudo ln -sfn ~/linuxbrew /home/linuxbrew/.linuxbrew
+
+# install brew — NONINTERACTIVE=1 stops it waiting on a RETURN prompt, so this whole block
+# pastes in one shot; passwordless sudo covers its internal sudo calls. Writes into ~/linuxbrew
+# via the symlink.
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+brew install ansible gh go-task -y
+
+# zap (zsh plugin manager)
+zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
+
+# clone dotfiles and bring the box up (~/ persists across rebuilds, so clone only if missing,
+# then always pull so a persisted checkout picks up upstream changes)
+cd && { [ -d dotfiles/.git ] || git clone https://github.com/bradfordwagner/devtainer.git dotfiles; } && cd dotfiles && git pull
+task linux_brew_install && task bare_bones
 ```
 
 Then reconnect via mstsc. Verify the fix landed: `/run/xrdp/sockdir/1000` should be group
@@ -142,26 +164,9 @@ to build from source. So instead of moving the prefix, keep the prefix string an
 storage onto the persistent home volume: bottles still work, and the installed formulae
 persist. Only the (cheap) symlink lives on the overlay and needs re-creating after a rebuild.
 
-```bash
-# real store lives in the persistent home volume (~/ = /home/coder, an ext4 PV)
-mkdir -p ~/linuxbrew
-# re-create this one symlink after each rebuild — it's the only part on the ephemeral layer
-sudo mkdir -p /home/linuxbrew
-sudo ln -sfn ~/linuxbrew /home/linuxbrew/.linuxbrew
-
-# install brew normally — it writes into ~/linuxbrew via the symlink
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
-brew install ansible gh go-task -y
-
-# zap
-zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
-
-# clone dotfiles and bring the box up (~/ persists across rebuilds, so clone only if
-# missing, then always pull so a persisted checkout picks up upstream changes)
-cd && { [ -d dotfiles/.git ] || git clone https://github.com/bradfordwagner/devtainer.git dotfiles; } && cd dotfiles && git pull
-task linux_brew_install && task bare_bones
-```
+The commands for this — the `~/linuxbrew` symlink, the brew install (run with `NONINTERACTIVE=1`),
+zap, the dotfiles clone, and `task` — run as part of the combined first-time-setup paste block
+above, so there's nothing extra to paste here.
 
 `brew --prefix` still reports `/home/linuxbrew/.linuxbrew`, so bottles are used as normal and
 `dots/shell/common.linux.zsh` (which hardcodes that prefix on PATH) needs no change.
