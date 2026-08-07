@@ -74,6 +74,26 @@ Then reconnect via mstsc. Verify the fix landed: `/run/xrdp/sockdir/1000` should
 > for the package installs and config edits is the workspace's base container image / template —
 > bake them in there so every workspace comes up RDP-ready.
 
+### screenshots and the 64M `/dev/shm`
+
+Kubernetes gives a pod a 64M `/dev/shm` by default. sway runs on its X11 backend here, and its
+output buffers for a 3440x1440 screen already pin ~60M of that, so `grim` cannot get the ~20M
+wl_shm pool it needs for a frame: it faults on write and dies with **SIGBUS (exit 135)**,
+silently, leaving a 0-byte file. `grim -g` and `grim -s` don't help — wlr-screencopy always
+hands over a full-size frame. `/dev/shm` also can't be remounted larger from inside the pod
+(no `CAP_SYS_ADMIN`), and `df` will show the space as used with `ls /dev/shm` empty, because
+the buffers are unlinked-but-mapped.
+
+`dots/shell_scripts/screenshot.sh` works around this by falling back to `xwd` against the outer
+xrdp Xorg that sway is nested inside — the same pixels, read with `XGetImage` over the X socket,
+which never touches `/dev/shm`. It finds that display from sway's own `DISPLAY` (Xwayland's
+`DISPLAY`, which we would otherwise inherit, points at the wrong screen) and converts with
+netpbm, since brew's imagemagick is built without X11 and has no xwd decoder.
+
+The proper fix is to give the pod a bigger `/dev/shm` in the workspace template — an
+`emptyDir` with `medium: Memory` and a `sizeLimit` of 1Gi or so, mounted at `/dev/shm`. Once
+that's in place `grim` takes over again on its own and the fallback goes unused.
+
 ## homebrew (persistent across rebuilds)
 
 Homebrew's default prefix `/home/linuxbrew/.linuxbrew` lands on the pod's throwaway layer, so

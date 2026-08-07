@@ -254,10 +254,13 @@ bindsym $mod+r mode "resize"
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-    # Special key to take a screenshot with grim
-    bindsym Print exec grim
+    # Screenshots -> clipboard + ~/screenshots. The script prefers grim and
+    # falls back to xwd when /dev/shm is too small for grim's frame buffer;
+    # see the header comment in the script and the /dev/shm note in coder.md.
+    set $screenshot ~/dotfiles/dots/shell_scripts/screenshot.sh
+    bindsym Print exec $screenshot full
     # Select region, copy to clipboard (Mac-style Cmd+Shift+4)
-    bindsym Mod4+Shift+4 exec bash -c 'grim -g "$(slurp)" - | wl-copy'
+    bindsym Mod4+Shift+4 exec $screenshot region
 
 #
 # Status Bar:

@@ -37,6 +37,7 @@ brew "kubectx"
 brew "lazygit"
 brew "lsd"
 brew "neovim"
+brew "netpbm" # xwd -> png for the screenshot fallback, see dots/shell_scripts/screenshot.sh
 brew "newsboat"
 brew "node"
 brew "pnpm"

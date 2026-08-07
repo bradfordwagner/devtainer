@@ -79,5 +79,5 @@ Reference table for keybindings defined in `dots/config/sway/config`. `$mod` is 
 | `XF86AudioMicMute` | Toggle mic mute (default source) |
 | `XF86MonBrightnessDown` | Brightness down 5% |
 | `XF86MonBrightnessUp` | Brightness up 5% |
-| `Print` | Screenshot (grim) |
-| `Mod4+Shift+4` | Select region screenshot to clipboard (grim + slurp + wl-copy) |
+| `Print` | Full-screen screenshot to clipboard + `~/screenshots` |
+| `Mod4+Shift+4` | Select region screenshot to clipboard + `~/screenshots` |
