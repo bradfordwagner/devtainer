@@ -26,6 +26,85 @@ xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Primary><Alt>l" -
 xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/default/<Primary><Alt>l" -r 2>/dev/null || true
 ```
 
+## coder — remote desktop (RDP)
+
+RDP into the xrdp desktop running in a Coder Kubernetes workspace. Same xrdp/Xorg stack as
+the XFCE section above, but the pod is bare (no systemd, no window manager) and ships xrdp
+with a broken default, so it needs the extra fixes below.
+
+Forward the workspace's xrdp port (`3390`) to a local port, then point mstsc at it:
+
+```bash
+# forward local 5900 -> workspace xrdp on 3390
+# (keep the local port off 3390 so a local WSL xrdp on 3390 doesn't clash)
+coder port-forward bwagner --tcp 5900:3390
+# leave this running; once it prints "Ready!" the tunnel is up
+```
+
+- connect: `Win+R` → `mstsc` → `localhost:5900`
+- log in as the `coder` user with the password you set in the first setup step below
+
+### first-time setup inside a fresh workspace
+
+Inside the workspace (`coder ssh bwagner`). First the one interactive bit — run it and answer
+the prompts (it reads the new password twice, so it can't live in a pasted block):
+
+```bash
+sudo passwd coder   # give the coder login a password
+```
+
+Then paste the rest in one shot — it's all non-interactive:
+
+```bash
+# desktop bits — the pod is bare (no window manager). xrdp/xorgxrdp are usually already present.
+sudo apt update
+sudo apt install -y xrdp xorgxrdp xserver-xorg-core dbus-x11 sway foot xwayland
+
+# xrdp on 3390 (matches the port-forward)
+sudo sed -i 's/^port=3389/port=3390/' /etc/xrdp/xrdp.ini
+
+# THE fix: let the xrdp front-end reach the Xorg backend socket.
+#   The pod's xrdp daemon runs as group `xrdp`, but sesman defaults the per-session socket
+#   dir (/run/xrdp/sockdir/<uid>) to group `root`. The front-end then gets EACCES entering
+#   it, and lib_mod_connect retries for 30s before failing with
+#   "Error connecting to user session" — even though login + the X backend both succeed.
+sudo sed -i -E 's/^[#; ]*SessionSockdirGroup=.*/SessionSockdirGroup=xrdp/' /etc/xrdp/sesman.ini
+
+# session driver = sway. `task bb` (dotfiles) renders this same file via templates/xsession.j2,
+# so it's only needed before dotfiles is set up — harmless to run either way. (sway runs fine
+# over xrdp once the socket fix above is in; the WM was never the problem.)
+#
+# The XDG_RUNTIME_DIR export is NOT optional: without it sway aborts on startup with
+# "XDG_RUNTIME_DIR is not set in the environment. Aborting." and the RDP window opens then
+# instantly closes. The pod has no systemd / pam_systemd to create /run/user/<uid>, so nothing
+# sets XDG_RUNTIME_DIR — we point it at a tmp dir ourselves. Don't trim this back to `exec sway`.
+cat > ~/.xsession <<'EOF'
+#!/bin/sh
+export XDG_RUNTIME_DIR=/tmp/xdg-runtime-$(id -u)
+mkdir -p "$XDG_RUNTIME_DIR"; chmod 700 "$XDG_RUNTIME_DIR"
+exec sway
+EOF
+chmod +x ~/.xsession
+
+# (re)start xrdp — the pod has no systemd, so use `service`, not `systemctl`
+sudo rm -rf /run/xrdp/sockdir/*   # clear any stale group-root sockdir from before the fix
+sudo service xrdp restart
+```
+
+Then reconnect via mstsc. Verify the fix landed: `/run/xrdp/sockdir/1000` should be group
+`xrdp`, and `/var/log/xrdp.log` should show `lib_mod_connect` followed immediately by
+`lib_mod_log_peer: ... connected to Xorg_pid=...` (no 30-second gap).
+
+> [!NOTE]
+> The pod has no systemd (`systemctl` is likely absent) — start/restart xrdp with
+> `sudo service xrdp start` / `restart`, not `systemctl`.
+
+> [!CAUTION]
+> A Coder pod's writable layer is wiped on rebuild, so all of the above (the `sesman.ini`
+> fix and the installed packages especially) vanishes and must be re-run. The durable home
+> for the package installs and config edits is the workspace's base container image / template —
+> bake them in there so every workspace comes up RDP-ready.
+
 ## homebrew
 ```
 sudo apt update && sudo apt upgrade -y
