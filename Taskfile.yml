@@ -79,6 +79,9 @@ tasks:
   linux_brew_install:
     aliases: [lbi]
     cmds:
+      # brew refuses to write its trust store when the dir is group/world writable
+      # (coder pods can boot with a permissive umask, making ~/.homebrew 0777)
+      - mkdir -p ~/.homebrew && chmod go-w ~/.homebrew
       - brew trust dagger/tap
       - brew trust hashicorp/tap
       - brew trust jfryy/tap
