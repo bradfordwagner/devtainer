@@ -129,6 +129,13 @@ sudo ln -sfn ~/linuxbrew /home/linuxbrew/.linuxbrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 brew install ansible gh go-task
+
+# zap
+zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
+
+# clone dotfiles and bring the box up
+cd && git clone https://github.com/bradfordwagner/devtainer.git dotfiles && cd dotfiles
+task linux_brew_install && task bare_bones
 ```
 
 `brew --prefix` still reports `/home/linuxbrew/.linuxbrew`, so bottles are used as normal and
