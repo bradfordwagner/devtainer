@@ -116,8 +116,12 @@ NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ho
 export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 brew install ansible gh go-task -y
 
-# zap (zsh plugin manager)
-zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
+# zap (zsh plugin manager) — install only if missing so re-runs (~/.local/share/zap is on the
+# persistent volume) don't hit its interactive "Reinstall Zap? [y/N]" prompt and hang. --keep
+# stops it backing up/rewriting ~/.zshrc, which `task bare_bones` links from the dotfiles anyway
+# (that .zshrc already sources zap.zsh via this same guard, so only the on-disk files are needed).
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] || \
+  zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1 --keep
 
 # clone dotfiles and bring the box up (~/ persists across rebuilds, so clone only if missing,
 # then always pull so a persisted checkout picks up upstream changes)
