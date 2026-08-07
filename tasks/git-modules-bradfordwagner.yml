@@ -79,17 +79,16 @@
      git:
        repo: '{{ item.repo }}'
        dest: '{{ personal_dir }}/github.bradfordwagner.{{ item.name }}'
-       version: '{{ item.version | default("master") }}'
+       version: '{{ item.version | default("main") }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
      ignore_errors: '{{ ignore_errors }}'
      loop:
-     - name: dotfiles
-       repo: https://github.com/bradfordwagner/dotfiles.git
      # infrastructure mono repo
      - name: infra
        repo: https://github.com/bradfordwagner/infra.git
-       version: main
+     - name: k8s.deployments
+       repo: https://github.com/bradfordwagner/k8s-deployments.git
 
    - name: '{{ src_dir }}'
      git:
