@@ -128,7 +128,7 @@ sudo ln -sfn ~/linuxbrew /home/linuxbrew/.linuxbrew
 # install brew normally — it writes into ~/linuxbrew via the symlink
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
-brew install ansible gh go-task
+brew install ansible gh go-task -y
 
 # zap
 zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
