@@ -35,10 +35,7 @@ with a broken default, so it needs the extra fixes below.
 Forward the workspace's xrdp port (`3390`) to a local port, then point mstsc at it:
 
 ```bash
-# forward local 5900 -> workspace xrdp on 3390
-# (keep the local port off 3390 so a local WSL xrdp on 3390 doesn't clash)
 coder port-forward bwagner --tcp 5900:3390
-# leave this running; once it prints "Ready!" the tunnel is up
 ```
 
 - connect: `Win+R` → `mstsc` → `localhost:5900`
