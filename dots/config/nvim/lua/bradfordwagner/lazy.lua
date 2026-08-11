@@ -137,7 +137,6 @@ require("lazy").setup({
 
   -- completion
   {'neoclide/coc.nvim', branch = 'release' },
-  'github/copilot.vim',
 
   {
     "folke/snacks.nvim",
