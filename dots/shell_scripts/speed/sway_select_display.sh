@@ -7,6 +7,16 @@ labels=(
   '34" medium 1.0'
   '34" large 1.1'
   '34" extra large 1.2'
+  '27" extra small 0.8'
+  '27" small 0.9'
+  '27" medium 1.0'
+  '27" large 1.1'
+  '27" extra large 1.2'
+  '27" dual extra small 0.8'
+  '27" dual small 0.9'
+  '27" dual medium 1.0'
+  '27" dual large 1.1'
+  '27" dual extra large 1.2'
   'laptop extra small 1.0'
   'laptop small 1.2'
   'laptop medium 1.4'
@@ -19,6 +29,16 @@ resolutions=(
   "3440x1440"
   "3440x1440"
   "3440x1440"
+  "2560x1440"
+  "2560x1440"
+  "2560x1440"
+  "2560x1440"
+  "2560x1440"
+  "5120x1440"
+  "5120x1440"
+  "5120x1440"
+  "5120x1440"
+  "5120x1440"
   "2496x1664"
   "2496x1664"
   "2496x1664"
@@ -26,6 +46,16 @@ resolutions=(
   "2496x1664"
 )
 scales=(
+  "0.8"
+  "0.9"
+  "1.0"
+  "1.1"
+  "1.2"
+  "0.8"
+  "0.9"
+  "1.0"
+  "1.1"
+  "1.2"
   "0.8"
   "0.9"
   "1.0"
