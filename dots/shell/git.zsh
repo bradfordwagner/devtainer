@@ -329,6 +329,20 @@ function ghs() {
   git config --global --replace-all user.name  "$name"
   git config --global --replace-all user.email "$email"
   echo "ghs: identity → $name <$email>"
+  # Refresh the ghcr.io docker credential for the now-active account so
+  # `docker pull ghcr.io/...` uses the same identity (internal org packages
+  # require an authenticated token with read:packages). Skip silently when
+  # docker isn't installed — not every host has it.
+  if command -v docker >/dev/null 2>&1; then
+    local ghcr_token
+    ghcr_token=$(gh auth token --hostname github.com 2>/dev/null)
+    if [ -n "$ghcr_token" ] \
+      && printf '%s' "$ghcr_token" | docker login ghcr.io -u "$user" --password-stdin >/dev/null 2>&1; then
+      echo "ghs: ghcr.io → logged in as $user"
+    else
+      echo "ghs: ghcr.io login skipped (no token, or account lacks read:packages scope)" >&2
+    fi
+  fi
   echo "ghs: to authenticate another account: $login_cmd"
 }
 ################################################################
