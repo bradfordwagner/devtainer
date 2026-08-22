@@ -20,12 +20,15 @@ brew "buildkit"
 brew "bzip2"
 brew "cmatrix"
 brew "coder"
+brew "colima"
 brew "connect"
 brew "container-diff"
 brew "coreutils"
 brew "corkscrew"
 brew "ctags"
 brew "dive"
+brew "docker"
+brew "docker-compose"
 brew "dos2unix"
 brew "expect"
 brew "figlet"
@@ -112,7 +115,6 @@ cask "jetbrains-toolbox", args: { appdir: "/Applications" }
 cask "jordanbaird-ice", args: { appdir: "/Applications" }
 cask "microsoft-edge", args: { appdir: "/Applications" }
 cask "mouseless"
-cask "rancher", args: { appdir: "/Applications" }
 cask "spotify", args: { appdir: "/Applications" }
 cask "stats", args: { appdir: "/Applications" }
 cask "wezterm", args: { appdir: "/Applications" }
