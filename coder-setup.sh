@@ -28,7 +28,8 @@ sudo apt install -y \
   xrdp xorgxrdp xserver-xorg-core dbus-x11 xwayland rsync \
   sway swaybg swayidle swaylock foot rofi waybar fonts-font-awesome \
   grim slurp slop wl-clipboard brightnessctl x11-xserver-utils psmisc file unzip ghostty \
-  zsh
+  zsh \
+  bind9-dnsutils
 
 # make zsh the login shell. /etc/passwd is on the wiped layer, so re-run per rebuild;
 # passwordless sudo avoids the interactive chsh password prompt.

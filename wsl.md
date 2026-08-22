@@ -36,7 +36,7 @@ important ways.
 ## homebrew
 ```
 sudo apt update && sudo apt upgrade -y
-sudo apt-get install build-essential procps curl file git -y
+sudo apt-get install build-essential procps curl file git bind9-dnsutils -y
 sudo apt install zsh ghostty alacritty firefox -y
 chsh -s /usr/bin/zsh
 sudo apt install sway swaybg swayidle swaylock foot rofi waybar fonts-font-awesome grim slurp wl-clipboard xwayland -y
