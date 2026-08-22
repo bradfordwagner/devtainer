@@ -138,6 +138,8 @@
        repo: https://github.com/bradfordwagner/zmk-pmw3610-driver.git
      - name: resume
        repo: https://github.com/bradfordwagner/resume.git
+     - name: xteink.x4.pro
+       repo: https://github.com/bradfordwagner/xteink-x4-pro.git
 
    # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
