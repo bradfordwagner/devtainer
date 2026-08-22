@@ -112,7 +112,7 @@ cask "font-jetbrains-mono", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono-nerd-font", args: { appdir: "/Applications" }
 cask "git-credential-manager"
 cask "jetbrains-toolbox", args: { appdir: "/Applications" }
-cask "jordanbaird-ice", args: { appdir: "/Applications" }
+cask "thaw", args: { appdir: "/Applications" }
 cask "microsoft-edge", args: { appdir: "/Applications" }
 cask "mouseless"
 cask "spotify", args: { appdir: "/Applications" }
