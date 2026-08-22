@@ -69,8 +69,23 @@ tasks:
   brew_check:
     cmds:
       - brew bundle check --verbose
+  brew_trust:
+    desc: Trust the third-party taps declared in a Brewfile (defaults to Brewfile)
+    vars:
+      brewfile: '{{ .brewfile | default "Brewfile" }}'
+    cmds:
+      # brew refuses to write its trust store when the dir is group/world writable
+      # (coder pods can boot with a permissive umask, making ~/.homebrew 0777)
+      - mkdir -p ~/.homebrew && chmod go-w ~/.homebrew
+      # taps come from the Brewfile itself so this never drifts from the bundle
+      - |
+        sed -nE 's/^tap "([^"]+)".*/\1/p' {{ .brewfile | quote }} | while read -r tap; do
+          brew trust "$tap" || echo "warning: could not trust $tap (continuing)" >&2
+        done
   brew_install:
     cmds:
+      - task: brew_trust
+        vars: {brewfile: Brewfile}
       - brew bundle install --verbose
   linux_brew_check:
     aliases: [lbc]
@@ -79,14 +94,8 @@ tasks:
   linux_brew_install:
     aliases: [lbi]
     cmds:
-      # brew refuses to write its trust store when the dir is group/world writable
-      # (coder pods can boot with a permissive umask, making ~/.homebrew 0777)
-      - mkdir -p ~/.homebrew && chmod go-w ~/.homebrew
-      - brew trust dagger/tap
-      - brew trust hashicorp/tap
-      - brew trust jfryy/tap
-      - brew trust thegeeklab/tap
-      - brew trust txn2/tap
+      - task: brew_trust
+        vars: {brewfile: Brewfile.linux}
       - brew bundle install --verbose --file Brewfile.linux
   git:
     cmds:
