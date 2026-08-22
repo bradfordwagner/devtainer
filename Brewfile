@@ -20,7 +20,7 @@ brew "buildkit"
 brew "bzip2"
 brew "cmatrix"
 brew "coder"
-brew "colima"
+brew "colima", restart_service: :changed
 brew "connect"
 brew "container-diff"
 brew "coreutils"

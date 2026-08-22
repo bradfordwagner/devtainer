@@ -2,52 +2,49 @@ alias ih='reattach-to-user-namespace idea .'
 
 alias colima_start='colima start --vm-type=vz --vz-rosetta --cpu 2 --memory 2 --disk 50'
 
-# host-side CPU/RAM the Colima VM is costing macOS (human-readable + percentages,
-# both of the whole machine and of the VM's configured allocation)
+# actual CPU/RAM the Colima workload is using, sampled INSIDE the guest VM.
+# (host-side `ps rss` can't see vz guest memory — it lives in the kernel's
+#  Virtualization.framework, not the limactl process — so we sample the guest.)
 function _colima_stats_once() {
-  local pids=(${(f)"$(pgrep -f 'limactl.*colima')"})
-  if (( ${#pids} == 0 )); then
-    print "colima: not running (no limactl process found)"
-    return 1
-  fi
-  local ncpu=$(sysctl -n hw.ncpu)
-  local total_kb=$(( $(sysctl -n hw.memsize) / 1024 ))
-  # sum %cpu (relative to one core) and rss(KB) across all colima host procs
-  local stats=$(ps -o %cpu=,rss= -p ${(j:,:)pids} | awk '{c+=$1; r+=$2} END{printf "%s %s", c+0, r+0}')
-  local cpu=${stats% *} rss_kb=${stats#* }
-  local cpu_pct=$(awk -v c=$cpu -v n=$ncpu 'BEGIN{printf "%.1f", c/n}')
-  local rss_h=$(awk -v r=$rss_kb 'BEGIN{ if(r>=1048576) printf "%.2f GB", r/1048576; else printf "%.0f MB", r/1024 }')
-  local ram_pct=$(awk -v r=$rss_kb -v t=$total_kb 'BEGIN{printf "%.1f", r/t*100}')
-  local total_h=$(awk -v t=$total_kb 'BEGIN{printf "%.0f GB", t/1048576}')
+  colima status >/dev/null 2>&1 || { print "colima: not running"; return 1; }
+  local ncpu=$(sysctl -n hw.ncpu) hostmem=$(sysctl -n hw.memsize)
   # allocation the VM was started with (colima --cpu / --memory)
   local alloc=$(colima list --json 2>/dev/null | awk -F'[:,]' '{for(i=1;i<=NF;i++){if($i~/"cpus"/)c=$(i+1); if($i~/"memory"/)m=$(i+1)}} END{printf "%s %s", c+0, m+0}')
-  local acpu=${alloc% *} amem_bytes=${alloc#* }
-  print "colima host usage (${#pids} procs):"
-  if (( acpu > 0 )); then
-    local cpu_alloc_pct=$(awk -v c=$cpu -v a=$acpu 'BEGIN{printf "%.1f", c/a}')
-    local ram_alloc_pct=$(awk -v r=$rss_kb -v a=$amem_bytes 'BEGIN{printf "%.1f", r/(a/1024)*100}')
-    local amem_h=$(awk -v a=$amem_bytes 'BEGIN{printf "%.0f GB", a/1073741824}')
-    printf ' \tUSAGE\t%% OF MACHINE\t%% OF ALLOCATION\nCPU\t%s%%\t%s%% of %d cores\t%s%% of %d-core alloc\nRAM\t%s\t%s%% of %s\t%s%% of %s alloc\n' \
-      "$cpu" "$cpu_pct" "$ncpu" "$cpu_alloc_pct" "$acpu" \
-      "$rss_h" "$ram_pct" "$total_h" "$ram_alloc_pct" "$amem_h" \
-      | column -t -s $'\t' | sed 's/^/  /'
-  else
-    printf ' \tUSAGE\t%% OF MACHINE\nCPU\t%s%%\t%s%% of %d cores\nRAM\t%s\t%s%% of %s\n' \
-      "$cpu" "$cpu_pct" "$ncpu" "$rss_h" "$ram_pct" "$total_h" \
-      | column -t -s $'\t' | sed 's/^/  /'
-  fi
+  local acpu=${alloc% *} amem=${alloc#* }
+  # sample the guest: two /proc/stat snapshots for CPU%, plus memory in bytes
+  local g=$(colima ssh -- sh -c 'head -1 /proc/stat; sleep 0.4; head -1 /proc/stat; free -b | grep "^Mem:"' 2>/dev/null)
+  [[ -z $g ]] && { print "colima: could not sample guest"; return 1; }
+  print "colima usage (inside the VM):"
+  echo "$g" | awk -v acpu=$acpu -v amem=$amem -v hostmem=$hostmem -v ncpu=$ncpu '
+    NR==1 { i1=$5; for(i=2;i<=NF;i++)t1+=$i }
+    NR==2 { i2=$5; for(i=2;i<=NF;i++)t2+=$i }
+    /^Mem:/ { mused=$3 }
+    END {
+      dt=t2-t1; di=i2-i1; bf=(dt>0)?(1-di/dt):0; cores=bf*acpu;
+      printf " \tUSAGE\t%% OF ALLOCATION\t%% OF MACHINE\n";
+      printf "CPU\t%.2f cores\t%.0f%% of %d cores\t%.1f%% of %d cores\n", cores, bf*100, acpu, cores/ncpu*100, ncpu;
+      printf "RAM\t%.2f GB\t%.0f%% of %.0f GB\t%.1f%% of %.0f GB\n", mused/1073741824, mused/amem*100, amem/1073741824, mused/hostmem*100, hostmem/1073741824;
+    }' | column -t -s $'\t' | sed 's/^/  /'
 }
 
 # colima_stats [-m [interval]] — one-shot, or -m to monitor (default 1s, ctrl-c to exit)
 function colima_stats() {
   if [[ $1 == -m ]]; then
     local interval=${2:-1}
+    tput civis 2>/dev/null                       # hide cursor
+    trap 'tput cnorm 2>/dev/null; return' INT     # restore cursor on ctrl-c
+    clear
     while true; do
-      clear
-      print "colima_stats -m  (every ${interval}s · ctrl-c to exit · $(date '+%H:%M:%S'))"
-      _colima_stats_once || break
+      # build the whole frame first (the slow ssh sample happens here, while the
+      # previous frame stays on screen), then repaint in place — no blank flicker
+      local frame="colima_stats -m  (every ${interval}s · ctrl-c to exit · $(date '+%H:%M:%S'))
+$(_colima_stats_once)"
+      tput cup 0 0 2>/dev/null                    # cursor home (no screen wipe)
+      print -r -- "$frame"
+      tput ed 2>/dev/null                          # clear from cursor to end
       sleep $interval
     done
+    tput cnorm 2>/dev/null
     return
   fi
   _colima_stats_once
