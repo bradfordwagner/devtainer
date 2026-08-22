@@ -6,6 +6,10 @@
     install_vim_shell_packages: true
     brew_install: false
     git_clone: false
+    # per-source toggles, ANDed with git_clone below. default true so that
+    # `-e git_clone=true` on its own still clones both sets, as it always has.
+    git_clone_bw: true
+    git_clone_os: true
     user:
       # in some cases we need to create the user
       # so current user would not suffice
@@ -95,11 +99,13 @@
     # # git clone blocks
     - name: git clone modules
       include_tasks: "{{ task.task }}"
-      when: git_clone
+      when: git_clone | bool and task.enabled | bool
       loop_control:
         loop_var: task
       loop:
         - name: bradfordwagner
           task: tasks/git-modules-bradfordwagner.yml
+          enabled: '{{ git_clone_bw }}'
         - name: github
           task: tasks/git-modules-github.yml
+          enabled: '{{ git_clone_os }}'

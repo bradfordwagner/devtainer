@@ -12,6 +12,8 @@ Bradford's personal dotfiles ("devtainer"). Ansible is the deployment engine; `g
 task              # full install: brew + git clones + vim/shell packages
 task bb           # bare-bones: links + templates only, no package installs
 task git          # git clones only: syncs all workspace repos (bradfordwagner + github modules)
+task git_bw       # git clones only: bradfordwagner repos (alias: gb)
+task git_os       # git clones only: third-party github repos (alias: go)
 task lbc          # check linux brew bundle
 task lbi          # install linux brew bundle
 task sudoer       # run sudoer playbook (asks for become password)
@@ -45,8 +47,8 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
                                                         ├── tasks/install-windsurf-workflows.yml
                                                         ├── tasks/install-shell-packages.yml
                                                         └── [when git_clone=true]
-                                                            ├── tasks/git-modules-bradfordwagner.yml  (clone ~/workspace/github/bradfordwagner/*)
-                                                            └── tasks/git-modules-github.yml
+                                                            ├── tasks/git-modules-bradfordwagner.yml  (clone ~/workspace/github/bradfordwagner/*)  [git_clone_bw]
+                                                            └── tasks/git-modules-github.yml                                                       [git_clone_os]
 ```
 
 ### Directory layout
@@ -61,6 +63,11 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
 
 - `variables.yml` — defaults (committed, safe to read). Covers alacritty/ghostty theme/font, MCP server paths/URLs, `user_name`.
 - `variables.local.yml` — machine-local overrides (gitignored). Created via `task ilv`. Always takes precedence; loaded with `ignore_errors: yes` if missing.
+
+The git-clone block is gated by `git_clone`, then narrowed per source by `git_clone_bw`
+(bradfordwagner repos) and `git_clone_os` (third-party github repos). Both default to `true`,
+so `-e git_clone=true` on its own still clones everything; `task git_bw` / `task git_os` flip
+one of them off.
 
 ### Templates rendered at playbook time
 

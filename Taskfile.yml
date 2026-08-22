@@ -4,6 +4,8 @@ env:
   install_vim_shell_packages: false
   brew_install: false
   git_clone: false
+  git_clone_bw: true
+  git_clone_os: true
 tasks:
   clear:
     internal: true
@@ -27,7 +29,9 @@ tasks:
           {{ .playbook | quote }} \
           -e '{install_vim_shell_packages: {{ .install_vim_shell_packages }}}' \
           -e '{brew_install: {{ .brew_install }}}' \
-          -e '{git_clone: {{ .git_clone }}}'
+          -e '{git_clone: {{ .git_clone }}}' \
+          -e '{git_clone_bw: {{ .git_clone_bw }}}' \
+          -e '{git_clone_os: {{ .git_clone_os }}}'
   playbook_remote:
     internal: true
     vars:
@@ -42,7 +46,9 @@ tasks:
           --limit dotfiles \
           -e '{install_vim_shell_packages: {{ .install_vim_shell_packages }}}' \
           -e '{brew_install: {{ .brew_install }}}' \
-          -e '{git_clone: {{ .git_clone }}}'
+          -e '{git_clone: {{ .git_clone }}}' \
+          -e '{git_clone_bw: {{ .git_clone_bw }}}' \
+          -e '{git_clone_os: {{ .git_clone_os }}}'
   sudoer:
     cmds:
       - |
@@ -98,10 +104,27 @@ tasks:
         vars: {brewfile: Brewfile.linux}
       - brew bundle install --verbose --file Brewfile.linux
   git:
+    desc: sync all workspace repos (bradfordwagner + third-party)
     cmds:
       - task: playbook
         vars:
           git_clone: true
+  git_bw:
+    aliases: [gb]
+    desc: sync only bradfordwagner repos
+    cmds:
+      - task: playbook
+        vars:
+          git_clone: true
+          git_clone_os: false
+  git_os:
+    aliases: [go]
+    desc: sync only third-party github repos
+    cmds:
+      - task: playbook
+        vars:
+          git_clone: true
+          git_clone_bw: false
   remote:
     cmds:
       - task: playbook_remote
