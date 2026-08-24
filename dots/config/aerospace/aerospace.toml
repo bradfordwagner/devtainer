@@ -113,6 +113,9 @@ alt-shift-l = 'move right'
 alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
+# Float focused window + center at 65%x80% of screen (sway alt-shift-space analogue)
+alt-shift-space = 'exec-and-forget ~/.dotfiles/dots/shell_scripts/aerospace_float_center.sh 65 80'
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
