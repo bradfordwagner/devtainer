@@ -181,7 +181,9 @@ function fdg() {
   # Find directories at depth 1 that are git repos with changes or on a non-default branch
   target_dirs=()
   for dir in */; do
-    if [[ -d "$dir" && -d "$dir/.git" ]]; then
+    # -e (not -d) so git worktrees are detected too: a worktree's .git is a
+    # file (gitdir: pointer), while a normal repo's .git is a directory.
+    if [[ -d "$dir" && -e "$dir/.git" ]]; then
       cd "$dir"
 
       local git_status current_branch default_branch origin_head

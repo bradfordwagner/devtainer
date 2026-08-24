@@ -48,7 +48,9 @@ function gsl() {
   echo "${palette_lcyan}Git Status List - Checking directories...${palette_restore}\n"
 
   for dir in */; do
-    if [[ -d "$dir" && -d "$dir/.git" ]]; then
+    # -e (not -d) so git worktrees are detected too: a worktree's .git is a
+    # file (gitdir: pointer), while a normal repo's .git is a directory.
+    if [[ -d "$dir" && -e "$dir/.git" ]]; then
       cd "$dir"
       git_status=$(git status --porcelain 2>/dev/null)
       branch=$(git branch --show-current 2>/dev/null)
