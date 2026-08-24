@@ -47,17 +47,24 @@ if [[ "${layout}" == "floating" ]]; then
   aerospace list-windows --workspace focused --format '%{window-id}' 2>/dev/null \
     | grep -qx "${anchor}" || exit 0
 
-  # direction to nudge our window so the anchor becomes its immediate neighbor
-  if [[ "${rel}" == "after" ]]; then movedir="${prevdir}"; else movedir="${nextdir}"; fi
+  # `layout tiling` re-inserts the window at the END of the workspace order, so
+  # we always walk it BACKWARD (prevdir) toward the anchor. Only the side we
+  # want to land on depends on `rel`, so the adjacency check and the travel
+  # direction are separate:
+  #   rel=after  -> stop when the anchor is our prev neighbor (window sits after it)
+  #   rel=before -> stop when the anchor is our next neighbor (window sits before it)
+  # (The old code reused one direction for both, which stranded rel=before
+  #  windows at the end — most visible for the first window in a workspace.)
+  if [[ "${rel}" == "after" ]]; then checkdir="${prevdir}"; else checkdir="${nextdir}"; fi
 
-  # walk at most N steps; stop once the anchor sits immediately in `movedir`
+  # walk at most N steps; stop once the anchor sits immediately in `checkdir`
   i=0
   while (( i < 30 )); do
     aerospace focus --window-id "${w_id}" >/dev/null 2>&1
-    aerospace focus "${movedir}" >/dev/null 2>&1
+    aerospace focus "${checkdir}" >/dev/null 2>&1
     [[ "$(focused_id)" == "${anchor}" ]] && break
     aerospace focus --window-id "${w_id}" >/dev/null 2>&1
-    aerospace move "${movedir}" >/dev/null 2>&1 || break
+    aerospace move "${prevdir}" >/dev/null 2>&1 || break
     (( i++ ))
   done
   aerospace focus --window-id "${w_id}" >/dev/null 2>&1
