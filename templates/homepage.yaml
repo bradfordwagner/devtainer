@@ -19,24 +19,6 @@ trees:
         all_aad_groups: https://portal.azure.com/?feature.msaljs=true#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups
       networking:
         tailscale: https://login.tailscale.com/admin/machines
-  - bookmarks:
-      github_releases:
-        argo_events: https://github.com/argoproj/argo-events/releases
-        argo_workflows: https://github.com/argoproj/argo-workflows/releases
-        argocd: https://github.com/argoproj/argo-cd/releases
-        buildkit: https://github.com/moby/buildkit/releases
-        dagger: https://github.com/dagger/dagger/releases
-        trust_manager: https://github.com/cert-manager/trust-manager/releases
-        vault: https://github.com/hashicorp/vault/releases
-        vso: https://github.com/hashicorp/vault-secrets-operator/releases
-        secrets-store-csi-driver-provider-azure: https://github.com/Azure/secrets-store-csi-driver-provider-azure/releases
-        secrets-store-csi-driver: https://github.com/kubernetes-sigs/secrets-store-csi-driver/releases
-        vault-k8s: https://github.com/hashicorp/vault-k8s/releases
-        vault_csi_provider: https://github.com/hashicorp/vault-csi-provider/releases
-        zmk_firmware: https://github.com/zmkfirmware/zmk/releases
-  - bookmarks:
-      local_k8s:
-        vault: https://vault-ui.vault.svc.cluster.local
 #  - bookmarks:
 #      vault_docs:
 #        oidc_provider_scope_templates: https://developer.hashicorp.com/vault/docs/concepts/oidc-provider#scopes
