@@ -2,10 +2,10 @@
 - src: luizgavalda.aur
   version: v0.43
 - src: bradfordwagner.jumpdir
-  version: 0.10.0
+  version: 0.10.1
 - src: bradfordwagner.vault
-  version: 1.0.1
+  version: 1.1.0
 - src: bradfordwagner.terraform
-  version: 1.0.0
+  version: 1.0.1
 - src: andrewrothstein.sudoers
   version: v1.0.9
