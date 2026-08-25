@@ -187,6 +187,8 @@
        repo: https://github.com/bradfordwagner/go-mcp
      - name: vault.plugin.manager
        repo: https://github.com/bradfordwagner/vault-plugin-manager.git
+     - name: vault.plugin.keycloak.secrets
+       repo: https://github.com/bradfordwagner/vault-plugin-keycloak-secrets.git
 
    - name: '{{ charts_dir }}'
      git:
