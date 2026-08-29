@@ -8,4 +8,4 @@
 - src: bradfordwagner.terraform
   version: 1.0.1
 - src: andrewrothstein.sudoers
-  version: v1.0.9
+  version: v1.3.0
