@@ -8,22 +8,27 @@ alias colima_start='colima start --vm-type=vz --vz-rosetta --cpu 6 --memory 16 -
 function _colima_stats_once() {
   colima status >/dev/null 2>&1 || { print "colima: not running"; return 1; }
   local ncpu=$(sysctl -n hw.ncpu) hostmem=$(sysctl -n hw.memsize)
-  # allocation the VM was started with (colima --cpu / --memory)
-  local alloc=$(colima list --json 2>/dev/null | awk -F'[:,]' '{for(i=1;i<=NF;i++){if($i~/"cpus"/)c=$(i+1); if($i~/"memory"/)m=$(i+1)}} END{printf "%s %s", c+0, m+0}')
-  local acpu=${alloc% *} amem=${alloc#* }
-  # sample the guest: two /proc/stat snapshots for CPU%, plus memory in bytes
-  local g=$(colima ssh -- sh -c 'head -1 /proc/stat; sleep 0.4; head -1 /proc/stat; free -b | grep "^Mem:"' 2>/dev/null)
+  local hostdisk=$(df -Pk / | awk 'NR==2{print $2*1024}')
+  # allocation the VM was started with (colima --cpu / --memory / --disk)
+  local alloc=$(colima list --json 2>/dev/null | awk -F'[:,]' '{for(i=1;i<=NF;i++){if($i~/"cpus"/)c=$(i+1); if($i~/"memory"/)m=$(i+1); if($i~/"disk"/)d=$(i+1)}} END{printf "%s %s %s", c+0, m+0, d+0}')
+  local acpu=${alloc%% *} arest=${alloc#* }
+  local amem=${arest%% *} adisk=${arest#* }
+  # sample the guest: two /proc/stat snapshots for CPU%, memory in bytes, and the
+  # colima data disk (/dev/vdb1 → /mnt/lima-colima, where Docker's data lives)
+  local g=$(colima ssh -- sh -c 'head -1 /proc/stat; sleep 0.4; head -1 /proc/stat; free -b | grep "^Mem:"; df -PB1 /mnt/lima-colima' 2>/dev/null)
   [[ -z $g ]] && { print "colima: could not sample guest"; return 1; }
   print "colima usage (inside the VM):"
-  echo "$g" | awk -v acpu=$acpu -v amem=$amem -v hostmem=$hostmem -v ncpu=$ncpu '
+  echo "$g" | awk -v acpu=$acpu -v amem=$amem -v adisk=$adisk -v hostmem=$hostmem -v hostdisk=$hostdisk -v ncpu=$ncpu '
     NR==1 { i1=$5; for(i=2;i<=NF;i++)t1+=$i }
     NR==2 { i2=$5; for(i=2;i<=NF;i++)t2+=$i }
     /^Mem:/ { mused=$3 }
+    $NF=="/mnt/lima-colima" { dused=$3 }
     END {
       dt=t2-t1; di=i2-i1; bf=(dt>0)?(1-di/dt):0; cores=bf*acpu;
       printf " \tUSAGE\t%% OF ALLOCATION\t%% OF MACHINE\n";
       printf "CPU\t%.2f cores\t%.0f%% of %d cores\t%.1f%% of %d cores\n", cores, bf*100, acpu, cores/ncpu*100, ncpu;
       printf "RAM\t%.2f GB\t%.0f%% of %.0f GB\t%.1f%% of %.0f GB\n", mused/1073741824, mused/amem*100, amem/1073741824, mused/hostmem*100, hostmem/1073741824;
+      printf "DISK\t%.2f GB\t%.0f%% of %.0f GB\t%.1f%% of %.0f GB\n", dused/1073741824, dused/adisk*100, adisk/1073741824, dused/hostdisk*100, hostdisk/1073741824;
     }' | column -t -s $'\t' | sed 's/^/  /'
 }
 
