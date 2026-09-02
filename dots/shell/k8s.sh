@@ -47,7 +47,18 @@ function az_login_sp() {
 
 # kubectl aliases
 alias kgp="${k_bin} get pods"
-alias kgpa="${k_bin} get pods --all-namespaces"
+
+# reverse the body of a table while keeping the header row pinned on top
+function _k_rev_rows() {
+  awk 'NR==1 { print; next } { rows[++n]=$0 } END { for (i=n; i>0; i--) print rows[i] }'
+}
+# all pods, newest first (age ascending). KUBECOLOR_FORCE_COLORS keeps kubecolor
+# colorized through the pipe and under watch; drop _k_rev_rows for oldest first.
+function kgpa() {
+  KUBECOLOR_FORCE_COLORS=truecolor ${k_bin} get pods --all-namespaces \
+    --sort-by=.metadata.creationTimestamp "$@" | _k_rev_rows
+}
+alias wkgpa="watch -c -n 1 zsh -c kgpa" # ^ under watch
 
 # helm aliases
 alias hd='helm delete'
