@@ -1,6 +1,6 @@
 alias ih='reattach-to-user-namespace idea .'
 
-alias colima_start='colima start --vm-type=vz --vz-rosetta --cpu 9 --memory 16 --disk 100'
+alias colima_start='colima start --vm-type=vz --vz-rosetta --cpu 9 --memory 32 --disk 100'
 
 # actual CPU/RAM the Colima workload is using, sampled INSIDE the guest VM.
 # (host-side `ps rss` can't see vz guest memory — it lives in the kernel's
