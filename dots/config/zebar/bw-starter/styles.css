@@ -27,8 +27,13 @@
   --ctp-yellow: #f9e2af;
 
   /* roles */
-  --text-size: 12px;
-  --icon-size: 12px;
+  --text-size: 14px;
+  --icon-size: 14px;
+  /* Inconsolata Condensed is a real installed family on Windows (not a
+     synthesised width), so this resolves directly; the generics behind it are
+     the upstream stack, used if it's ever missing. Icons are unaffected -
+     they come from the nerdfonts webfont via the `nf` class on <i>. */
+  --font-family: 'Inconsolata Condensed', ui-monospace, monospace;
 
   --text-color: var(--ctp-text);
   --icon-color: var(--ctp-blue);
@@ -43,7 +48,7 @@
 
 body {
   color: var(--text-color);
-  font-family: ui-monospace, monospace;
+  font-family: var(--font-family);
   font-size: var(--text-size);
   overflow: hidden;
 }

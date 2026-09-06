@@ -30,6 +30,10 @@ the other two widget entries in `zpack.json`.
   percentage if the core count is missing. CPU is ordered ahead of memory.
 - **No network/wifi readout.** The `network` provider, its `getNetworkIcon` helper, and the
   `.network` style were all removed rather than just hidden, so nothing polls for it.
+- **Inconsolata Condensed.** `--font-family` in `styles.css`, ahead of upstream's
+  `ui-monospace, monospace` generics, which remain as the fallback. It's a genuine installed
+  Windows family (not a synthesised width), so it resolves without a webfont. Icons are
+  unaffected — they come from the nerdfonts webfont via the `nf` class on `<i>`.
 - **Catppuccin Mocha.** `styles.css` defines the palette as `--ctp-*` custom properties, then
   maps them to role variables (`--text-color`, `--icon-color`, `--accent-color`, …) that the
   rules consume — retheme by editing the `:root` block, not the rules. Upstream's
@@ -44,6 +48,6 @@ the other two widget entries in `zpack.json`.
 outer gap is derived from it (`28px` bar + `4px` gap = `32px`), so **if you change the height
 here, update `outer_gap.top` in `../glazewm/config.yaml` to match.**
 
-Going much below 28px starts crowding the content: `styles.css` sets 12px text/icons and the
-`.app` rule adds 4px of vertical padding either side, so ~20px is the floor before you'd also
+Going much below 28px starts crowding the content: `styles.css` sets 14px text/icons and the
+`.app` rule adds 4px of vertical padding either side, so ~25px is the floor before you'd also
 need to shrink those.
