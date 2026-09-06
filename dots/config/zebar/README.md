@@ -22,6 +22,14 @@ the other two widget entries in `zpack.json`.
   `Math.round(output.weather.fahrenheitTemp)}°F`; upstream uses `celsiusTemp` / `°C`. The
   weather provider exposes both fields, so this is purely a display choice — no provider
   config involved.
+- **CPU and memory as used/total, plus percent.** `formatCpu` renders
+  `6.7/12 (56%)` and `formatMemory` renders `21.4/31.6 GiB (68%)`; upstream showed a bare
+  `usage` percentage for each. The memory provider exposes `usedMemory`/`totalMemory` in bytes,
+  which `formatUsedTotal` scales to one shared IEC unit. The cpu provider has no used/total
+  pair, so "used" is derived as `usage% x logicalCoreCount`; it falls back to the bare
+  percentage if the core count is missing. CPU is ordered ahead of memory.
+- **No network/wifi readout.** The `network` provider, its `getNetworkIcon` helper, and the
+  `.network` style were all removed rather than just hidden, so nothing polls for it.
 - **Catppuccin Mocha.** `styles.css` defines the palette as `--ctp-*` custom properties, then
   maps them to role variables (`--text-color`, `--icon-color`, `--accent-color`, …) that the
   rules consume — retheme by editing the `:root` block, not the rules. Upstream's

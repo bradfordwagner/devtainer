@@ -26,7 +26,6 @@
       import * as zebar from 'https://esm.sh/zebar@3.0';
 
       const providers = zebar.createProviderGroup({
-        network: { type: 'network' },
         glazewm: { type: 'glazewm' },
         cpu: { type: 'cpu' },
         date: { type: 'date', formatting: 'EEE d MMM t' },
@@ -44,36 +43,39 @@
           providers.onOutput(() => setOutput(providers.outputMap));
         }, []);
 
-        // Get icon to show for current network status.
-        function getNetworkIcon(networkOutput) {
-          switch (networkOutput.defaultInterface?.type) {
-            case 'ethernet':
-              return <i className="nf nf-md-ethernet_cable"></i>;
-            case 'proprietary_virtual':
-              return <i className="nf nf-md-shield_lock_outline"></i>;
-            case 'wifi':
-              if (networkOutput.defaultGateway?.signalStrength >= 80) {
-                return <i className="nf nf-md-wifi_strength_4"></i>;
-              } else if (
-                networkOutput.defaultGateway?.signalStrength >= 65
-              ) {
-                return <i className="nf nf-md-wifi_strength_3"></i>;
-              } else if (
-                networkOutput.defaultGateway?.signalStrength >= 40
-              ) {
-                return <i className="nf nf-md-wifi_strength_2"></i>;
-              } else if (
-                networkOutput.defaultGateway?.signalStrength >= 25
-              ) {
-                return <i className="nf nf-md-wifi_strength_1"></i>;
-              } else {
-                return <i className="nf nf-md-wifi_strength_outline"></i>;
-              }
-            default:
-              return (
-                <i className="nf nf-md-wifi_strength_off_outline"></i>
-              );
-          }
+        // Render a used/total byte pair in whichever unit fits the total, so
+        // both halves share one scale, e.g. "12.4/31.9 GiB". Base-1024, hence
+        // the IEC unit names.
+        function formatUsedTotal(used, total) {
+          const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB'];
+          if (!total) return '-';
+          const exp = Math.min(
+            Math.floor(Math.log(total) / Math.log(1024)),
+            units.length - 1,
+          );
+          const scale = 1024 ** exp;
+          return `${(used / scale).toFixed(1)}/${(total / scale).toFixed(1)} ${units[exp]}`;
+        }
+
+        // The cpu provider reports a usage percentage rather than a used/total
+        // pair, so express it as cores in use out of the logical core count,
+        // e.g. "6.3/12 (52%)". Falls back to the bare percentage if the core
+        // count is unavailable.
+        function formatCpu(cpuOutput) {
+          const pct = Math.round(cpuOutput.usage);
+          const total = cpuOutput.logicalCoreCount;
+          if (!total) return `${pct}%`;
+          const used = ((cpuOutput.usage / 100) * total).toFixed(1);
+          return `${used}/${total} (${pct}%)`;
+        }
+
+        // e.g. "21.6/31.6 GiB (68%)".
+        function formatMemory(memoryOutput) {
+          const pair = formatUsedTotal(
+            memoryOutput.usedMemory,
+            memoryOutput.totalMemory,
+          );
+          return `${pair} (${Math.round(memoryOutput.usage)}%)`;
         }
 
         // Get icon to show for how much of the battery is charged.
@@ -184,20 +186,6 @@
                 </>
               )}
 
-              {output.network && (
-                <div className="network">
-                  {getNetworkIcon(output.network)}
-                  {output.network.defaultGateway?.ssid}
-                </div>
-              )}
-
-              {output.memory && (
-                <div className="memory">
-                  <i className="nf nf-fae-chip"></i>
-                  {Math.round(output.memory.usage)}%
-                </div>
-              )}
-
               {output.cpu && (
                 <div className="cpu">
                   <i className="nf nf-oct-cpu"></i>
@@ -206,8 +194,15 @@
                   <span
                     className={output.cpu.usage > 85 ? 'high-usage' : ''}
                   >
-                    {Math.round(output.cpu.usage)}%
+                    {formatCpu(output.cpu)}
                   </span>
+                </div>
+              )}
+
+              {output.memory && (
+                <div className="memory">
+                  <i className="nf nf-fae-chip"></i>
+                  {formatMemory(output.memory)}
                 </div>
               )}
 

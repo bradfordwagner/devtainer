@@ -120,8 +120,9 @@ oversized top margin.
 
 Zebar runs a **vendored** copy of the `glzr-io.starter` marketplace pack (upstream's documented
 way to edit a marketplace widget without pack updates overwriting it); the pack id is the
-directory name, `bw-starter`. Its changes are weather in fahrenheit and a Catppuccin Mocha
-theme. Details, the bar-height/`outer_gap.top` coupling, and how to retheme are in
+directory name, `bw-starter`. Its changes: weather in fahrenheit, a Catppuccin Mocha theme,
+CPU/memory shown as used/total plus percent (CPU first), and the network/wifi readout removed.
+Details, the bar-height/`outer_gap.top` coupling, and how to retheme are in
 `dots/config/zebar/README.md`.
 
 Both apps are themed **Catppuccin Mocha**, matching `ghostty_theme` in `variables.yml` — the
