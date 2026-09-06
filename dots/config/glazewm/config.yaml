@@ -1,13 +1,14 @@
 # GlazeWM configuration - https://github.com/glzr-io/glazewm
 #
-# Source of truth lives here; `tasks/glazewm.yml` copies it to
+# Source of truth lives here; `tasks/windows-wsl.yml` copies it to
 # %USERPROFILE%\.glzr\glazewm\config.yaml on WSL hosts (it must be a copy, not a
 # symlink -- Windows can't follow a WSL symlink living on /mnt/c).
 # Re-run `task bb` after editing, then reload from the GlazeWM tray icon
 # (or alt+shift+r).
 #
-# Local delta from the upstream sample config: 4px gaps, except the top outer
-# gap which is 44px = Zebar's 40px bar + the same 4px gap.
+# Local deltas from the upstream sample config:
+#   - 4px gaps, except the top outer gap (32px = Zebar's 28px bar + the same 4px)
+#   - Catppuccin Mocha window borders, matching the Zebar bar and ghostty
 
 general:
   # Commands to run when the WM has started. This is useful for running a
@@ -61,11 +62,11 @@ gaps:
   # Gap between windows and the screen edge.
   outer_gap:
     # top = Zebar bar height + the 4px gap, so the space under the bar visually
-    # matches every other gap. The bar is 40px: the `with-glazewm` widget's
-    # `default` preset in zpack.json sets `height: '40px'` (upstream's stock 60px
-    # here is just slack, which reads as an oversized top margin). Re-derive this
-    # if you resize the bar or switch widget packs.
-    top: '44px'
+    # matches every other gap. The bar is 28px: the `with-glazewm` widget's
+    # `default` preset in zpack.json sets `height: '28px'` (upstream ships a 40px
+    # bar and 60px of slack here, which reads as an oversized top margin).
+    # Re-derive this if you resize the bar or switch widget packs.
+    top: '32px'
     right: '4px'
     bottom: '4px'
     left: '4px'
@@ -77,7 +78,8 @@ window_effects:
     # ** Exclusive to Windows 11 due to API limitations.
     border:
       enabled: true
-      color: '#8dbcff'
+      # catppuccin mocha mauve
+      color: '#cba6f7'
 
     # Remove the title bar from the window's frame. Note that this can
     # cause rendering issues for some applications.
@@ -102,7 +104,8 @@ window_effects:
   other_windows:
     border:
       enabled: true
-      color: '#a1a1a1'
+      # catppuccin mocha surface0
+      color: '#313244'
     hide_title_bar:
       enabled: false
     corner_style:

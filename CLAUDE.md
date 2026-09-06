@@ -115,13 +115,18 @@ every run.
 | `dots/config/zebar/settings.json` | `.glzr\zebar\settings.json` |
 
 GlazeWM's local delta from the upstream sample config: gaps are `4px`, except the top outer gap
-at `44px` — Zebar's 40px bar plus the same 4px gap, so windows clear the bar without an
+at `32px` — Zebar's 28px bar plus the same 4px gap, so windows clear the bar without an
 oversized top margin.
 
 Zebar runs a **vendored** copy of the `glzr-io.starter` marketplace pack (upstream's documented
 way to edit a marketplace widget without pack updates overwriting it); the pack id is the
-directory name, `bw-starter`. Its only change is weather in fahrenheit. Details and the
-bar-height/`outer_gap.top` coupling are in `dots/config/zebar/README.md`.
+directory name, `bw-starter`. Its changes are weather in fahrenheit and a Catppuccin Mocha
+theme. Details, the bar-height/`outer_gap.top` coupling, and how to retheme are in
+`dots/config/zebar/README.md`.
+
+Both apps are themed **Catppuccin Mocha**, matching `ghostty_theme` in `variables.yml` — the
+bar in `dots/config/zebar/bw-starter/styles.css`, GlazeWM's window borders (mauve focused,
+surface0 unfocused) in `dots/config/glazewm/config.yaml`. Retheme both together.
 
 Reload after `task bb`: GlazeWM via tray icon or `alt+shift+r`; Zebar needs a process restart
 (it only reads `settings.json` and packs at startup).

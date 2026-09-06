@@ -22,9 +22,20 @@ the other two widget entries in `zpack.json`.
   `Math.round(output.weather.fahrenheitTemp)}°F`; upstream uses `celsiusTemp` / `°C`. The
   weather provider exposes both fields, so this is purely a display choice — no provider
   config involved.
+- **Catppuccin Mocha.** `styles.css` defines the palette as `--ctp-*` custom properties, then
+  maps them to role variables (`--text-color`, `--icon-color`, `--accent-color`, …) that the
+  rules consume — retheme by editing the `:root` block, not the rules. Upstream's
+  `prefers-color-scheme` light/dark split was dropped, since Mocha is dark-only; the bar looks
+  the same whatever the Windows app theme is. Swapping to Latte means replacing the palette
+  values. GlazeWM's window borders in `../glazewm/config.yaml` use the same palette (mauve
+  focused, surface0 unfocused), so change both together.
 
 ## Bar height
 
-`zpack.json` sets the `default` preset to `height: '40px'`. GlazeWM's top outer gap is derived
-from it (`40px` bar + `4px` gap = `44px`), so **if you change the height here, update
-`outer_gap.top` in `../glazewm/config.yaml` to match.**
+`zpack.json` sets the `default` preset to `height: '28px'` (upstream ships 40px). GlazeWM's top
+outer gap is derived from it (`28px` bar + `4px` gap = `32px`), so **if you change the height
+here, update `outer_gap.top` in `../glazewm/config.yaml` to match.**
+
+Going much below 28px starts crowding the content: `styles.css` sets 12px text/icons and the
+`.app` rule adds 4px of vertical padding either side, so ~20px is the floor before you'd also
+need to shrink those.

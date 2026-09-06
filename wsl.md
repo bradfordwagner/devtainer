@@ -106,7 +106,7 @@ symlink because Windows can't follow the WSL-style symlinks that get created on 
 Reload after deploying via the tray icon or `alt+shift+r`.
 
 Local delta from the upstream sample config: gaps are `4px`, except the top outer gap at
-`44px` — Zebar's 40px bar plus the same 4px gap, so windows clear the bar without an oversized
+`32px` — Zebar's 28px bar plus the same 4px gap, so windows clear the bar without an oversized
 top margin. Re-derive it if you resize the bar: the height lives in the widget pack's
 `zpack.json` preset.
 
