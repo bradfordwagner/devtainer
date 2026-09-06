@@ -1,0 +1,63 @@
+---
+
+# Windows-side configs deployed from WSL: GlazeWM (tiling WM) and Zebar (its bar).
+# Both read from %USERPROFILE%\.glzr\. These have to be copies, not symlinks: a
+# symlink created from WSL on DrvFs (/mnt/c) is a WSL-style symlink that Windows
+# apps can't follow. Edit under dots/config/ and re-run `task bb` to push over.
+
+- name: windows - configure glzr apps (WSL only)
+  when: ansible_facts.kernel is search('(?i)microsoft')
+  block:
+    - name: windows - resolve %USERPROFILE% as a wsl path
+      ansible.builtin.shell:
+        # run from /mnt/c so cmd.exe doesn't warn about a UNC working directory
+        chdir: /mnt/c
+        cmd: wslpath -u "$(cmd.exe /c 'echo %USERPROFILE%' 2>/dev/null | tr -d '\r\n')"
+      register: win_userprofile
+      changed_when: false
+      failed_when: false
+
+    - name: windows - set install paths
+      ansible.builtin.set_fact:
+        win_glzr_dir: '{{ win_userprofile.stdout | trim }}/.glzr'
+        win_resolved: '{{ win_userprofile.rc == 0 and (win_userprofile.stdout | trim | length) > 0 }}'
+
+    - name: windows - warn when the windows profile cannot be resolved
+      ansible.builtin.debug:
+        msg: >-
+          could not resolve %USERPROFILE% via cmd.exe (rc={{ win_userprofile.rc }}) -
+          skipping glazewm/zebar config install. Is WSL interop enabled and /mnt/c mounted?
+      when: not win_resolved | bool
+
+    # no `mode:` anywhere below - DrvFs ignores unix permissions and would
+    # otherwise report `changed` on every run.
+    - name: windows - install glzr configs
+      when: win_resolved | bool
+      block:
+        - name: glazewm - ensure config dir exists
+          ansible.builtin.file:
+            path: '{{ win_glzr_dir }}/glazewm'
+            state: directory
+
+        - name: glazewm - install config.yaml
+          ansible.builtin.copy:
+            src: '{{ devtainer.dir }}/dots/config/glazewm/config.yaml'
+            dest: '{{ win_glzr_dir }}/glazewm/config.yaml'
+
+        # zebar discovers local widget packs one level deep under ~/.glzr/zebar;
+        # the pack id is the directory name (so: bw-starter), which settings.json
+        # then references. See dots/config/zebar/README.md.
+        - name: zebar - ensure pack dir exists
+          ansible.builtin.file:
+            path: '{{ win_glzr_dir }}/zebar/bw-starter'
+            state: directory
+
+        - name: zebar - install bw-starter widget pack
+          ansible.builtin.copy:
+            src: '{{ devtainer.dir }}/dots/config/zebar/bw-starter/'
+            dest: '{{ win_glzr_dir }}/zebar/bw-starter/'
+
+        - name: zebar - install settings.json
+          ansible.builtin.copy:
+            src: '{{ devtainer.dir }}/dots/config/zebar/settings.json'
+            dest: '{{ win_glzr_dir }}/zebar/settings.json'

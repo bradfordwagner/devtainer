@@ -44,6 +44,7 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
                                                         ├── tasks/jinga-templates.yml         (render .gitconfig, .zshenv, MCP configs)
                                                         ├── tasks/link-shell.yml              (symlinks dots/ → ~/.config/, ~/.zshrc, etc.)
                                                         ├── tasks/install-claude.yml          (copy dots/config/claude/commands/ → ~/.claude/commands/)
+                                                        ├── tasks/windows-wsl.yml             (WSL only: copy glazewm+zebar configs → %USERPROFILE%)
                                                         ├── tasks/install-windsurf-workflows.yml
                                                         ├── tasks/install-shell-packages.yml
                                                         └── [when git_clone=true]
@@ -97,6 +98,33 @@ Available custom commands:
 
 Custom keybindings (`dots/config/claude/keybindings.json`):
 - `ctrl+y` — background current task/agent (return to fleet view)
+
+### GlazeWM + Zebar (WSL only)
+
+Windows-side apps configured from WSL. `tasks/windows-wsl.yml` runs only when
+`ansible_facts.kernel` matches `microsoft`, resolves `%USERPROFILE%` via `cmd.exe`/`wslpath`,
+and **copies** configs into `%USERPROFILE%\.glzr\`. They must be copies — a symlink created
+from WSL on DrvFs (`/mnt/c`) is a WSL-style symlink that Windows apps can't follow. The task
+sets no `mode:` because DrvFs ignores unix permissions and would otherwise report `changed`
+every run.
+
+| repo source | destination |
+|---|---|
+| `dots/config/glazewm/config.yaml` | `.glzr\glazewm\config.yaml` |
+| `dots/config/zebar/bw-starter/` | `.glzr\zebar\bw-starter\` |
+| `dots/config/zebar/settings.json` | `.glzr\zebar\settings.json` |
+
+GlazeWM's local delta from the upstream sample config: gaps are `4px`, except the top outer gap
+at `44px` — Zebar's 40px bar plus the same 4px gap, so windows clear the bar without an
+oversized top margin.
+
+Zebar runs a **vendored** copy of the `glzr-io.starter` marketplace pack (upstream's documented
+way to edit a marketplace widget without pack updates overwriting it); the pack id is the
+directory name, `bw-starter`. Its only change is weather in fahrenheit. Details and the
+bar-height/`outer_gap.top` coupling are in `dots/config/zebar/README.md`.
+
+Reload after `task bb`: GlazeWM via tray icon or `alt+shift+r`; Zebar needs a process restart
+(it only reads `settings.json` and packs at startup).
 
 ### MCP servers
 

@@ -80,6 +80,8 @@
       include_tasks: tasks/install-windsurf-workflows.yml
     - name: install claude
       include_tasks: tasks/install-claude.yml
+    - name: configure windows-side apps [glazewm,zebar] (WSL only)
+      include_tasks: tasks/windows-wsl.yml
 
     # link is required first to setup init.vim
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}

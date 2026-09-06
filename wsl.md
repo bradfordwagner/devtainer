@@ -90,6 +90,42 @@ chmod 440 /etc/sudoers.d/bw
   - if you ever need XFCE back (e.g. to debug something outside sway), temporarily replace
     `~/.xsession` with `startxfce4` and reconnect; re-running `task bb` restores `exec sway`.
 
+## glazewm (windows-side tiling wm)
+
+[GlazeWM](https://github.com/glzr-io/glazewm) tiles the *Windows* desktop (not the sway session
+inside WSL). Install it on Windows:
+
+```powershell
+winget install GlazeWM
+```
+
+The config is dotfile-managed: edit `dots/config/glazewm/config.yaml` in this repo and run
+`task bb`. `tasks/windows-wsl.yml` resolves `%USERPROFILE%` through `cmd.exe`/`wslpath` and
+copies the file to `%USERPROFILE%\.glzr\glazewm\config.yaml`. It's a copy rather than a
+symlink because Windows can't follow the WSL-style symlinks that get created on `/mnt/c`.
+Reload after deploying via the tray icon or `alt+shift+r`.
+
+Local delta from the upstream sample config: gaps are `4px`, except the top outer gap at
+`44px` — Zebar's 40px bar plus the same 4px gap, so windows clear the bar without an oversized
+top margin. Re-derive it if you resize the bar: the height lives in the widget pack's
+`zpack.json` preset.
+
+### zebar
+
+The bar GlazeWM launches. Same task deploys it, to `%USERPROFILE%\.glzr\zebar\`. We run a
+vendored copy of the `glzr-io.starter` marketplace pack (`dots/config/zebar/bw-starter/`) so
+edits survive pack updates — see `dots/config/zebar/README.md`. Only change so far: weather in
+fahrenheit instead of celsius.
+
+Zebar reads `settings.json` and its packs **only at startup**, so `task bb` alone won't apply
+changes — restart it:
+
+```
+powershell.exe -NoProfile -Command "Stop-Process -Name zebar -Force; Start-Process 'C:\Program Files\glzr.io\Zebar\zebar.exe'"
+```
+
+Startup errors land in `%USERPROFILE%\.glzr\zebar\errors.log`.
+
 ## fonts
 ```
 mkdir -p ~/.local/share/fonts && curl -fL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/IosevkaTerm.zip" -o /tmp/IosevkaTerm.zip && unzip -o /tmp/IosevkaTerm.zip -d ~/.local/share/fonts/IosevkaTerm && fc-cache -fv
