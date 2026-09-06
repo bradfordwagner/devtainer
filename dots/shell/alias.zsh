@@ -564,6 +564,12 @@ alias gg='gh copilot suggest'
 alias ccc='claude'
 alias cccr='claude --resume'
 alias ccca='claude agents'
+# Remove all configured Claude Code MCP servers
+function ccmrm() {
+  claude mcp list 2>&1 | grep -E '^[a-zA-Z0-9_-]+: .* - (✔|✘)' | cut -d: -f1 | while read -r server; do
+    claude mcp remove "${server}"
+  done
+}
 ## end ai aliases ##############################################
 
 ################################################
