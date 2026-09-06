@@ -9,6 +9,7 @@
 # Local deltas from the upstream sample config:
 #   - 4px gaps, except the top outer gap (32px = Zebar's 28px bar + the same 4px)
 #   - Catppuccin Mocha window borders, matching the Zebar bar and ghostty
+#   - alt+enter launches Windows Terminal (upstream launches cmd)
 
 general:
   # Commands to run when the WM has started. This is useful for running a
@@ -276,10 +277,14 @@ keybindings:
   - commands: ['wm-redraw']
     bindings: ['alt+shift+w']
 
-  # Launch CMD terminal. Alternatively, use `shell-exec wt` or
-  # `shell-exec %ProgramFiles%/Git/git-bash.exe` to start Windows
-  # Terminal and Git Bash respectively.
-  - commands: ['shell-exec cmd']
+  # Launch Windows Terminal in focus mode (-f hides the tab bar and title bar;
+  # note -F is *fullscreen*, a different thing). WT honours its own
+  # `defaultProfile` (Ubuntu/WSL here) rather than forcing a shell -- upstream
+  # ships `shell-exec cmd`. Scoped to this binding on purpose: WT started any
+  # other way stays normal; for focus mode everywhere set
+  # `"launchMode": "focus"` in WT's own settings.json instead. `-f` combines
+  # with `-M` for maximized focus; pin a profile with e.g. `-f -p Ubuntu`.
+  - commands: ['shell-exec wt -f']
     bindings: ['alt+enter']
 
   # Focus the next/previous active workspace defined in `workspaces` config.

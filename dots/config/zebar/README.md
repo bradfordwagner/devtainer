@@ -30,6 +30,8 @@ the other two widget entries in `zpack.json`.
   percentage if the core count is missing. CPU is ordered ahead of memory.
 - **No network/wifi readout.** The `network` provider, its `getNetworkIcon` helper, and the
   `.network` style were all removed rather than just hidden, so nothing polls for it.
+- **No Windows logo.** The `logo` `<i>` and its `.logo` style were removed, so the bar starts
+  with the workspace chips.
 - **Inconsolata Condensed.** `--font-family` in `styles.css`, ahead of upstream's
   `ui-monospace, monospace` generics, which remain as the fallback. It's a genuine installed
   Windows family (not a synthesised width), so it resolves without a webfont. Icons are

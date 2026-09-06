@@ -114,9 +114,11 @@ every run.
 | `dots/config/zebar/bw-starter/` | `.glzr\zebar\bw-starter\` |
 | `dots/config/zebar/settings.json` | `.glzr\zebar\settings.json` |
 
-GlazeWM's local delta from the upstream sample config: gaps are `4px`, except the top outer gap
-at `32px` — Zebar's 28px bar plus the same 4px gap, so windows clear the bar without an
-oversized top margin.
+GlazeWM's local deltas from the upstream sample config: gaps are `4px`, except the top outer
+gap at `32px` — Zebar's 28px bar plus the same 4px gap, so windows clear the bar without an
+oversized top margin — and `alt+enter` runs `shell-exec wt -f` rather than upstream's
+`shell-exec cmd`, so it opens Windows Terminal in focus mode honouring its own
+`defaultProfile` (Ubuntu/WSL) instead of forcing a shell.
 
 Zebar runs a **vendored** copy of the `glzr-io.starter` marketplace pack (upstream's documented
 way to edit a marketplace widget without pack updates overwriting it); the pack id is the
