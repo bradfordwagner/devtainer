@@ -28,6 +28,14 @@ the other two widget entries in `zpack.json`.
   which `formatUsedTotal` scales to one shared IEC unit. The cpu provider has no used/total
   pair, so "used" is derived as `usage% x logicalCoreCount`; it falls back to the bare
   percentage if the core count is missing. CPU is ordered ahead of memory.
+- **Battery time remaining.** The segment renders `58% (5h 6m)` - `formatBatteryTime`
+  appends `timeTillFull` while charging and `timeTillEmpty` otherwise, both of which the
+  provider reports in **milliseconds**. Upstream showed the percentage alone. The suffix
+  collapses to nothing when the provider has no estimate (null at full charge, and briefly
+  after a resume before it has sampled a discharge rate), so the segment degrades to
+  upstream's bare percentage rather than showing a placeholder. The charging indicator is
+  upstream's and unchanged: a 7px yellow plug (`nf-md-power_plug`), absolutely positioned
+  just left of the battery glyph by `.charging-icon` in `styles.css`.
 - **No network/wifi readout.** The `network` provider, its `getNetworkIcon` helper, and the
   `.network` style were all removed rather than just hidden, so nothing polls for it.
 - **No Windows logo.** The `logo` `<i>` and its `.logo` style were removed, so the bar starts
@@ -53,3 +61,23 @@ here, update `outer_gap.top` in `../glazewm/config.yaml` to match.**
 Going much below 28px starts crowding the content: `styles.css` sets 14px text/icons and the
 `.app` rule adds 4px of vertical padding either side, so ~25px is the floor before you'd also
 need to shrink those.
+
+## A segment vanishes from the bar
+
+Symptom: one readout (battery, say) is missing while the rest of the bar keeps updating
+normally. That is a stale provider inside the running `zebar.exe`, not a config problem — every
+segment is wrapped in `{output.<provider> && ...}`, so a provider that stops emitting silently
+removes its own segment and nothing else. It has been seen after the machine sleeps and
+resumes: the provider never resubscribes and the segment stays gone for the life of the
+process.
+
+Fix is a zebar restart — it only reads packs and `settings.json` at startup anyway:
+
+```powershell
+Stop-Process -Name zebar -Force; & 'C:\Program Files\glzr.io\Zebar\zebar.exe' startup
+```
+
+Before editing the widget, confirm the provider is actually the problem: `errors.log` in
+`~/.glzr/zebar/` records pack/startup failures but *not* a provider that simply goes quiet, so
+a clean log does not clear the widget. The battery block in `with-glazewm.html` is upstream's,
+unmodified — if it renders after a restart, there is nothing to change.
