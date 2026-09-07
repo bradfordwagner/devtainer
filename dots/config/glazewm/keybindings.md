@@ -8,7 +8,7 @@ same rule as `dots/config/sway/keybindings.md`.
 
 The left-hand block is 15 workspaces laid out as it sits under your hand —
 `alt+<key>` focuses, `alt+shift+<key>` moves the focused window there and
-follows it. The number row keeps workspaces `1`-`9`, for 24 total. This mirrors
+follows it. That is the whole set — there is no number row. This mirrors
 `dots/config/aerospace/aerospace.toml`, where every letter is a workspace.
 
 ```
@@ -33,7 +33,7 @@ Workspace keys are shown as `ws`; `--` is unbound.
 ```
  ┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┐
  │ `  │ 1  │ 2  │ 3  │ 4  │ 5  │ 6  │ 7  │ 8  │ 9  │ 0  │ -  │ =  │
- │ -- │ ws │ ws │ ws │ ws │ ws │ ws │ ws │ ws │ ws │ -- │ -- │ -- │
+ │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │
  ├────┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┐
  │ TAB │ Q  │ W  │ E  │ R  │ T  │ Y  │ U  │ I  │ O  │ P  │ [  │ ]  │
  │ --  │ ws │ ws │ ws │ ws │ ws │ -- │ w- │ h- │ h+ │ w+ │prev│next│
@@ -48,14 +48,14 @@ Workspace keys are shown as `ws`; `--` is unbound.
 ```
 
 `w-`/`w+` and `h-`/`h+` are the 2% width/height resize steps on `u`/`p` and
-`i`/`o`. Only `alt+n` and `alt+y` are still free.
+`i`/`o`. The whole number row is free, as are `alt+n` and `alt+y`.
 
 ## The alt+shift layer
 
 ```
  ┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┐
  │ 1  │ 2  │ 3  │ 4  │ 5  │ 6  │ 7  │ 8  │ 9  │ 0  │ -  │ =  │ BS │
- │ mv │ mv │ mv │ mv │ mv │ mv │ mv │ mv │ mv │ -- │ -- │ -- │ -- │
+ │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │ -- │
  ├────┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴────┤
  │  Q  │ W  │ E  │ R  │ T  │ Y  │ U  │ I  │ O  │ P  │ [  │  ]     │
  │  mv │ mv │ mv │ mv │ mv │ -- │ -- │ -- │ -- │pause│ -- │  --    │

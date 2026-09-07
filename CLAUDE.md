@@ -131,9 +131,17 @@ exit/reload/redraw/pause/close and the move-workspace-to-monitor directions — 
 away from tmux/nvim/WSL and from sway over RDP; `alt+;` and `alt+ctrl+hjkl` are reserved for
 tmux (`resize-pane -Z`, `select-pane`), which is why the modes sit on the quote key. Check
 `dots/tmux/tmux.conf` root-table (`bind -n`) chords before adding a GlazeWM binding. The
-reference table and keyboard maps live in `dots/config/glazewm/keybindings.md`;
-whenever a binding in `dots/config/glazewm/config.yaml` is added, changed, or removed, update
-that file in the same change (same rule as `dots/config/sway/keybindings.md`).
+reference table and keyboard maps live in **two** files that must both be updated in the
+same change as any add/change/removal of a binding or workspace in
+`dots/config/glazewm/config.yaml` (same rule as `dots/config/sway/keybindings.md`):
+
+- `dots/config/glazewm/keybindings.md` — the markdown table + ASCII keyboard maps
+- `dots/config/glazewm/keybindings.html` — the rendered keycap version; it is **published as
+  an Artifact**, so after editing it redeploy to the same URL with the `Artifact` tool
+  (`url: https://claude.ai/code/artifact/b019cd7d-7a3f-4745-80ef-097fb739e209`) rather than
+  publishing a new one
+
+Easy to miss the `.html` when the change looks like a one-line config edit — check for both.
 
 Zebar runs a **vendored** copy of the `glzr-io.starter` marketplace pack (upstream's documented
 way to edit a marketplace widget without pack updates overwriting it); the pack id is the
