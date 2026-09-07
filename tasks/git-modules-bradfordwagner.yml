@@ -140,6 +140,8 @@
        repo: https://github.com/bradfordwagner/resume.git
      - name: xteink.x4.pro
        repo: https://github.com/bradfordwagner/xteink-x4-pro.git
+     - name: travel
+       repo: https://github.com/bradfordwagner/travel.git
 
    # also uses go releaser just like the go.bins
    - name: '{{ go_lib }}'
