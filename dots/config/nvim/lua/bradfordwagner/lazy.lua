@@ -98,7 +98,6 @@ require("lazy").setup({
   'tpope/vim-fugitive',                  -- helps with git commands, blame, etc https://github.com/tpope/vim-fugitive
   'hashivim/vim-terraform',              -- terraform support with completion of sub commands - https://github.com/hashivim/vim-terraform
   'challenger-deep-theme/vim',           -- {'name': 'challenger-deep-theme'} " https://github.com/challenger-deep-theme/vim
-  'christoomey/vim-tmux-navigator',      -- https://github.com/christoomey/vim-tmux-navigator
   'rrethy/vim-illuminate',               -- https://github.com/RRethy/vim-illuminate - highlights word under cursor
   'raimondi/delimitmate',                -- auto close brackets, quotes, etc
   'tpope/vim-obsession',                 -- https://github.com/tpope/vim-obsession

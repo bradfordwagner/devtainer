@@ -120,6 +120,21 @@ oversized top margin — and `alt+enter` runs `shell-exec wt -f` rather than ups
 `shell-exec cmd`, so it opens Windows Terminal in focus mode honouring its own
 `defaultProfile` (Ubuntu/WSL) instead of forcing a shell.
 
+The keybindings are also heavily reworked from upstream: the left-hand key block
+(`qwert`/`asdfg`/`zxcvb`) is 15 letter-named workspaces on `alt+<key>` (focus) and
+`alt+shift+<key>` (move + follow), matching `dots/config/aerospace/aerospace.toml` where
+every letter is a workspace. That displaced 15 commands onto punctuation (`alt+/` tiling
+direction, `alt+,` tiling, `alt+.` fullscreen, `alt+[`/`alt+]` workspace nav, `alt+Escape`
+recent) plus a `service` binding mode on `alt+shift+'` holding
+exit/reload/redraw/pause/close and the move-workspace-to-monitor directions — the aerospace
+`[mode.service.binding]` idiom. GlazeWM's keyboard hook is global, so a binding here is taken
+away from tmux/nvim/WSL and from sway over RDP; `alt+;` and `alt+ctrl+hjkl` are reserved for
+tmux (`resize-pane -Z`, `select-pane`), which is why the modes sit on the quote key. Check
+`dots/tmux/tmux.conf` root-table (`bind -n`) chords before adding a GlazeWM binding. The
+reference table and keyboard maps live in `dots/config/glazewm/keybindings.md`;
+whenever a binding in `dots/config/glazewm/config.yaml` is added, changed, or removed, update
+that file in the same change (same rule as `dots/config/sway/keybindings.md`).
+
 Zebar runs a **vendored** copy of the `glzr-io.starter` marketplace pack (upstream's documented
 way to edit a marketplace widget without pack updates overwriting it); the pack id is the
 directory name, `bw-starter`. Its changes: weather in fahrenheit, a Catppuccin Mocha theme,

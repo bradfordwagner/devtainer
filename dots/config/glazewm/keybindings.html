@@ -1,0 +1,293 @@
+<title>GlazeWM Keymap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400&family=Inconsolata:wdth,wght@75..100,400..700&display=swap">
+<style>
+/* Catppuccin Latte — the light palette, matching the Mocha tokens the Zebar
+   bar and GlazeWM borders already use (dots/config/zebar/bw-starter/styles.css). */
+:root {
+  --bg:        #eff1f5;
+  --panel:     #e6e9ef;
+  --key:       #dce0e8;
+  --key-edge:  #bcc0cc;
+  --ink:       #4c4f69;
+  --ink-dim:   #6c6f85;
+  --ink-faint: #9ca0b0;
+  --line:      #ccd0da;
+  --ws:        #8839ef;
+  --nav:       #1e66f5;
+  --win:       #fe640b;
+  --mode:      #40a02b;
+  --app:       #179299;
+  --tint: 16%;
+  --u: 3.5rem;
+  --gap: 0.3rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #181825;
+    --panel:     #1e1e2e;
+    --key:       #313244;
+    --key-edge:  #45475a;
+    --ink:       #cdd6f4;
+    --ink-dim:   #a6adc8;
+    --ink-faint: #6c7086;
+    --line:      #313244;
+    --ws:        #cba6f7;
+    --nav:       #89b4fa;
+    --win:       #fab387;
+    --mode:      #a6e3a1;
+    --app:       #94e2d5;
+    --tint: 22%;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #181825;
+  --panel:     #1e1e2e;
+  --key:       #313244;
+  --key-edge:  #45475a;
+  --ink:       #cdd6f4;
+  --ink-dim:   #a6adc8;
+  --ink-faint: #6c7086;
+  --line:      #313244;
+  --ws:        #cba6f7;
+  --nav:       #89b4fa;
+  --win:       #fab387;
+  --mode:      #a6e3a1;
+  --app:       #94e2d5;
+  --tint: 22%;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1.6 "IBM Plex Sans", system-ui, sans-serif;
+  padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 4vw, 3.5rem) 5rem;
+}
+.wrap { max-width: 76rem; margin: 0 auto; display: flex; flex-direction: column; gap: 3.5rem; }
+p { max-width: 62ch; }
+
+h1, h2, h3 {
+  font-family: "IBM Plex Sans Condensed", "IBM Plex Sans", sans-serif;
+  font-weight: 600; text-wrap: balance; margin: 0; line-height: 1.15;
+}
+h1 { font-size: clamp(2.1rem, 5vw, 3.1rem); letter-spacing: -0.015em; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.05rem; }
+
+.eyebrow {
+  font-family: Inconsolata, ui-monospace, monospace;
+  font-size: 0.82rem; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 0.6rem;
+}
+header p { color: var(--ink-dim); margin: 1rem 0 0; }
+section { display: flex; flex-direction: column; gap: 1.1rem; }
+section > p { margin: 0; color: var(--ink-dim); }
+.hint { font-size: 0.92rem; }
+
+/* ---- keycaps ---- */
+.scroll { overflow-x: auto; padding-bottom: 0.4rem; }
+.board {
+  display: flex; flex-direction: column; gap: var(--gap);
+  min-width: 58rem; padding: var(--gap);
+  background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+}
+.krow { display: flex; gap: var(--gap); }
+.key {
+  --w: 1;
+  width: calc(var(--u) * var(--w) + var(--gap) * (var(--w) - 1));
+  height: 3.3rem; flex: none;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 0.32rem 0.42rem; border-radius: 4px;
+  background: var(--key);
+  border: 1px solid var(--key-edge);
+  border-bottom-width: 2px;
+  font-family: Inconsolata, ui-monospace, monospace; font-stretch: 88%;
+}
+.cap { font-size: 0.86rem; font-weight: 600; color: var(--ink); line-height: 1; }
+.act {
+  font-size: 0.68rem; line-height: 1.05; color: var(--ink-dim);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.key.chrome, .key.off { background: transparent; border-color: var(--line); border-bottom-width: 1px; }
+.key.chrome .cap, .key.off .cap { color: var(--ink-faint); font-weight: 400; }
+.key.ws   { background: color-mix(in oklab, var(--ws)   var(--tint), var(--key)); border-color: var(--ws); }
+.key.nav  { background: color-mix(in oklab, var(--nav)  var(--tint), var(--key)); border-color: var(--nav); }
+.key.win  { background: color-mix(in oklab, var(--win)  var(--tint), var(--key)); border-color: var(--win); }
+.key.mode { background: color-mix(in oklab, var(--mode) var(--tint), var(--key)); border-color: var(--mode); }
+.key.app  { background: color-mix(in oklab, var(--app)  var(--tint), var(--key)); border-color: var(--app); }
+.key.ws .act, .key.nav .act, .key.win .act, .key.mode .act, .key.app .act { color: var(--ink); }
+
+/* ---- legend ---- */
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; font-family: Inconsolata, ui-monospace, monospace; font-size: 0.83rem; color: var(--ink-dim); }
+.legend span { display: inline-flex; align-items: center; gap: 0.45rem; }
+.legend i { width: 0.8rem; height: 0.8rem; border-radius: 2px; border: 1px solid; }
+.sw-ws   { background: color-mix(in oklab, var(--ws)   var(--tint), var(--key)); border-color: var(--ws); }
+.sw-nav  { background: color-mix(in oklab, var(--nav)  var(--tint), var(--key)); border-color: var(--nav); }
+.sw-win  { background: color-mix(in oklab, var(--win)  var(--tint), var(--key)); border-color: var(--win); }
+.sw-mode { background: color-mix(in oklab, var(--mode) var(--tint), var(--key)); border-color: var(--mode); }
+.sw-app  { background: color-mix(in oklab, var(--app)  var(--tint), var(--key)); border-color: var(--app); }
+.sw-off  { background: transparent; border-color: var(--line); }
+
+/* ---- the workspace block ---- */
+.grid { display: flex; flex-direction: column; gap: var(--gap); }
+.wsrow { display: flex; gap: var(--gap); margin-left: calc(var(--i) * var(--u) * 0.42); }
+.wsrow .key { --w: 1.35; height: 3.8rem; }
+
+/* ---- tables ---- */
+.t { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+.t th, .t td { text-align: left; padding: 0.5rem 0.9rem 0.5rem 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+.t th {
+  font-family: Inconsolata, ui-monospace, monospace; font-weight: 700;
+  font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint);
+}
+.t tr:last-child td { border-bottom: 0; }
+.t .was { color: var(--ink-faint); }
+.t .aero { color: var(--ink-dim); font-family: Inconsolata, ui-monospace, monospace; font-size: 0.87rem; }
+kbd {
+  font-family: Inconsolata, ui-monospace, monospace; font-size: 0.88rem;
+  background: var(--key); border: 1px solid var(--key-edge); border-radius: 3px;
+  padding: 0.05em 0.4em; white-space: nowrap; color: var(--ink);
+}
+.was kbd { background: transparent; border-style: dashed; color: var(--ink-faint); }
+kbd.now { border-color: var(--ws); background: color-mix(in oklab, var(--ws) var(--tint), var(--key)); }
+
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 2rem; }
+.mode h3 { margin-bottom: 0.5rem; }
+.mode h3 .enter { float: right; font-weight: 400; }
+.mode .t td:first-child { width: 42%; }
+
+footer { border-top: 1px solid var(--line); padding-top: 1.5rem; color: var(--ink-dim); font-size: 0.92rem; }
+footer code, .hint code {
+  font-family: Inconsolata, ui-monospace, monospace; font-size: 0.9em;
+  color: var(--ink); background: var(--panel); padding: 0.05em 0.35em; border-radius: 3px;
+}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">dots/config/glazewm/config.yaml</p>
+  <h1>GlazeWM Keymap</h1>
+  <p>The left-hand key block is fifteen workspaces&nbsp;&mdash; <kbd>alt</kbd> focuses one,
+  <kbd>alt+shift</kbd> throws the focused window there and follows it. That claims fifteen
+  letters, so fifteen window-manager commands moved to punctuation and to a service mode,
+  following <code>dots/config/aerospace/aerospace.toml</code> wherever it already had an
+  answer. With the number row that is 24 in total. Colors are the Catppuccin the bar and
+  window borders already use.</p>
+</header>
+
+<section>
+  <h2>The workspace block</h2>
+  <p>Named for the key they sit under, so the map is the keyboard.</p>
+  <div class="scroll"><div class="grid">
+<div class="wsrow" style="--i:0"><div class="key ws"><span class="cap">Q</span><span class="act">ws Q</span></div><div class="key ws"><span class="cap">W</span><span class="act">ws W</span></div><div class="key ws"><span class="cap">E</span><span class="act">ws E</span></div><div class="key ws"><span class="cap">R</span><span class="act">ws R</span></div><div class="key ws"><span class="cap">T</span><span class="act">ws T</span></div></div>
+<div class="wsrow" style="--i:1"><div class="key ws"><span class="cap">A</span><span class="act">ws A</span></div><div class="key ws"><span class="cap">S</span><span class="act">ws S</span></div><div class="key ws"><span class="cap">D</span><span class="act">ws D</span></div><div class="key ws"><span class="cap">F</span><span class="act">ws F</span></div><div class="key ws"><span class="cap">G</span><span class="act">ws G</span></div></div>
+<div class="wsrow" style="--i:2"><div class="key ws"><span class="cap">Z</span><span class="act">ws Z</span></div><div class="key ws"><span class="cap">X</span><span class="act">ws X</span></div><div class="key ws"><span class="cap">C</span><span class="act">ws C</span></div><div class="key ws"><span class="cap">V</span><span class="act">ws V</span></div><div class="key ws"><span class="cap">B</span><span class="act">ws B</span></div></div>
+  </div></div>
+</section>
+
+<section>
+  <h2>alt</h2>
+  <div class="legend">
+    <span><i class="sw-ws"></i>workspace</span>
+    <span><i class="sw-nav"></i>focus &amp; movement</span>
+    <span><i class="sw-win"></i>window state</span>
+    <span><i class="sw-mode"></i>binding mode</span>
+    <span><i class="sw-app"></i>launch</span>
+    <span><i class="sw-off"></i>unbound</span>
+  </div>
+  <div class="scroll"><div class="board">
+<div class="krow"><div class="key nav" style="--w:1"><span class="cap">esc</span><span class="act">recent ws</span></div></div>
+<div class="krow"><div class="key off" style="--w:1"><span class="cap">`</span></div><div class="key ws" style="--w:1"><span class="cap">1</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">2</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">3</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">4</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">5</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">6</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">7</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">8</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">9</span><span class="act">focus ws</span></div><div class="key off" style="--w:1"><span class="cap">0</span></div><div class="key off" style="--w:1"><span class="cap">-</span></div><div class="key off" style="--w:1"><span class="cap">=</span></div><div class="key chrome" style="--w:2"><span class="cap">⌫</span></div></div>
+<div class="krow"><div class="key chrome" style="--w:1.5"><span class="cap">tab</span></div><div class="key ws" style="--w:1"><span class="cap">q</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">w</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">e</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">r</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">t</span><span class="act">focus ws</span></div><div class="key off" style="--w:1"><span class="cap">y</span></div><div class="key win" style="--w:1"><span class="cap">u</span><span class="act">width −</span></div><div class="key win" style="--w:1"><span class="cap">i</span><span class="act">height −</span></div><div class="key win" style="--w:1"><span class="cap">o</span><span class="act">height +</span></div><div class="key win" style="--w:1"><span class="cap">p</span><span class="act">width +</span></div><div class="key nav" style="--w:1"><span class="cap">[</span><span class="act">prev ws</span></div><div class="key nav" style="--w:1"><span class="cap">]</span><span class="act">next ws</span></div><div class="key off" style="--w:1.5"><span class="cap">\</span></div></div>
+<div class="krow"><div class="key chrome" style="--w:1.75"><span class="cap">caps</span></div><div class="key ws" style="--w:1"><span class="cap">a</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">s</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">d</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">f</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">g</span><span class="act">focus ws</span></div><div class="key nav" style="--w:1"><span class="cap">h</span><span class="act">← focus</span></div><div class="key nav" style="--w:1"><span class="cap">j</span><span class="act">↓ focus</span></div><div class="key nav" style="--w:1"><span class="cap">k</span><span class="act">↑ focus</span></div><div class="key nav" style="--w:1"><span class="cap">l</span><span class="act">→ focus</span></div><div class="key off" style="--w:1"><span class="cap">;</span></div><div class="key mode" style="--w:1"><span class="cap">&#x27;</span><span class="act">resize mode</span></div><div class="key app" style="--w:2.25"><span class="cap">enter</span><span class="act">terminal</span></div></div>
+<div class="krow"><div class="key chrome" style="--w:2.25"><span class="cap">shift</span></div><div class="key ws" style="--w:1"><span class="cap">z</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">x</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">c</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">v</span><span class="act">focus ws</span></div><div class="key ws" style="--w:1"><span class="cap">b</span><span class="act">focus ws</span></div><div class="key off" style="--w:1"><span class="cap">n</span></div><div class="key win" style="--w:1"><span class="cap">m</span><span class="act">minimize</span></div><div class="key win" style="--w:1"><span class="cap">,</span><span class="act">tile</span></div><div class="key win" style="--w:1"><span class="cap">.</span><span class="act">fullscreen</span></div><div class="key win" style="--w:1"><span class="cap">/</span><span class="act">split axis</span></div><div class="key chrome" style="--w:2.75"><span class="cap">shift</span></div></div>
+<div class="krow"><div class="key chrome" style="--w:1.25"><span class="cap">ctrl</span></div><div class="key chrome" style="--w:1.25"><span class="cap">win</span></div><div class="key chrome" style="--w:1.25"><span class="cap">alt</span></div><div class="key nav" style="--w:6.25"><span class="cap">space</span><span class="act">cycle focus</span></div><div class="key chrome" style="--w:1.25"><span class="cap">alt</span></div><div class="key chrome" style="--w:1.25"><span class="cap">fn</span></div><div class="key chrome" style="--w:2.5"><span class="cap">ctrl</span></div></div>
+  </div></div>
+  <p class="hint">Only <kbd>alt+n</kbd> and <kbd>alt+y</kbd> are still free.
+  <code>width&nbsp;±</code> and <code>height&nbsp;±</code> are the 2% resize steps.</p>
+</section>
+
+<section>
+  <h2>alt + shift</h2>
+  <div class="scroll"><div class="board">
+<div class="krow"><div class="key off" style="--w:1"><span class="cap">esc</span></div></div>
+<div class="krow"><div class="key off" style="--w:1"><span class="cap">`</span></div><div class="key ws" style="--w:1"><span class="cap">1</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">2</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">3</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">4</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">5</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">6</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">7</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">8</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">9</span><span class="act">move here</span></div><div class="key off" style="--w:1"><span class="cap">0</span></div><div class="key off" style="--w:1"><span class="cap">-</span></div><div class="key off" style="--w:1"><span class="cap">=</span></div><div class="key chrome" style="--w:2"><span class="cap">⌫</span></div></div>
+<div class="krow"><div class="key chrome" style="--w:1.5"><span class="cap">tab</span></div><div class="key ws" style="--w:1"><span class="cap">q</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">w</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">e</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">r</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">t</span><span class="act">move here</span></div><div class="key off" style="--w:1"><span class="cap">y</span></div><div class="key off" style="--w:1"><span class="cap">u</span></div><div class="key off" style="--w:1"><span class="cap">i</span></div><div class="key off" style="--w:1"><span class="cap">o</span></div><div class="key mode" style="--w:1"><span class="cap">p</span><span class="act">pause</span></div><div class="key off" style="--w:1"><span class="cap">[</span></div><div class="key off" style="--w:1"><span class="cap">]</span></div><div class="key off" style="--w:1.5"><span class="cap">\</span></div></div>
+<div class="krow"><div class="key chrome" style="--w:1.75"><span class="cap">caps</span></div><div class="key ws" style="--w:1"><span class="cap">a</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">s</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">d</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">f</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">g</span><span class="act">move here</span></div><div class="key nav" style="--w:1"><span class="cap">h</span><span class="act">← move</span></div><div class="key nav" style="--w:1"><span class="cap">j</span><span class="act">↓ move</span></div><div class="key nav" style="--w:1"><span class="cap">k</span><span class="act">↑ move</span></div><div class="key nav" style="--w:1"><span class="cap">l</span><span class="act">→ move</span></div><div class="key off" style="--w:1"><span class="cap">;</span></div><div class="key mode" style="--w:1"><span class="cap">&#x27;</span><span class="act">service mode</span></div><div class="key off" style="--w:2.25"><span class="cap">enter</span></div></div>
+<div class="krow"><div class="key chrome" style="--w:2.25"><span class="cap">shift</span></div><div class="key ws" style="--w:1"><span class="cap">z</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">x</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">c</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">v</span><span class="act">move here</span></div><div class="key ws" style="--w:1"><span class="cap">b</span><span class="act">move here</span></div><div class="key off" style="--w:1"><span class="cap">n</span></div><div class="key off" style="--w:1"><span class="cap">m</span></div><div class="key off" style="--w:1"><span class="cap">,</span></div><div class="key off" style="--w:1"><span class="cap">.</span></div><div class="key off" style="--w:1"><span class="cap">/</span></div><div class="key chrome" style="--w:2.75"><span class="cap">shift</span></div></div>
+<div class="krow"><div class="key chrome" style="--w:1.25"><span class="cap">ctrl</span></div><div class="key chrome" style="--w:1.25"><span class="cap">win</span></div><div class="key chrome" style="--w:1.25"><span class="cap">alt</span></div><div class="key win" style="--w:6.25"><span class="cap">space</span><span class="act">float</span></div><div class="key chrome" style="--w:1.25"><span class="cap">alt</span></div><div class="key chrome" style="--w:1.25"><span class="cap">fn</span></div><div class="key chrome" style="--w:2.5"><span class="cap">ctrl</span></div></div>
+  </div></div>
+</section>
+
+<section>
+  <h2>Chords off the board</h2>
+  <p>One chord sits on neither layer. Monitor-level workspace moves are not here either:
+  they live in service mode, because tmux binds <code>C-M-hjkl</code> to
+  <code>select-pane</code> and GlazeWM's keyboard hook would swallow it before Windows
+  Terminal saw it.</p>
+  <table class="t"><thead><tr><th>Keys</th><th>Action</th></tr></thead>
+  <tbody>
+<tr><td><kbd>alt+ctrl+shift+q</kbd></td><td>close</td></tr>
+  </tbody></table>
+</section>
+
+<section>
+  <h2>Binding modes</h2>
+  <p>Service mode exists because <kbd>alt+shift+e</kbd>, <kbd>r</kbd>, <kbd>w</kbd> and
+  <kbd>q</kbd> are workspaces now. It mirrors aerospace's
+  <code>[mode.service.binding]</code>, down to escape&nbsp;=&nbsp;reload. Both modes sit on
+  the quote key rather than aerospace's semicolon: tmux binds <kbd>alt+;</kbd> to
+  <code>resize-pane -Z</code>, and a GlazeWM binding would take it globally.</p>
+  <div class="cols">
+<div class="mode"><h3>resize mode <span class="enter"><kbd>alt+&#x27;</kbd></span></h3><table class="t"><tbody><tr><td><kbd>h</kbd> <kbd>left</kbd></td><td>resize --width -2%</td></tr>
+<tr><td><kbd>l</kbd> <kbd>right</kbd></td><td>resize --width +2%</td></tr>
+<tr><td><kbd>k</kbd> <kbd>up</kbd></td><td>resize --height +2%</td></tr>
+<tr><td><kbd>j</kbd> <kbd>down</kbd></td><td>resize --height -2%</td></tr>
+<tr><td><kbd>escape</kbd> <kbd>enter</kbd> <kbd>alt+&#x27;</kbd></td><td>back to default bindings</td></tr>
+</tbody></table></div>
+<div class="mode"><h3>service mode <span class="enter"><kbd>alt+shift+&#x27;</kbd></span></h3><table class="t"><tbody><tr><td><kbd>escape</kbd></td><td>wm-reload-config</td></tr>
+<tr><td><kbd>r</kbd></td><td>wm-redraw</td></tr>
+<tr><td><kbd>x</kbd></td><td>close</td></tr>
+<tr><td><kbd>p</kbd></td><td>wm-toggle-pause</td></tr>
+<tr><td><kbd>q</kbd></td><td>wm-exit</td></tr>
+<tr><td><kbd>h</kbd></td><td>move-workspace --direction left</td></tr>
+<tr><td><kbd>j</kbd></td><td>move-workspace --direction down</td></tr>
+<tr><td><kbd>k</kbd></td><td>move-workspace --direction up</td></tr>
+<tr><td><kbd>l</kbd></td><td>move-workspace --direction right</td></tr>
+<tr><td><kbd>enter</kbd> <kbd>alt+shift+&#x27;</kbd></td><td>back to default bindings</td></tr>
+</tbody></table></div>
+
+  </div>
+</section>
+
+<section>
+  <h2>Where the displaced commands went</h2>
+  <table class="t">
+    <thead><tr><th>Command</th><th>Was</th><th>Now</th><th>Aerospace counterpart</th></tr></thead>
+    <tbody>
+<tr><td>Toggle tiling direction</td><td class="was"><kbd>alt+v</kbd></td><td><kbd class="now">alt+/</kbd></td><td class="aero">alt-slash — layout tiles horizontal vertical</td></tr>
+<tr><td>Resize mode</td><td class="was"><kbd>alt+r</kbd></td><td><kbd class="now">alt+;</kbd></td><td class="aero">alt-shift-semicolon — mode resize</td></tr>
+<tr><td>Service mode</td><td class="was"><kbd>—</kbd></td><td><kbd class="now">alt+shift+;</kbd></td><td class="aero">alt-shift-semicolon — mode service</td></tr>
+<tr><td>Recent workspace</td><td class="was"><kbd>alt+d</kbd></td><td><kbd class="now">alt+esc</kbd></td><td class="aero">alt-esc — workspace-back-and-forth</td></tr>
+<tr><td>Toggle tiling</td><td class="was"><kbd>alt+t</kbd></td><td><kbd class="now">alt+,</kbd></td><td class="aero">alt-comma — the other layout key</td></tr>
+<tr><td>Toggle fullscreen</td><td class="was"><kbd>alt+f</kbd></td><td><kbd class="now">alt+.</kbd></td><td class="aero">—</td></tr>
+<tr><td>Prev / next workspace</td><td class="was"><kbd>alt+a &middot; alt+s</kbd></td><td><kbd class="now">alt+[ &middot; alt+]</kbd></td><td class="aero">—</td></tr>
+<tr><td>Move workspace to monitor</td><td class="was"><kbd>alt+shift+a/s/d/f</kbd></td><td><kbd class="now">alt+ctrl+h/j/k/l</kbd></td><td class="aero">alt-shift-tab</td></tr>
+<tr><td>Close window</td><td class="was"><kbd>alt+shift+q</kbd></td><td><kbd class="now">alt+ctrl+shift+q</kbd></td><td class="aero">service mode x</td></tr>
+<tr><td>Exit / reload / redraw</td><td class="was"><kbd>alt+shift+e/r/w</kbd></td><td><kbd class="now">service mode q / esc / r</kbd></td><td class="aero">[mode.service.binding]</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p>Generated from <code>config.yaml</code>; edit the config, not this page, then run
+  <code>task bb</code> and reload GlazeWM from the tray icon. Flipping an existing row into a
+  column is <kbd>alt+shift+j</kbd> on one of the windows &mdash; moving perpendicular to the
+  layout inverts the workspace's tiling direction. <kbd>alt+/</kbd> only sets where the
+  <em>next</em> window lands. GlazeWM has no tabbed, stacked, or accordion layout, so
+  aerospace's <code>alt-comma</code> has no counterpart here.</p>
+</footer>
+</div>

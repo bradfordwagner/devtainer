@@ -24,14 +24,6 @@ map <silent> <Space>ah :! tmux select-pane -L<CR>
 map <silent> <Space>aj :! tmux select-pane -D<CR>
 map <silent> <Space>ak :! tmux select-pane -U<CR>
 map <silent> <Space>al :! tmux select-pane -R<CR>
-" tmux navigator - match tmux conf
-let g:tmux_navigator_no_mappings = 1
-noremap <silent> <M-h> :<C-U>TmuxNavigateLeft<cr>
-noremap <silent> <M-j> :<C-U>TmuxNavigateDown<cr>
-noremap <silent> <M-k> :<C-U>TmuxNavigateUp<cr>
-noremap <silent> <M-l> :<C-U>TmuxNavigateRight<cr>
-" noremap <silent> {Previous-Mapping} :<C-U>TmuxNavigatePrevious<cr>
-" -end tmux navigator
 
 " window management
 map <silent> <Space>we :wincmd T<CR>

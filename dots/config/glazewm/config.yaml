@@ -151,6 +151,27 @@ workspaces:
   - name: '8'
   - name: '9'
 
+  # qwert row
+  - name: 'q'
+  - name: 'w'
+  - name: 'e'
+  - name: 'r'
+  - name: 't'
+
+  # asdfg row
+  - name: 'a'
+  - name: 's'
+  - name: 'd'
+  - name: 'f'
+  - name: 'g'
+
+  # zxcvb row
+  - name: 'z'
+  - name: 'x'
+  - name: 'c'
+  - name: 'v'
+  - name: 'b'
+
 window_rules:
   - commands: ['ignore']
     match:
@@ -190,9 +211,35 @@ binding_modes:
         bindings: ['k', 'up']
       - commands: ['resize --height -2%']
         bindings: ['j', 'down']
-      # Press escape/enter/alt+r to return to default keybindings.
+      # Press escape/enter/alt+' to return to default keybindings.
       - commands: ['wm-disable-binding-mode --name resize']
-        bindings: ['escape', 'enter', 'alt+r']
+        bindings: ['escape', 'enter', 'alt+oem_quotes']
+
+  # WM-meta commands live here rather than on alt+shift+<letter>, since every
+  # letter in the qwert/asdfg/zxcvb block is now a workspace. Mirrors the
+  # aerospace `service` mode (alt-shift-semicolon), including esc = reload.
+  - name: 'service'
+    keybindings:
+      - commands: ['wm-reload-config', 'wm-disable-binding-mode --name service']
+        bindings: ['escape']
+      - commands: ['wm-redraw', 'wm-disable-binding-mode --name service']
+        bindings: ['r']
+      - commands: ['close', 'wm-disable-binding-mode --name service']
+        bindings: ['x']
+      - commands: ['wm-toggle-pause', 'wm-disable-binding-mode --name service']
+        bindings: ['p']
+      - commands: ['wm-exit']
+        bindings: ['q']
+      - commands: ['move-workspace --direction left', 'wm-disable-binding-mode --name service']
+        bindings: ['h']
+      - commands: ['move-workspace --direction down', 'wm-disable-binding-mode --name service']
+        bindings: ['j']
+      - commands: ['move-workspace --direction up', 'wm-disable-binding-mode --name service']
+        bindings: ['k']
+      - commands: ['move-workspace --direction right', 'wm-disable-binding-mode --name service']
+        bindings: ['l']
+      - commands: ['wm-disable-binding-mode --name service']
+        bindings: ['enter', 'alt+shift+oem_quotes']
 
 keybindings:
   # Shift focus in a given direction.
@@ -227,9 +274,15 @@ keybindings:
 
   # As an alternative to the resize keybindings above, resize mode enables
   # resizing via arrow keys or HJKL. The binding mode is defined above with
-  # the name 'resize'.
+  # the name 'resize'. On the quote key, not aerospace's semicolon: tmux binds
+  # M-; to `resize-pane -Z` and GlazeWM's hook would swallow it globally.
   - commands: ['wm-enable-binding-mode --name resize']
-    bindings: ['alt+r']
+    bindings: ['alt+oem_quotes']
+
+  # Service mode holds the WM-meta commands (exit/reload/redraw/pause/close)
+  # that lost their alt+shift+<letter> keys to workspaces.
+  - commands: ['wm-enable-binding-mode --name service']
+    bindings: ['alt+shift+oem_quotes']
 
   # Disables window management and all other keybindings until alt+shift+p
   # is pressed again.
@@ -238,8 +291,10 @@ keybindings:
 
   # Change tiling direction. This determines where new tiling windows will
   # be inserted.
+  # (alt+/ because alt+v is workspace V; aerospace uses alt-slash for `layout
+  # tiles horizontal vertical`, the same "flip the axis" key.)
   - commands: ['toggle-tiling-direction']
-    bindings: ['alt+v']
+    bindings: ['alt+oem_question']
 
   # Change focus from tiling windows -> floating -> fullscreen.
   - commands: ['wm-cycle-focus']
@@ -249,33 +304,26 @@ keybindings:
   - commands: ['toggle-floating --centered']
     bindings: ['alt+shift+space']
 
-  # Change the focused window to be tiling.
+  # Change the focused window to be tiling. The return trip for alt+shift+space
+  # -- toggle-floating has no size flags, so floating and tiling are two keys.
   - commands: ['toggle-tiling']
-    bindings: ['alt+t']
+    bindings: ['alt+oem_comma']
 
   # Change the focused window to be fullscreen.
   - commands: ['toggle-fullscreen']
-    bindings: ['alt+f']
+    bindings: ['alt+oem_period']
 
   # Minimize focused window.
   - commands: ['toggle-minimized']
     bindings: ['alt+m']
 
-  # Close focused window.
+  # Close focused window. alt+shift+q is workspace Q, so the old chord picks up
+  # ctrl. Nothing in tmux's root table claims C-M-S-q. Also `x` in service mode.
   - commands: ['close']
-    bindings: ['alt+shift+q']
+    bindings: ['alt+ctrl+shift+q']
 
-  # Kill GlazeWM process safely.
-  - commands: ['wm-exit']
-    bindings: ['alt+shift+e']
-
-  # Re-evaluate configuration file.
-  - commands: ['wm-reload-config']
-    bindings: ['alt+shift+r']
-
-  # Redraw all windows.
-  - commands: ['wm-redraw']
-    bindings: ['alt+shift+w']
+  # wm-exit, wm-reload-config and wm-redraw moved into the `service` binding
+  # mode (alt+shift+;) -- alt+shift+e/r/w are workspaces E/R/W now.
 
   # Launch Windows Terminal in focus mode (-f hides the tab bar and title bar;
   # note -F is *fullscreen*, a different thing). WT honours its own
@@ -288,14 +336,15 @@ keybindings:
     bindings: ['alt+enter']
 
   # Focus the next/previous active workspace defined in `workspaces` config.
+  # On the bracket keys because alt+a/alt+s are workspaces A/S now.
   - commands: ['focus --next-active-workspace']
-    bindings: ['alt+s']
+    bindings: ['alt+oem_close_brackets']
   - commands: ['focus --prev-active-workspace']
-    bindings: ['alt+a']
+    bindings: ['alt+oem_open_brackets']
 
-  # Focus the workspace that last had focus.
+  # Focus the workspace that last had focus. (aerospace: alt-esc.)
   - commands: ['focus --recent-workspace']
-    bindings: ['alt+d']
+    bindings: ['alt+escape']
 
   # Change focus to a workspace defined in `workspaces` config.
   - commands: ['focus --workspace 1']
@@ -317,16 +366,51 @@ keybindings:
   - commands: ['focus --workspace 9']
     bindings: ['alt+9']
 
+  # Letter workspaces: the left-hand block, laid out as it sits on the keyboard.
+
+  # qwert row
+  - commands: ['focus --workspace q']
+    bindings: ['alt+q']
+  - commands: ['focus --workspace w']
+    bindings: ['alt+w']
+  - commands: ['focus --workspace e']
+    bindings: ['alt+e']
+  - commands: ['focus --workspace r']
+    bindings: ['alt+r']
+  - commands: ['focus --workspace t']
+    bindings: ['alt+t']
+
+  # asdfg row
+  - commands: ['focus --workspace a']
+    bindings: ['alt+a']
+  - commands: ['focus --workspace s']
+    bindings: ['alt+s']
+  - commands: ['focus --workspace d']
+    bindings: ['alt+d']
+  - commands: ['focus --workspace f']
+    bindings: ['alt+f']
+  - commands: ['focus --workspace g']
+    bindings: ['alt+g']
+
+  # zxcvb row
+  - commands: ['focus --workspace z']
+    bindings: ['alt+z']
+  - commands: ['focus --workspace x']
+    bindings: ['alt+x']
+  - commands: ['focus --workspace c']
+    bindings: ['alt+c']
+  - commands: ['focus --workspace v']
+    bindings: ['alt+v']
+  - commands: ['focus --workspace b']
+    bindings: ['alt+b']
+
+
   # Move the focused window's parent workspace to a monitor in a given
-  # direction.
-  - commands: ['move-workspace --direction left']
-    bindings: ['alt+shift+a']
-  - commands: ['move-workspace --direction right']
-    bindings: ['alt+shift+f']
-  - commands: ['move-workspace --direction up']
-    bindings: ['alt+shift+d']
-  - commands: ['move-workspace --direction down']
-    bindings: ['alt+shift+s']
+  # direction: service mode h/j/k/l. It lost alt+shift+a/s/d/f to workspaces,
+  # and alt+ctrl+hjkl is not available either -- tmux binds C-M-hjkl to
+  # select-pane (dots/tmux/tmux.conf), and GlazeWM's keyboard hook would eat it
+  # before Windows Terminal ever saw it. A multi-monitor move is rare enough to
+  # live behind the mode leader.
 
   # Move focused window to a workspace defined in `workspaces` config.
   - commands: ['move --workspace 1', 'focus --workspace 1']
@@ -347,3 +431,42 @@ keybindings:
     bindings: ['alt+shift+8']
   - commands: ['move --workspace 9', 'focus --workspace 9']
     bindings: ['alt+shift+9']
+
+  # Letter workspaces, same grid as above.
+
+  # qwert row
+  - commands: ['move --workspace q', 'focus --workspace q']
+    bindings: ['alt+shift+q']
+  - commands: ['move --workspace w', 'focus --workspace w']
+    bindings: ['alt+shift+w']
+  - commands: ['move --workspace e', 'focus --workspace e']
+    bindings: ['alt+shift+e']
+  - commands: ['move --workspace r', 'focus --workspace r']
+    bindings: ['alt+shift+r']
+  - commands: ['move --workspace t', 'focus --workspace t']
+    bindings: ['alt+shift+t']
+
+  # asdfg row
+  - commands: ['move --workspace a', 'focus --workspace a']
+    bindings: ['alt+shift+a']
+  - commands: ['move --workspace s', 'focus --workspace s']
+    bindings: ['alt+shift+s']
+  - commands: ['move --workspace d', 'focus --workspace d']
+    bindings: ['alt+shift+d']
+  - commands: ['move --workspace f', 'focus --workspace f']
+    bindings: ['alt+shift+f']
+  - commands: ['move --workspace g', 'focus --workspace g']
+    bindings: ['alt+shift+g']
+
+  # zxcvb row
+  - commands: ['move --workspace z', 'focus --workspace z']
+    bindings: ['alt+shift+z']
+  - commands: ['move --workspace x', 'focus --workspace x']
+    bindings: ['alt+shift+x']
+  - commands: ['move --workspace c', 'focus --workspace c']
+    bindings: ['alt+shift+c']
+  - commands: ['move --workspace v', 'focus --workspace v']
+    bindings: ['alt+shift+v']
+  - commands: ['move --workspace b', 'focus --workspace b']
+    bindings: ['alt+shift+b']
+
