@@ -76,8 +76,8 @@ Adding ctrl gives one more chord: `alt+ctrl+shift+q` closes the window.
 
 | Keybinding | Action |
 |---|---|
-| `alt+h/j/k/l` or arrows | Focus left/down/up/right |
-| `alt+shift+h/j/k/l` or arrows | Move focused window |
+| `alt+h/j/k/l` or arrows | Focus left/down/up/right — walks the stack on a stacked workspace |
+| `alt+shift+h/j/k/l` or arrows | Move focused window — reorders the stack, stays full-size |
 | `alt+space` | Cycle focus: tiling → floating → fullscreen |
 | `alt+[` / `alt+]` | Focus prev / next active workspace |
 | `alt+Escape` | Focus most recent workspace |
@@ -94,7 +94,7 @@ is inserted.
 |---|---|
 | `alt+shift+space` | Toggle floating (centered) |
 | `alt+,` | Toggle tiling — the return trip from floating |
-| `alt+.` | Toggle fullscreen |
+| `alt+.` | Toggle fullscreen — also the stacked-layout toggle, see below |
 | `alt+m` | Minimize |
 | `alt+/` | Toggle tiling direction (where the next window goes) |
 | `alt+ctrl+shift+q` | Close window (also `x` in service mode) |
@@ -106,6 +106,10 @@ is inserted.
 
 `alt+'` enters **resize** mode; `alt+shift+'` enters **service** mode. Both are
 one-shot-ish: every command returns you to the default bindings.
+
+A mode is exclusive, not additive — while one is active *every* other binding is
+off, the whole workspace grid included. That is why the stacked layout below is
+not a mode: you would not be able to change workspace while stacked.
 
 | Mode | Key | Action |
 |---|---|---|
@@ -134,7 +138,7 @@ Freeing 15 letters displaced 15 commands. Where a counterpart exists in
 | Service mode | — | `alt+shift+'` | `alt-shift-semicolon` = `mode service` |
 | Recent workspace | `alt+d` | `alt+Escape` | `alt-esc` = `workspace-back-and-forth` |
 | Toggle tiling | `alt+t` | `alt+,` | `alt-comma` (the other layout key) |
-| Toggle fullscreen | `alt+f` | `alt+.` | — |
+| Toggle fullscreen | `alt+f` | `alt+.` | `alt-comma` = `layout accordion` (see below) |
 | Prev/next workspace | `alt+a` / `alt+s` | `alt+[` / `alt+]` | — |
 | Move workspace to monitor | `alt+shift+a/s/d/f` | service mode `h/j/k/l` | `alt-shift-tab` |
 | Close | `alt+shift+q` | `alt+ctrl+shift+q` | service `x` / `b` |
@@ -162,8 +166,47 @@ Sway over RDP is the other victim: `$mod` is Alt there too, so GlazeWM eats ever
 binding before the RDP client sees it. Pause GlazeWM (`alt+shift+p`, or `p` in service
 mode) before connecting.
 
-## Not available in GlazeWM
+## The stacked layout
 
-No tabbed, stacked, or accordion layout — the aerospace `alt-comma`
-(`layout accordion`) idiom has no counterpart here. Fullscreen (`alt+.`) is the
-only stacking-ish state.
+GlazeWM has no tabbed, stacked or accordion *layout* — a window is tiling,
+floating, fullscreen or minimized, and that is the whole list. So aerospace's
+`alt-comma` (`layout accordion`) is faked, and the fake behaves the way the
+aerospace one does: you turn the layout on for a workspace and then navigate it
+with the ordinary focus keys.
+
+| Keybinding | Action |
+|---|---|
+| `alt+.` | Stack / unstack the workspace (it is `toggle-fullscreen`) |
+| `alt+h/j/k/l` | Walk the stack, one full-size window at a time |
+| `alt+shift+h/j/k/l` | Reorder the stack, staying full-size on the window you moved |
+
+**A workspace is "stacked" when its focused window is fullscreen.** There is no
+mode and no stored state — the layout lives in the window's own state, so it is
+per-workspace and cannot get out of sync. `alt+.` is the toggle.
+
+`alt+h/j/k/l` and `alt+shift+h/j/k/l` run through
+`dots/config/glazewm/stack.cmd`, which branches on that state. Not fullscreen:
+plain `focus --direction` / `move --direction`, exactly as before. Fullscreen:
+un-fullscreen, step, re-fullscreen whatever it landed on — a fullscreen window
+keeps its slot in the workspace tree, so that walks the workspace one full-size
+window at a time in tree order. At either end the step fails and the same window
+is re-fullscreened, a no-op.
+
+Three dead ends worth not re-discovering:
+
+- **A binding mode cannot do this.** Modes are exclusive: with one active, every
+  other binding is dead, so a persistent stack mode costs you the workspace grid.
+  Verified by injecting `alt+t` with a mode active (nothing) and without it (the
+  workspace switched).
+- **Neither `focus --direction` nor `wm-cycle-focus` will traverse fullscreen
+  windows.** The first ignores them; the second only rotates between the
+  tiling/floating/fullscreen *groups*, so with everything fullscreen it is a
+  no-op. Hence the un-fullscreen/step/re-fullscreen sandwich.
+- **There is no neighbour peek.** aerospace's `accordion-padding` has no
+  counterpart: `resize --width 75%` is *relative*, not absolute, so it drives the
+  focused tile to the 0.99 clamp and its sibling to 0.01, and no equalize command
+  exists to undo the drift.
+
+The cost is one extra IPC round trip on the focus keys: ~70ms unstacked (a query
+plus the command), ~110ms stacked (four). `shell-exec --hide-window` keeps the
+`cmd` console from flashing.

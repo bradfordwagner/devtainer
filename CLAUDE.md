@@ -111,6 +111,7 @@ every run.
 | repo source | destination |
 |---|---|
 | `dots/config/glazewm/config.yaml` | `.glzr\glazewm\config.yaml` |
+| `dots/config/glazewm/stack.cmd` | `.glzr\glazewm\stack.cmd` |
 | `dots/config/zebar/bw-starter/` | `.glzr\zebar\bw-starter\` |
 | `dots/config/zebar/settings.json` | `.glzr\zebar\settings.json` |
 
@@ -127,8 +128,24 @@ every letter is a workspace. That displaced 15 commands onto punctuation (`alt+/
 direction, `alt+,` tiling, `alt+.` fullscreen, `alt+[`/`alt+]` workspace nav, `alt+Escape`
 recent) plus a `service` binding mode on `alt+shift+'` holding
 exit/reload/redraw/pause/close and the move-workspace-to-monitor directions — the aerospace
-`[mode.service.binding]` idiom. GlazeWM's keyboard hook is global, so a binding here is taken
-away from tmux/nvim/WSL and from sway over RDP; `alt+;` and `alt+ctrl+hjkl` are reserved for
+`[mode.service.binding]` idiom.
+
+Binding modes are **exclusive, not additive** — while one is active every other binding is
+dead, the workspace grid included. That rules them out for anything you stay in, which is
+why the stand-in for aerospace's accordion layout is a script instead.
+`dots/config/glazewm/stack.cmd` wraps the `alt+hjkl` / `alt+shift+hjkl` bindings and
+branches on whether the focused window is fullscreen: if it is, un-fullscreen → step →
+re-fullscreen walks the workspace one full-size window at a time (a fullscreen window keeps
+its slot in the tree); if not, it is a plain pass-through. So "this workspace is stacked"
+*is* "its focused window is fullscreen", `alt+.` is the layout toggle, and there is no state
+to get out of sync. Costs ~70ms unstacked / ~110ms stacked per keypress; `shell-exec
+--hide-window` stops the `cmd` console flashing. Neither `focus --direction` alone nor
+`wm-cycle-focus` traverses fullscreen windows, and `resize --width` is relative rather than
+absolute, so the neighbour-peek half of a real accordion is unreachable — the full reasoning
+is in that script's header and `dots/config/glazewm/keybindings.md`.
+
+GlazeWM's keyboard hook is global, so a binding here is taken away from tmux/nvim/WSL and
+from sway over RDP; `alt+;` and `alt+ctrl+hjkl` are reserved for
 tmux (`resize-pane -Z`, `select-pane`), which is why the modes sit on the quote key. Check
 `dots/tmux/tmux.conf` root-table (`bind -n`) chords before adding a GlazeWM binding. The
 reference table and keyboard maps live in **two** files that must both be updated in the

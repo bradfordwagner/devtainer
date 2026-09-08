@@ -44,6 +44,14 @@
             src: '{{ devtainer.dir }}/dots/config/glazewm/config.yaml'
             dest: '{{ win_glzr_dir }}/glazewm/config.yaml'
 
+        # The wrapper alt+hjkl runs so those keys can walk a stacked workspace;
+        # config.yaml calls it by %USERPROFILE% path. See the header comment in
+        # the script for why GlazeWM needs it at all.
+        - name: glazewm - install stack.cmd
+          ansible.builtin.copy:
+            src: '{{ devtainer.dir }}/dots/config/glazewm/stack.cmd'
+            dest: '{{ win_glzr_dir }}/glazewm/stack.cmd'
+
         # zebar discovers local widget packs one level deep under ~/.glzr/zebar;
         # the pack id is the directory name (so: bw-starter), which settings.json
         # then references. See dots/config/zebar/README.md.

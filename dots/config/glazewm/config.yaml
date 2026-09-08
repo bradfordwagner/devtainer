@@ -232,24 +232,32 @@ binding_modes:
         bindings: ['enter', 'alt+shift+oem_quotes']
 
 keybindings:
-  # Shift focus in a given direction.
-  - commands: ['focus --direction left']
+  # Shift focus in a given direction -- and, on a workspace whose focused
+  # window is fullscreen, walk that "stack" one full-size window at a time.
+  # Both behaviours are the same key because dots/config/glazewm/stack.cmd
+  # branches on the focused window's state; it is a plain pass-through when
+  # nothing is fullscreen. This stands in for aerospace's accordion layout,
+  # which GlazeWM 3.x has no equivalent of -- read that script's header before
+  # touching this. `alt+.` is the layout toggle.
+  - commands: ['shell-exec --hide-window cmd /c %USERPROFILE%\.glzr\glazewm\stack.cmd focus --direction left']
     bindings: ['alt+h', 'alt+left']
-  - commands: ['focus --direction right']
+  - commands: ['shell-exec --hide-window cmd /c %USERPROFILE%\.glzr\glazewm\stack.cmd focus --direction right']
     bindings: ['alt+l', 'alt+right']
-  - commands: ['focus --direction up']
+  - commands: ['shell-exec --hide-window cmd /c %USERPROFILE%\.glzr\glazewm\stack.cmd focus --direction up']
     bindings: ['alt+k', 'alt+up']
-  - commands: ['focus --direction down']
+  - commands: ['shell-exec --hide-window cmd /c %USERPROFILE%\.glzr\glazewm\stack.cmd focus --direction down']
     bindings: ['alt+j', 'alt+down']
 
-  # Move focused window in a given direction.
-  - commands: ['move --direction left']
+  # Move focused window in a given direction. Through the same wrapper, so
+  # reordering a stacked workspace leaves you full-size on the window you moved
+  # instead of dropping back to tiles.
+  - commands: ['shell-exec --hide-window cmd /c %USERPROFILE%\.glzr\glazewm\stack.cmd move --direction left']
     bindings: ['alt+shift+h', 'alt+shift+left']
-  - commands: ['move --direction right']
+  - commands: ['shell-exec --hide-window cmd /c %USERPROFILE%\.glzr\glazewm\stack.cmd move --direction right']
     bindings: ['alt+shift+l', 'alt+shift+right']
-  - commands: ['move --direction up']
+  - commands: ['shell-exec --hide-window cmd /c %USERPROFILE%\.glzr\glazewm\stack.cmd move --direction up']
     bindings: ['alt+shift+k', 'alt+shift+up']
-  - commands: ['move --direction down']
+  - commands: ['shell-exec --hide-window cmd /c %USERPROFILE%\.glzr\glazewm\stack.cmd move --direction down']
     bindings: ['alt+shift+j', 'alt+shift+down']
 
   # Resize focused window by a percentage or pixel amount.
@@ -299,7 +307,9 @@ keybindings:
   - commands: ['toggle-tiling']
     bindings: ['alt+oem_comma']
 
-  # Change the focused window to be fullscreen.
+  # Change the focused window to be fullscreen -- which is also how a workspace
+  # is switched into and out of the stacked layout, since that is what
+  # stack.cmd branches on. Nearest thing here to aerospace's alt+comma.
   - commands: ['toggle-fullscreen']
     bindings: ['alt+oem_period']
 
