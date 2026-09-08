@@ -21,6 +21,7 @@
       import React, {
         useState,
         useEffect,
+        useRef,
       } from 'https://esm.sh/react@18?dev';
       import { createRoot } from 'https://esm.sh/react-dom@18/client?dev';
       import * as zebar from 'https://esm.sh/zebar@3.0';
@@ -41,6 +42,29 @@
 
         useEffect(() => {
           providers.onOutput(() => setOutput(providers.outputMap));
+        }, []);
+
+        // Self-heal a wedged battery provider. Zebar acquires the OS battery
+        // handle once and reuses it for the life of the provider
+        // (glzr-io/zebar#262, in 3.3.0+); if that handle goes stale, every
+        // refresh from then on errors, the provider group nulls out `battery`,
+        // and the segment stays gone until zebar itself is restarted.
+        // Restarting just this provider makes the desktop side drop the
+        // instance and acquire a fresh handle. Gated on having seen a reading
+        // at least once, so a machine with no battery is left alone rather
+        // than restarted in a loop.
+        const hasReported = useRef(false);
+
+        useEffect(() => {
+          const timer = setInterval(() => {
+            if (providers.outputMap.battery) {
+              hasReported.current = true;
+            } else if (hasReported.current) {
+              providers.raw.battery.restart();
+            }
+          }, 60000);
+
+          return () => clearInterval(timer);
         }, []);
 
         // Render a used/total byte pair in whichever unit fits the total, so

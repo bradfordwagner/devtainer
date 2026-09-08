@@ -64,20 +64,46 @@ need to shrink those.
 
 ## A segment vanishes from the bar
 
-Symptom: one readout (battery, say) is missing while the rest of the bar keeps updating
-normally. That is a stale provider inside the running `zebar.exe`, not a config problem — every
-segment is wrapped in `{output.<provider> && ...}`, so a provider that stops emitting silently
-removes its own segment and nothing else. It has been seen after the machine sleeps and
-resumes: the provider never resubscribes and the segment stays gone for the life of the
-process.
+Symptom: one readout is missing while the rest of the bar keeps updating normally. Every
+segment is wrapped in `{output.<provider> && ...}`, and the provider group nulls a provider's
+entry in `outputMap` the moment it emits an error, so a single sick provider silently removes
+its own segment and touches nothing else. `errors.log` in `~/.glzr/zebar/` records pack and
+startup failures but *not* a provider that fails at runtime, so a clean log does not clear the
+widget.
 
-Fix is a zebar restart — it only reads packs and `settings.json` at startup anyway:
+For the **battery** provider specifically this is an upstream bug, not a config problem, and
+the widget now recovers from it on its own - see below. Restarting zebar also clears it:
 
 ```powershell
 Stop-Process -Name zebar -Force; & 'C:\Program Files\glzr.io\Zebar\zebar.exe' startup
 ```
 
-Before editing the widget, confirm the provider is actually the problem: `errors.log` in
-`~/.glzr/zebar/` records pack/startup failures but *not* a provider that simply goes quiet, so
-a clean log does not clear the widget. The battery block in `with-glazewm.html` is upstream's,
-unmodified — if it renders after a restart, there is nothing to change.
+### Why the battery segment wedges
+
+zebar 3.3.0 cached the battery handle to fix a resource leak
+([#261](https://github.com/glzr-io/zebar/issues/261) /
+[#262](https://github.com/glzr-io/zebar/pull/262)). `Manager::new()` and the `Battery` handle
+are now acquired **once**, before the poll loop, and every tick calls `manager.refresh(&mut
+battery)` on that cached handle. Before 3.3.0 the handle was re-acquired every tick, so a
+failed poll healed itself on the next one.
+
+Now nothing re-acquires it. Once the OS invalidates the handle the refresh errors on every
+subsequent tick, forever - the loop keeps running and keeps emitting errors, which is why the
+rest of the bar is unaffected and why only a restart of the *process* brings the segment back.
+3.3.1 is the latest release and still carries this; it is not fixed by upgrading.
+
+### The self-heal
+
+`with-glazewm.html` polls once a minute and calls `providers.raw.battery.restart()` when
+`outputMap.battery` has gone null. `restart()` unlistens and re-listens; the desktop side
+evicts the provider on the last unlisten and constructs a fresh one on the next listen, which
+runs `Manager::new()` again and acquires a good handle. Worth knowing if you touch it:
+
+- Use `restart()`, not `stop()` - `stop()` clears the provider's listener set, which would
+  detach the group's `onOutput`/`onError` and leave the segment dead for good. `restart()`
+  leaves listeners attached.
+- It is gated on having seen a reading at least once (`hasReported`), so a machine with no
+  battery reports "No battery found." once and is then left alone rather than restarted every
+  minute.
+- Recovery costs up to a minute of missing segment. The provider's own refresh interval is 5s,
+  so polling faster would only add restart churn for no real gain.
