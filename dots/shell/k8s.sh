@@ -58,7 +58,17 @@ function kgpa() {
   KUBECOLOR_FORCE_COLORS=truecolor ${k_bin} get pods --all-namespaces \
     --sort-by=.metadata.creationTimestamp "$@" | _k_rev_rows
 }
-alias wkgpa="watch -c -n 1 zsh -c kgpa" # ^ under watch
+# which kubeconfig + cluster the watch below is pointed at. `command kubectl` bypasses
+# the kubecolor alias so the values come back plain; both reads are local file parses.
+function _kgpa_header() {
+  local cfg=${KUBECONFIG:-${HOME}/.kube/config}
+  local ctx=$(command kubectl config current-context 2>/dev/null)
+  local cluster=$(command kubectl config view --minify -o jsonpath='{.clusters[0].name}' 2>/dev/null)
+  printf '\033[00;36mkubeconfig\033[0m=\033[01;33m%s\033[0m,\033[00;36mcontext\033[0m=\033[01;33m%s\033[0m,\033[00;36mcluster\033[0m=\033[01;33m%s\033[0m\n' \
+    "${cfg}" "${ctx:-<none>}" "${cluster:-<none>}"
+}
+function _wkgpa() { _kgpa_header; kgpa; }
+alias wkgpa="watch -c -n 1 zsh -c _wkgpa" # ^ under watch, with a kubeconfig/cluster header
 
 # helm aliases
 alias hd='helm delete'
