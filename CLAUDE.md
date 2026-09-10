@@ -55,7 +55,7 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
 ### Directory layout
 
 - `dots/config/` — configs symlinked to `~/.config/<name>` (nvim, sway, waybar, tmux, alacritty, ghostty, etc.). Changes here are live immediately — no need to run `task bb`.
-- `dots/shell/` — zsh files sourced via `~/.zshenv` → `env.sh.j2`. Load order: `palette.zsh` → `common.zsh` → `local.zsh` → `alias.zsh` → `git.zsh` → others
+- `dots/shell/` — zsh files sourced via `~/.zshenv` → `env.sh.j2`. Load order: `palette.zsh` → `common.zsh` → `local.zsh` → `alias.zsh` → `git.zsh` → others (incl. `sessions.sh`). Adding a file here means adding a `source` line to `templates/env.sh.j2` and re-running `task bb`.
 - `dots/tmux/` — tmux.conf + tmuxinator sessions
 - `templates/` — Jinja2 templates rendered by `tasks/jinga-templates.yml` into home directory files
 - `tasks/` — individual Ansible task files included from `playbook.yml`
@@ -173,6 +173,40 @@ surface0 unfocused) in `dots/config/glazewm/config.yaml`. Retheme both together.
 
 Reload after `task bb`: GlazeWM via tray icon or `alt+shift+r`; Zebar needs a process restart
 (it only reads `settings.json` and packs at startup).
+
+### sessions (multi-repo worktrees)
+
+`dots/shell/sessions.sh` defines the `sessions` function: `sessions` fzf-picks the verb,
+`sessions new|add|delete` skips straight to it.
+
+A *session* is one branch name spanning N repos. `new` prompts for a name, fzf-multi-selects
+git repos found under `$PWD` (recursive to `SESSIONS_SCAN_DEPTH`, parents only — a repo's own
+submodules/nested worktrees are not separate candidates), and adds a `git worktree` of each on
+a branch named after the session, under `~/sessions/${name}/${repo}`. `sessions.md` (repo root)
+is copied in as the session's `CLAUDE.md`, then a tmux window named after the session opens in
+the `sessions` tmux session (created if absent), cwd `~/sessions/${name}`.
+
+`${repo}` is the name **origin** knows the repo by, not the local directory name — a checkout
+in `work/fe-clone` whose origin is `.../frontend.git` lands at `~/sessions/${name}/frontend`;
+scp-style and URL remotes both parse, and with no origin it falls back to the local dir name.
+Two repos resolving to the same name get an `<owner>-<repo>` fallback (then `-2`, `-3`). But
+the destination is resolved by **repo identity first**: `_sessions_dest` scans the session for
+a worktree whose `--git-common-dir` is this repo and reuses that dir whatever name it got.
+Without that, `add` hands a repo already in the session a second slot as soon as the plain name
+is free again.
+
+Branches are cut `--no-track` from a freshly fetched `origin/HEAD` (falling back to
+`origin/main`, `origin/master`, then local `HEAD`) — the session branch is new work, so it must
+not inherit the base as its upstream. `delete` unregisters the worktrees from their *original*
+checkouts (resolved via `--git-common-dir`, since `git worktree remove` only runs there),
+`rm -rf`s the session dir and kills the tmux window — but never deletes branches, which may
+hold the only copy of unpushed work. It prompts for confirmation only when a worktree is dirty
+(uncommitted changes, or commits not on any remote — so a repo with no remote always counts).
+
+Overridable: `SESSIONS_ROOT`, `SESSIONS_TMUX`, `SESSIONS_TEMPLATE`, `SESSIONS_SCAN_DEPTH`.
+
+Note tmux target names are passed as `"=${SESSIONS_TMUX}"` — the quotes matter, unquoted `=foo`
+hits zsh's equals-expansion.
 
 ### MCP servers
 
