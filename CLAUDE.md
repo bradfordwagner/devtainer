@@ -199,7 +199,17 @@ is free again.
 
 Branches are cut `--no-track` from a freshly fetched `origin/HEAD` (falling back to
 `origin/main`, `origin/master`, then local `HEAD`) — the session branch is new work, so it must
-not inherit the base as its upstream. `delete` unregisters the worktrees from their *original*
+not inherit the base as its upstream. That fetch is **load-bearing and checked**: if it fails,
+`_sessions_add_worktree` reports and returns 1 rather than branching from whatever was last
+fetched, and `new`/`add` propagate that as a non-zero exit instead of a half-built session.
+A repo with no `origin` is the one exemption — nothing to fetch, and `HEAD` is the base — so
+the guard tests for the remote before treating a fetch failure as one. Both verbs iterate
+`${(f)repos}` rather than piping into `while`, or the failure flag would die in the subshell.
+
+Nothing about this touches the *original* checkout: `git worktree add` leaves its HEAD, branch
+and working tree alone, so it stays readable for diffs while a session is live. The only thing
+that moves there is `origin/*`, which the fetch advances. Git will refuse to check the session
+branch out in the original while a worktree holds it — `log`/`diff`/`show` are unaffected. `delete` unregisters the worktrees from their *original*
 checkouts (resolved via `--git-common-dir`, since `git worktree remove` only runs there),
 `rm -rf`s the session dir and kills the tmux window — but never deletes branches, which may
 hold the only copy of unpushed work. It prompts for confirmation only when a worktree is dirty

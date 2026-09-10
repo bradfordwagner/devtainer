@@ -129,7 +129,7 @@ function _sessions_dest() {
 
 # add ${repo} to ${session} as a worktree on branch ${session}
 function _sessions_add_worktree() {
-  local repo=$1 session=$2 dest
+  local repo=$1 session=$2 dest err
   dest=$(_sessions_dest "${repo}" "${session}")
 
   if [[ -e "${dest}" ]]; then
@@ -137,7 +137,18 @@ function _sessions_add_worktree() {
     return 0
   fi
 
-  git -C "${repo}" fetch origin --quiet 2>/dev/null
+  # the base comes from origin, so a failed fetch would cut the branch from
+  # whatever was last fetched - stale, and silently so. no worktree is better
+  # than one branched off the wrong commit. a repo with no origin is the one
+  # legitimate exception: there is nothing to fetch and HEAD is the base.
+  if git -C "${repo}" remote get-url origin >/dev/null 2>&1; then
+    if ! err=$(git -C "${repo}" fetch origin --quiet 2>&1); then
+      echo "${palette_lred}fetch failed in ${repo}${palette_restore}" >&2
+      echo "${palette_lred}refusing to branch ${session} from a stale origin${palette_restore}" >&2
+      [[ -n "${err}" ]] && print -r -- "${err}" | sed 's|^|  |' >&2
+      return 1
+    fi
+  fi
 
   if git -C "${repo}" show-ref --verify --quiet "refs/heads/${session}"; then
     git -C "${repo}" worktree add "${dest}" "${session}" || return 1
@@ -200,7 +211,7 @@ function _sessions_beads_open() {
 ################################################
 
 function _sessions_new() {
-  local session repos
+  local session repos repo failed
   read -r "session?session name: "
   session=$(echo "${session}" | tr -s ' ' '-')
   if [[ -z "${session}" ]]; then
@@ -218,25 +229,35 @@ function _sessions_new() {
   mkdir -p "${SESSIONS_ROOT}/${session}"
   [[ -f "${SESSIONS_TEMPLATE}" ]] && cp "${SESSIONS_TEMPLATE}" "${SESSIONS_ROOT}/${session}/CLAUDE.md"
 
-  echo "${repos}" | while IFS= read -r repo; do
-    _sessions_add_worktree "$(cd "${repo}" && pwd -P)" "${session}"
+  failed=0
+  for repo in ${(f)repos}; do
+    _sessions_add_worktree "$(cd "${repo}" && pwd -P)" "${session}" || failed=1
   done
+  if (( failed )); then
+    echo "${palette_lred}${session} is incomplete - fix the above, then 'sessions add'${palette_restore}" >&2
+    return 1
+  fi
 
   _sessions_beads_init "${session}"
   _sessions_tmux_window "${session}"
 }
 
 function _sessions_add() {
-  local session repos
+  local session repos repo failed
   session=$(_sessions_pick_session) || return 1
   [[ -z "${session}" ]] && return 1
 
   repos=$(_sessions_pick_repos) || return 1
   [[ -z "${repos}" ]] && return 1
 
-  echo "${repos}" | while IFS= read -r repo; do
-    _sessions_add_worktree "$(cd "${repo}" && pwd -P)" "${session}"
+  failed=0
+  for repo in ${(f)repos}; do
+    _sessions_add_worktree "$(cd "${repo}" && pwd -P)" "${session}" || failed=1
   done
+  if (( failed )); then
+    echo "${palette_lred}${session} is incomplete - fix the above and retry${palette_restore}" >&2
+    return 1
+  fi
 
   _sessions_beads_init "${session}"
 }
