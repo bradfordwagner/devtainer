@@ -32,6 +32,10 @@
         date: { type: 'date', formatting: 'EEE d MMM t' },
         battery: { type: 'battery' },
         memory: { type: 'memory' },
+        // 2s rather than the provider's 5s default: `traffic` is averaged
+        // over one refresh interval, so the default makes a transfer take
+        // five seconds to show up and five more to fall back to zero.
+        network: { type: 'network', refreshInterval: 2000 },
         weather: { type: 'weather' },
       });
 
@@ -100,6 +104,21 @@
             memoryOutput.totalMemory,
           );
           return `${pair} (${Math.round(memoryOutput.usage)}%)`;
+        }
+
+        // Network throughput as bytes per second, e.g. "1.4 MBps", "12.3 kBps".
+        // `traffic.received`/`transmitted` are already a per-second rate (the
+        // provider divides the bytes seen since the last refresh by its
+        // interval), so the unit is bytes-per-second and only needs "ps"
+        // appended. SI here - `siUnit` gives B/kB/MB/GB, so the capital B
+        // reads as bytes rather than bits - unlike the memory segment, which
+        // is a size and uses the IEC units. The provider floors the rate to a
+        // whole kB/s, so sub-kB traffic renders as "0 Bps".
+        function formatRate(measure) {
+          if (!measure) return '-';
+          const decimals =
+            measure.siUnit === 'B' || measure.siValue >= 100 ? 0 : 1;
+          return `${measure.siValue.toFixed(decimals)} ${measure.siUnit}ps`;
         }
 
         // Battery time remaining as "7h 39m", or "39m" under the hour. The
@@ -251,6 +270,19 @@
                 <div className="memory">
                   <i className="nf nf-fae-chip"></i>
                   {formatMemory(output.memory)}
+                </div>
+              )}
+
+              {output.network && (
+                <div className="network">
+                  <i className="nf nf-md-arrow_down"></i>
+                  <span className="rate">
+                    {formatRate(output.network.traffic?.received)}
+                  </span>
+                  <i className="nf nf-md-arrow_up"></i>
+                  <span className="rate">
+                    {formatRate(output.network.traffic?.transmitted)}
+                  </span>
                 </div>
               )}
 

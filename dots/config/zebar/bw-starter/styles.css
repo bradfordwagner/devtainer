@@ -77,27 +77,56 @@ body,
   border-bottom: 1px solid var(--border-color);
 }
 
+/* Upstream splits the bar into even thirds (`display: grid` with
+   `1fr 1fr 1fr`), which keeps the clock screen-centred but caps the readouts
+   at a third of the width. With the network rates added they need more than
+   that, and a track narrower than its contents makes each readout wrap onto a
+   second line - invisible in a 28px bar, so "17.2/31.6 GiB (55%)" rendered as
+   a clipped "17.2/31.6". Flex rather than grid so the sizing is explicit: the
+   groups below opt out of shrinking entirely, and the clock is taken out of
+   the flow (see `.center`) so it stays screen-centred anyway. */
 .app {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  position: relative;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   height: 100%;
   padding: 4px 1.5vw;
 }
 
+/* nowrap so a squeeze can never break a readout across lines again, and
+   `flex: 0 0 auto` so the clock and the readouts keep their full width no
+   matter what. The workspace list is the one group allowed to shrink, since
+   it's the only one that grows without bound. */
 .left,
 .center,
 .right {
   display: flex;
   align-items: center;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
+.left {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Out of the flex flow and pinned to the middle of the bar, so the clock is
+   centred on the screen rather than in the gap between the workspaces and the
+   readouts - those two sides have very different widths, and an in-flow item
+   lands wherever their difference leaves it. Percentages here resolve against
+   `.app`'s padding box, which spans the full bar. Nothing reserves room for
+   it, so it would overlap the readouts if they ever grew past the midpoint;
+   they currently end ~140px short of it. */
 .center {
-  justify-self: center;
-}
-
-.right {
-  justify-self: end;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
 }
 
 .binding-mode,
@@ -105,6 +134,7 @@ body,
 .paused-button,
 .memory,
 .cpu,
+.network,
 .battery {
   margin-right: 20px;
 }
@@ -153,6 +183,24 @@ body,
 
 .cpu .high-usage {
   color: var(--warn-color);
+}
+
+.network {
+  display: flex;
+  align-items: center;
+}
+
+/* The down/up rates change every refresh, so give each a fixed slot - without
+   it the whole right group shuffles sideways as digits come and go. 9ch fits
+   the widest value that scaling keeps in range ("123.4 kBps"); the font is
+   monospace, so ch is exactly one character. */
+.network .rate {
+  display: inline-block;
+  min-width: 9ch;
+}
+
+.network .rate + i {
+  margin-left: 12px;
 }
 
 .battery {

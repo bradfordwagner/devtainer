@@ -163,7 +163,9 @@ Easy to miss the `.html` when the change looks like a one-line config edit — c
 Zebar runs a **vendored** copy of the `glzr-io.starter` marketplace pack (upstream's documented
 way to edit a marketplace widget without pack updates overwriting it); the pack id is the
 directory name, `bw-starter`. Its changes: weather in fahrenheit, a Catppuccin Mocha theme,
-CPU/memory shown as used/total plus percent (CPU first), and the network/wifi readout removed.
+CPU/memory shown as used/total plus percent (CPU first), network down/up throughput in
+bytes-per-second SI units (`1.4 MBps`) in place of upstream's wifi ssid/signal readout, and
+battery time remaining.
 Details, the bar-height/`outer_gap.top` coupling, and how to retheme are in
 `dots/config/zebar/README.md`.
 

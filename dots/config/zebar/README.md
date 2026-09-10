@@ -36,8 +36,28 @@ the other two widget entries in `zpack.json`.
   upstream's bare percentage rather than showing a placeholder. The charging indicator is
   upstream's and unchanged: a 7px yellow plug (`nf-md-power_plug`), absolutely positioned
   just left of the battery glyph by `.charging-icon` in `styles.css`.
-- **No network/wifi readout.** The `network` provider, its `getNetworkIcon` helper, and the
-  `.network` style were all removed rather than just hidden, so nothing polls for it.
+- **Network throughput, no wifi readout.** The segment renders `↓ 1.4 MBps ↑ 12.3 kBps` -
+  `formatRate` turns `traffic.received`/`traffic.transmitted` into a bytes-per-second rate.
+  Those two fields are *already* per-second (the provider divides the bytes seen since the
+  last refresh by its interval), so formatting only appends `ps`; it uses the measure's
+  `siValue`/`siUnit` (B/kB/MB/GB, decimal) rather than the IEC units the memory segment uses,
+  so the capital B reads as bytes and not bits. The rate is floored to a whole kB/s desktop-side,
+  so idle traffic shows as `0 Bps`. `refreshInterval` is 2s rather than the provider's 5s
+  default, since `traffic` is an average over one interval and 5s makes a transfer take five
+  seconds to appear and five more to decay. Each value gets a fixed `9ch` slot in `styles.css`
+  so the rest of the right-hand group doesn't shuffle as digits come and go. Upstream's wifi
+  half of this provider is still gone - `getNetworkIcon` and the ssid/signal-strength readout
+  were deleted, not hidden.
+- **Flex bar layout, clock pinned to centre.** Upstream lays the bar out as three even grid
+  columns (`1fr 1fr 1fr`), which caps each group at a third of the width. The readouts need
+  more than a third, and a grid track narrower than its contents wraps each readout onto a
+  second line that a 28px bar simply clips - `17.2/31.6 GiB (55%)` showed up as `17.2/31.6`.
+  `.app` is now a flex row: `.left`/`.center`/`.right` are `white-space: nowrap` and
+  `flex: 0 0 auto` (only the workspace list may shrink, being the one group that grows
+  without bound), and `.center` is absolutely positioned at `left: 50%` so the clock stays
+  centred on the *screen* rather than in the gap between two very unequal sides. Nothing
+  reserves space for the clock, so a much wider set of readouts would eventually run under
+  it.
 - **No Windows logo.** The `logo` `<i>` and its `.logo` style were removed, so the bar starts
   with the workspace chips.
 - **Inconsolata Condensed.** `--font-family` in `styles.css`, ahead of upstream's
