@@ -99,6 +99,50 @@ Available custom commands:
 Custom keybindings (`dots/config/claude/keybindings.json`):
 - `ctrl+y` — background current task/agent (return to fleet view)
 
+#### Image paste on WSL (`dots/shell_scripts/wsl-shims/`)
+
+`ctrl+v` to paste a screenshot into Claude Code is broken on WSL by two separate
+interceptors, both fixed here.
+
+**The keys.** Claude binds image-paste to *both* `alt+v` and `ctrl+v` on WSL
+(`Pev = Dev ? "alt+v" : "ctrl+v"`, plus an extra `{"ctrl+v": "chat:imagePaste"}` when the
+platform is `wsl`). Windows Terminal had `Terminal.PasteFromClipboard` on `ctrl+v`, and
+GlazeWM has `focus --workspace v` on `alt+v` — so neither key reached Claude. WT's `ctrl+v`
+is now unbound (text paste moved to `ctrl+shift+v`); `alt+v` stays with GlazeWM. That WT
+setting lives in `%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`
+and is **not** managed by this repo — it will not survive a machine rebuild.
+
+**The clipboard.** Claude's WSL `saveImage` is a `||` chain:
+
+    xclip png || wl-paste png || xclip bmp || wl-paste bmp || powershell.exe -> base64 PNG
+
+WSLg advertises a Windows-copied image to Wayland *only* as `image/bmp`, and the BMP is
+32bpp `BI_BITFIELDS` (compression 3). libvips ships no BMP loader, so Claude's
+`sharp(buf).png()` throws and the catch reports the misleading "No image found in
+clipboard". The PowerShell branch returns a real PNG and works — but `wl-paste --type
+image/bmp` exits 0 first and short-circuits the `||`, so it is never reached. Machines
+without `wl-clipboard` installed therefore work fine; this one has it because it came in
+with the sway stack (`apt install sway ... wl-clipboard ...`).
+
+`dots/shell_scripts/wsl-shims/wl-paste` fails `image/*` reads — and only those, and only
+under WSL — so the chain falls through to PowerShell. Text reads, `--list-types` and every
+other flag `exec` the real `/usr/bin/wl-paste`, and `wl-copy` is untouched, which keeps the
+`pbcopy`/`pbpaste` aliases (`dots/shell/alias.zsh`) and `dots/shell_scripts/screenshot.sh`
+working. `dots/shell/common.linux.zsh` prepends the shim dir to `PATH`, gated on
+`$WSL_DISTRO_NAME`/`$WSL_INTEROP`, so it is inert on macOS and the Coder pod. Deleting the
+shim reverts everything.
+
+Removing the `wl-clipboard` package would also fix Claude — nothing depends on it — but it
+would break `screenshot.sh` and leave no `pbpaste` (no `xsel` installed), hence the shim.
+
+Verify with `dots/shell_scripts/wsl-shims/test-clipboard.sh`: copy a screenshot, run it in a
+**new** shell (Claude inherits `PATH` at launch, so a running session keeps the old one).
+It checks the shim resolves, the image read is refused, Claude's real chain yields PNG, and
+the text roundtrip still works — note it consumes the clipboard image in the last step.
+
+Still unfixed upstream as of 2.1.267 (checked against 2.1.236): same chain, same
+unconditional `sharp()` on BMP bytes.
+
 ### GlazeWM + Zebar (WSL only)
 
 Windows-side apps configured from WSL. `tasks/windows-wsl.yml` runs only when

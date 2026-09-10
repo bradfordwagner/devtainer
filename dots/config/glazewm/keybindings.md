@@ -162,6 +162,12 @@ reason, even though GlazeWM would happily take them:
 `alt+h/j/k/l` does shadow tmux's vim-aware `M-hjkl` pane nav, but that one is unused —
 `C-M-hjkl` is the pane-navigation chord that has to keep working.
 
+`alt+v` (workspace V) is a third casualty, kept deliberately: Claude Code binds image-paste
+to *both* `alt+v` and `ctrl+v` on WSL, and GlazeWM eats the `alt+v` half. `ctrl+v` is the
+surviving one — Windows Terminal had to give it up for this — so pasting a screenshot into
+Claude still works and the workspace key stays put. See the WSL image-paste section in
+`CLAUDE.md`.
+
 Sway over RDP is the other victim: `$mod` is Alt there too, so GlazeWM eats every sway
 binding before the RDP client sees it. Pause GlazeWM (`alt+shift+p`, or `p` in service
 mode) before connecting.

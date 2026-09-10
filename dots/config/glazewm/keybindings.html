@@ -244,6 +244,11 @@ footer code, .hint code {
   <p>A mode is <em>exclusive</em>, not additive: while one is active every other binding is
   dead, the whole workspace grid included. That is why the stacked layout below is not a
   mode.</p>
+  <p><kbd>alt+v</kbd> (workspace&nbsp;V) is a third thing the hook takes, kept deliberately:
+  Claude Code binds image-paste to <em>both</em> <kbd>alt+v</kbd> and <kbd>ctrl+v</kbd> on
+  WSL, and GlazeWM eats the <kbd>alt+v</kbd> half. <kbd>ctrl+v</kbd> is the surviving one
+  &mdash; Windows Terminal had to give it up for this &mdash; so pasting a screenshot into
+  Claude still works and the workspace key stays put.</p>
   <div class="cols">
 <div class="mode"><h3>resize mode <span class="enter"><kbd>alt+&#x27;</kbd></span></h3><table class="t"><tbody><tr><td><kbd>h</kbd> <kbd>left</kbd></td><td>resize --width -2%</td></tr>
 <tr><td><kbd>l</kbd> <kbd>right</kbd></td><td>resize --width +2%</td></tr>

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# wl-paste shim — WSL image-paste workaround for Claude Code.
+#
+# WSLg advertises a Windows-copied image to Wayland only as image/bmp, and the
+# BMP it hands over is 32bpp BI_BITFIELDS (compression 3). libvips ships no BMP
+# loader at all, so Claude Code's `sharp(buf).png()` on those bytes throws and
+# the paste is reported as "No image found in clipboard".
+#
+# Claude's WSL saveImage chain is:
+#   xclip png || wl-paste png || xclip bmp || wl-paste bmp || powershell.exe -> base64 PNG
+# The PowerShell branch returns a real PNG and works — but it is never reached,
+# because `wl-paste --type image/bmp` exits 0 first and short-circuits the ||.
+#
+# So: fail image/* reads, and only those, to let the chain fall through to
+# PowerShell. Text reads and every other flag pass straight to the real binary,
+# which keeps `pbpaste` (dots/shell/alias.zsh) and sway working unchanged.
+#
+# Remove this file to revert; nothing else references it.
+
+real=/usr/bin/wl-paste
+[ -x "$real" ] || { echo "wl-paste shim: $real missing" >&2; exit 127; }
+
+# Only intervene under WSL — on a real Wayland box wl-paste is the right answer.
+if [ -n "${WSL_DISTRO_NAME:-}${WSL_INTEROP:-}" ]; then
+  for arg in "$@"; do
+    case "$arg" in
+      image/*) exit 1 ;;
+    esac
+  done
+fi
+
+exec "$real" "$@"
