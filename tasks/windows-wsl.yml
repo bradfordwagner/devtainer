@@ -20,6 +20,8 @@
     - name: windows - set install paths
       ansible.builtin.set_fact:
         win_glzr_dir: '{{ win_userprofile.stdout | trim }}/.glzr'
+        win_wt_settings: >-
+          {{ win_userprofile.stdout | trim }}/AppData/Local/Packages/{{ win_terminal_package }}/LocalState/settings.json
         win_resolved: '{{ win_userprofile.rc == 0 and (win_userprofile.stdout | trim | length) > 0 }}'
 
     - name: windows - warn when the windows profile cannot be resolved
@@ -69,3 +71,30 @@
           ansible.builtin.copy:
             src: '{{ devtainer.dir }}/dots/config/zebar/settings.json'
             dest: '{{ win_glzr_dir }}/zebar/settings.json'
+
+        # Windows Terminal is merged, not copied: profiles.list and
+        # defaultProfile are per-machine GUIDs, and WT rewrites the file itself.
+        # See the docstring in merge-settings.py.
+        - name: windows terminal - check settings.json exists
+          ansible.builtin.stat:
+            path: '{{ win_wt_settings }}'
+          register: win_wt_stat
+
+        - name: windows terminal - warn when settings.json is missing
+          ansible.builtin.debug:
+            msg: >-
+              no Windows Terminal settings.json at {{ win_wt_settings }} -
+              skipping. Is it installed under a different package id? Override
+              win_terminal_package in variables.local.yml.
+          when: not win_wt_stat.stat.exists
+
+        - name: windows terminal - merge managed settings
+          when: win_wt_stat.stat.exists
+          ansible.builtin.command:
+            argv:
+              - python3
+              - '{{ devtainer.dir }}/dots/config/windows-terminal/merge-settings.py'
+              - '{{ devtainer.dir }}/dots/config/windows-terminal/settings.managed.json'
+              - '{{ win_wt_settings }}'
+          register: win_wt_merge
+          changed_when: win_wt_merge.stdout == 'changed'

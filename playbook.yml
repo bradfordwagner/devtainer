@@ -40,7 +40,7 @@
 
     - name: packages - osx
       include_tasks: tasks/packages-osx.yml
-      when: ansible_facts.distribution == "MacOSX" and brew_install
+      when: ansible_facts.distribution == "MacOSX" and brew_install | bool
 
     # mostly user space installation
     - name: create user - {{ user.name }}
@@ -86,7 +86,7 @@
     # link is required first to setup init.vim
     - name: install shell packages [vim,tmux,jumpdir] for {{ user.name }}
       include_tasks: tasks/install-shell-packages.yml
-      when: install_vim_shell_packages
+      when: install_vim_shell_packages | bool
 
     # mac configs
     - name: mac [dock-speed,fzf,screenshots-dir]

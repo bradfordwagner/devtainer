@@ -32,5 +32,10 @@ argocd_mcp_api_token: '' # set this in variables.local.yml
 bradfordwagner_mcp_dir: "{{ ansible_env.HOME }}/workspace/github/bradfordwagner/go.bin/bradfordwagner.go.bin.mcp"
 argocd_mcp_skip_verify: true
 
+# Windows Terminal (WSL only)
+# MSIX package dir under %LOCALAPPDATA%\Packages. The _8wekyb3d8bbwe suffix is
+# Microsoft's publisher id; the preview build uses a different package name.
+win_terminal_package: Microsoft.WindowsTerminal_8wekyb3d8bbwe
+
 # User Configuration
 user_name: bwagner

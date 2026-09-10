@@ -27,6 +27,12 @@ ansible-playbook -i localhost, -c local playbook.yml --tags <tag>
 ansible-playbook -i localhost, -c local playbook.yml -e 'install_vim_shell_packages=false brew_install=false git_clone=false'
 ```
 
+The `key=value` form of `-e` passes **strings**, not booleans — ansible-core 2.21 rejects a
+bare string in a `when:`, so every conditional on one of those flags carries `| bool`. The
+Taskfile is unaffected either way: it uses the YAML-dict form (`-e '{git_clone: true}'`),
+which parses as a real boolean. Keep `| bool` on any new `when:` that tests a CLI-overridable
+flag.
+
 Syntax check an Ansible task file:
 ```bash
 ansible-playbook --syntax-check -i localhost, -c local playbook.yml
@@ -44,7 +50,7 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
                                                         ├── tasks/jinga-templates.yml         (render .gitconfig, .zshenv, MCP configs)
                                                         ├── tasks/link-shell.yml              (symlinks dots/ → ~/.config/, ~/.zshrc, etc.)
                                                         ├── tasks/install-claude.yml          (copy dots/config/claude/commands/ → ~/.claude/commands/)
-                                                        ├── tasks/windows-wsl.yml             (WSL only: copy glazewm+zebar configs → %USERPROFILE%)
+                                                        ├── tasks/windows-wsl.yml             (WSL only: glazewm+zebar+terminal configs → %USERPROFILE%)
                                                         ├── tasks/install-windsurf-workflows.yml
                                                         ├── tasks/install-shell-packages.yml
                                                         └── [when git_clone=true]
@@ -109,8 +115,8 @@ interceptors, both fixed here.
 platform is `wsl`). Windows Terminal had `Terminal.PasteFromClipboard` on `ctrl+v`, and
 GlazeWM has `focus --workspace v` on `alt+v` — so neither key reached Claude. WT's `ctrl+v`
 is now unbound (text paste moved to `ctrl+shift+v`); `alt+v` stays with GlazeWM. That WT
-setting lives in `%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`
-and is **not** managed by this repo — it will not survive a machine rebuild.
+setting is managed by `tasks/windows-wsl.yml` (see the Windows-side apps section for how),
+so it survives a rebuild.
 
 **The clipboard.** Claude's WSL `saveImage` is a `||` chain:
 
@@ -143,7 +149,7 @@ the text roundtrip still works — note it consumes the clipboard image in the l
 Still unfixed upstream as of 2.1.267 (checked against 2.1.236): same chain, same
 unconditional `sharp()` on BMP bytes.
 
-### GlazeWM + Zebar (WSL only)
+### GlazeWM + Zebar + Windows Terminal (WSL only)
 
 Windows-side apps configured from WSL. `tasks/windows-wsl.yml` runs only when
 `ansible_facts.kernel` matches `microsoft`, resolves `%USERPROFILE%` via `cmd.exe`/`wslpath`,
@@ -158,6 +164,23 @@ every run.
 | `dots/config/glazewm/stack.cmd` | `.glzr\glazewm\stack.cmd` |
 | `dots/config/zebar/bw-starter/` | `.glzr\zebar\bw-starter\` |
 | `dots/config/zebar/settings.json` | `.glzr\zebar\settings.json` |
+
+The same task also manages **Windows Terminal**, but by *merge* rather than copy —
+`dots/config/windows-terminal/merge-settings.py` folds
+`settings.managed.json` into
+`%LOCALAPPDATA%\Packages\{{ win_terminal_package }}\LocalState\settings.json`. Copying
+is wrong there for two reasons: `profiles.list` and `defaultProfile` are per-machine GUIDs
+that WT mints at install (shipping this box's would point a rebuilt machine's default at a
+profile that does not exist), and WT rewrites the file itself as distros appear or settings
+change in the UI. So the repo owns a subset — `keybindings`, `actions`, `schemes`, `themes`,
+`profiles.defaults`, and the top-level toggles — and every key absent from
+`settings.managed.json` is left as WT wrote it. The script prints `changed`/`ok` for
+`changed_when` and backs up to `settings.json.bak` before writing. `win_terminal_package`
+(`variables.yml`) is the MSIX dir name; the preview build uses a different one.
+
+The keybinding that matters is `ctrl+v` bound to `null`: it must stay unbound for Claude
+Code's image paste to work, since WT would otherwise consume the key for text paste. Text
+paste lives on `ctrl+shift+v`. See the WSL image-paste section above.
 
 GlazeWM's local deltas from the upstream sample config: gaps are `4px`, except the top outer
 gap at `32px` — Zebar's 28px bar plus the same 4px gap, so windows clear the bar without an
