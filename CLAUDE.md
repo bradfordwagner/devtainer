@@ -205,6 +205,23 @@ checkouts (resolved via `--git-common-dir`, since `git worktree remove` only run
 hold the only copy of unpushed work. It prompts for confirmation only when a worktree is dirty
 (uncommitted changes, or commits not on any remote — so a repo with no remote always counts).
 
+`new` and `add` also run `bd init` at the session root, giving the session one **beads**
+tracker whose issue prefix is the session name. It sits above the worktrees on purpose: `bd`
+finds a `.beads/` by walking up, so every repo in the session shares one issue graph and a
+cross-repo ordering constraint is expressible as a real dependency (`bd ready` then withholds
+the blocked side, and `bd close` refuses it outright). Flags that matter: `--skip-agents`,
+because bd otherwise appends its own managed block to the `CLAUDE.md` just copied from
+`sessions.md`; `--init-if-missing`, which makes `add` a no-op and backfills sessions predating
+this; and a subshell `cd` rather than `bd -C`, which does not pick up the repo's `beads.role`
+(GH#2950). No bd on PATH means both helpers no-op.
+
+`bd init` also runs `git init` at the session root for its hooks — hence `delete`'s
+`find -mindepth 2`, without which that `.git` is swept in as a worktree of nothing and makes
+every teardown claim unsaved work. Since `rm -rf` takes the tracker with the session, `delete`
+now warns on open beads the same way it warns on dirty worktrees, and one confirmation covers
+both. Counts are grepped down to a bare integer because bd interleaves throttled tips with its
+output.
+
 Overridable: `SESSIONS_ROOT`, `SESSIONS_TMUX`, `SESSIONS_TEMPLATE`, `SESSIONS_SCAN_DEPTH`.
 
 Note tmux target names are passed as `"=${SESSIONS_TMUX}"` — the quotes matter, unquoted `=foo`

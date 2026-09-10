@@ -8,3 +8,55 @@ also this directory's name.
 - Commit in each repo separately.
 - The worktrees are linked to their original checkouts elsewhere on disk; don't
   delete them by hand, use `sessions delete`.
+
+## Tracking the work
+
+The session root holds a `.beads/` issue database covering every repo in the
+session. `bd` finds it by walking up, so it works from inside any worktree, and
+issue IDs are prefixed with the session name.
+
+- Track work as beads, not in TodoWrite or a markdown checklist — a bead
+  outlives the context window; a todo list in scrollback does not.
+- `bd ready` is the answer to "what's next": open issues with no active
+  blockers. Ask it before planning, not after.
+- `bd q "<title>"` captures something out of scope in one call, without
+  derailing what you're on.
+- Cross-repo ordering is a dependency, not a comment. `bd dep add <blocked>
+  <blocker>` — `bd ready` then withholds the blocked side until the blocker
+  closes, which is the whole reason the tracker lives at the session root
+  instead of in either repo.
+- Close beads as work lands (`bd close <id>`) and name the ID in the commit, so
+  the reasoning is reachable from the repo after the session is gone.
+- `bd prime` prints the full command reference.
+
+The tracker is scoped to the session: `sessions delete` destroys it along with
+the worktrees. Anything that has to outlive the session belongs in a commit, an
+upstream issue, or a `bd export`.
+
+## Showing the work
+
+Every change ships with evidence that it actually works. Claims like "verified"
+or "tested" are not evidence; a command someone else can re-run is.
+
+- Write a runnable script — `evidence.sh` at the session root, or per-repo when
+  the checks are repo-local. It must be idempotent, safe to run repeatedly, and
+  clean up whatever it creates. Exit non-zero when a check fails.
+- Write it up as `evidence.md` (or `evidence.html`) next to the script: what was
+  claimed, the command that proves it, the actual output, pass or fail.
+- Prefer exercising the real thing — the actual function, the actual manifest —
+  over a description of it. Sandbox it so a failed run costs nothing: a temp
+  dir, an overridden `SESSIONS_ROOT`, a throwaway namespace.
+- A local cluster is a sandbox, and it is the better evidence. Where the session
+  owns one, deploy to it for real rather than stopping at `helm template` — the
+  `local` k3d pool member this session claimed exists to be broken, and
+  `task recreate` is the reset. Remote clusters are never a test target.
+- But local does not mean disposable. `dev` is a shared singleton, contested
+  with another repo, and it deploys `main` — so a branch "verified" there was
+  never your code. Only the cluster this session claimed is yours to break.
+- Pin `--kubeconfig` and `--context` on every cluster command, scripted or by
+  hand. `~/.kube/config` is hand-managed and points wherever it was last aimed,
+  so an unpinned command quietly proves something about the wrong cluster.
+- Report failures as failures. A check that could not run is a gap, not a pass;
+  say which and why.
+- These files are working artifacts of the session, not repo deliverables. Keep
+  them at the session root unless the repo genuinely wants them committed.

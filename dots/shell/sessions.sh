@@ -172,6 +172,29 @@ function _sessions_worktree_dirty() {
   return 1
 }
 
+# the session's issue tracker - one .beads db at the session root, which bd
+# finds from inside any worktree by walking up, so cross-repo dependencies live
+# in one graph. --skip-agents leaves CLAUDE.md alone (that file is ours, from
+# SESSIONS_TEMPLATE - bd would otherwise append its own managed block);
+# --init-if-missing backfills sessions predating beads and makes re-runs no-ops.
+# bd init has no usable -C before a project exists, hence the subshell cd.
+function _sessions_beads_init() {
+  local session=$1 dir="${SESSIONS_ROOT}/$1"
+  hash bd 2>/dev/null || return 0
+  ( cd "${dir}" && bd init --non-interactive --init-if-missing --skip-agents \
+      --role maintainer --prefix "${session}" -q ) || return 0
+}
+
+# open beads in the session's tracker - empty when bd or the tracker is absent.
+# cd rather than `bd -C`, which does not pick up the repo's beads.role (GH#2950)
+function _sessions_beads_open() {
+  local dir=$1
+  hash bd 2>/dev/null || return 0
+  [[ -d "${dir}/.beads" ]] || return 0
+  # bd interleaves throttled tips with its output, so keep only the count itself
+  ( cd "${dir}" && bd count --status open 2>/dev/null ) | grep -oE '^[0-9]+$' | head -n1
+}
+
 ################################################
 # verbs
 ################################################
@@ -199,6 +222,7 @@ function _sessions_new() {
     _sessions_add_worktree "$(cd "${repo}" && pwd -P)" "${session}"
   done
 
+  _sessions_beads_init "${session}"
   _sessions_tmux_window "${session}"
 }
 
@@ -213,10 +237,12 @@ function _sessions_add() {
   echo "${repos}" | while IFS= read -r repo; do
     _sessions_add_worktree "$(cd "${repo}" && pwd -P)" "${session}"
   done
+
+  _sessions_beads_init "${session}"
 }
 
 function _sessions_delete() {
-  local session dir worktrees dirty confirm main wt
+  local session dir worktrees dirty open confirm main wt
   session=$(_sessions_pick_session) || return 1
   [[ -z "${session}" ]] && return 1
   dir="${SESSIONS_ROOT}/${session}"
@@ -225,16 +251,27 @@ function _sessions_delete() {
     return 1
   fi
 
-  worktrees=$(find "${dir}" -maxdepth 2 -name .git 2>/dev/null | sed 's|/\.git$||')
+  # -mindepth 2: worktrees sit one level down, and bd init leaves a .git of its
+  # own at the session root that is not a worktree of anything
+  worktrees=$(find "${dir}" -mindepth 2 -maxdepth 2 -name .git 2>/dev/null | sed 's|/\.git$||')
 
   dirty=()
   for wt in ${(f)worktrees}; do
     _sessions_worktree_dirty "${wt}" && dirty+=("${wt}")
   done
 
-  if [[ ${#dirty[@]} -gt 0 ]]; then
-    echo "${palette_lred}unsaved work in:${palette_restore}"
-    printf '  %s\n' "${dirty[@]}"
+  open=$(_sessions_beads_open "${dir}")
+
+  if [[ ${#dirty[@]} -gt 0 || ( -n "${open}" && "${open}" != 0 ) ]]; then
+    if [[ ${#dirty[@]} -gt 0 ]]; then
+      echo "${palette_lred}unsaved work in:${palette_restore}"
+      printf '  %s\n' "${dirty[@]}"
+    fi
+    if [[ -n "${open}" && "${open}" != 0 ]]; then
+      echo "${palette_lred}${open} open bead(s) - the tracker dies with the session:${palette_restore}"
+      ( cd "${dir}" && bd list --status open --flat 2>/dev/null ) \
+        | grep -vE '^[[:space:]]*(💡|$)' | sed 's|^|  |'
+    fi
     read -r "confirm?delete ${session} anyway? [y/N] "
     [[ "${confirm}" == [yY]* ]] || return 1
   fi
