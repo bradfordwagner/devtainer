@@ -189,11 +189,22 @@ function _sessions_worktree_dirty() {
 # SESSIONS_TEMPLATE - bd would otherwise append its own managed block);
 # --init-if-missing backfills sessions predating beads and makes re-runs no-ops.
 # bd init has no usable -C before a project exists, hence the subshell cd.
+#
+# bd init also git-inits the session root (no flag disables it; --skip-hooks
+# only skips the hooks) and commits a .gitignore. Neither is wanted here: the
+# session root is a container for worktrees, not a repo, and a repo there makes
+# starship report a branch and every worktree as untracked. bd needs none of it
+# - deps, ready-gating, close-refusal and walk-up discovery all work without it
+# - except beads.role, which lives in git config (GH#2950); templates/gitconfig.j2
+# sets it globally so the lookup resolves with no repo in scope. Guarded on
+# .beads/ so a session root that somehow is a real repo is left alone.
 function _sessions_beads_init() {
   local session=$1 dir="${SESSIONS_ROOT}/$1"
   hash bd 2>/dev/null || return 0
   ( cd "${dir}" && bd init --non-interactive --init-if-missing --skip-agents \
-      --role maintainer --prefix "${session}" -q ) || return 0
+      --skip-hooks --role maintainer --prefix "${session}" -q ) || return 0
+  [[ -d "${dir}/.beads" ]] && rm -rf "${dir}/.git" "${dir}/.gitignore"
+  return 0
 }
 
 # open beads in the session's tracker - empty when bd or the tracker is absent.
@@ -272,8 +283,10 @@ function _sessions_delete() {
     return 1
   fi
 
-  # -mindepth 2: worktrees sit one level down, and bd init leaves a .git of its
-  # own at the session root that is not a worktree of anything
+  # -mindepth 2: worktrees sit one level down. _sessions_beads_init now deletes
+  # the .git bd init leaves at the session root, but sessions predating that -
+  # and any .git that reappears there - are not worktrees of anything, so keep
+  # the root out of scope regardless
   worktrees=$(find "${dir}" -mindepth 2 -maxdepth 2 -name .git 2>/dev/null | sed 's|/\.git$||')
 
   dirty=()

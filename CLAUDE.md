@@ -222,15 +222,24 @@ cross-repo ordering constraint is expressible as a real dependency (`bd ready` t
 the blocked side, and `bd close` refuses it outright). Flags that matter: `--skip-agents`,
 because bd otherwise appends its own managed block to the `CLAUDE.md` just copied from
 `sessions.md`; `--init-if-missing`, which makes `add` a no-op and backfills sessions predating
-this; and a subshell `cd` rather than `bd -C`, which does not pick up the repo's `beads.role`
+this; `--skip-hooks`, since the repo those hooks would land in is deleted immediately after
+(below); and a subshell `cd` rather than `bd -C`, which does not pick up `beads.role`
 (GH#2950). No bd on PATH means both helpers no-op.
 
-`bd init` also runs `git init` at the session root for its hooks — hence `delete`'s
-`find -mindepth 2`, without which that `.git` is swept in as a worktree of nothing and makes
-every teardown claim unsaved work. Since `rm -rf` takes the tracker with the session, `delete`
-now warns on open beads the same way it warns on dirty worktrees, and one confirmation covers
-both. Counts are grepped down to a bare integer because bd interleaves throttled tips with its
-output.
+`bd init` also `git init`s the session root and commits a `.gitignore` — unconditionally, with
+no flag to opt out (`--skip-hooks` skips only the hooks). `_sessions_beads_init` deletes both
+right after, guarded on `.beads/` existing. The session root is a container for worktrees, not
+a repo, and a repo there makes starship report a branch on every prompt and lists every
+worktree as untracked. bd needs none of it — deps, `ready` gating, `close` refusal and walk-up
+discovery from inside a worktree all work with no repo in scope — with one exception:
+`beads.role` lives in git config, so `templates/gitconfig.j2` carries a global
+`[beads] role = maintainer` for the lookup to land on (a repo-local `beads.role` still wins).
+Without that fallback every read command prints a `beads.role not configured` warning.
+`delete`'s `find -mindepth 2` stays regardless: sessions predating this still have that root
+`.git`, and it is a worktree of nothing, so sweeping it in makes every teardown claim unsaved
+work. Since `rm -rf` takes the tracker with the session, `delete` warns on open beads the same
+way it warns on dirty worktrees, and one confirmation covers both. Counts are grepped down to
+a bare integer because bd interleaves throttled tips with its output.
 
 Overridable: `SESSIONS_ROOT`, `SESSIONS_TMUX`, `SESSIONS_TEMPLATE`, `SESSIONS_SCAN_DEPTH`.
 

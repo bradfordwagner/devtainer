@@ -38,3 +38,8 @@
   autoSetupRemote = true
   default = current
 
+[beads]
+  # bd stores its role in git config, and the sessions helper deletes the git
+  # repo `bd init` leaves at the session root - so the lookup has to resolve
+  # with no repo in scope. Global is a fallback: a repo-local beads.role wins.
+  role = maintainer
