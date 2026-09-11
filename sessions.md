@@ -1,5 +1,9 @@
 # Session
 
+<!-- This file is a symlink to ~/dotfiles/sessions.md, shared by every session.
+     Edits here change the template for all of them; there is no per-session
+     copy to scribble on. -->
+
 This directory is a work session. Each subdirectory is a git worktree of a
 different repo, all checked out on the same branch — the session name, which is
 also this directory's name.
@@ -18,16 +22,34 @@ issue IDs are prefixed with the session name.
 - Track work as beads, not in TodoWrite or a markdown checklist — a bead
   outlives the context window; a todo list in scrollback does not.
 - `bd ready` is the answer to "what's next": open issues with no active
-  blockers. Ask it before planning, not after.
+  blockers. Ask it before planning, and again whenever direction changes or a
+  chunk lands — not once at the start.
 - `bd q "<title>"` captures something out of scope in one call, without
   derailing what you're on.
+- File the bead when the work appears, not when you start it. **Scope that
+  arrives mid-session is the case this gets wrong**: a follow-up you are about
+  to do anyway still gets a bead first. Four requests in a row that each go
+  straight to code leave a tracker that describes the session you planned, not
+  the one you had.
+- Anything you find but do not fix is a bead — an untested path, a gap in the
+  evidence, a number that did not add up. "I'll mention it in the summary" is
+  scrollback, and scrollback is what the tracker exists to outlive.
+- Say what you are on: `bd update <id> --status in_progress`. A tracker that
+  only ever shows open and closed cannot answer "what was I doing".
 - Cross-repo ordering is a dependency, not a comment. `bd dep add <blocked>
   <blocker>` — `bd ready` then withholds the blocked side until the blocker
   closes, which is the whole reason the tracker lives at the session root
   instead of in either repo.
 - Close beads as work lands (`bd close <id>`) and name the ID in the commit, so
-  the reasoning is reachable from the repo after the session is gone.
+  the reasoning is reachable from the repo after the session is gone. Close in
+  the same turn as the commit that lands it — a batch close at the end means the
+  tracker was a record of the work, never the state of it.
 - `bd prime` prints the full command reference.
+
+`~/.claude/hooks/bd-ready.sh` runs on every prompt and injects the ready queue,
+so the tracker is in front of you whether or not you thought to ask. An empty
+ready list while work is plainly in flight means the tracker is stale, not that
+there is nothing to do.
 
 The tracker is scoped to the session: `sessions delete` destroys it along with
 the worktrees. Anything that has to outlive the session belongs in a commit, an

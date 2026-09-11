@@ -1,0 +1,28 @@
+{
+  "model": "opus[1m]",
+  "theme": "dark",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{ ansible_env.HOME }}/workspace/github/bradfordwagner/tmux/tmux.claude.notify/bin/claude-notify notify"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{ ansible_env.HOME }}/.claude/hooks/bd-ready.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

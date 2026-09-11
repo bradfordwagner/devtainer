@@ -238,7 +238,11 @@ function _sessions_new() {
   [[ -z "${repos}" ]] && return 1
 
   mkdir -p "${SESSIONS_ROOT}/${session}"
-  [[ -f "${SESSIONS_TEMPLATE}" ]] && cp "${SESSIONS_TEMPLATE}" "${SESSIONS_ROOT}/${session}/CLAUDE.md"
+  # symlink, not copy: a copied template freezes at session-creation time, so a
+  # fix to the session rules only reaches sessions made after it. Linking means
+  # every live session picks it up. -n so re-running over an existing link
+  # replaces it instead of nesting inside it.
+  [[ -f "${SESSIONS_TEMPLATE}" ]] && ln -sfn "${SESSIONS_TEMPLATE}" "${SESSIONS_ROOT}/${session}/CLAUDE.md"
 
   failed=0
   for repo in ${(f)repos}; do
