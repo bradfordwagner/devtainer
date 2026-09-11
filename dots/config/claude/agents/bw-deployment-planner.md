@@ -52,7 +52,8 @@ Read-only commands are encouraged — they ground the plan instead of guessing:
 `terraform plan` (read-only, and the best blast-radius source available — run it whenever
 Terraform is in scope), `argocd app get/list/diff/history`, `kubectl get/describe/logs`,
 `helm template`, `kubectl kustomize`, `kargo get`, `gh pr view`, `gh run list/view`,
-`git log/diff/status`.
+`git log/diff/status`. `mermaid-validate.sh` (below) counts as read-only on the estate — it
+touches nothing but its own npm cache.
 
 Check `kubectl config current-context` and `argocd context` before reasoning about "the
 cluster" — know where you are actually pointed. If a step needs a credential or context you
@@ -141,6 +142,15 @@ from a CDN as an ES module and put the diagram source in a `<pre class="mermaid"
 `graph TD`, node ids are the step labels, edges labeled with the dependency type, waves
 grouped as `subgraph`. Short node text; detail belongs in the table.
 
+**Quote every node and subgraph label.** `A["A · apply (namespaces)"]`, never
+`A[A · apply (namespaces)]`. Unquoted labels are parsed by the grammar rather than taken
+literally, so `(`, `[`, `{` and `|` inside one are a syntax error — and these labels are
+exactly where paths, commands and parenthetical asides land. Quoting costs nothing and
+removes the whole class of failure. Two more the grammar will reject: a node id that is a
+reserved word (`graph`, `end`, `class`, `style`, `subgraph`, `click`) — the letter labels
+avoid this naturally, so do not "helpfully" rename a node to something meaningful — and an
+empty edge label (`-->||`; write `-->` if there is nothing to say).
+
     <script type="module">
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.js";
       mermaid.initialize({ startOnLoad: true, theme: "neutral" });
@@ -189,6 +199,27 @@ decoration, but it should look like it belongs next to the rest of this desktop.
 **Save multi-wave plans.** Write the plan to `deploy-plan.html` at the repo root (or a path
 the caller names) so the releaser has a checkpointable artifact and progress survives across
 invocations. This is the only file you may write.
+
+## Validate the diagram before you report
+
+The diagram only renders when a browser runs it, so a syntax error is invisible to you at
+write time and reaches the user as an empty box where the DAG should be. **After writing the
+file, always run:**
+
+    mermaid-validate.sh deploy-plan.html
+
+(on `PATH` from `dots/shell_scripts/`; pass the path you actually wrote). It parses every
+`.mermaid` block with the same grammar the browser uses and prints the parse error with a
+numbered listing of the source *as the browser sees it*. Exit 0 means every diagram parses;
+1 means at least one does not — **fix it and re-run until it is clean.** Never report a plan
+whose validation you did not run or did not pass.
+
+Its first run installs mermaid into a cache dir and takes a few seconds; later runs are
+under a second. Exit 2 means the tool itself could not run (no node/npm, unreadable file) —
+say so in Open questions rather than treating the diagram as verified.
+
+To check a snippet without writing a file, pipe it in: `printf '%s' "$diagram" |
+mermaid-validate.sh -`.
 
 ## This estate
 

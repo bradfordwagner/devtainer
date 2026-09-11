@@ -131,7 +131,8 @@ Available subagents:
   kustomize/flux/tofu binary). Outputs a self-contained HTML file (Mermaid rendered
   client-side, Catppuccin Mocha styling), not Markdown. Read-only apart from writing
   `deploy-plan.html`: runs `terraform plan` and `argocd app diff`, never
-  `apply`/`sync`/`promote`.
+  `apply`/`sync`/`promote`. Parse-checks its own diagram with
+  `dots/shell_scripts/mermaid-validate.sh` before reporting (see below).
 - `bw-deployment-releaser` (opus) — executes an agreed plan, gated. Two things authorize it
   and nothing else: a plan (`deploy-plan.html`) and the user naming the labels to run. One wave
   per invocation, stops at every gate and returns rather than continuing; never runs a label
@@ -142,6 +143,28 @@ Available subagents:
 The pair is deliberately split rather than one agent: a subagent's tool output is not shown
 to you, so an agent that both planned and executed would collapse the human checkpoints that
 wave gates exist to create.
+
+#### `mermaid-validate.sh`
+
+`dots/shell_scripts/mermaid-validate.sh` (plus its `.mjs` payload) parse-checks the Mermaid
+diagrams in an HTML file — or a bare diagram on stdin with `-` — and exits non-zero with the
+parse error and a numbered source listing. It exists because a `<pre class="mermaid">` block
+only renders when a browser runs it, so the planner cannot see its own syntax errors: a bad
+diagram reaches the user as an empty box. Its prompt requires a clean run before reporting.
+Useful by hand for any Mermaid anywhere in the repo.
+
+The file is read the way a browser reads it — jsdom parses the HTML and the diagram is taken
+from `innerHTML`, then run through mermaid's own `entityDecode` + dedent, exactly as
+`mermaid.run()` does. Skipping that would flag every diagram with a `-->` in it, since
+`innerHTML` re-serialises `>` as `&gt;`.
+
+mermaid ships browser-only and its DOMPurify reads `window` at import time, so this needs
+jsdom — ~180M of `node_modules`. That is installed on first run into
+`${XDG_CACHE_HOME:-~/.cache}/mermaid-validate` (override with `MERMAID_VALIDATE_CACHE`), not
+vendored and not in the Brewfile: it is a dev aid for one agent, and Homebrew's `mermaid-cli`
+would be the heavier answer (it pulls a headless Chromium to *render*, when only parsing is
+needed). First run takes a few seconds; later runs ~0.5s. Exit 2 is the tool failing to run
+(no node/npm, unreadable file), distinct from exit 1 for a malformed diagram.
 
 Keybindings live in `dots/config/claude/keybindings.json` and are copied to `~/.claude/keybindings.json` by `tasks/install-claude.yml`. When suggesting or adding keybindings, check for conflicts in:
 - `dots/tmux/tmux.conf` — prefix is `ctrl+space`; plain ctrl bindings: `ctrl+h`; most others are `ctrl+alt+*`
