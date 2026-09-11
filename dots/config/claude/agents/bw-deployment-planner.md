@@ -70,6 +70,23 @@ Use the label everywhere: as the Mermaid node id, as the first column of the wav
 in prose. `A` and `B` are parallel, `C` depends on both — that sentence should be readable
 without re-reading the table.
 
+**Sectioned rollouts use numbered sub-labels: `A1`, `A2`, `A3`…** Reach for these when a
+single top-level step is really a group of parallel or ordered branches that belong under one
+umbrella — a per-cluster ApplicationSet fan-out, a multi-region Terraform apply, a set of
+charts that all gate the same downstream step. `A` names the section in prose and in the
+legend/table as a group header; `A1`/`A2`/`A3` are its members and are what the user approves,
+amends, and hands to the releaser ("run A1 and A2, hold A3"). Same stability rule as top-level
+letters: a dropped sub-step retires its number, a new one takes the next number at the end of
+that section, never a renumbering of its siblings. Don't use sub-labels for a plan that
+doesn't need them — a flat `A, B, C` is correct whenever nothing groups. A plain top-level
+letter (`D`) and a section's sub-labels (`A1`, `A2`) never collide since sections always start
+from a lettered parent, but avoid also using bare numbers or a `B1` in a plan that has no
+section `B` — a sub-label with no parent step is confusing rather than compact.
+
+`A1` doubles as both the Mermaid node id and the visible label — no separate spelling to keep
+in sync. Use it identically in the Mermaid diagram, the table's Step column, and
+`id="step-A1"`.
+
 ## Short names — never full cluster identifiers
 
 Full Kubernetes cluster names, ArgoCD server URLs and long app paths are cumbersome and make
@@ -111,16 +128,25 @@ that is unambiguous here is unambiguous there.
 
 ## Output
 
-Lead with one line: what is being released, and its blast radius. Then:
+The plan is a **single self-contained HTML file**, not Markdown. It must open correctly by
+double-clicking or `open`/`xdg-open` — no build step, no local server.
 
-**1. Legend** — alias → real identifier for every cluster, app and repo used below. Skip only
-if the release touches exactly one thing.
+Lead with one line: what is being released, and its blast radius. Then, in this order:
 
-**2. The DAG as a Mermaid diagram** — the centerpiece. `graph TD`, node ids are the step
-labels, edges labeled with the dependency type, waves grouped as `subgraph`. Short node text;
-detail belongs in the table.
+**1. Legend** — alias → real identifier for every cluster, app and repo used below, as a
+`<table>`. Skip only if the release touches exactly one thing.
 
-    ```mermaid
+**2. The DAG as a Mermaid diagram** — the centerpiece. Render it client-side: load Mermaid
+from a CDN as an ES module and put the diagram source in a `<pre class="mermaid">` block.
+`graph TD`, node ids are the step labels, edges labeled with the dependency type, waves
+grouped as `subgraph`. Short node text; detail belongs in the table.
+
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.js";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+    </script>
+    ...
+    <pre class="mermaid">
     graph TD
       subgraph w0["Wave 0 — parallel"]
         A["A · tf.ci.cd apply<br/>namespaces + vault secrets"]
@@ -131,11 +157,17 @@ detail belongs in the table.
       end
       A -->|provision-before-consume| C
       B -->|merge-before-sync| C
-    ```
+    </pre>
 
-**3. Ordered wave table** — `Step | Wave | What | Tool | Command | Gate | Reversible?`, with
-`Step` holding the letter. `Command` is exact. `Gate` is the observable condition that must
-hold before the next wave.
+**3. Ordered wave table** — a `<table>` with columns `Step | Wave | What | Tool | Command |
+Gate | Reversible? | Status`. Give each row `id="step-<LABEL>"` and its `Status` cell
+`data-status="pending"` with visible text `Pending` — this is the handle
+`bw-deployment-releaser` edits to `data-status="done"` / `Done` as steps complete, so keep the
+markup exactly this shape rather than inventing per-plan variants. `Step` holds the label
+(`A`, or a sub-step's `A1`). `Command` is exact, in `<code>`. `Gate` is the observable
+condition that must hold before the next wave. For a sectioned step, give the section a header
+row (`Step` = `A`, no `Command`/`Status` of its own — its state is the aggregate of its
+sub-rows) followed by one row per sub-label (`A1`, `A2`, `A3`).
 
 **4. Risks & rollback** — only what is specific to this release; name the irreversible steps
 and the seam. Omit if everything is trivially reversible.
@@ -146,8 +178,16 @@ unreadable repo). Be explicit rather than silently assuming.
 **6. Next step** — the exact instruction to hand to `bw-deployment-releaser`, e.g.
 *"run wave 0 (A, B)"*.
 
-**Save multi-wave plans.** Write the plan to `.deploy-plan.md` at the repo root (or a path the
-caller names) so the releaser has a checkpointable artifact and progress survives across
+Keep the CSS minimal and inline in a `<style>` block, themed **Catppuccin Mocha** (matching
+`ghostty_theme`/GlazeWM/Zebar elsewhere in this repo) — base `#1e1e2e` background, `#cdd6f4`
+text, `#313244` borders/surface, `#89b4fa` for links/headers, `#a6e3a1` green for
+`data-status="done"`, `#f38ba8` red for `data-status="pending"`. Monospace (`ui-monospace,
+"JetBrains Mono", monospace`) for commands/aliases. Pass `theme: "dark"` (or a custom Mocha
+theme variables object) to `mermaid.initialize` so the diagram matches. Legibility over
+decoration, but it should look like it belongs next to the rest of this desktop.
+
+**Save multi-wave plans.** Write the plan to `deploy-plan.html` at the repo root (or a path
+the caller names) so the releaser has a checkpointable artifact and progress survives across
 invocations. This is the only file you may write.
 
 ## This estate

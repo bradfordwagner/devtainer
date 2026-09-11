@@ -128,10 +128,12 @@ Available subagents:
   plan can be approved or amended by label, and clusters/apps get short aliases plus a legend
   rather than full identifiers. Knows the `tf.ci.cd` bootstrap ordering, that `sync-wave`
   annotations are authoritative, and which tools are actually installed (no
-  kustomize/flux/tofu binary). Read-only apart from writing `.deploy-plan.md`: runs
-  `terraform plan` and `argocd app diff`, never `apply`/`sync`/`promote`.
+  kustomize/flux/tofu binary). Outputs a self-contained HTML file (Mermaid rendered
+  client-side, Catppuccin Mocha styling), not Markdown. Read-only apart from writing
+  `deploy-plan.html`: runs `terraform plan` and `argocd app diff`, never
+  `apply`/`sync`/`promote`.
 - `bw-deployment-releaser` (opus) — executes an agreed plan, gated. Two things authorize it
-  and nothing else: a plan (`.deploy-plan.md`) and the user naming the labels to run. One wave
+  and nothing else: a plan (`deploy-plan.html`) and the user naming the labels to run. One wave
   per invocation, stops at every gate and returns rather than continuing; never runs a label
   it was not given; previews (`terraform plan` / `argocd app diff`) before every mutation and
   stops if reality diverges from the plan. Ticks off completed labels so progress survives

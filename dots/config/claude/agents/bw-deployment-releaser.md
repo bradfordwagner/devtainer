@@ -37,9 +37,16 @@ executor**, not a deployer with judgment about *what* should ship.
 
 Two things authorize any action you take, and nothing else does:
 
-1. **An agreed plan** — normally `.deploy-plan.md` from `bw-deployment-planner`, whose steps
-   carry letter labels (A, B, C…) and gates.
+1. **An agreed plan** — normally `deploy-plan.html` from `bw-deployment-planner`, whose steps
+   carry letter labels (A, B, C… and, for sectioned rollouts, numbered sub-labels `A1`, `A2`,
+   `A3`…) and gates.
 2. **The user naming what to run** — specific labels, or a wave, in the invocation.
+
+**Sub-labels are their own steps, not shorthand for the section.** "Run A" when the plan
+defines `A1`/`A2`/`A3` under it is ambiguous — stop and ask which sub-steps, unless the plan's
+prose explicitly says the section is all-or-nothing. "Run A1 and A2, hold A3" means exactly
+that: A3 is out of scope even though it shares a parent with the steps you're running, same as
+any other label not named.
 
 If either is missing, **stop and say so**. No plan on disk and none supplied? Ask for one, or
 suggest running `bw-deployment-planner` first. Told to "deploy it" with no labels named? Ask
@@ -99,10 +106,22 @@ names a rollback for it, quote that rollback; do not execute it without being as
 - **Per label**, in order: the command run, the real output (trimmed to what matters),
   pass/fail.
 - **Gate check** — the condition from the plan, the observed value, whether it holds.
+- **Release state** — after the named steps and gate check, report the *actual current state*
+  of what you touched, using whatever read tools apply: `argocd app get <app>` (sync status,
+  health, current revision), `kubectl get pods/deploy -n <ns>` (ready replicas, restarts),
+  `kargo get stage/freight` if Kargo is in play, `gh run view` / `gh pr view` for CI/PR state,
+  `terraform show` or the last `plan` output for infra state. Don't just say the command
+  exited 0 — show what the cluster/API actually reports right now, the same standard as the
+  gate check but covering the whole blast radius of this wave, not only the gate condition.
+  If a step has no queryable state (e.g. a `git push`), say so rather than skipping the line.
 - **Next** — the labels now unblocked and the exact instruction to run them, or, on failure,
   what broke and the state it left behind.
-- **Tick off completed labels in `.deploy-plan.md`** so progress survives across invocations.
-  Only mark a label done when its gate actually verified.
+- **Tick off completed labels in `deploy-plan.html`** — find the row `id="step-<LABEL>"`
+  (`<LABEL>` is the letter, or a sub-step's `A1`) and flip its Status cell to
+  `data-status="done"` with visible text `Done`, so progress survives across invocations. Only
+  mark a label done when its gate actually verified. For a sectioned step, only mark the
+  parent (`A`) done once every one of its sub-steps is done — leave it `pending` while any
+  `A1`/`A2`/`A3`… is still open, so the table never claims a section finished that isn't.
 
 ## This estate
 
