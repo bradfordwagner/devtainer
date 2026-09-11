@@ -19,6 +19,26 @@
   loop: '{{ claude_command_files.files }}'
   when: claude_command_files.files | length > 0
 
+- name: ensure claude agents directory exists
+  file:
+    path: '{{ ansible_env.HOME }}/.claude/agents'
+    state: directory
+    mode: 0755
+
+- name: find claude agent files in repo
+  find:
+    paths: '{{ devtainer.dir }}/dots/config/claude/agents'
+    patterns: '*.md'
+  register: claude_agent_files
+
+- name: copy claude agent files
+  copy:
+    src: '{{ item.path }}'
+    dest: '{{ ansible_env.HOME }}/.claude/agents/{{ item.path | basename }}'
+    mode: 0644
+  loop: '{{ claude_agent_files.files }}'
+  when: claude_agent_files.files | length > 0
+
 - name: copy claude keybindings
   copy:
     src: '{{ devtainer.dir }}/dots/config/claude/keybindings.json'

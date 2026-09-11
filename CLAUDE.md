@@ -49,7 +49,7 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
                                                         ├── tasks/install-dotfiles.yml        (rsync repo, remote only)
                                                         ├── tasks/jinga-templates.yml         (render .gitconfig, .zshenv, MCP configs)
                                                         ├── tasks/link-shell.yml              (symlinks dots/ → ~/.config/, ~/.zshrc, etc.)
-                                                        ├── tasks/install-claude.yml          (copy dots/config/claude/commands/ → ~/.claude/commands/)
+                                                        ├── tasks/install-claude.yml          (copy dots/config/claude/{commands,agents,hooks}/ → ~/.claude/)
                                                         ├── tasks/windows-wsl.yml             (WSL only: glazewm+zebar+terminal configs → %USERPROFILE%)
                                                         ├── tasks/install-windsurf-workflows.yml
                                                         ├── tasks/install-shell-packages.yml
@@ -91,6 +91,55 @@ one of them off.
 ### Claude Code integration
 
 Custom slash commands live in `dots/config/claude/commands/*.md` and are copied (not symlinked) to `~/.claude/commands/` by `tasks/install-claude.yml`. Re-run `task bb` to deploy new commands.
+
+Subagents live in `dots/config/claude/agents/*.md` and are copied to `~/.claude/agents/` by
+the same task. Name them with a `bw-` prefix — `~/.claude/agents/` is a flat namespace shared
+with plugins and built-ins, so the prefix is what marks an agent as ours. One file per agent,
+YAML frontmatter (`name`, `description`, `model`, `color`, `tools`) then the prompt as the body.
+The `description` is what the main agent matches on when deciding whether to delegate, so it
+carries the trigger conditions and worked examples; the body carries the actual instructions.
+Re-run `task bb` to deploy.
+
+Pin `model:` explicitly rather than using `inherit`. `settings.json` sets the session model to
+`opus[1m]`, so `inherit` bills every subagent run at the top tier with a 1M window — wrong for
+agents whose reasoning already lives in their prompt and whose inputs are a few hundred lines.
+Start at `haiku` and move up only when an agent demonstrably needs it: the tier that matters is
+the one that can follow a "precision over volume" instruction, since a report full of plausible
+non-findings costs more attention than it saves. Escalate on evidence, not on suspicion.
+
+Then sort by **blast radius**, not by domain. An agent whose bad output you read before acting
+on it (a report, a plan) is one you backstop yourself, so the tier can stay low. An agent that
+mutates real infrastructure has no such backstop, and its hardest instructions are *restraints*
+— "only the labels you were given", "stop and report rather than improvise", "never fabricate a
+result" — which is exactly what smaller models hold worst. Hence `bw-deployment-planner` at
+`sonnet` but `bw-deployment-releaser` at `opus`, despite sharing a domain and an estate: the
+planner's failure mode is a bad document, the releaser's is a bad `terraform apply`. Rare
+invocations on small inputs make the top tier cheap there anyway.
+
+Available subagents:
+- `bw-keybinding-auditor` (haiku) — read-only audit of a keybinding change across every layer that can
+  claim a chord (GlazeWM's global hook, Windows Terminal, sway, aerospace, tmux, Claude Code,
+  zsh), plus the doc-sync rules below. Knows the reserved chords (`alt+;`, `alt+ctrl+hjkl`,
+  WT's `ctrl+v`→`null`) and normalizes the four different chord spellings before comparing.
+  Also answers "is `<chord>` free?".
+- `bw-deployment-planner` (sonnet) — plans a rollout across ArgoCD / Kargo / Terraform /
+  Helm / Argo Workflows / `gh` and outputs a dependency **DAG** (Mermaid graph + ordered wave
+  table with per-edge gates), not a checklist. Every step gets a letter label (A, B, C…) so a
+  plan can be approved or amended by label, and clusters/apps get short aliases plus a legend
+  rather than full identifiers. Knows the `tf.ci.cd` bootstrap ordering, that `sync-wave`
+  annotations are authoritative, and which tools are actually installed (no
+  kustomize/flux/tofu binary). Read-only apart from writing `.deploy-plan.md`: runs
+  `terraform plan` and `argocd app diff`, never `apply`/`sync`/`promote`.
+- `bw-deployment-releaser` (opus) — executes an agreed plan, gated. Two things authorize it
+  and nothing else: a plan (`.deploy-plan.md`) and the user naming the labels to run. One wave
+  per invocation, stops at every gate and returns rather than continuing; never runs a label
+  it was not given; previews (`terraform plan` / `argocd app diff`) before every mutation and
+  stops if reality diverges from the plan. Ticks off completed labels so progress survives
+  across invocations.
+
+The pair is deliberately split rather than one agent: a subagent's tool output is not shown
+to you, so an agent that both planned and executed would collapse the human checkpoints that
+wave gates exist to create.
 
 Keybindings live in `dots/config/claude/keybindings.json` and are copied to `~/.claude/keybindings.json` by `tasks/install-claude.yml`. When suggesting or adding keybindings, check for conflicts in:
 - `dots/tmux/tmux.conf` — prefix is `ctrl+space`; plain ctrl bindings: `ctrl+h`; most others are `ctrl+alt+*`
