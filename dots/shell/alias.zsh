@@ -561,8 +561,8 @@ function git_open_ado() {
 
 ## ai aliases ##################################################
 alias gg='gh copilot suggest'
-alias ccc='claude'
-alias cccr='claude --resume'
+alias ccc='claude --disable-mcp'
+alias cccr='claude --resume --disable-mcp'
 alias ccca='claude agents'
 # Remove all configured Claude Code MCP servers
 function ccmrm() {
