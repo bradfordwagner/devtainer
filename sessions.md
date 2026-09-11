@@ -80,5 +80,22 @@ or "tested" are not evidence; a command someone else can re-run is.
   so an unpinned command quietly proves something about the wrong cluster.
 - Report failures as failures. A check that could not run is a gap, not a pass;
   say which and why.
-- These files are working artifacts of the session, not repo deliverables. Keep
-  them at the session root unless the repo genuinely wants them committed.
+- These files are working artifacts of the session, not repo deliverables, and
+  the session root is where they live. `evidence.sh` and `evidence.md` are the
+  named ones, but anything that helps run or understand this session belongs
+  there too — a benchmark, a scratch script, a note on a dead end. They are a
+  shared desk for whoever is at the keyboard, not only a record for a reviewer.
+- Untracked is their normal state, not a loose end. Don't report them under
+  "what's left", don't ask whether to commit them, don't tidy them away. They
+  die with `sessions delete`, which is the point; if something has to outlive
+  that, committing it is a deliberate decision, not a default.
+- But they are living files, not finished ones. When a claim changes, the
+  evidence changes **in the same turn** — the same rule as closing a bead with
+  the commit that lands it. An `evidence.md` describing the run before last is
+  worse than none: it is a confident wrong answer, and it is the reader who
+  pays for it.
+- Keep them honest as you go. Regenerating wholesale is how hand-written
+  sections get silently dropped — edit in place, or diff the result against
+  what was there. And don't paste volatile state into them: a snapshot of a
+  cache, a cluster or a queue is stale by the next command, so state the
+  reproducible claim and name the command that shows the truth now.
