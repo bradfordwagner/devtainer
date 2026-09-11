@@ -124,47 +124,85 @@ Available subagents:
   Also answers "is `<chord>` free?".
 - `bw-deployment-planner` (sonnet) — plans a rollout across ArgoCD / Kargo / Terraform /
   Helm / Argo Workflows / `gh` and outputs a dependency **DAG** (Mermaid graph + ordered wave
-  table with per-edge gates), not a checklist. Every step gets a letter label (A, B, C…) so a
-  plan can be approved or amended by label, and clusters/apps get short aliases plus a legend
+  table with per-edge gates), not a checklist. Labels are wave-letter + step-number — `A1`,
+  `A2` are wave A, `B1` is wave B — so a label says which wave it is in without a lookup, "run
+  wave A" and "run A1, A2" are the same instruction, and a plan can be approved or amended by
+  label. Nodes are declared in label order, which is also mermaid's layout order, so `A1` is
+  top-left and the last step bottom-right. Clusters/apps get short aliases plus a legend
   rather than full identifiers. Knows the `tf.ci.cd` bootstrap ordering, that `sync-wave`
   annotations are authoritative, and which tools are actually installed (no
-  kustomize/flux/tofu binary). Outputs a self-contained HTML file (Mermaid rendered
-  client-side, Catppuccin Mocha styling), not Markdown. Read-only apart from writing
-  `deploy-plan.html`: runs `terraform plan` and `argocd app diff`, never
-  `apply`/`sync`/`promote`. Parse-checks its own diagram with
-  `dots/shell_scripts/mermaid-validate.sh` before reporting (see below).
+  kustomize/flux/tofu binary). Writes **two** files: `deploy-plan.html` for the human (Mermaid
+  rendered client-side, Catppuccin Mocha) and `deploy-plan.md` for the releaser — a checkbox
+  list of every label at the top, then a `## Context` section carrying each step's exact
+  command, gate, dependencies and rollback. The split is so a human sees the whole rollout in
+  one screen while the executing agent still has the detail. Read-only apart from those two
+  files: runs `terraform plan` and `argocd app diff`, never `apply`/`sync`/`promote`.
+  Validates its own diagram with `~/.claude/scripts/mermaid-validate.sh --render` before
+  reporting (see below).
 - `bw-deployment-releaser` (opus) — executes an agreed plan, gated. Two things authorize it
-  and nothing else: a plan (`deploy-plan.html`) and the user naming the labels to run. One wave
+  and nothing else: a plan (`deploy-plan.md`) and the user naming the labels to run. One wave
   per invocation, stops at every gate and returns rather than continuing; never runs a label
   it was not given; previews (`terraform plan` / `argocd app diff`) before every mutation and
-  stops if reality diverges from the plan. Ticks off completed labels so progress survives
-  across invocations.
+  stops if reality diverges from the plan. Ticks completed labels off in both plan files so
+  progress survives across invocations.
 
 The pair is deliberately split rather than one agent: a subagent's tool output is not shown
 to you, so an agent that both planned and executed would collapse the human checkpoints that
 wave gates exist to create.
 
+#### Agent scripts: `dots/config/claude/scripts/`
+
+Tools the subagents invoke, copied to `~/.claude/scripts/` by `tasks/install-claude.yml`
+(`.sh` gets 0755, everything else 0644). Deliberately **not** `dots/shell_scripts/`: that dir
+is on `PATH` and is for the human's own commands, while these are an implementation detail of
+a prompt and would only be clutter at the shell. Agents call them by absolute path
+(`~/.claude/scripts/foo.sh`), so nothing here needs to be on `PATH`. Re-run `task bb` to
+deploy.
+
 #### `mermaid-validate.sh`
 
-`dots/shell_scripts/mermaid-validate.sh` (plus its `.mjs` payload) parse-checks the Mermaid
-diagrams in an HTML file — or a bare diagram on stdin with `-` — and exits non-zero with the
-parse error and a numbered source listing. It exists because a `<pre class="mermaid">` block
-only renders when a browser runs it, so the planner cannot see its own syntax errors: a bad
-diagram reaches the user as an empty box. Its prompt requires a clean run before reporting.
-Useful by hand for any Mermaid anywhere in the repo.
+`dots/config/claude/scripts/mermaid-validate.sh` checks the Mermaid diagrams in an HTML file —
+or a bare diagram on stdin with `-`. It exists because a `<pre class="mermaid">` block only
+renders when a browser runs it, so the planner cannot see its own mistakes: a bad diagram
+reaches the user as an empty box. Its prompt requires a clean run before reporting.
 
-The file is read the way a browser reads it — jsdom parses the HTML and the diagram is taken
-from `innerHTML`, then run through mermaid's own `entityDecode` + dedent, exactly as
-`mermaid.run()` does. Skipping that would flag every diagram with a `-->` in it, since
-`innerHTML` re-serialises `>` as `&gt;`.
+Two modes, catching different things, and the parse alone is **not** enough:
 
-mermaid ships browser-only and its DOMPurify reads `window` at import time, so this needs
-jsdom — ~180M of `node_modules`. That is installed on first run into
-`${XDG_CACHE_HOME:-~/.cache}/mermaid-validate` (override with `MERMAID_VALIDATE_CACHE`), not
-vendored and not in the Brewfile: it is a dev aid for one agent, and Homebrew's `mermaid-cli`
-would be the heavier answer (it pulls a headless Chromium to *render*, when only parsing is
-needed). First run takes a few seconds; later runs ~0.5s. Exit 2 is the tool failing to run
-(no node/npm, unreadable file), distinct from exit 1 for a malformed diagram.
+- **parse** (default, `mermaid-validate.mjs`, ~1s) — the grammar. Catches unquoted labels,
+  reserved-word node ids, empty edge labels.
+- **`--render`** (`mermaid-render.mjs`, ~2s) — a real headless Chromium opening the file over
+  `file://`. Catches what the grammar cannot: a mermaid `<script>` that 404s or never loads, a
+  **duplicate node id** (parses clean, renders as mermaid's error card), an unknown shape, a
+  zero-height diagram. `--offline` is the same with every non-`file://` request aborted, for
+  when a plan must work without a network.
+
+`file://` is the point — it is how the plan is opened and it is *stricter* than `http://`: a
+`<script type="module">` importing a sibling file is blocked as cross-origin, so a CDN import
+is the only workable pattern for a one-file page. Note the exact URL: jsdelivr serves
+`mermaid.esm.min.mjs`; `mermaid.esm.min.js` is a 404.
+
+Three details worth keeping:
+
+- Parse mode reads the file the way a browser does — jsdom parses the HTML, the diagram comes
+  from `innerHTML`, then through mermaid's own `entityDecode` + dedent, exactly as
+  `mermaid.run()` does. Skipping that flags every diagram containing `-->`, since `innerHTML`
+  re-serialises `>` as `&gt;`.
+- Render mode waits for `aria-roledescription` on the `<svg>`, not for `data-processed` or for
+  the element to exist. mermaid sets both of those *before* the diagram is drawn, so either
+  one reports a perfectly good diagram as an error card.
+- mermaid's failure mode is a rendered error card, not an exception — so a picture of a
+  failure is detected as one (`aria-roledescription="error"`, a missing role, or `.error-icon`).
+
+mermaid ships browser-only and its DOMPurify reads `window` at import time, hence jsdom
+(~180M); `--render` additionally pulls `playwright-core` and a headless Chromium (~275M —
+`chromium-headless-shell`, not full Chromium, which is 135M smaller and enough). Both install
+on demand into `${XDG_CACHE_HOME:-~/.cache}/mermaid-validate` (override with
+`MERMAID_VALIDATE_CACHE`), the browser only if `--render` is actually used. Nothing is
+vendored and nothing is in the Brewfile: it is a dev aid for one agent. Homebrew's
+`mermaid-cli` was the tempting shortcut but is strictly worse here — it renders through its
+own harness rather than through the page, so it cannot see a broken `<script>` tag at all.
+Exit 2 is the tool failing to run (no node/npm, unreadable file, browser download failed),
+distinct from exit 1 for a bad diagram.
 
 Keybindings live in `dots/config/claude/keybindings.json` and are copied to `~/.claude/keybindings.json` by `tasks/install-claude.yml`. When suggesting or adding keybindings, check for conflicts in:
 - `dots/tmux/tmux.conf` — prefix is `ctrl+space`; plain ctrl bindings: `ctrl+h`; most others are `ctrl+alt+*`

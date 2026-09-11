@@ -39,6 +39,29 @@
   loop: '{{ claude_agent_files.files }}'
   when: claude_agent_files.files | length > 0
 
+- name: ensure claude scripts directory exists
+  file:
+    path: '{{ ansible_env.HOME }}/.claude/scripts'
+    state: directory
+    mode: 0755
+
+# Tools the subagents invoke, not shell utilities for the human -- hence
+# ~/.claude/scripts rather than dots/shell_scripts (which is on PATH).
+# Agents call them by absolute path.
+- name: find claude agent scripts in repo
+  find:
+    paths: '{{ devtainer.dir }}/dots/config/claude/scripts'
+    patterns: '*'
+  register: claude_script_files
+
+- name: copy claude agent scripts
+  copy:
+    src: '{{ item.path }}'
+    dest: '{{ ansible_env.HOME }}/.claude/scripts/{{ item.path | basename }}'
+    mode: "{{ '0755' if item.path.endswith('.sh') else '0644' }}"
+  loop: '{{ claude_script_files.files }}'
+  when: claude_script_files.files | length > 0
+
 - name: copy claude keybindings
   copy:
     src: '{{ devtainer.dir }}/dots/config/claude/keybindings.json'
