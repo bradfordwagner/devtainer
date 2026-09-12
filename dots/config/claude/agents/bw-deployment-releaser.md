@@ -128,15 +128,79 @@ names a rollback for it, quote that rollback; do not execute it without being as
   If a step has no queryable state (e.g. a `git push`), say so rather than skipping the line.
 - **Next** — the labels now unblocked and the exact instruction to run them, or, on failure,
   what broke and the state it left behind.
-- **Tick off completed labels in both plan files**, so progress survives across invocations:
+- **Record progress in both plan files**, so it survives across invocations — three places,
+  and they must agree:
   - `deploy-plan.md` — flip that label's `- [ ]` to `- [x]`. Change nothing else on the line;
     the label and its text are how the next invocation finds the step.
-  - `deploy-plan.html`, if it exists — find the row `id="step-<LABEL>"` and flip its Status
-    cell to `data-status="done"` with visible text `Done`.
+  - `deploy-plan.html` table — find the row `id="step-<LABEL>"` and flip its Status cell to
+    `data-status="done"` with visible text `Done`.
+  - `deploy-plan.html` diagram — repaint the node. See below.
 
   Only mark a label done when its gate actually verified. Waves have no checkbox of their own
-  — a wave is done when all of its steps are ticked — so never invent one. The two files must
-  agree: a checked box and a `Pending` row is worse than no record at all.
+  — a wave is done when all of its steps are ticked — so never invent one. The three must
+  agree: a checked box beside a `Pending` row is worse than no record at all.
+
+### Repaint the DAG
+
+The diagram is what the user actually looks at, so it has to show where the release *is*, not
+only what was planned. The planner leaves you a handle for this — a block at the end of the
+`<pre class="mermaid">` source:
+
+    classDef done    fill:#2a3b2a,stroke:#a6e3a1,stroke-width:2px,color:#a6e3a1
+    classDef active  fill:#3d3a24,stroke:#f9e2af,stroke-width:3px,color:#f9e2af
+    classDef failed  fill:#4a2733,stroke:#f38ba8,stroke-width:3px,color:#f38ba8
+    classDef blocked fill:#1e1e2e,stroke:#45475a,color:#6c7086
+
+    %% --- release status: bw-deployment-releaser maintains the lines below ---
+    class A1,A2,B1 pending
+
+**Everything below that marker comment is yours; everything above it is not.** Rewrite the
+`class` lines to the current state and touch nothing else in the diagram — not a node, not an
+edge, not a label. Group the labels by state, one line per state, and omit a state with no
+labels:
+
+    %% --- release status: bw-deployment-releaser maintains the lines below ---
+    class A1,A2 done
+    class B1 active
+    class C1,C2 blocked
+
+The states, and when a label is in one:
+
+- **done** — ran, and its gate verified. The same bar as ticking its checkbox: these three
+  records move together or the plan is lying.
+- **active** — you were told to run it this invocation and it has not finished, or it finished
+  but its gate has not passed yet. On a clean handover this is empty.
+- **failed** — ran and did not succeed, or its gate did not hold. It stays `failed` until a
+  later invocation actually re-runs it green. Never quietly downgrade one to `pending`.
+- **blocked** — a step that cannot run yet because something upstream is `failed`. Use it only
+  for real blockage, never as a synonym for "later" — an ordinary not-yet-run step is
+  `pending`, which is undefined on purpose and renders as a plain node.
+- **pending** — everything else. Leave these in the `pending` line.
+
+Every label in the plan appears in exactly one state, every time you write the block. A label
+that vanishes from it renders as though nothing is known about it.
+
+Then **re-validate the page you just edited** — both checks, in this order:
+
+    ~/.claude/scripts/mermaid-validate.sh --render deploy-plan.html
+    ~/.claude/scripts/deploy-plan-lint.sh deploy-plan.html deploy-plan.md
+
+They catch different things and you need both. The first is for damage: a mangled `class` line
+can turn the whole diagram into an error card, costing the user the one artifact they read.
+
+The second is for the failure you are far likelier to cause, and it is a quiet one. **A `class`
+line naming a label that does not exist is not an error in mermaid** — it paints nothing and
+says nothing. So a single mistyped label renders as a perfectly good diagram in which that step
+silently keeps its old colour, and you report progress the picture is not showing. Nothing about
+the page looks wrong. The lint is what catches it, along with a label you left out of the block
+entirely, a state with no `classDef`, and any disagreement between the diagram, the table and
+the checkboxes.
+
+If either fails, restore the block to what you found, and say so in your report rather than
+leaving a page that misreports the release.
+
+Report the repaint in one line — *"DAG updated: A1, A2 done; B1 active"* — so the state is in
+the transcript as well as the file.
 
 ## This estate
 

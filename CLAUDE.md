@@ -137,14 +137,21 @@ Available subagents:
   command, gate, dependencies and rollback. The split is so a human sees the whole rollout in
   one screen while the executing agent still has the detail. Read-only apart from those two
   files: runs `terraform plan` and `argocd app diff`, never `apply`/`sync`/`promote`.
-  Validates its own diagram with `~/.claude/scripts/mermaid-validate.sh --render` before
+  The mermaid source ends with a **release-status block** — four `classDef`s
+  (done/active/failed/blocked) behind a marker comment, every label starting `pending` — which
+  is the diagram's counterpart to the table's `data-status` and the only thing the releaser
+  repaints. Validates with **both** `~/.claude/scripts/mermaid-validate.sh --render` (does it
+  draw?) and `~/.claude/scripts/deploy-plan-lint.sh` (does it say what it means?) before
   reporting (see below).
 - `bw-deployment-releaser` (opus) — executes an agreed plan, gated. Two things authorize it
   and nothing else: a plan (`deploy-plan.md`) and the user naming the labels to run. One wave
   per invocation, stops at every gate and returns rather than continuing; never runs a label
   it was not given; previews (`terraform plan` / `argocd app diff`) before every mutation and
-  stops if reality diverges from the plan. Ticks completed labels off in both plan files so
-  progress survives across invocations.
+  stops if reality diverges from the plan. Records progress in three places so it survives
+  across invocations — the `.md` checkbox, the HTML table row's `data-status`, and the
+  **diagram itself**, by rewriting the `class` lines under the status marker so the DAG shows
+  where the release actually is. Re-runs both validators after editing, since a `class` naming
+  a mistyped label is silent in mermaid.
 
 The pair is deliberately split rather than one agent: a subagent's tool output is not shown
 to you, so an agent that both planned and executed would collapse the human checkpoints that
@@ -203,6 +210,36 @@ vendored and nothing is in the Brewfile: it is a dev aid for one agent. Homebrew
 own harness rather than through the page, so it cannot see a broken `<script>` tag at all.
 Exit 2 is the tool failing to run (no node/npm, unreadable file, browser download failed),
 distinct from exit 1 for a bad diagram.
+
+#### `deploy-plan-lint.sh`
+
+The other half of the planner's validation, and it exists because `mermaid-validate.sh` answers
+only "does this draw?". A diagram can render beautifully and still be wrong. The planner shipped
+a plan whose "Wave A" held `A1 B1 N1` and whose "Wave B" held `C1 D1 P1 E1 O1` — every wave's
+steps lettered as though they were waves themselves, which breaks the one property the label
+scheme exists for: that "run wave A" and "run A1, A2" are the same instruction.
+
+The failure is structural, not careless. Steps get enumerated and lettered as they are
+discovered, dependencies get worked out, subgraphs get drawn — and the letters are never
+revisited. Every label being a `1` is the tell. So the prompt now orders it (group into waves,
+*then* label, as separate numbered steps) and this script enforces it: every node in
+`subgraph wX` labelled `X<n>`, numbered from 1 with no gaps, waves in alphabetical order.
+
+It also cross-checks the three artifacts that must agree — the diagram's labels, the
+`id="step-<LABEL>"` rows and their `data-status` handles, and the Markdown's checkboxes,
+`<!-- wave X -->` groups and `### <LABEL>` context sections — same set, same order.
+
+And it validates the **release-status block** the releaser rewrites, which is where the
+subtlest failure lives: **mermaid ignores a `class` line naming a node that does not exist.**
+No error, no error card — the node simply never gets painted. So a mistyped label renders as a
+flawless diagram that quietly under-reports progress, and `--render` passes it. The lint
+catches that, a label missing from the block entirely, a state with no `classDef`, and a node
+claimed by two states. Decorative classes are left alone: a node may hold both `gate` and
+`done`, since the status `classDef` is defined last and wins the cascade — only two *release
+states* on one node is a conflict.
+
+Pure python3/bash, no dependencies, nothing to install. Same exit convention as its sibling: 0
+clean, 1 a bad plan, 2 the tool could not run.
 
 Keybindings live in `dots/config/claude/keybindings.json` and are copied to `~/.claude/keybindings.json` by `tasks/install-claude.yml`. When suggesting or adding keybindings, check for conflicts in:
 - `dots/tmux/tmux.conf` — prefix is `ctrl+space`; plain ctrl bindings: `ctrl+h`; most others are `ctrl+alt+*`

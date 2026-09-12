@@ -66,22 +66,76 @@ cannot verify, say so rather than assuming it works.
 wave holding a single step still labels it `A1`, because `A` names the wave, never a thing you
 can run. This is the whole scheme; it does not vary with the size of the plan.
 
+**The invariant, in checkable form: every node inside `subgraph wX` is labelled `X<n>`, and
+the numbers in it run `1, 2, 3…` with no gaps.** A node whose letter differs from its
+subgraph's letter is a bug, not a style choice. Wave A holding `A1 A2 A3` is the only correct
+shape; wave A holding `A1 B1 N1` is broken output even if every edge in the graph is right.
+
 That makes a label self-describing. `B2` is the second step of the second wave, so
 "`B2` depends on the A wave" needs no lookup, and "run the A wave" and "run A1, A2" are
 plainly the same instruction. It is also the ordering: everything in `A` happens before
-anything in `B`.
+anything in `B`. Both properties evaporate the moment a letter and its wave disagree — that is
+what makes this worth a hard rule rather than a preference.
 
-Labels are the handle for the whole conversation: the user approves "A1, A2", amends "swap B1
-and B2", or tells the releaser "run wave A". Use the label everywhere and identically — the
-Mermaid node id, the first column of the wave table, `id="step-A1"`, the Markdown checkbox
-list, and prose. `A1` is both the node id and its visible text, so there is no second spelling
-to drift.
+### The failure mode: labelling before the waves are settled
 
-**Never renumber across revisions.** A dropped step retires its number (`A2` gone leaves `A1`,
-`A3`); a new step in that wave takes the next free number at the end. A new wave inserted
-between existing ones takes a fresh letter from the end of the alphabet rather than shifting
-`B` onward — the letters are identifiers, not positions, and the wave table carries the real
-order. A stable label the user already approved is worth much more than a tidy sequence.
+The way this goes wrong is always the same. You enumerate the steps as you discover them, give
+each one the next letter — `A`, `B`, `C`, … — then work out the dependencies, then group the
+steps into subgraphs, and never revisit the letters. Late discoveries get letters from the end
+of the alphabet. The result is a diagram whose waves are correct and whose labels are noise:
+
+    ✗ WRONG — real output, do not reproduce
+      subgraph wA["Wave A — parallel"]
+        A1[...]  B1[...]  N1[...]
+      end
+      subgraph wB["Wave B — parallel"]
+        C1[...]  D1[...]  P1[...]  E1[...]  O1[...]
+      end
+
+    ✓ RIGHT — same graph, same edges, same order
+      subgraph wA["Wave A — parallel"]
+        A1[...]  A2[...]  A3[...]
+      end
+      subgraph wB["Wave B — parallel"]
+        B1[...]  B2[...]  B3[...]  B4[...]  B5[...]
+      end
+
+Every one of those wrong labels is a `1`, which is the tell: a letter per step means you were
+numbering steps, not waves.
+
+**So: waves first, labels last.** Work the whole DAG out with whatever scratch names you like
+— they are not labels and must never reach a file. Only once the wave assignment is final do
+you assign labels, by walking the waves in order and numbering each wave's members from 1. A
+label is a *coordinate* — "wave 2, step 3" — derived from a finished grouping, never an
+identifier minted when a step is discovered.
+
+### Checking it, before you write anything
+
+Reread your own subgraph blocks one at a time and read the letters out. `wA` must contain only
+`A`-labels, `wB` only `B`-labels. This takes seconds and catches the failure above completely;
+a label set that fails it is not ready to write, let alone to report.
+
+Then use them everywhere identically — the Mermaid node id, the first column of the wave
+table, `id="step-A1"`, the Markdown checkbox list, and prose. `A1` is both the node id and its
+visible text, so there is no second spelling to drift. The user approves "A1, A2", amends
+"swap B1 and B2", or tells the releaser "run wave A".
+
+### Revising a plan the user has already seen
+
+Stability matters, but **the wave invariant outranks it** — a plan whose labels lie about their
+waves is worse than one whose labels moved. So, in order:
+
+- A step dropped from a wave retires its number: `A2` gone leaves `A1`, `A3`. Do not close the
+  gap; the remaining labels keep working.
+- A step added to an existing wave takes that wave's next free number, at the end — a new step
+  in wave A is `A4`, never `N1`. **A new step never introduces a new letter.**
+- A step that *moves to a different wave* is relabelled to its new wave's letter. It has to be:
+  its old label now claims a wave it is not in. Say plainly in the revision which label became
+  which.
+- A genuinely new wave between two existing ones is the one case where the alphabet bends —
+  take a fresh letter from the end rather than shifting `B` onward, and let the wave table
+  carry the real order. This applies to **waves only**; it is not a licence to give a step an
+  out-of-sequence letter.
 
 **Reading order: `A1` is top-left, the last label is bottom-right.** Mermaid lays nodes out in
 declaration order — within a `subgraph`, first-declared is leftmost; between subgraphs,
@@ -123,15 +177,22 @@ that is unambiguous here is unambiguous there.
    - **secret-material** — Vault/KV must hold the value before its consumer starts
 
 3. **Group into waves.** No unsatisfied dependency → wave `A`. Each later wave depends only on
-   earlier ones. Within a wave, steps are parallel — say so explicitly, it is actionable. The
-   wave is the letter and the steps in it are `A1`, `A2`… (see Labels above).
+   earlier ones. Within a wave, steps are parallel — say so explicitly, it is actionable.
+   Steps still have no labels at this point — use scratch names, and expect the grouping to
+   move as you find more edges.
 
-4. **Define every gate.** For each wave boundary, state *how you know it is safe to proceed*:
+4. **Assign the labels — only now, and never before.** The grouping is final, so walk the
+   waves in order and number each wave's members from 1: wave `A` gets `A1`, `A2`, `A3`, wave
+   `B` gets `B1`, `B2`. Then read each subgraph back and confirm every letter in it matches
+   the subgraph's own letter. Labelling steps as you discover them, and grouping afterwards,
+   is the one reliable way to produce a wave A containing `A1 B1 N1` (see Labels above).
+
+5. **Define every gate.** For each wave boundary, state *how you know it is safe to proceed*:
    an observable condition, never a duration. `argocd app get X` reports `Synced`/`Healthy`;
    the `gh run` concluded `success`; `terraform plan` is empty. "Wait 5 minutes" is not a gate
    and is not acceptable.
 
-5. **Find the rollback seam.** Identify the last step before the change is user-visible or
+6. **Find the rollback seam.** Identify the last step before the change is user-visible or
    hard to reverse, and how to undo each irreversible step. Terraform destroys, deleted PVCs
    and published image tags get explicit callouts.
 
@@ -177,7 +238,29 @@ empty edge label (`-->||`; write `-->` if there is nothing to say).
       end
       A1 -->|provision-before-consume| B1
       A2 -->|merge-before-sync| B1
+
+      classDef done    fill:#2a3b2a,stroke:#a6e3a1,stroke-width:2px,color:#a6e3a1
+      classDef active  fill:#3d3a24,stroke:#f9e2af,stroke-width:3px,color:#f9e2af
+      classDef failed  fill:#4a2733,stroke:#f38ba8,stroke-width:3px,color:#f38ba8
+      classDef blocked fill:#1e1e2e,stroke:#45475a,color:#6c7086
+
+      %% --- release status: bw-deployment-releaser maintains the lines below ---
+      class A1,A2,B1 pending
     </pre>
+
+**Emit the release-status block, exactly as above.** The four `classDef`s and the marker
+comment go in every plan, verbatim, followed by one `class` line putting every label in
+`pending`. You are not tracking progress — nothing has run — but `bw-deployment-releaser`
+repaints the diagram as it goes, and it can only do that against a handle you left for it.
+This is the diagram's counterpart to `data-status` on the table rows: same purpose, same
+contract, and the releaser keeps the two in step.
+
+Two details make it work. Define the status classes **after** any `classDef` of your own, so
+a status colour overrides a decorative one on the same node rather than losing to it — mermaid
+resolves same-node classes in definition order. And leave the marker comment exactly as
+written: it is the line the releaser looks for, and it tells a human reading the source that
+those lines are machine-maintained. `pending` is deliberately left undefined, so an untouched
+plan renders in the diagram's ordinary node styling.
 
 **3. Ordered wave table** — a `<table>` with columns `Step | Wave | What | Tool | Command |
 Gate | Reversible? | Status`. Give each row `id="step-<LABEL>"` and its `Status` cell
@@ -262,11 +345,15 @@ are.
 Keep the two files consistent: same labels, same commands, same gates. If you revise a plan,
 rewrite both.
 
-## Validate the diagram before you report
+## Validate before you report — two checks, both required
 
-The diagram only renders when a browser runs it, so a broken one is invisible to you at write
-time and reaches the user as an empty box where the DAG should be. **After writing the file,
-always run:**
+Two things about a plan are invisible to you at write time, and each has a script. Run **both**
+after writing the files, and never report a plan that has not passed both clean.
+
+### 1. Does the diagram draw?
+
+The diagram only renders when a browser runs it, so a broken one reaches the user as an empty
+box where the DAG should be. **After writing the file, always run:**
 
     ~/.claude/scripts/mermaid-validate.sh --render deploy-plan.html
 
@@ -296,6 +383,25 @@ fails it.
 
 To check a snippet without writing a file, pipe it in: `printf '%s' "$diagram" |
 ~/.claude/scripts/mermaid-validate.sh -` (parse only; rendering needs a page).
+
+### 2. Do the labels say what they mean?
+
+A diagram can render perfectly and still be wrong: a "Wave A" holding `A1 B1 N1` draws exactly
+as prettily as one holding `A1 A2 A3`. `mermaid-validate.sh` cannot see that, so:
+
+    ~/.claude/scripts/deploy-plan-lint.sh deploy-plan.html deploy-plan.md
+
+It enforces the wave invariant — every node in `subgraph wX` labelled `X<n>`, numbered from 1
+with no gaps, waves in alphabetical order — and checks the three artifacts against each other:
+the diagram's labels, the `id="step-<LABEL>"` table rows and their `data-status` handles, and
+the Markdown's checkboxes, `<!-- wave X -->` groups and `### <LABEL>` context sections, same
+set and same order. It also catches a node that only ever appears in an edge, which renders
+outside every wave.
+
+Exit 0 clean, 1 a bad plan, 2 the tool could not run (same convention as `mermaid-validate.sh`).
+A failure prints the labels you wrote against the labels the wave requires — apply that and
+re-run. **Fix the plan, never the check.** These labels are how the user approves a wave and
+how the releaser is told what to run; a plan that fails this lint is not a plan yet.
 
 ## This estate
 
