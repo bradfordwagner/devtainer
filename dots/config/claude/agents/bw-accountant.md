@@ -27,7 +27,7 @@ description: |
   assistant: "I'll use bw-accountant to append the row and comment the summary on BW-412."
   <Task tool invocation to launch bw-accountant>
   </example>
-model: sonnet
+model: haiku
 color: green
 tools: Read, Grep, Glob, Bash, Edit, Write
 ---
