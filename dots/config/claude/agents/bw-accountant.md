@@ -95,12 +95,55 @@ Structure — totals at the top, because the top is what gets read:
 2. `## Total` — one line of headline figures, and a by-model table (each model's turns,
    tokens, cost, and share of spend). This is a re-tabulation of every row below; it is
    derived, so recompute it from the rows rather than incrementing it.
-3. `## By work item` — one row per feature/issue, with sessions, cost, and status.
+3. `## Context` — per model: peak context, window, % used, and a status
+   (`ok`, `watch` at 50%, `AT LIMIT` at 80%). Read `context` and each
+   `by_model[].ctx_*` from the JSON.
+
+   **Keep this section short.** Every current model has a 1M window except haiku at
+   200K, so headroom is almost never the binding constraint, and a verdict that
+   fires on every row is noise. Report the numbers, flag only genuine pressure, and
+   move on. The script still returns `would_fit`; mention it only when something is
+   actually flagged.
+
+   Two things to state plainly, because they are easy to misread: there is **no
+   long-context premium**, so a roomy window costs nothing and an unused one is not
+   waste. And a low peak beside a high bill means the driver is *turn count
+   re-reading a cached prefix*, not context size — the saving is fewer turns, not a
+   smaller window. Never imply a 1M window was wasteful.
+
+   Peak is per model, and the session-level percentage is the **worst** ratio, not
+   the ratio against the largest window — otherwise a haiku turn near its 200K limit
+   looks roomy because some opus turn in the same session had 1M. Haiku is the one
+   model where this flag earns its place.
+
+4. `## By work item` — one row per feature/issue, with sessions, cost, and status.
    This is the table that answers "what did this feature cost", which is the question
    the ledger exists for, since one work item spans many sessions.
-4. `## Sessions` — one row per session, newest last. Columns: date, session id (short),
-   work item, model(s), prompts, turns, tokens in/out, cache read/write, cost, notes.
-5. `## Notes` — the rate table used, and any caveats (unpriced models, partial sessions).
+5. `## Sessions` — one row per session, newest last. Columns: date, session id (short),
+   work item, model(s), prompts, turns, output tokens, peak context, ctx %, growth,
+   context assessment, cost. Put the per-session notes on a line under the table
+   rather than in a final column — a free-text column is what wrecks the alignment.
+
+   **Context assessment** is a short phrase per session, from the script's numbers:
+   `AT LIMIT — overflow risk` at ≥80% of the window, `watch — over half used` at
+   ≥50%, otherwise `ample` plus what growth says (`still climbing` above ~50K,
+   `grew slowly`, `flat`). With 1M windows the growth half is the more useful one:
+   a session still climbing at the end is what overflows next time, whatever its
+   peak was.
+
+   `growth` is the change from the session's first quarter to its last, over
+   **main-session turns only** — the script already excludes subagents, which start
+   fresh and would otherwise make a growing session look flat or even negative.
+   Report `—` when the script returns null (fewer than four main turns); never infer
+   a trend from less than that.
+6. `## Notes` — the rate table used, and any caveats (unpriced models, partial sessions).
+
+**Pad every table cell so the columns line up in a plain text editor.** These files
+are read in nvim as often as rendered, and a ragged pipe table is unreadable there.
+Compute each column's width from its widest cell (header included), left-align text,
+right-align numbers, and match the separator row to those widths (`---:` for a
+right-aligned column). Rebuild the padding whenever a new row makes a column wider —
+a table where only the newest row is misaligned is worse than one never aligned.
 
 Money to 4 decimal places (sessions run to fractions of a cent and truncating hides
 small-session cost). Tokens with thousands separators. Session ids to the first 8
@@ -147,10 +190,29 @@ Discover the tooling rather than assuming it:
 Write the comment body to a temp file and pass it with `--body-file`; a cost table
 inlined in `--body` gets mangled by shell quoting.
 
+The comment carries three things, in this order:
+
+1. **The headline** — total cost, session count, turns, model — then a per-session
+   table (session, date, turns, peak context, ctx %, cost, what it bought).
+2. **A `### Context` section** — peak and mean context, the window, % used, status.
+   Then one line on whether the work was context-constrained. Keep it brief unless
+   something is flagged: with 1M windows everywhere but haiku, headroom is a
+   non-issue rather than a saving, and there is no long-context premium. Say what
+   *is* actionable instead: spend tracks turn count.
+3. **A collapsed `<details>` token table** — tokens, rate, and cost per line item.
+   Include the cache-read share and the uncached counterfactual, since that is what
+   makes the caching legible to someone who was not in the session.
+
+Derive any multi-session context figure from the **aggregate** peak, not from one
+session's. Two sessions with similar peaks can land either side of a threshold and
+disagree, and the total must reflect the highest peak.
+
+Pad the comment's tables the same way as the ledger's. Keep the same figures as the
+ledger row; if they differ, one of them is wrong.
+
 Show the user the comment body before posting, then post. The comment is a summary for
 someone who was not in the session, so it leads with the total and what the money
-bought — not a token dump. Keep the same figures as the ledger row; if they differ,
-one of them is wrong.
+bought — not a token dump.
 
 ## Reporting back
 

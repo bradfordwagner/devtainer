@@ -63,15 +63,15 @@ fi
 # Update when Anthropic pricing changes -- these are the only numbers here that rot.
 cat "${files[@]}" 2>/dev/null | jq -s --arg session "$session" --arg fmt "$fmt" '
   def rates:
-    { "claude-opus-5":            {i:5,  o:25, cw5:6.25,  cw1h:10,  cr:0.5},
-      "claude-opus-4-8":          {i:5,  o:25, cw5:6.25,  cw1h:10,  cr:0.5},
-      "claude-opus-4-7":          {i:5,  o:25, cw5:6.25,  cw1h:10,  cr:0.5},
-      "claude-opus-4-6":          {i:5,  o:25, cw5:6.25,  cw1h:10,  cr:0.5},
-      "claude-fable-5":           {i:10, o:50, cw5:12.5,  cw1h:20,  cr:1.0},
-      "claude-sonnet-5":          {i:3,  o:15, cw5:3.75,  cw1h:6,   cr:0.3},
-      "claude-sonnet-4-6":        {i:3,  o:15, cw5:3.75,  cw1h:6,   cr:0.3},
-      "claude-haiku-4-5":         {i:1,  o:5,  cw5:1.25,  cw1h:2,   cr:0.1},
-      "claude-haiku-4-5-20251001":{i:1,  o:5,  cw5:1.25,  cw1h:2,   cr:0.1}
+    { "claude-opus-5":            {i:5,  o:25, cw5:6.25,  cw1h:10,  cr:0.5, w:1000000},
+      "claude-opus-4-8":          {i:5,  o:25, cw5:6.25,  cw1h:10,  cr:0.5, w:1000000},
+      "claude-opus-4-7":          {i:5,  o:25, cw5:6.25,  cw1h:10,  cr:0.5, w:1000000},
+      "claude-opus-4-6":          {i:5,  o:25, cw5:6.25,  cw1h:10,  cr:0.5, w:1000000},
+      "claude-fable-5":           {i:10, o:50, cw5:12.5,  cw1h:20,  cr:1.0, w:1000000},
+      "claude-sonnet-5":          {i:3,  o:15, cw5:3.75,  cw1h:6,   cr:0.3, w:1000000},
+      "claude-sonnet-4-6":        {i:3,  o:15, cw5:3.75,  cw1h:6,   cr:0.3, w:1000000},
+      "claude-haiku-4-5":         {i:1,  o:5,  cw5:1.25,  cw1h:2,   cr:0.1, w:200000},
+      "claude-haiku-4-5-20251001":{i:1,  o:5,  cw5:1.25,  cw1h:2,   cr:0.1, w:200000}
     };
 
   # One assistant turn appears once per content block, each copy repeating the
@@ -94,14 +94,56 @@ cat "${files[@]}" 2>/dev/null | jq -s --arg session "$session" --arg fmt "$fmt" 
       | ( [ .[].message.usage.cache_creation.ephemeral_5m_input_tokens // 0 ] | add // 0) as $cw5
       | ( [ .[].message.usage.cache_creation.ephemeral_1h_input_tokens // 0 ] | add // 0) as $cw1h
       | ( [ .[].message.usage.output_tokens_details.thinking_tokens // 0 ] | add // 0) as $think
+      | ( [ .[].message.usage
+            | (.input_tokens + .cache_read_input_tokens + .cache_creation_input_tokens) ]
+          | max // 0) as $cpeak
       | { model: $m, turns: length,
           input: $in, output: $out, cache_read: $cr,
           cache_write_5m: $cw5, cache_write_1h: $cw1h, thinking: $think,
+          ctx_peak: $cpeak,
+          ctx_window: (if $r == null then null else $r.w end),
+          ctx_pct: (if $r == null then null
+                    else ($cpeak / $r.w * 1000 | round / 10) end),
           priced: ($r != null),
           cost: (if $r == null then 0 else
                    ($in*$r.i + $out*$r.o + $cr*$r.cr + $cw5*$r.cw5 + $cw1h*$r.cw1h) / 1000000
                  end) }
     ) ) as $by_model
+
+  # Per-turn context is everything the model read: fresh input + cache read +
+  # cache write. Peak is the high-water mark; the window is the model limit.
+  | ( [ $real[] | .message.usage
+        | (.input_tokens + .cache_read_input_tokens + .cache_creation_input_tokens) ]
+    ) as $ctx
+  # Growth is measured over main-session turns only. Subagents start fresh with
+  # small contexts and interleave with the parent, so pooling them makes a
+  # growing session look flat -- or even negative.
+  | ( [ $real[] | select(.isSidechain != true) | .message.usage
+        | (.input_tokens + .cache_read_input_tokens + .cache_creation_input_tokens) ]
+    ) as $mctx
+  | ( $ctx | max // 0 ) as $ctx_peak
+  | ( ($mctx | length) as $n
+      | if $n < 4 then null
+        else ( ($mctx[($n - ($n/4|floor)):] | add) / ($n/4|floor) )
+             - ( ($mctx[0:($n/4|floor)] | add) / ($n/4|floor) )
+        end ) as $ctx_growth
+  | ( $mctx | if length == 0 then 0 else .[-1] end ) as $ctx_final
+  | ( if ($ctx|length) > 0 then (($ctx | add) / ($ctx|length)) else 0 end ) as $ctx_mean
+  | ( [ $real[] | (rates[.message.model].w // 0) ] | max // 0 ) as $window
+  | ( [ $by_model[] | .ctx_pct | select(. != null) ] | max // null ) as $worst_pct
+  | ( if $window == 0 or $ctx_peak == 0 or $worst_pct == null then null
+      elif $worst_pct >= 80 then "at-limit"
+      elif $worst_pct >= 50 then "watch"
+      else "ok" end ) as $sizing
+
+  # Rightsizing: which standard window would still have held the peak, with room
+  # to spare. 80% is the headroom line -- a session that peaked above it was not
+  # oversized even if a smaller tier nominally fits, since context grows late and
+  # overflowing mid-task is far more expensive than an unused window.
+  | ( [ 200000, 500000, 1000000 ]
+      | map(select($ctx_peak <= (. * 0.8)))
+      | first // null ) as $fits
+
 
   | ( [ $real[] | select(.isSidechain == true) ] | length ) as $sub_turns
   | ( [ .[] | select(.type=="assistant" or .type=="user") | .timestamp ] | map(select(. != null)) | sort ) as $ts
@@ -124,6 +166,12 @@ cat "${files[@]}" 2>/dev/null | jq -s --arg session "$session" --arg fmt "$fmt" 
       turns: $billable_turns, synthetic_turns: ($all_turns - $billable_turns),
       subagent_turns: $sub_turns,
       tool_calls: ($tools | length),
+      context: { peak: $ctx_peak, mean: ($ctx_mean|round), window: $window,
+                 peak_pct: $worst_pct,
+                 verdict: $sizing, would_fit: $fits,
+                 final: $ctx_final,
+                 growth: (if $ctx_growth == null then null else ($ctx_growth|round) end),
+                 headroom: (if $window > 0 then ($window - $ctx_peak) else null end) },
       top_tools: ($tools | group_by(.) | map({name: .[0], n: length})
                   | sort_by(-.n) | .[0:5]),
       by_model: $by_model,
@@ -143,6 +191,14 @@ cat "${files[@]}" 2>/dev/null | jq -s --arg session "$session" --arg fmt "$fmt" 
       + "\nwindow:   \(.started) -> \(.ended)"
       + "\nprompts:  \(.prompts)   turns: \(.turns)   subagent turns: \(.subagent_turns)"
       + "\ntools:    \(.tool_calls) calls"
+      + "\ncontext:  peak \(.context.peak) / \(.context.window)"
+      + (if .context.peak_pct != null then " (\(.context.peak_pct)%)" else "" end)
+      + "   mean \(.context.mean)"
+      + (if .context.verdict == "at-limit" then
+           "\n          AT LIMIT -- within 20% of the window, overflow risk"
+         elif .context.verdict == "watch" then
+           "\n          watch -- over half the window used"
+         else "" end)
       + "\n"
       + "\ntokens:   in=\(.totals.input)  out=\(.totals.output)"
       + "  cache_read=\(.totals.cache_read)  cache_write=\(.totals.cache_write)"

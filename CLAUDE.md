@@ -165,6 +165,13 @@ wave gates exist to create.
   estimates, because a wrong cost is not visibly wrong to whoever reads it later. On request
   it posts a summary onto a named GitHub (`gh`) or Linear (MCP) issue; it discovers the
   tooling rather than assuming it, and never posts to a ticket the user did not name.
+  Also tracks **context**: peak tokens against the model window, flagged only at 50%
+  and 80%. Deliberately understated — every current model is 1M except haiku at 200K,
+  so headroom is rarely binding and a verdict firing on every row is noise. There is
+  no long-context premium either, so a roomy window costs nothing: a low peak beside a
+  high bill means the driver is turn count re-reading a cached prefix, which is what
+  the ledger says instead. Table columns are padded to align in a plain editor; these
+  files get read in nvim.
 
 #### Agent scripts: `dots/config/claude/scripts/`
 
@@ -195,6 +202,17 @@ read 0.1×; no long-context premium on current models). That table is the only p
 a model missing from it is reported `[UNPRICED]` with a warning that the total is an
 understatement, never silently costed at zero. Exit 2 is the tool failing to run (no `jq`, no
 transcript), distinct from a bad-usage exit 1. Needs only `jq`.
+
+It also reports context: per-turn peak (input + cache read + cache write), the model window,
+and % used. The session-level percentage is the **worst** per-model ratio, so a haiku turn
+near its 200K limit is not hidden by an opus turn's 1M window — haiku being the one model
+where the flag earns its place, since everything else is 1M at standard pricing.
+
+And it reports **growth** — context in the session's last quarter minus its first —
+computed over main-session turns only, since subagents start fresh and interleave with
+the parent; pooling them made one real session report *negative* growth. That is what
+separates "high peak, plateaued" (a large working set) from "high peak, still climbing"
+(the one that overflows next time), which a peak alone cannot tell you.
 
 Two things it cannot know: the transcript lags the in-flight turn, so a live session's last
 few turns are missing; and cache **writes** cannot be attributed to what caused them.
