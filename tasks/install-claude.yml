@@ -45,9 +45,8 @@
     state: directory
     mode: 0755
 
-# Tools the subagents invoke, not shell utilities for the human -- hence
-# ~/.claude/scripts rather than dots/shell_scripts (which is on PATH).
-# Agents call them by absolute path.
+# Tools the subagents invoke by absolute path, not shell utilities for the human
+# -- hence ~/.claude/scripts rather than dots/shell_scripts (which is on PATH).
 - name: find claude agent scripts in repo
   find:
     paths: '{{ devtainer.dir }}/dots/config/claude/scripts'
@@ -88,10 +87,8 @@
   loop: '{{ claude_hook_files.files }}'
   when: claude_hook_files.files | length > 0
 
-# NOTE: this file is now owned by the repo, so anything Claude Code writes into
-# it -- a /config theme change, a model switch, permissions added through the
-# UI -- is reverted on the next run. Put machine-local or experimental settings
-# in ~/.claude/settings.local.json, which is deliberately left unmanaged.
+# NOTE: the repo owns this file, so anything Claude Code writes into it (theme,
+# model, ui permissions) is reverted next run. Use settings.local.json instead.
 - name: install claude settings.json
   ansible.builtin.template:
     src: '{{ playbook_dir }}/templates/claude.settings.json.j2'

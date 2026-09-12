@@ -1,18 +1,7 @@
 #!/usr/bin/env bash
 #
-# bd-ready.sh - UserPromptSubmit hook: put the session's issue tracker in front
-# of the model on every turn.
-#
-# Why a hook rather than another line in the session CLAUDE.md: "ask `bd ready`
-# before planning" reads as a one-time act at kickoff, and that is exactly how it
-# gets followed -- beads filed at the start, closed in a batch at the end, and
-# nothing in between reflecting the scope that arrived mid-session. More prose
-# does not fix that; the doc was already in context. Making the tracker ambient
-# does: a stale tracker becomes visible every turn instead of invisible until
-# someone asks "what's left".
-#
-# Silent outside a session -- no beads database, no output, no failure. This runs
-# on every prompt, so it must never be the reason one fails.
+# bd-ready.sh - UserPromptSubmit hook making the tracker ambient; a CLAUDE.md line
+# is read once at kickoff. Runs on every prompt, so it must never fail one.
 set -uo pipefail
 
 command -v bd >/dev/null 2>&1 || exit 0

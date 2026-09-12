@@ -1,14 +1,6 @@
 ################################################
-# sessions - git worktree workspaces
-#
-# a "session" is a named branch spanning N repos: every repo gets a worktree on
-# the same branch name, all of them under ~/sessions/${name}, with a tmux window
-# of that name in the 'sessions' tmux session.
-#
-#   sessions          # fzf the verb
-#   sessions new      # create a session from repos under $PWD
-#   sessions add      # add more repos to an existing session
-#   sessions delete   # tear a session down
+# sessions - a named branch across N repos: a worktree each under
+# ~/sessions/${name}, plus a tmux window. Verbs: new | add | delete, or fzf.
 ################################################
 export SESSIONS_ROOT=${SESSIONS_ROOT:-${HOME}/sessions}
 export SESSIONS_TMUX=${SESSIONS_TMUX:-sessions}
@@ -83,8 +75,7 @@ function _sessions_main_repo() {
 }
 
 # origin url -> "<owner> <repo>", falling back to the local dir and its parent.
-# scp-style remotes (git@host:owner/repo) get the colon flattened to a slash so
-# both forms split the same way
+# scp-style remotes get the colon flattened to a slash so both forms split alike
 function _sessions_remote_name() {
   local repo=$1 url
   url=$(git -C "${repo}" remote get-url origin 2>/dev/null)
@@ -99,12 +90,8 @@ function _sessions_remote_name() {
   echo "${owner##*/} ${url##*/}"
 }
 
-# worktree dir name: the repo as origin names it, or <owner>-<repo> when two
-# repos in the session share that name.
-#
-# identity first, name second - `add` must recognise a repo already in the
-# session no matter which of those names it ended up with, or it hands the same
-# repo a second slot
+# worktree dir name: the repo as origin names it, or <owner>-<repo> on a clash.
+# identity is checked first, or `add` hands a repo already here a second slot
 function _sessions_dest() {
   local repo=$1 session=$2 owner name dir existing dest n
   read -r owner name <<< "$(_sessions_remote_name "${repo}")"
@@ -137,10 +124,8 @@ function _sessions_add_worktree() {
     return 0
   fi
 
-  # the base comes from origin, so a failed fetch would cut the branch from
-  # whatever was last fetched - stale, and silently so. no worktree is better
-  # than one branched off the wrong commit. a repo with no origin is the one
-  # legitimate exception: there is nothing to fetch and HEAD is the base.
+  # the base comes from origin, so a failed fetch would silently branch off a
+  # stale commit. no origin is the one legitimate exception - HEAD is the base.
   if git -C "${repo}" remote get-url origin >/dev/null 2>&1; then
     if ! err=$(git -C "${repo}" fetch origin --quiet 2>&1); then
       echo "${palette_lred}fetch failed in ${repo}${palette_restore}" >&2
@@ -183,21 +168,8 @@ function _sessions_worktree_dirty() {
   return 1
 }
 
-# the session's issue tracker - one .beads db at the session root, which bd
-# finds from inside any worktree by walking up, so cross-repo dependencies live
-# in one graph. --skip-agents leaves CLAUDE.md alone (that file is ours, from
-# SESSIONS_TEMPLATE - bd would otherwise append its own managed block);
-# --init-if-missing backfills sessions predating beads and makes re-runs no-ops.
-# bd init has no usable -C before a project exists, hence the subshell cd.
-#
-# bd init also git-inits the session root (no flag disables it; --skip-hooks
-# only skips the hooks) and commits a .gitignore. Neither is wanted here: the
-# session root is a container for worktrees, not a repo, and a repo there makes
-# starship report a branch and every worktree as untracked. bd needs none of it
-# - deps, ready-gating, close-refusal and walk-up discovery all work without it
-# - except beads.role, which lives in git config (GH#2950); templates/gitconfig.j2
-# sets it globally so the lookup resolves with no repo in scope. Guarded on
-# .beads/ so a session root that somehow is a real repo is left alone.
+# one .beads db at the session root, reachable from any worktree. --skip-agents
+# keeps our CLAUDE.md; bd's git init of the root is undone (beads.role: GH#2950)
 function _sessions_beads_init() {
   local session=$1 dir="${SESSIONS_ROOT}/$1"
   hash bd 2>/dev/null || return 0
@@ -238,10 +210,8 @@ function _sessions_new() {
   [[ -z "${repos}" ]] && return 1
 
   mkdir -p "${SESSIONS_ROOT}/${session}"
-  # symlink, not copy: a copied template freezes at session-creation time, so a
-  # fix to the session rules only reaches sessions made after it. Linking means
-  # every live session picks it up. -n so re-running over an existing link
-  # replaces it instead of nesting inside it.
+  # symlink, not copy: a copy freezes at creation time, so a rules fix would
+  # only reach later sessions. -n so a re-run replaces instead of nesting.
   [[ -f "${SESSIONS_TEMPLATE}" ]] && ln -sfn "${SESSIONS_TEMPLATE}" "${SESSIONS_ROOT}/${session}/CLAUDE.md"
 
   failed=0
@@ -287,10 +257,8 @@ function _sessions_delete() {
     return 1
   fi
 
-  # -mindepth 2: worktrees sit one level down. _sessions_beads_init now deletes
-  # the .git bd init leaves at the session root, but sessions predating that -
-  # and any .git that reappears there - are not worktrees of anything, so keep
-  # the root out of scope regardless
+  # -mindepth 2: worktrees sit one level down, and a .git at the session root is
+  # not a worktree of anything, so keep the root out of scope regardless
   worktrees=$(find "${dir}" -mindepth 2 -maxdepth 2 -name .git 2>/dev/null | sed 's|/\.git$||')
 
   dirty=()
