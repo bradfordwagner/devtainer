@@ -33,6 +33,13 @@
 #   md       `- [ ] <LABEL> - ...` checkboxes and `### <LABEL>` context sections,
 #            same set and order as the diagram, and each `<!-- wave X -->` group
 #            holding only X-labels
+#   watch    each `**Watch**` line is a deploy-links.sh invocation, not a URL. A
+#            URL baked in at plan time keeps resolving to whatever context was
+#            current then, so it opens the wrong cluster's copy of the right app
+#            and looks correct doing it. `after <verb>` is the form for a step
+#            whose identifier does not exist until it runs (a push's run id, a
+#            generated workflow name) -- the verb must be one that can actually
+#            be deferred
 #
 # Exit 0 clean, 1 a bad plan, 2 the tool could not run -- the same convention as
 # mermaid-validate.sh, which this is meant to be run alongside: that one checks
@@ -41,7 +48,7 @@
 set -uo pipefail
 
 if [[ $# -eq 0 || $1 == -h || $1 == --help ]]; then
-  sed -n '2,32p' "$0" | sed 's/^# \?//'
+  sed -n '2,46p' "$0" | sed 's/^# \?//'
   exit 0
 fi
 
@@ -279,6 +286,42 @@ if md:
                         f'    checklist:{" ".join(boxes)}')
         else:
             notes.append(f'{md}: no "### <LABEL> — ..." context sections found')
+
+        # Watch lines: the releaser resolves these into links before it runs the
+        # wave. A URL here is the failure worth catching -- it is resolved at plan
+        # time against whatever context happened to be current, so it keeps opening
+        # that cluster long after the release moved on, and it looks perfectly fine.
+        WATCH_CMDS = {'argocd', 'kargo', 'workflow', 'gh-pr', 'gh-run', 'gh-run-for',
+                      'gh-actions', 'promotion', 'vault', 'none'}
+        # An "after <verb>" watch is a step whose identifier does not exist until it
+        # runs -- a push's run id, a generated workflow name. The releaser resolves
+        # those mid-step, so the plan names the verb and omits the id it cannot know.
+        AFTER_CMDS = {'gh-run-for', 'workflow', 'promotion', 'gh-run'}
+        watches = re.findall(r'^\s*[-*]\s*\*\*Watch\*\*\s*[—:-]\s*(.+?)\s*$', text, re.M)
+        for w in watches:
+            spec = w.strip().strip('`')
+            if re.search(r'https?://', spec):
+                err(md, f'Watch "{spec}" is a URL -- write the resolver invocation '
+                        f'(e.g. "argocd vault") instead. A URL is resolved now, against '
+                        f'whatever context is current now; the releaser resolves at run '
+                        f'time, which is the only way the link and the command agree')
+                continue
+            parts = spec.split()
+            verb = parts[0] if parts else ''
+            if verb == 'after':
+                if len(parts) < 2:
+                    err(md, f'Watch "{spec}": "after" needs the subcommand that will '
+                            f'resolve once the step runs (e.g. "after gh-run-for")')
+                elif parts[1] not in AFTER_CMDS:
+                    err(md, f'Watch "{spec}": "{parts[1]}" is not something that becomes '
+                            f'resolvable after a step runs ({", ".join(sorted(AFTER_CMDS))})')
+                continue
+            if verb not in WATCH_CMDS:
+                err(md, f'Watch "{spec}": "{verb}" is not a deploy-links.sh subcommand '
+                        f'({", ".join(sorted(WATCH_CMDS))})')
+        if ctx and not watches:
+            notes.append(f'{md}: no "**Watch**" lines -- the releaser will derive link '
+                         f'targets from each step\'s Command instead')
 
 for n in notes:
     print(f"note: {n}")

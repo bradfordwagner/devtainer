@@ -336,6 +336,26 @@ label, in the same order as the list. Each carries:
 - **Depends on** — the labels that must be done first, and the edge type.
 - **Reversible?** — how to undo it, or plainly that you cannot.
 - **Target** — cluster/context alias, resolved through the legend.
+- **Watch** — what the releaser should link to for this step, as a resolver invocation rather
+  than a URL: `argocd <app> [<ns>]`, `kargo <project> [<stage>]`, `workflow <ns> <name>`,
+  `gh-pr <n>`, `gh-run <id>`, `gh-actions`, `vault <mount> <path>` — the subcommands of
+  `~/.claude/scripts/deploy-links.sh`. Write `none` for a step with no UI (a `git push`, a
+  local apply).
+
+  **Never write a URL here.** You are planning; the release may run days later, against a
+  different context, after a `kargo login`. The releaser resolves these at execution time from
+  what the machine is then pointed at, so a hard-coded host is a link that silently points at
+  the wrong cluster. Give the identifier, not the address. And give it only where you actually
+  read the identifier out of a manifest or a command — an app name you inferred is a link that
+  404s, which is worse than `none`.
+
+  For a step whose output *is* the identifier — a push that triggers CI, an `argo submit`, a
+  `kargo promote` — write `after` plus what will appear: `after gh-run-for` (the run the push
+  triggers), `after workflow <ns>` (namespace known, name generated), `after promotion
+  <project>`. That tells the releaser to capture the id from the command's own output and
+  resolve the link the moment the step runs, rather than either guessing an id at plan time or
+  leaving the step unlinked. A step can carry both a `Watch` and an `after` — a `gh pr merge`
+  links to the PR now and to the run it kicks off a moment later.
 
 The releaser ticks `- [ ]` → `- [x]` as steps complete, so **the checkbox line is a contract**:
 one per label, `- [ ] <LABEL> — <text>`, label first and bare (`A1`, not `**A1**` or `[A1]`).

@@ -134,7 +134,8 @@ Available subagents:
   kustomize/flux/tofu binary). Writes **two** files: `deploy-plan.html` for the human (Mermaid
   rendered client-side, Catppuccin Mocha) and `deploy-plan.md` for the releaser — a checkbox
   list of every label at the top, then a `## Context` section carrying each step's exact
-  command, gate, dependencies and rollback. The split is so a human sees the whole rollout in
+  command, gate, dependencies, rollback and **Watch** — the `deploy-links.sh` invocation
+  (`argocd vault`, `kargo ci prod`, `none`) the releaser turns into a link at run time. The split is so a human sees the whole rollout in
   one screen while the executing agent still has the detail. Read-only apart from those two
   files: runs `terraform plan` and `argocd app diff`, never `apply`/`sync`/`promote`.
   The mermaid source ends with a **release-status block** — four `classDef`s
@@ -151,7 +152,13 @@ Available subagents:
   across invocations — the `.md` checkbox, the HTML table row's `data-status`, and the
   **diagram itself**, by rewriting the `class` lines under the status marker so the DAG shows
   where the release actually is. Re-runs both validators after editing, since a `class` naming
-  a mistyped label is silent in mermaid.
+  a mistyped label is silent in mermaid. **Opens by printing the links** for the steps it is
+  about to run — ArgoCD app, Kargo stage, workflow, PR — before executing anything, since the
+  window in which a link is useful is while the wave runs, not after it reports. A link that
+  only exists once a step runs (the run a push triggered, a generated workflow name) is emitted
+  the moment the identifier appears, mid-wave, rather than held for the report. Resolves them
+  with `~/.claude/scripts/deploy-links.sh` rather than composing URLs, and reports an
+  unresolvable base as the reason it gave.
 
 The pair is deliberately split rather than one agent: a subagent's tool output is not shown
 to you, so an agent that both planned and executed would collapse the human checkpoints that
@@ -289,8 +296,67 @@ claimed by two states. Decorative classes are left alone: a node may hold both `
 `done`, since the status `classDef` is defined last and wins the cascade — only two *release
 states* on one node is a conflict.
 
+It also checks the planner's **Watch** lines, where the trap is the opposite of a typo: a
+plausible one. A `Watch` holding a full URL passes every other check and keeps opening
+whatever cluster happened to be current when the plan was written — so the lint requires a
+`deploy-links.sh` invocation (`argocd vault`, `kargo ci prod`, `none`) and rejects anything
+with a scheme in it, and requires the `after <verb>` form to name a verb that can actually be
+deferred. A plan with no `Watch` lines at all is a note, not a failure: plans predating this
+still work, and the releaser falls back to deriving the target from the step's command.
+
 Pure python3/bash, no dependencies, nothing to install. Same exit convention as its sibling: 0
 clean, 1 a bad plan, 2 the tool could not run.
+
+#### `deploy-links.sh`
+
+`dots/config/claude/scripts/deploy-links.sh` turns a thing a step touches into the URL for it:
+`deploy-links.sh argocd <app> [<ns>]`, `kargo <project> [<stage>]`, `workflow <ns> <name>`,
+`gh-pr <n>`, `gh-run <id>`, `gh-run-for <sha>`, `gh-actions`, `promotion <proj> <id>`,
+`vault <mount> <path>`, and `bases` to see which of those can resolve at all right now. One URL
+per call on stdout, diagnostics on stderr.
+
+`bw-deployment-releaser` runs it before a wave, not after, because the window in which a
+deployment link is useful — an app going `Progressing`, a workflow's pods starting, a PR's
+checks turning over — is open while the wave runs and shut by the time the report lands.
+
+The same logic, harder, for links that **cannot** exist up front: a `git push` triggers a run
+whose id GitHub assigns, `argo submit` generates a workflow name, `kargo promote` mints an id.
+Those are the most valuable links in a release — something is running *right now* — and the
+easiest to lose, since the natural place to put them is the end-of-wave report, by which time
+the build is over. So the releaser treats a new identifier as an interrupt: capture it from the
+command's own output (`argo submit -o name`, `git rev-parse HEAD`, `kargo promote -o json`),
+resolve, print immediately. Never `--wait`/`--log` to obtain it — those block until the thing
+finishes, which is the whole problem. `gh-run-for <sha>` covers the awkward one: a run does not
+register the instant a push lands, so it polls ~30s (`DEPLOY_LINKS_WAIT`) and, failing, says
+so — "no run for that sha" usually means a branch or path filter did not match, worth knowing
+early. Plans mark these steps `Watch: after gh-run-for` / `after workflow <ns>` / `after
+promotion <proj>` — the verb without the id the planner cannot know.
+
+Why a script rather than letting the agent compose the URL: a wrong link here is worse than no
+link, and it is invisible. A URL that 404s wastes a click, but one pointing at the *right app
+in the wrong cluster* renders a real page showing real state, and the user has no way to tell.
+So every base comes from what the machine is already pointed at — `argocd context`,
+`kargo config view` (`apiAddress`), `$ARGO_SERVER`, `$VAULT_ADDR`, `gh repo view` — the same
+sources the commands themselves use, which is exactly what keeps the link and the action
+aimed at one place. An unresolvable base exits 1 with the reason ("no current argocd
+context"), and the agent is told to report that line rather than substitute a guess: a named
+gap usually means a login the user wants to know is missing.
+
+The same reasoning puts **Watch** in the plan as `argocd vault` rather than a URL. The planner
+had the manifests open and knows the identifier; it does *not* know which context the release
+will run under days later, so resolution belongs at run time. The lint enforces that split.
+
+Two estate-specific notes. Argo Workflows has no config file to read — the CLI takes its
+server from the environment — so `$ARGO_SERVER` is the only honest source, and with it unset
+(the usual state here, since it is reached by port-forward) the subcommand reports that rather
+than guessing a localhost port. And `:443` is stripped from bases, since argocd contexts carry
+it and it only makes the URL uglier. Each resolver has a
+`DEPLOY_LINKS_{ARGOCD,KARGO,ARGO,VAULT}_URL` override for when the CLI points at an in-cluster
+service address a browser cannot follow.
+
+Pure bash, no dependencies beyond the CLIs it reads. Same exit convention as its siblings, with
+the middle one meaning something slightly different: 0 a URL was printed, 1 the base could not
+be resolved, 2 the tool could not run (unknown subcommand, missing argument, absent CLI).
 
 Keybindings live in `dots/config/claude/keybindings.json` and are copied to `~/.claude/keybindings.json` by `tasks/install-claude.yml`. When suggesting or adding keybindings, check for conflicts in:
 - `dots/tmux/tmux.conf` — prefix is `ctrl+space`; plain ctrl bindings: `ctrl+h`; most others are `ctrl+alt+*`
