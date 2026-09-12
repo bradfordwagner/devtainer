@@ -157,6 +157,15 @@ The pair is deliberately split rather than one agent: a subagent's tool output i
 to you, so an agent that both planned and executed would collapse the human checkpoints that
 wave gates exist to create.
 
+- `bw-accountant` (sonnet) — maintains `ledger.md`: what sessions cost, which models spent
+  it, which work item it went to. Appends a row per session and re-derives the totals at the
+  top (headline, by-model with share-of-spend, by-work-item) rather than incrementing them,
+  since one feature usually spans several sessions and the by-item subtotal is the number
+  that gets quoted. Every figure comes from `~/.claude/scripts/session-usage.sh` — it never
+  estimates, because a wrong cost is not visibly wrong to whoever reads it later. On request
+  it posts a summary onto a named GitHub (`gh`) or Linear (MCP) issue; it discovers the
+  tooling rather than assuming it, and never posts to a ticket the user did not name.
+
 #### Agent scripts: `dots/config/claude/scripts/`
 
 Tools the subagents invoke, copied to `~/.claude/scripts/` by `tasks/install-claude.yml`
@@ -165,6 +174,30 @@ is on `PATH` and is for the human's own commands, while these are an implementat
 a prompt and would only be clutter at the shell. Agents call them by absolute path
 (`~/.claude/scripts/foo.sh`), so nothing here needs to be on `PATH`. Re-run `task bb` to
 deploy.
+
+#### `session-usage.sh`
+
+`dots/config/claude/scripts/session-usage.sh` tallies one session's tokens and cost from its
+JSONL transcript, defaulting to `$CLAUDE_CODE_SESSION_ID` (the live session) and taking
+`--session`/`--project`/`--json`. It exists because the transcript records usage but never
+cost, and because the obvious way to add it up is wrong three times over:
+
+- **Duplicate turns.** One assistant turn is written once per content block, and every copy
+  repeats the *same* cumulative usage — summing lines roughly doubles the bill. Deduped on
+  `message.id` (in one real session: 92 lines, 43 actual turns).
+- **Subagent spend.** Subagent turns live in `<session>/subagents/*.jsonl`, absent from the
+  main transcript entirely, so reading only the main file under-reports exactly the delegated
+  work that costs most.
+- **Synthetic turns.** `<synthetic>` entries are harness-generated and carry no usage.
+
+Prices are a jq table of per-MTok rates (cache write 1.25× input at 5m TTL / 2× at 1h, cache
+read 0.1×; no long-context premium on current models). That table is the only part that rots —
+a model missing from it is reported `[UNPRICED]` with a warning that the total is an
+understatement, never silently costed at zero. Exit 2 is the tool failing to run (no `jq`, no
+transcript), distinct from a bad-usage exit 1. Needs only `jq`.
+
+Two things it cannot know: the transcript lags the in-flight turn, so a live session's last
+few turns are missing; and cache **writes** cannot be attributed to what caused them.
 
 #### `mermaid-validate.sh`
 

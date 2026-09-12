@@ -100,8 +100,14 @@ if html:
                 continue
             if s.startswith(('graph ', 'flowchart ', 'classDef', 'class ', 'style ', 'click ', '%%')):
                 continue
-            # a node declaration: an id immediately followed by a shape opener
-            for nm in re.finditer(r'(?:^|[\s;])([A-Za-z][A-Za-z0-9_]*)\s*[\[\(\{]', line):
+            # A node declaration: an id immediately followed by a shape opener.
+            # Blank the label bodies first -- scanning the raw line finds a node
+            # in any label containing a word before a paren ("resync (no-op)"),
+            # which is ordinary prose in a step description.
+            scan = re.sub(r'\[[^\]]*\]|\([^)]*\)|\{[^}]*\}',
+                          lambda m: m.group(0)[0] + ' ' * (len(m.group(0)) - 2) + m.group(0)[-1],
+                          line)
+            for nm in re.finditer(r'(?:^|[\s;])([A-Za-z][A-Za-z0-9_]*)\s*[\[\(\{]', scan):
                 nid = nm.group(1)
                 if nid in seen: continue
                 seen[nid] = ln
