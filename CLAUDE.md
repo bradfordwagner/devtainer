@@ -111,8 +111,8 @@ Then sort by **blast radius**, not by domain. An agent whose bad output you read
 on it (a report, a plan) is one you backstop yourself, so the tier can stay low. An agent that
 mutates real infrastructure has no such backstop, and its hardest instructions are *restraints*
 — "only the labels you were given", "stop and report rather than improvise", "never fabricate a
-result" — which is exactly what smaller models hold worst. Hence `bw-deployment-planner` at
-`sonnet` but `bw-deployment-releaser` at `opus`, despite sharing a domain and an estate: the
+result" — which is exactly what smaller models hold worst. Hence `bw-release-planner` at
+`sonnet` but `bw-release-releaser` at `opus`, despite sharing a domain and an estate: the
 planner's failure mode is a bad document, the releaser's is a bad `terraform apply`. Rare
 invocations on small inputs make the top tier cheap there anyway.
 
@@ -122,7 +122,7 @@ Available subagents:
   zsh), plus the doc-sync rules below. Knows the reserved chords (`alt+;`, `alt+ctrl+hjkl`,
   WT's `ctrl+v`→`null`) and normalizes the four different chord spellings before comparing.
   Also answers "is `<chord>` free?".
-- `bw-deployment-planner` (sonnet) — plans a rollout across ArgoCD / Kargo / Terraform /
+- `bw-release-planner` (sonnet) — plans a rollout across ArgoCD / Kargo / Terraform /
   Helm / Argo Workflows / `gh` and outputs a dependency **DAG** (Mermaid graph + ordered wave
   table with per-edge gates), not a checklist. Labels are wave-letter + step-number — `A1`,
   `A2` are wave A, `B1` is wave B — so a label says which wave it is in without a lookup, "run
@@ -140,19 +140,22 @@ Available subagents:
   files: runs `terraform plan` and `argocd app diff`, never `apply`/`sync`/`promote`.
   The mermaid source ends with a **release-status block** — four `classDef`s
   (done/active/failed/blocked) behind a marker comment, every label starting `pending` — which
-  is the diagram's counterpart to the table's `data-status` and the only thing the releaser
-  repaints. Validates with **both** `~/.claude/scripts/mermaid-validate.sh --render` (does it
-  draw?) and `~/.claude/scripts/deploy-plan-lint.sh` (does it say what it means?) before
-  reporting (see below).
-- `bw-deployment-releaser` (opus) — executes an agreed plan, gated. Two things authorize it
+  is the diagram's counterpart to the table's `data-status`. Validates with **both**
+  `~/.claude/scripts/mermaid-validate.sh --render` (does it draw?) and
+  `~/.claude/scripts/deploy-plan-lint.sh` (does it say what it means?) before reporting (see
+  below). It is also the **only writer of those two files**, so it has a second mode: fed the
+  releaser's status report after a wave, it moves each label in all three records — the `.md`
+  checkbox, the table row's `data-status`, and the `class` lines under the diagram's status
+  marker — then re-runs both validators, and amends the plan only where the report's
+  Divergences say the plan itself was wrong.
+- `bw-release-releaser` (opus) — executes an agreed plan, gated. Two things authorize it
   and nothing else: a plan (`deploy-plan.md`) and the user naming the labels to run. One wave
   per invocation, stops at every gate and returns rather than continuing; never runs a label
   it was not given; previews (`terraform plan` / `argocd app diff`) before every mutation and
-  stops if reality diverges from the plan. Records progress in three places so it survives
-  across invocations — the `.md` checkbox, the HTML table row's `data-status`, and the
-  **diagram itself**, by rewriting the `class` lines under the status marker so the DAG shows
-  where the release actually is. Re-runs both validators after editing, since a `class` naming
-  a mistyped label is silent in mermaid. **Opens by printing the links** for the steps it is
+  stops if reality diverges from the plan. Has **no write tools at all**: it closes with a
+  status report that partitions *every* label in the plan into `done`/`active`/`failed`/
+  `blocked`/`pending` plus a Divergences line, and hands that to the planner, which is what
+  records it. **Opens by printing the links** for the steps it is
   about to run — ArgoCD app, Kargo stage, workflow, PR — before executing anything, since the
   window in which a link is useful is while the wave runs, not after it reports. A link that
   only exists once a step runs (the run a push triggered, a generated workflow name) is emitted
@@ -162,7 +165,12 @@ Available subagents:
 
 The pair is deliberately split rather than one agent: a subagent's tool output is not shown
 to you, so an agent that both planned and executed would collapse the human checkpoints that
-wave gates exist to create.
+wave gates exist to create. Splitting the *writing* the same way follows from it — the agent
+that wants a step to have succeeded is the worst one to record whether it did, and one writer
+means the checkbox, the table row and the painted node can never half-agree. So the loop is
+planner → human → releaser → planner, and a wave is only recorded once its report comes back.
+The cost is that the DAG repaints per wave rather than mid-flight; the live view during a wave
+is the links the releaser prints, not the file.
 
 - `bw-accountant` (sonnet) — maintains `ledger.md`: what sessions cost, which models spent
   it, which work item it went to. Appends a row per session and re-derives the totals at the
@@ -315,7 +323,7 @@ clean, 1 a bad plan, 2 the tool could not run.
 `vault <mount> <path>`, and `bases` to see which of those can resolve at all right now. One URL
 per call on stdout, diagnostics on stderr.
 
-`bw-deployment-releaser` runs it before a wave, not after, because the window in which a
+`bw-release-releaser` runs it before a wave, not after, because the window in which a
 deployment link is useful — an app going `Progressing`, a workflow's pods starting, a PR's
 checks turning over — is open while the wave runs and shut by the time the report lands.
 

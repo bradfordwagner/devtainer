@@ -12,7 +12,7 @@
 #   deploy-links.sh promotion <proj> <id>     # a Kargo promotion just created
 #   deploy-links.sh vault <mount> <path>      # Vault KV secret
 #
-# Written for bw-deployment-releaser, which prints the links for a wave before it
+# Written for bw-release-releaser, which prints the links for a wave before it
 # runs anything so the human can watch the release happen rather than read about
 # it afterwards. The whole point is that they are openable, which makes a wrong
 # one worse than none: a plausible-looking URL to a cluster you are not pointed

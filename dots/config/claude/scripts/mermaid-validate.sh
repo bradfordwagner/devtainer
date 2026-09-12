@@ -10,7 +10,7 @@
 #     A --> B
 #   EOF
 #
-# Written for bw-deployment-planner, whose output is a self-contained HTML page
+# Written for bw-release-planner, whose output is a self-contained HTML page
 # with the diagram in a <pre class="mermaid"> that only renders once a browser
 # runs it -- so a broken diagram is invisible at write time and reaches the user
 # as an empty box.

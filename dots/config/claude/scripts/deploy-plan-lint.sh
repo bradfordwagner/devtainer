@@ -5,7 +5,7 @@
 #   deploy-plan-lint.sh deploy-plan.html deploy-plan.md
 #   deploy-plan-lint.sh deploy-plan.html            # diagram + table only
 #
-# Written for bw-deployment-planner. Its label scheme -- the letter is the wave,
+# Written for bw-release-planner. Its label scheme -- the letter is the wave,
 # the number is the step within it -- is what makes a label self-describing, so
 # "run wave A" and "run A1, A2" are the same instruction and the releaser can be
 # handed labels rather than prose. The scheme only holds if it holds everywhere,
@@ -26,10 +26,10 @@
 #            node is in exactly one state, and the state is one the plan
 #            defines. mermaid ignores a class naming a node that does not
 #            exist -- it does not error, the node simply never gets painted --
-#            so the releaser can mistype a label, see a clean render, and
-#            report progress the diagram is not showing
+#            so the planner can mistype a label while recording a wave, see a
+#            clean render, and report progress the diagram is not showing
 #   html     one `id="step-<LABEL>"` row per label, same set, same order, each
-#            with the data-status handle the releaser edits
+#            with the data-status handle the planner edits
 #   md       `- [ ] <LABEL> - ...` checkboxes and `### <LABEL>` context sections,
 #            same set and order as the diagram, and each `<!-- wave X -->` group
 #            holding only X-labels
@@ -158,7 +158,7 @@ if html:
                 err(where, f'subgraph {sg} is numbered {nums} -- steps in a wave run '
                            f'1, 2, 3... in declaration order, with no gaps')
 
-        # release-status classes: the releaser rewrites these, and a typo is silent
+        # release-status classes: the planner rewrites these, and a typo is silent
         # Release states only. A plan may also carry decorative classes of its own
         # (a `gate` highlight, say), and a node legitimately holds both: the status
         # classDef is defined last, so it wins the cascade and repaints the node.
@@ -166,7 +166,7 @@ if html:
         STATES = {'done', 'active', 'failed', 'blocked', 'pending'}
         declared = set(seen)
         classdefs = set(re.findall(r'^\s*classDef\s+(\w+)', body, re.M))
-        has_status = bool(re.search(r'release status:.*bw-deployment-releaser', body)) \
+        has_status = bool(re.search(r'release status:.*bw-release-planner', body)) \
                      or bool(STATES & classdefs)
         state_of = {}
         for cm in re.finditer(r'^\s*class\s+([\w,\s]+?)\s+(\w+)\s*$', body, re.M):
@@ -213,10 +213,10 @@ if html:
         if bi == 1:
             diagram_labels = [n for _, _, ms in waves for n, _ in ms]
 
-    # the wave table the releaser edits
+    # the wave table the planner edits
     rows = re.findall(r'id="step-([^"]+)"', src)
     if not rows:
-        notes.append(f'{html}: no id="step-<LABEL>" rows found -- the releaser has no handle '
+        notes.append(f'{html}: no id="step-<LABEL>" rows found -- the planner has no handle '
                      f'to mark progress against')
     else:
         if diagram_labels and rows != diagram_labels:
@@ -226,7 +226,7 @@ if html:
         for lbl in rows:
             row = re.search(r'id="step-' + re.escape(lbl) + r'"(.*?)</tr>', src, re.S)
             if row and 'data-status=' not in row.group(1):
-                err(html, f'row step-{lbl} has no data-status cell -- the releaser edits that '
+                err(html, f'row step-{lbl} has no data-status cell -- the planner edits that '
                           f'attribute to mark the step done')
 
 if md:
