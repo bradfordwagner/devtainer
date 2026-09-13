@@ -40,9 +40,23 @@ carry the conventions this prompt assumes.
 
 ## The layering rule
 
-`values.yaml` holds the **complete, working configuration** for the chart, sized
-for the largest environment (today `dev`). `values-${env}.yaml` holds **only what
+`values.yaml` holds the **complete, working configuration** for the chart —
+everything that is correct everywhere. `values-${env}.yaml` holds **only what
 genuinely differs**.
+
+Choose the base **per field, not per environment**. It is tempting to declare one
+environment the canonical one and diff the others against it, but the fields do
+different jobs and the right default can come from different places. Resources are
+the worked example: `requests` are what the scheduler reserves, so the smallest
+environment's figures belong in the base — they are the ones that hurt when ten
+pool clusters run at once. `limits` are a ceiling that costs nothing until it is
+hit, so the largest environment's figures belong in the base, giving every
+environment the headroom. Mixing them left `charts/cert-manager` needing **no**
+environment override at all, which neither "size it for dev" nor "size it for
+local" would have produced.
+
+When that collapses an override to nothing, say so — an environment file that
+becomes empty is the goal, not a loose end.
 
 An environment file that is empty apart from a comment is a correct, finished
 outcome. Say so rather than inventing content to fill it.
