@@ -52,9 +52,18 @@ means a reader could be misled if it were wrong.
 | "verified", "tested", "confirmed" | find the command that did it; an unattributed claim is unverifiable |
 | a file, task, flag or function exists | look for it; for a task, confirm it is defined **and not internal** |
 | a URL, PR or issue reference | `gh pr view` / `gh issue view` where possible |
+| an issue/bead id, or a `Closes`/`Refs` trailer | `bd show <id>` — the id must **exist** and its title must match what the text says it is |
 
 Re-derive rather than recompute from the text. If a claim says a run took 46s,
 find the evidence of that run; do not accept the number because it is plausible.
+
+**Identifiers get typed from memory and are almost never re-read.** A `Closes
+cert-manager-nn3` trailer naming an issue that does not exist looks exactly like
+one that does, survives review, and leaves the reasoning unreachable from the
+repo afterwards — which is the whole reason the trailer is there. Check every id
+against the tracker, not against the surrounding prose. The same goes for SHAs,
+branch names and PR numbers written into a message rather than pasted from a
+command.
 
 ## Rules
 

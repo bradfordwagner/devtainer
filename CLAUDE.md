@@ -187,6 +187,21 @@ is the links the releaser prints, not the file.
   high bill means the driver is turn count re-reading a cached prefix, which is what
   the ledger says instead. Table columns are padded to align in a plain editor; these
   files get read in nvim.
+- `bw-chart-author` (sonnet) — writes and refactors Helm charts in
+  `github.bradfordwagner.k8s.deployments` with the environment layering built in: `values.yaml`
+  is the complete working configuration sized for the largest environment, and every
+  `values-${env}.yaml` carries only genuine deltas. An empty env file is a correct outcome, not
+  an omission. It exists because values files rot toward duplication invisibly — a block copied
+  into two env files reads fine the day it is written, and six months later one side has been
+  tuned and the other has not. Helm deep-merges maps, so the copy was never needed; **lists**
+  are the exception it has to check by hand, since an override that sets `syncOptions:` silently
+  drops every entry it does not relist. Its hardest rule is that a values refactor must render
+  **byte-identical** before and after — it snapshots `helm template` for every chart/env pair,
+  diffs, and reports the diff rather than explaining it away. Also knows the local traps: that
+  `charts/app-of-apps` per-app overrides replace wholesale rather than merging, that value files
+  cannot carry per-cluster facts (Argo CD renders server-side, so the slug and `$USER` travel as
+  helm parameters from `charts/root-app`), that a CRD over 262144 bytes needs `ServerSideApply`,
+  and that a sync wave is a head start rather than a gate.
 
 #### Agent scripts: `dots/config/claude/scripts/`
 
