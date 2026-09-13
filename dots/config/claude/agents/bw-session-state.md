@@ -70,7 +70,12 @@ list|show`.
    is possible (`git merge-base --is-ancestor HEAD origin/main`).
 7. **Default kubeconfig** — does `~/.kube/config` resolve, and what does it
    point at.
-8. **Tracker** — `bd ready` from the session you were asked about.
+8. **Host CA trust** — which pool slugs this machine trusts a root CA for.
+   `ls /usr/local/share/ca-certificates/k3d-local-*-root-ca.crt` (or the RHEL /
+   Arch anchor dir), the equivalent `.pem` in a non-system openssl's CApath, and
+   `~/.k8s_local/<slug>/root-ca.crt`. `infra/k3d/local/bin/trust-ca state <slug>`
+   answers per slug in one word and is a safe read.
+9. **Tracker** — `bd ready` from the session you were asked about.
 
 ## What to flag
 
@@ -82,6 +87,16 @@ State the discrepancies explicitly; they are the reason you were called.
 - a cluster whose mirror count differs from its peers, or is zero
 - a worktree that cannot fast-forward, naming the commit that blocks it
 - a dangling `~/.kube/config`, naming the valid targets that do exist
+- **a root CA trusted for a slug with no live claim.** This is the leak nothing
+  else surfaces: `task delete` and `task recreate` untrust as they go, but
+  `destroy_all`, `gc` and a hand-run `k3d cluster delete` do not — and clearing
+  the manifest also deletes `~/.k8s_local/<slug>/root-ca.crt`, the record removal
+  keys on. The host then trusts a CA for a cluster that no longer exists, with
+  nothing pointing at it. Name the slug and say `task prune_ca` is the cleanup;
+  do not run it.
+- a trusted root whose thumbprint differs from what its cluster is currently
+  serving — the cluster was rebuilt without a re-trust, so a browser will reject
+  it. `trust-ca status <slug>` reports this comparison.
 - uncommitted or unpushed work anywhere
 - ports in the manifest that do not match what the cluster actually publishes
 

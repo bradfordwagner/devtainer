@@ -73,6 +73,22 @@ evidence.md claiming otherwise is exactly what you are looking for.
    suggest stating the reproducible claim plus the command instead.
 7. **References that have moved on.** Branch names that are now merged, SHAs,
    issue IDs, file paths, `file:line` citations that no longer resolve.
+8. **Checks that can pass vacuously.** The worst thing in an evidence file is a
+   green line that proves nothing. Read the script for assertions that succeed
+   when their subject is absent rather than correct:
+   - a count compared against zero, or with `-le`, where zero is also what you
+     get when the thing being counted cannot be reached at all
+   - `grep -c` on output from a command that failed, since empty input satisfies
+     "no bad lines"
+   - a comparison against a file the script created but never checked was
+     non-empty
+   - any assertion with no precondition that the system under test is reachable
+
+   A real instance from this repo: *"exactly 0 roots with that common name — no
+   rebuild litter"* passed while the trust store held nothing at all, because
+   writes to it were failing. The fix was to report `N/A` unless the certificate
+   is actually present. Flag every such check and say what precondition it needs;
+   a vacuous pass is the exact failure mode you exist to catch.
 
 ## Output
 

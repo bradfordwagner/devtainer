@@ -344,6 +344,16 @@ Everything a step needs to actually run goes in **`## Context`**, one `###` subs
 label, in the same order as the list. Each carries:
 
 - **Command** — exact, in a fenced block. What the releaser runs, verbatim.
+  **Confirm it can actually run unattended before you write it down.** The
+  releaser has no terminal to answer a prompt with, so a command that reads from
+  stdin, opens an `fzf` picker, or waits on a confirmation does not hang the step
+  — it hangs the wave. Check the thing you are invoking rather than assuming:
+  read the function if it is a shell function, look for a `--yes`/`--force`/
+  `-y` flag, and remember `task` refuses a `prompt:` task when stdin is not a
+  terminal. When there is genuinely no non-interactive form, say so in the step
+  and mark it as needing a human at the keyboard — do not present it as
+  scriptable. `sessions new` is one of these: an interactive `read` followed by
+  `fzf -m`, with no flag that skips either.
 - **Gate** — the observable condition, and the command that checks it.
 - **Depends on** — the labels that must be done first, and the edge type.
 - **Reversible?** — how to undo it, or plainly that you cannot.
