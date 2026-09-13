@@ -278,7 +278,11 @@ function _sessions_delete() {
       ( cd "${dir}" && bd list --status open --flat 2>/dev/null ) \
         | grep -vE '^[[:space:]]*(💡|$)' | sed 's|^|  |'
     fi
-    read -r "confirm?delete ${session} anyway? [y/N] "
+    # bd, piped through grep/sed above, leaves this shell not yet reclaimed as
+    # the tty's foreground process group - a read right after it returns empty
+    # instead of waiting. Any external command resyncs that before we read.
+    stty -g < /dev/tty > /dev/null
+    read -r confirm"?delete ${session} anyway? [y/N] " < /dev/tty
     [[ "${confirm}" == [yY]* ]] || return 1
   fi
 
