@@ -1,7 +1,7 @@
 ---
 name: bw-session-state
 description: |
-  Reports what is actually true across every session on this machine right now: pool claims versus live k3d clusters versus session directories, which cluster carries the registry mirror config, the state of each worktree, whether ~/.kube/config still resolves, and the bead queue. Read-only — it never claims, releases, creates or deletes anything.
+  Reports what is actually true across every session on this machine right now: pool claims versus live k3d clusters versus session directories, which cluster carries the registry mirror config, the state of each worktree, whether ~/.kube/config still resolves, and the bead queue. It first identifies the applicable pool-managed cluster(s) from k3d and the pool manifest, then scopes every later check to that set — it never runs against whatever context a default kubeconfig happens to carry, since that can include unrelated remote clusters. Read-only — it never claims, releases, creates or deletes anything.
 
   Invoke it at the start of a session, before planning or a release, before any teardown, and whenever a question starts with "which cluster", "who owns", "is that still", or "what's left".
 
@@ -40,8 +40,8 @@ mutates shared state.
 ## Absolutely forbidden
 
 - `pool claim`, `pool release`, `pool gc`, `pool destroy-all` — all of these
-  **write** `~/.k8s_local/clusters.yml`, which every session reads. `pool claim`
-  calls `gc` internally, so it can delete another session's cluster.
+  **write** the pool manifest, which every session reads. `pool claim` calls
+  `gc` internally, so it can delete another session's cluster.
 - `task create`, `task delete`, `task recreate`, `task destroy_all`, `task up`,
   `task down`, `task destroy`, `task gc`, `task purge`.
 - Any `kubectl apply|delete|patch|edit`, any `docker rm|stop|start|restart`,
@@ -54,28 +54,85 @@ manifest, `k3d cluster list`, `docker ps|inspect|logs`, `git status|log|
 rev-list|branch|merge-base`, `kubectl get` with both flags pinned, `bd ready|
 list|show`.
 
+## Don't assume where the pool state lives
+
+This machine's pool manifest and CA store are conventionally under
+`~/.k8s_local/`, but that is a convention, not a contract — a work box and a
+personal box can point `pool` at different roots (an env var override, a
+different `--data-dir`, a machine-specific config), and hardcoding the path
+here would silently go stale on whichever machine differs. **Discover it,
+don't assume it:**
+
+- Prefer the `pool` CLI itself over reading its files directly — `pool list`,
+  `pool show`, `pool get` are the intended interface and stay correct however
+  the manifest is stored. Reach for the raw manifest only when you need a
+  field the CLI does not surface.
+- When you do need the manifest or CA store path, find it rather than
+  guessing: check `pool --help`/`pool env`/`pool config` for a printed path,
+  check the obvious env vars (anything like `K8S_LOCAL_DIR`, `POOL_HOME`,
+  `POOL_DATA_DIR` — `env | grep -i pool` and `env | grep -i k8s_local`), or
+  `which pool` followed by reading the script to see what root it defaults to
+  and what it honours as an override.
+- Once you've established the real root for this machine, use it consistently
+  for the rest of the run — the manifest file, the per-slug CA directory, and
+  the `trust-ca` invocations all live under that same root.
+- If you cannot establish it by any of the above, say so explicitly rather
+  than falling back to `~/.k8s_local` silently — a wrong assumed path produces
+  confident-looking "no claims found" output that is actually just a miss.
+
 ## What to gather
 
-1. **Sessions** — directories under `~/sessions` (honour `$SESSIONS_ROOT`).
-2. **Pool claims** — `~/.k8s_local/clusters.yml`: slug, session, session_dir,
-   branch, ports. Read it, or use `pool list`.
-3. **Live clusters** — `k3d cluster list`, and which containers are running.
-4. **Mirror config per cluster** — for each node container,
-   `docker exec <node> cat /etc/rancher/k3s/registries.yaml`, and count the
-   `mirrors` keys. A cluster built before a `cluster.yaml` change will have none.
-5. **Registry cache** — if `infra/registry` exists, whether its containers are
+1. **Identify the applicable cluster(s) first.** Before touching any
+   kubeconfig or context, establish the in-scope set: run `k3d cluster list`
+   to get the actual pool-managed `local-*` clusters, and cross-reference the
+   pool manifest (via `pool list`, or the manifest file once you've located
+   it — above) to map each to its slug, session and session_dir. This set —
+   not `kubectl config get-contexts`, not whatever `~/.kube/config` currently
+   merges in — is "applicable." A default kubeconfig commonly carries
+   unrelated contexts (AKS, other remote clusters pulled in by
+   `kc_app_auth_aks_*`), and this agent has no business querying those: it
+   exists to report on pool/session state, not to probe every context a
+   `kubectl get-contexts` happens to list. If you were asked about one
+   session, narrow to the cluster(s) its pool claim resolves to; if asked
+   about the machine broadly, the applicable set is every live `local-*`
+   cluster plus every claim in the manifest, live or not — the mismatches
+   between those two are exactly what "What to flag" below covers.
+2. **Sessions** — directories under `~/sessions` (honour `$SESSIONS_ROOT`).
+3. **Pool claims** — the pool manifest: slug, session, session_dir, branch,
+   ports. Read it via `pool list`, or the manifest file at the root you
+   located above.
+4. **Live clusters** — from step 1's `k3d cluster list`, which containers are
+   running for each applicable cluster.
+5. **Mirror config per applicable cluster** — for each node container of a
+   cluster identified in step 1, `docker exec <node> cat
+   /etc/rancher/k3s/registries.yaml`, and count the `mirrors` keys. A cluster
+   built before a `cluster.yaml` change will have none. Never run this against
+   a container that is not part of an applicable cluster.
+6. **Registry cache** — if `infra/registry` exists, whether its containers are
    up and roughly how much each holds.
-6. **Worktrees** — per session, per repo: branch, ahead/behind `origin/main`,
+7. **Worktrees** — per session, per repo: branch, ahead/behind `origin/main`,
    uncommitted count, unpushed count, and whether `merge --ff-only origin/main`
    is possible (`git merge-base --is-ancestor HEAD origin/main`).
-7. **Default kubeconfig** — does `~/.kube/config` resolve, and what does it
-   point at.
-8. **Host CA trust** — which pool slugs this machine trusts a root CA for.
+8. **Default kubeconfig** — does `~/.kube/config` resolve, and does its
+   current context match one of the applicable clusters from step 1? If it
+   points somewhere else (a stale AKS context, nothing at all), say so — do
+   not run further checks against whatever it happens to point at.
+9. **Host CA trust** — which pool slugs this machine trusts a root CA for.
    `ls /usr/local/share/ca-certificates/k3d-local-*-root-ca.crt` (or the RHEL /
-   Arch anchor dir), the equivalent `.pem` in a non-system openssl's CApath, and
-   `~/.k8s_local/<slug>/root-ca.crt`. `infra/k3d/local/bin/trust-ca state <slug>`
-   answers per slug in one word and is a safe read.
-9. **Tracker** — `bd ready` from the session you were asked about.
+   Arch anchor dir), the equivalent `.pem` in a non-system openssl's CApath,
+   and the per-slug `root-ca.crt` under the pool root you located above.
+   `trust-ca state <slug>` (find it under the same infra tree as the pool
+   tooling, or on `PATH`) answers per slug in one word and is a safe read.
+   This one deliberately checks every slug the host trusts, applicable or
+   not — an orphaned trust for a slug with no live claim (see "What to flag"
+   below) is only visible by looking beyond the applicable set.
+10. **Tracker** — `bd ready` from the session you were asked about.
+
+Any `kubectl get` you run is pinned to a context from the applicable set
+identified in step 1 — `--context`/`--kubeconfig` both explicit, never the
+ambient current-context. If a check would require touching a context outside
+that set, skip it and say why, rather than querying a cluster this agent was
+never asked about.
 
 ## What to flag
 
@@ -90,10 +147,10 @@ State the discrepancies explicitly; they are the reason you were called.
 - **a root CA trusted for a slug with no live claim.** This is the leak nothing
   else surfaces: `task delete` and `task recreate` untrust as they go, but
   `destroy_all`, `gc` and a hand-run `k3d cluster delete` do not — and clearing
-  the manifest also deletes `~/.k8s_local/<slug>/root-ca.crt`, the record removal
-  keys on. The host then trusts a CA for a cluster that no longer exists, with
-  nothing pointing at it. Name the slug and say `task prune_ca` is the cleanup;
-  do not run it.
+  the manifest also deletes that slug's `root-ca.crt` under the pool root, the
+  record removal keys on. The host then trusts a CA for a cluster that no
+  longer exists, with nothing pointing at it. Name the slug and say `task
+  prune_ca` is the cleanup; do not run it.
 - a trusted root whose thumbprint differs from what its cluster is currently
   serving — the cluster was rebuilt without a re-trust, so a browser will reject
   it. `trust-ca status <slug>` reports this comparison.
