@@ -310,7 +310,7 @@ empty edge label (`-->||`; write `-->` if there is nothing to say).
 
     <script type="module">
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-      mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
     </script>
     ...
     <pre class="mermaid">
@@ -330,6 +330,8 @@ empty edge label (`-->||`; write `-->` if there is nothing to say).
       classDef failed  fill:#4a2733,stroke:#f38ba8,stroke-width:3px,color:#f38ba8
       classDef blocked fill:#1e1e2e,stroke:#45475a,color:#6c7086
 
+      click A2 "https://github.com/bradfordwagner/charts/pull/1900" "_blank"
+
       %% --- release status: bw-release-planner maintains the lines below ---
       class A1,A2,B1 pending
     </pre>
@@ -340,6 +342,19 @@ comment go in every plan, verbatim, followed by one `class` line putting every l
 handle. When the releaser reports back you repaint these lines from its status block
 (Recording, below), which is the diagram's counterpart to `data-status` on the table rows:
 same purpose, same contract, same hand keeping both in step.
+
+**A node whose step has a stable URL gets a `click` directive**, placed after the edges and
+before the status block, one line per such node: `click <LABEL> "<url>" "_blank"`. A GitHub PR
+or Actions run qualifies — that URL is fixed the moment the PR/run exists, unlike an ArgoCD or
+Kargo link, which depends on which context is current when someone clicks and so would be a
+plan-time guess baked into the file (the same reason the Markdown's Watch field resolves
+identifiers at execution time instead of writing URLs — see "Never write a URL here" below).
+So: a table row's `Watch` value that is a `gh-pr`/`gh-run` resolver becomes a `click` line here
+with the resolved URL; a `argocd`/`kargo`/`workflow`/`vault` resolver does not, because there is
+no fixed URL to give it. `mermaid.initialize` needs `securityLevel: "loose"` for `click` to
+navigate at all — its default `strict` renders the node but silently drops the link, which
+reads as a bug rather than a missing feature. Add a discovered PR's `click` line the same way
+when recording one in (Recording, below).
 
 Two details make it work. Define the status classes **after** any `classDef` of your own, so
 a status colour overrides a decorative one on the same node rather than losing to it — mermaid
@@ -588,10 +603,11 @@ where a PR belongs in the graph, so that judgment lands here. For each discovere
   Only take a fresh wave if the PR gates something in a wave that has not run yet and cannot
   proceed without it — then it is a genuinely new wave, per the Labels rules.
 - **Add it everywhere a step lives**: a node in the diagram (inside its wave's subgraph, edges
-  to what it appears to gate per the releaser's report), a row in the HTML table, a checkbox
-  and `### <LABEL>` context section in the Markdown — Command is `none` (you did not plan this
-  command, the releaser reported it running), Watch is `gh-pr <number>`, and the context prose
-  says plainly that this step was discovered during execution, not planned.
+  to what it appears to gate per the releaser's report, plus a `click <LABEL> "<pr-url>"
+  "_blank"` line — a PR's URL is stable, so it always gets one, see above), a row in the HTML
+  table, a checkbox and `### <LABEL>` context section in the Markdown — Command is `none` (you
+  did not plan this command, the releaser reported it running), Watch is `gh-pr <number>`, and
+  the context prose says plainly that this step was discovered during execution, not planned.
 - **Status is whatever the releaser reported for it right now** — open, checks pending, merged
   — using the same `data-status`/`class` mechanism as any other step, not a new one.
 - **Re-run both validations** (below) after inserting it — a hand-inserted node is exactly as
