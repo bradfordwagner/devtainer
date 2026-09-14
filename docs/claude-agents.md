@@ -45,23 +45,21 @@ Available subagents:
   top-left and the last step bottom-right. Clusters/apps get short aliases plus a legend
   rather than full identifiers. Knows the `tf.ci.cd` bootstrap ordering, that `sync-wave`
   annotations are authoritative, and which tools are actually installed (no
-  kustomize/flux/tofu binary). Writes **two** files: `deploy-plan.html` for the human (Mermaid
-  rendered client-side, Catppuccin Mocha) and `deploy-plan.md` for the releaser — a checkbox
-  list of every label at the top, then a `## Context` section carrying each step's exact
-  command, gate, dependencies, rollback and **Watch** — the `deploy-links.sh` invocation
-  (`argocd vault`, `kargo ci prod`, `none`) the releaser turns into a link at run time. The split is so a human sees the whole rollout in
-  one screen while the executing agent still has the detail. Read-only apart from those two
-  files: runs `terraform plan` and `argocd app diff`, never `apply`/`sync`/`promote`.
-  The mermaid source ends with a **release-status block** — four `classDef`s
-  (done/active/failed/blocked) behind a marker comment, every label starting `pending` — which
-  is the diagram's counterpart to the table's `data-status`. Validates with **both**
-  `~/.claude/scripts/mermaid-validate.sh --render` (does it draw?) and
-  `~/.claude/scripts/deploy-plan-lint.sh` (does it say what it means?) before reporting (see
-  below). It is also the **only writer of those two files**, so it has a second mode: fed the
-  releaser's status report after a wave, it moves each label in all three records — the `.md`
-  checkbox, the table row's `data-status`, and the `class` lines under the diagram's status
-  marker — then re-runs both validators, and amends the plan only where the report's
-  Divergences say the plan itself was wrong.
+  kustomize/flux/tofu binary). Writes **one** file, `deploy-plan.yaml`, from which
+  `~/.claude/scripts/deploy-plan-render.mjs` generates both outputs: `deploy-plan.html` for the
+  human (DAG-first, click a node for its detail panel) and `deploy-plan.md` for the releaser —
+  a checkbox index over a `## Context` section carrying each step's exact command, gate,
+  dependencies, rollback and **Watch**. The split is so a human sees the whole rollout in one
+  screen while the executing agent still has the detail; generating both is what stops them
+  disagreeing. Read-only apart from the plan: runs `terraform plan` and `argocd app diff`,
+  never `apply`/`sync`/`promote`.
+  Status, checkbox state, node colour, wave grouping, merge-unit boxes and every watch URL are
+  DERIVED from the YAML — there is no second copy to keep in step. Validates by rendering
+  (the renderer refuses a malformed plan outright) then
+  `~/.claude/scripts/mermaid-validate.sh --render` (does it draw?) before reporting. It is the
+  **only writer of the plan**, so it has a second mode: fed the releaser's status report after
+  a wave, it moves each label in ONE place — the step's `status:` field — re-renders, and
+  amends the plan only where the report's Divergences say the plan itself was wrong.
 - `bw-release-releaser` (opus) — executes an agreed plan, gated. Two things authorize it
   and nothing else: a plan (`deploy-plan.md`) and the user naming the labels to run. One wave
   per invocation, stops at every gate and returns rather than continuing; never runs a label
@@ -223,43 +221,43 @@ own harness rather than through the page, so it cannot see a broken `<script>` t
 Exit 2 is the tool failing to run (no node/npm, unreadable file, browser download failed),
 distinct from exit 1 for a bad diagram.
 
-#### `deploy-plan-lint.sh`
+#### `deploy-plan-render.mjs` (and `deploy-plan-model.mjs`, `deploy-plan-extract.mjs`)
 
-The other half of the planner's validation, and it exists because `mermaid-validate.sh` answers
-only "does this draw?". A diagram can render beautifully and still be wrong. The planner shipped
-a plan whose "Wave A" held `A1 B1 N1` and whose "Wave B" held `C1 D1 P1 E1 O1` — every wave's
-steps lettered as though they were waves themselves, which breaks the one property the label
-scheme exists for: that "run wave A" and "run A1, A2" are the same instruction.
+The planner now writes ONE file, `deploy-plan.yaml`, and the renderer generates both outputs
+from it: `deploy-plan.html` for the human and `deploy-plan.md` for the releaser. This replaced
+`deploy-plan-lint.sh`, which existed to catch two hand-maintained files disagreeing — a class
+of bug that cannot occur when both are generated from one source. It had been catching it in
+practice: a status ticked in the Markdown and not repainted in the diagram.
 
-The failure is structural, not careless. Steps get enumerated and lettered as they are
-discovered, dependencies get worked out, subgraphs get drawn — and the letters are never
-revisited. Every label being a `1` is the tell. So the prompt now orders it (group into waves,
-*then* label, as separate numbered steps) and this script enforces it: every node in
-`subgraph wX` labelled `X<n>`, numbered from 1 with no gaps, waves in alphabetical order.
+The DAG is the product, so the page leads with it: full viewport, scroll-zoom, drag-pan, and a
+click on any node opens a side panel with that step's command, gate, dependencies, what it
+blocks, its watch URL and its prose body. Everything a reader would otherwise scroll past a
+table for.
 
-It also cross-checks the three artifacts that must agree — the diagram's labels, the
-`id="step-<LABEL>"` rows and their `data-status` handles, and the Markdown's checkboxes,
-`<!-- wave X -->` groups and `### <LABEL>` context sections — same set, same order.
+`deploy-plan-model.mjs` holds the shared parts: a deliberately strict YAML subset (it throws on
+anything it does not implement rather than misparsing it — a silently wrong `status` would
+repaint the DAG), the schema check, and the derivations. The renderer REFUSES to emit on an
+invalid plan: unknown status, duplicate or malformed id, dependency on a step that does not
+exist, dependency cycle, undeclared `merge_unit`, or a wave that is not numbered from 1 with no
+gaps. That last one is the invariant the retired lint existed for, ported intact — the labels
+are how the user approves a wave and how the releaser is told what to run.
 
-And it validates the **release-status block** the releaser rewrites, which is where the
-subtlest failure lives: **mermaid ignores a `class` line naming a node that does not exist.**
-No error, no error card — the node simply never gets painted. So a mistyped label renders as a
-flawless diagram that quietly under-reports progress, and `--render` passes it. The lint
-catches that, a label missing from the block entirely, a state with no `classDef`, and a node
-claimed by two states. Decorative classes are left alone: a node may hold both `gate` and
-`done`, since the status `classDef` is defined last and wins the cascade — only two *release
-states* on one node is a conflict.
+Two things the schema buys that prose could not. A `ready` state is DERIVED — not done, every
+dependency done, actionable now — which no hand-written plan had. And `merge_unit` groups steps
+that ship in one PR into a single box, hoisted out of their waves when the unit spans several:
+wave letters are promotion ordering, not merge ordering, and a plan where B1-B4 and C1-C3 are
+one PR otherwise draws as two wave boxes, showing the reader the opposite of the decision made.
 
-It also checks the planner's **Watch** lines, where the trap is the opposite of a typo: a
-plausible one. A `Watch` holding a full URL passes every other check and keeps opening
-whatever cluster happened to be current when the plan was written — so the lint requires a
-`deploy-links.sh` invocation (`argocd vault`, `kargo ci prod`, `none`) and rejects anything
-with a scheme in it, and requires the `after <verb>` form to name a verb that can actually be
-deferred. A plan with no `Watch` lines at all is a note, not a failure: plans predating this
-still work, and the releaser falls back to deriving the target from the step's command.
+`deploy-plan-extract.mjs` is the one-time migration from a hand-written pair, dry-run by
+default. It reads status from BOTH files and reports every disagreement rather than silently
+preferring one. Scraping dependencies out of prose is where it earns its keep: `Depends on:
+none (independent of A1/A2)` and `later stages E1/F1 assume...` both name steps while asserting
+something other than a dependency, and taking them literally inverts or reverses the edge — one
+produced a D1->E1->D1 cycle the renderer then refused. It takes the leading fragment before the
+first parenthesis or em-dash, and reports every id it dropped so a wrong call is visible rather
+than baked in.
 
-Pure python3/bash, no dependencies, nothing to install. Same exit convention as its sibling: 0
-clean, 1 a bad plan, 2 the tool could not run.
+Zero dependencies — plain node, no npm install, unlike `mermaid-validate.sh`.
 
 #### `deploy-links.sh`
 

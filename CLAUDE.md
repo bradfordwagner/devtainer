@@ -129,8 +129,9 @@ Agents (`dots/config/claude/agents/`): `bw-keybinding-auditor`, `bw-release-plan
 `/role-update`.
 
 **See `docs/claude-agents.md`** for what each agent does and why, the planner/releaser split,
-and the agent scripts (`session-usage.sh`, `mermaid-validate.sh`, `deploy-plan-lint.sh`,
-`deploy-links.sh`) — each of which also carries its full rationale in its own header comment.
+and the agent scripts (`session-usage.sh`, `mermaid-validate.sh`,
+`deploy-plan-render.mjs`, `deploy-plan-extract.mjs`, `deploy-links.sh`) — each of which
+also carries its full rationale in its own header comment.
 
 When adding or changing a keybinding anywhere, check for conflicts across every layer that can
 claim a chord:
