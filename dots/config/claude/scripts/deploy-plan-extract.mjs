@@ -86,7 +86,10 @@ const edgesFromDiagram = [...edges.values()].reduce((n, v) => n + v.length, 0);
 
 for (const sec of sections) {
   const body = md.slice(sec.start, sec.end);
-  const dep = body.match(/\*\*Depends on:\*\*\s*([^\n]*(?:\n(?!\*\*)[^\n]*)*)/);
+  // Same end-boundary as grab(): stop at the next bold field, ANY heading, or a
+  // bullet. Without the heading/bullet stop, the LAST section's clause runs to
+  // end-of-file and every step id in the document's trailing prose becomes an edge.
+  const dep = body.match(/\*\*Depends on:\*\*\s*([^\n]*(?:\n(?!\s*\*\*|\s*#|\s*[-*] )[^\n]*)*)/);
   if (!dep) continue;
   const text = dep[1];
 
@@ -112,7 +115,11 @@ for (const sec of sections) {
   // Scraping the explanation produced a reversed D1->E1 edge and a D1->E1->D1
   // cycle on a real plan. Cutting at the first "(" or em-dash fixes every case
   // observed across three sessions; anything subtler belongs to the human.
-  const cut = text.search(/[(—]/);
+  // Also stop at the first sentence end: "C1. Parallel with D1/D2/D3." names
+  // three SIBLINGS, not dependencies, and taking them builds a chain across
+  // steps the plan explicitly calls parallel. The dependency list is the first
+  // sentence; everything after it is commentary.
+  const cut = text.search(/[(—]|\.\s/);
   const depText = cut >= 0 ? text.slice(0, cut) : text;
   const dropped = cut >= 0 ? [...new Set([...text.slice(cut).matchAll(/\b([A-Z]\d+)\b/g)].map((x) => x[1]))] : [];
   if (dropped.length) {
@@ -144,9 +151,16 @@ for (const sec of sections) {
 }
 
 // ------------------------------------------------------------------- fields
+// Stop at the next bold field, the next heading of ANY level, or a bullet --
+// not just at `**` and `###`. The last step's section runs to end-of-file, so a
+// field there otherwise swallows every trailing document section ("## Risks &
+// rollback", "## Open questions"): measured at a 4KB Target on D4, which then
+// fed four phantom dependency edges from ids buried in that prose.
 const grab = (body, label) => {
-  const m = body.match(new RegExp(`\\*\\*${label}:?\\*\\*\\s*([^\\n]*(?:\\n(?!\\*\\*|###)[^\\n]*)*)`));
-  return m ? m[1].trim().replace(/\s*\n\s*/g, ' ') : null;
+  const m = body.match(new RegExp(`\\*\\*${label}:?\\*\\*\\s*([^\\n]*(?:\\n(?!\\s*\\*\\*|\\s*#|\\s*[-*] )[^\\n]*)*)`));
+  if (!m) return null;
+  const v = m[1].trim().replace(/\s*\n\s*/g, ' ');
+  return v === '' ? null : v;
 };
 const grabFence = (body, label) => {
   // "**Command:**\n```\n...\n```" -- keep the fenced block verbatim.
