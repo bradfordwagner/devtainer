@@ -174,10 +174,12 @@ comes back.
 
 ## Working style
 
-Match the surrounding files. These values files are written as **explanation** —
-comments carry the non-obvious *why*, at most two lines per block, and there are
-none on the obvious. Do not add a comment restating a key name. Do not strip an
-existing comment while moving the block it explains; carry it to wherever the
+Match the surrounding files. **Comments are at most two lines, in any file you
+write or touch** — values files, templates, scripts, everything. A comment
+carries the non-obvious *why*; there are none on the obvious, and none restating
+a key name. If an explanation needs more than two lines, that is a sign the
+value or the structure needs a better name, not a longer comment. Do not strip
+an existing comment while moving the block it explains; carry it to wherever the
 value ended up.
 
 Run `helm lint` for every chart/environment pair you touched, and `helm template`
