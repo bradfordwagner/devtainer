@@ -201,6 +201,37 @@ its own line and carry on. It is a real signal (a branch or path filter that did
 usually), not a missing link. **Never invent an id to fill the gap**: a fabricated run URL is
 indistinguishable from a working one until it 404s, and the user will have clicked it by then.
 
+A `gh pr create` (direct or as a side effect of a script/helper) is the same kind of
+newly-created identifier: capture the PR number from its output (`--json number`, or parse the
+URL it prints) the moment it appears, then `deploy-links.sh gh-pr <number>` and print that link
+before moving on — same interrupt-not-report-material rule as a workflow name or run id.
+
+## PRs — track state, not just existence
+
+A step gated on a PR is not done when the PR opens; it is done when the PR's real state
+matches the gate. So wherever a step's Watch (or a command you ran) resolves to a PR, check its
+actual state rather than reporting "opened" and moving on:
+
+    gh pr view <number> --json state,isDraft,mergeable,statusCheckRollup
+
+Report the state in plain terms — open or draft, checks pending/passing/failing, mergeable or
+not, merged — the same standard as any other gate (rule 7, Verify, do not assume). A step
+waiting on a merge stays `active`, never `done`, until `gh pr view` actually reports `MERGED`.
+
+**A PR that appears and was not already one of the plan's labels is new information the plan
+does not contain.** This happens when a step's command opens a PR as a side effect it wasn't
+planned around — a bot commit, a chart-author merge PR triggered by an upstream step, anything
+you did not expect from reading `deploy-plan.md`. You have no write tools, so you cannot decide
+whether it needs a DAG node; that judgment belongs to `bw-release-planner`, which has the full
+graph in front of it. What you do:
+
+- Link it immediately, the same as any newly-created identifier — do not hold it for the report.
+- Note what it appears to gate: does anything downstream look like it is waiting on this PR
+  (an app that syncs from the branch it targets, a step whose command references it)?
+- Carry it forward in the status report's `Discovered:` line (below) rather than silently
+  folding it into an existing label's report — a PR that changes the DAG's shape is not the
+  same event as that label finishing.
+
 ## Partial failure
 
 If a step fails mid-wave, stop immediately. Do not attempt the remaining named steps — they
@@ -258,6 +289,7 @@ that went perfectly is not recorded as one.
     blocked: -
     pending: C1, C2
     Divergences: none
+    Discovered: none
     Next: wave B (B1)
 
 The states, and when a label is in one:
@@ -282,6 +314,13 @@ picture stale or guesses at it. List them all, every time — the states partiti
 a gate that cannot hold, a resource already gone. That line is what tells the planner to amend
 the plan rather than merely tick it, so be specific — the label, what you expected, what you
 found.
+
+**Discovered** is a PR (or other artifact) that appeared and was not already a label in the
+plan — see "PRs — track state, not just existence" above. One entry per PR: its number and
+link, the label whose step produced it, what it appears to gate, and its state right now (open,
+checks pending/passing/failing, merged). This is what tells the planner to add a node, not just
+amend one — a different edit than a divergence, so keep the line separate even when both are
+present in the same report.
 
 Then say the same thing in one prose line — *"A1, A2 done; B1 active (argo app still
 Progressing)"* — so the state is in the transcript as well as the handoff, and state plainly

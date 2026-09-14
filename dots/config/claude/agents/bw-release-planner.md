@@ -225,6 +225,80 @@ from a CDN as an ES module and put the diagram source in a `<pre class="mermaid"
 `graph TD`, node ids are the step labels, edges labeled with the dependency type, waves
 grouped as `subgraph`. Short node text; detail belongs in the table.
 
+**Make it pan/zoomable.** A DAG with more than a handful of steps outgrows the viewport at a
+legible font size, so wrap the diagram in a fixed-height, `overflow:hidden` viewport and give it
+mouse-wheel zoom and click-drag pan, plus +/−/reset buttons — plain CSS transform and vanilla
+JS, no extra CDN dependency beyond Mermaid itself:
+
+    <div class="dag-wrap">
+      <div class="dag-controls">
+        <button id="dag-zoom-in" title="Zoom in">+</button>
+        <button id="dag-zoom-out" title="Zoom out">&minus;</button>
+        <button id="dag-zoom-reset" title="Reset">&#10021;</button>
+      </div>
+      <div class="dag-viewport">
+        <div class="dag-pan">
+          <pre class="mermaid">
+          graph TD
+          ...
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .dag-wrap { position: relative; }
+      .dag-viewport { height: 70vh; min-height: 400px; overflow: hidden;
+        border: 1px solid #313244; border-radius: 8px; cursor: grab; }
+      .dag-viewport.grabbing { cursor: grabbing; }
+      .dag-pan { transform-origin: 0 0; width: max-content; }
+      .dag-controls { position: absolute; top: 8px; right: 8px; z-index: 10;
+        display: flex; gap: 4px; }
+      .dag-controls button { background: #313244; color: #cdd6f4; border: 1px solid #45475a;
+        border-radius: 4px; width: 28px; height: 28px; cursor: pointer; font-size: 16px; }
+      .dag-controls button:hover { background: #45475a; }
+    </style>
+
+    <script>
+      (function () {
+        const viewport = document.querySelector('.dag-viewport');
+        const pan = document.querySelector('.dag-pan');
+        if (!viewport || !pan) return;
+        let scale = 1, x = 0, y = 0, dragging = false, lastX = 0, lastY = 0;
+        const apply = () => { pan.style.transform = `translate(${x}px, ${y}px) scale(${scale})`; };
+        const zoomAt = (mx, my, factor) => {
+          const prev = scale;
+          scale = Math.min(4, Math.max(0.25, scale * factor));
+          x = mx - (mx - x) * (scale / prev);
+          y = my - (my - y) * (scale / prev);
+          apply();
+        };
+        viewport.addEventListener('wheel', (e) => {
+          e.preventDefault();
+          const r = viewport.getBoundingClientRect();
+          zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.1 : 0.9);
+        }, { passive: false });
+        viewport.addEventListener('mousedown', (e) => {
+          dragging = true; lastX = e.clientX; lastY = e.clientY;
+          viewport.classList.add('grabbing');
+        });
+        window.addEventListener('mousemove', (e) => {
+          if (!dragging) return;
+          x += e.clientX - lastX; y += e.clientY - lastY;
+          lastX = e.clientX; lastY = e.clientY; apply();
+        });
+        window.addEventListener('mouseup', () => { dragging = false; viewport.classList.remove('grabbing'); });
+        const rect = () => viewport.getBoundingClientRect();
+        document.getElementById('dag-zoom-in').addEventListener('click', () => { const r = rect(); zoomAt(r.width / 2, r.height / 2, 1.2); });
+        document.getElementById('dag-zoom-out').addEventListener('click', () => { const r = rect(); zoomAt(r.width / 2, r.height / 2, 1 / 1.2); });
+        document.getElementById('dag-zoom-reset').addEventListener('click', () => { scale = 1; x = 0; y = 0; apply(); });
+      })();
+    </script>
+
+The script binds to the wrapper divs, not to Mermaid's rendered SVG, so it does not need to wait
+for `startOnLoad` to finish — placing it after the diagram markup is enough. Emit this wrapper,
+CSS and script in every plan; it is boilerplate, not a per-plan decision.
+
 **Quote every node and subgraph label.** `A["A · apply (namespaces)"]`, never
 `A[A · apply (namespaces)]`. Unquoted labels are parsed by the grammar rather than taken
 literally, so `(`, `[`, `{` and `|` inside one are a syntax error — and these labels are
@@ -460,6 +534,7 @@ The report partitions every label in the plan into one state:
     blocked: -
     pending: C1, C2
     Divergences: none
+    Discovered: none
 
 **1. Move each label in all three places.** They are one record kept in three shapes, and they
 must agree — a checked box beside a `Pending` row beside an unpainted node is worse than no
@@ -503,9 +578,32 @@ Labels), leave untouched steps character-identical, and say which labels changed
 the user re-approves only those. A step that merely failed is not a divergence; it is a failed
 step, and it stays in the plan as one.
 
-**5. Report the resulting position**: what is done, what is still in flight and what it is
-waiting on, the wave now next, and the exact instruction to run it. One line of DAG state —
-*"A1, A2 done; B1 active"* — puts it in the transcript as well as the file.
+**5. A non-empty Discovered line adds a real node — this is the one case recording changes the
+plan's shape rather than just its status.** The releaser has no write tools and cannot judge
+where a PR belongs in the graph, so that judgment lands here. For each discovered PR:
+
+- **Give it a label.** It attaches to the wave of the step whose command produced it — usually
+  the same wave, since the PR did not exist before that step ran — as that wave's next free
+  number (`A4` if wave A already ends at `A3`; never a new letter for a step, see Labels).
+  Only take a fresh wave if the PR gates something in a wave that has not run yet and cannot
+  proceed without it — then it is a genuinely new wave, per the Labels rules.
+- **Add it everywhere a step lives**: a node in the diagram (inside its wave's subgraph, edges
+  to what it appears to gate per the releaser's report), a row in the HTML table, a checkbox
+  and `### <LABEL>` context section in the Markdown — Command is `none` (you did not plan this
+  command, the releaser reported it running), Watch is `gh-pr <number>`, and the context prose
+  says plainly that this step was discovered during execution, not planned.
+- **Status is whatever the releaser reported for it right now** — open, checks pending, merged
+  — using the same `data-status`/`class` mechanism as any other step, not a new one.
+- **Re-run both validations** (below) after inserting it — a hand-inserted node is exactly as
+  capable of breaking the wave invariant as a mis-typed one.
+
+A discovered PR that the report says is already merged and gated nothing downstream still gets
+a node marked `done` — the record should show what happened, not just what was planned.
+
+**6. Report the resulting position**: what is done, what is still in flight and what it is
+waiting on, any newly-added labels from Discovered PRs, the wave now next, and the exact
+instruction to run it. One line of DAG state — *"A1, A2 done; B1 active; A4 added (PR #214,
+merged)"* — puts it in the transcript as well as the file.
 
 ## This estate
 
