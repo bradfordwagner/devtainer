@@ -123,14 +123,11 @@ Two rules that are easy to get wrong, so they live here rather than in the detai
   infrastructure cannot, since its hardest instructions are *restraints* and those are what
   smaller models hold worst.
 
-Agents (`dots/config/claude/agents/`): `bw-keybinding-auditor`, `bw-release-planner`,
-`bw-release-releaser`, `bw-accountant`, `bw-chart-author`, `bw-claim-checker`,
-`bw-evidence-keeper`, `bw-session-state`. Commands (`dots/config/claude/commands/`): `/cc`,
-`/role-update`.
+Agents (`dots/config/claude/agents/`): `bw-accountant`, `bw-chart-author`. Commands
+(`dots/config/claude/commands/`): `/cc`, `/role-update`.
 
-**See `docs/claude-agents.md`** for what each agent does and why, the planner/releaser split,
-and the agent scripts (`session-usage.sh`, `mermaid-validate.sh`, `deploy-plan-lint.sh`,
-`deploy-links.sh`) — each of which also carries its full rationale in its own header comment.
+**See `docs/claude-agents.md`** for what each agent does and why, and the agent scripts
+(`session-usage.sh`) — which also carries its full rationale in its own header comment.
 
 When adding or changing a keybinding anywhere, check for conflicts across every layer that can
 claim a chord:
@@ -140,8 +137,6 @@ claim a chord:
 - `dots/shell/bindkey.zsh` — zsh vi-mode: `ctrl+k` (chord leader), `ctrl+n`/`ctrl+p` (history), `ctrl+e`/`ctrl+o` (git); prompt only, not inside TUI apps
 - `dots/config/glazewm/config.yaml` — global hook, so it takes the chord from everything else; see `docs/windows-wsl.md`
 - `dots/config/claude/keybindings.json` — `ctrl+y` backgrounds the current task/agent
-
-`bw-keybinding-auditor` automates this audit, including the doc-sync rules.
 
 #### Image paste on WSL (`dots/shell_scripts/wsl-shims/`)
 

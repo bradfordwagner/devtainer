@@ -12,7 +12,11 @@ also this directory's name.
 - Commit in each repo separately.
 - The worktrees are linked to their original checkouts elsewhere on disk; don't
   delete them by hand, use `sessions delete`.
-- Comments: max 2 lines per block, only for non-obvious why.
+- Comments: default to none. Write one only if deleting it would lose a
+  hidden constraint or workaround the code itself can't show — never to
+  restate what the code does. Cap at 2 lines even then.
+- Communication: succinct, straight to the point — no preamble, no summarizing
+  what you just did unless asked.
 
 ## Tracking the work
 
