@@ -14,6 +14,14 @@ The `description` is what the main agent matches on when deciding whether to del
 carries the trigger conditions and worked examples; the body carries the actual instructions.
 Re-run `task bb` to deploy.
 
+The agent copy is gated on `claude_agents_enabled` (default true in `variables.yml`). A machine
+that deploys agents from another repo sets it false in its gitignored `variables.local.yml` —
+only the agent tasks skip; commands, scripts, hooks and keybindings still install, which matters
+because those agents may depend on `~/.claude/scripts/`. A work machine does exactly this: a
+separate dotfiles repo owns `~/.claude/agents/` there with its own prefixed set, and since
+ansible `copy` never removes, that repo also sweeps any `bw-*.md` this one left behind. Two
+repos writing that flat namespace unguarded means the last playbook to run wins, silently.
+
 Pin `model:` explicitly rather than using `inherit`. `settings.json` sets the session model to
 `opus[1m]`, so `inherit` bills every subagent run at the top tier with a 1M window — wrong for
 agents whose reasoning already lives in their prompt and whose inputs are a few hundred lines.

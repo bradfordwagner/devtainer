@@ -32,6 +32,11 @@ argocd_mcp_api_token: '' # set this in variables.local.yml
 bradfordwagner_mcp_dir: "{{ ansible_env.HOME }}/workspace/github/bradfordwagner/go.bin/bradfordwagner.go.bin.mcp"
 argocd_mcp_skip_verify: true
 
+# Claude Code subagents (dots/config/claude/agents/*.md -> ~/.claude/agents/).
+# Set false in variables.local.yml on a machine that deploys its own agents from
+# another repo -- ~/.claude/agents/ is a flat namespace shared across sources.
+claude_agents_enabled: true
+
 # Windows Terminal (WSL only)
 # MSIX package dir under %LOCALAPPDATA%\Packages. The _8wekyb3d8bbwe suffix is
 # Microsoft's publisher id; the preview build uses a different package name.
