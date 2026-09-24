@@ -123,7 +123,7 @@ Two rules that are easy to get wrong, so they live here rather than in the detai
   infrastructure cannot, since its hardest instructions are *restraints* and those are what
   smaller models hold worst.
 
-Agents (`dots/config/claude/agents/`): `bw-accountant`, `bw-chart-author`. Commands
+Agents (`dots/config/claude/agents/`): `bw-accountant`, `bw-k8s-author`. Commands
 (`dots/config/claude/commands/`): `/cc`, `/role-update`.
 
 **See `docs/claude-agents.md`** for what each agent does and why, and the agent scripts

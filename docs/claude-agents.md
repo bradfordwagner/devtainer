@@ -51,21 +51,38 @@ Available subagents:
   high bill means the driver is turn count re-reading a cached prefix, which is what
   the ledger says instead. Table columns are padded to align in a plain editor; these
   files get read in nvim.
-- `bw-chart-author` (sonnet) — writes and refactors Helm charts in
-  `github.bradfordwagner.k8s.deployments` with the environment layering built in: `values.yaml`
-  is the complete working configuration sized for the largest environment, and every
-  `values-${env}.yaml` carries only genuine deltas. An empty env file is a correct outcome, not
-  an omission. It exists because values files rot toward duplication invisibly — a block copied
-  into two env files reads fine the day it is written, and six months later one side has been
-  tuned and the other has not. Helm deep-merges maps, so the copy was never needed; **lists**
-  are the exception it has to check by hand, since an override that sets `syncOptions:` silently
-  drops every entry it does not relist. Its hardest rule is that a values refactor must render
-  **byte-identical** before and after — it snapshots `helm template` for every chart/env pair,
-  diffs, and reports the diff rather than explaining it away. Also knows the local traps: that
-  `charts/app-of-apps` per-app overrides replace wholesale rather than merging, that value files
-  cannot carry per-cluster facts (Argo CD renders server-side, so the slug and `$USER` travel as
-  helm parameters from `charts/root-app`), that a CRD over 262144 bytes needs `ServerSideApply`,
-  and that a sync wave is a head start rather than a gate.
+- `bw-k8s-author` (sonnet) — writes and refactors Kubernetes manifests in whatever form the
+  target repo already uses: Helm charts, kustomize bases/overlays, or plain YAML. It identifies
+  the shape first and stays in it — a kustomize overlay bolted onto a Helm repo doubles the
+  places a value can come from and nobody remembers which one won — defaulting to Helm only
+  for new work with no precedent. The environment layering is built in: the base is the complete
+  working configuration, every environment layer carries only genuine deltas, and an empty env
+  file is a correct outcome rather than an omission. The base is chosen **per field**, not per
+  environment: `requests` are reserved by the scheduler so the smallest environment's figures
+  belong in the base, while `limits` cost nothing until hit so the largest environment's do —
+  mixing them left `charts/cert-manager` needing no override at all.
+
+  It exists because environment files rot toward duplication invisibly — a block copied into two
+  env files reads fine the day it is written, and six months later one side has been tuned and
+  the other has not. Both tools merge maps, so the copy was never needed; **lists** are the
+  exception it checks by hand, and each tool bites differently: Helm replaces a list wholesale,
+  kustomize merges only lists with a patch merge key (`containers` by name, `ports` by
+  `containerPort`) and replaces `command`/`args`/anything under a CRD, and a JSON 6902 patch
+  never merges at all — it addresses an index, so it breaks silently when the list reorders.
+  Under server-side apply the equivalent trap is field ownership: a dropped field is removed
+  only if your field manager owned it.
+
+  Its hardest rule is that a refactor must render **byte-identical** before and after — it
+  snapshots `helm template` or `kustomize build` for every base/env pair, diffs, and reports the
+  diff rather than explaining it away. It validates per pair (`helm lint` **and** `helm template`,
+  since lint alone misses a template that fails to render; `kubeconform -strict` or a
+  **server-side** dry run for schema) and never applies to a cluster — that is Argo CD's job or
+  the user's. Also knows the Argo CD traps: that `charts/app-of-apps` per-app overrides replace
+  wholesale rather than merging, that value files cannot carry per-cluster facts (Argo CD renders
+  server-side, so the slug and `$USER` travel as helm parameters from `charts/root-app`), that a
+  CRD over 262144 bytes needs `ServerSideApply`, and that a sync wave is a head start rather than
+  a gate.
+
 #### Agent scripts: `dots/config/claude/scripts/`
 
 Tools the subagents invoke, copied to `~/.claude/scripts/` by `tasks/install-claude.yml`
