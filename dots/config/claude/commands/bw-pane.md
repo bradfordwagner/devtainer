@@ -72,8 +72,13 @@ while true; do
     # probe mode: $a is a command. step mode: $a is already a status.
     case "$a" in
       pending|active|done|failed) st=$a; detail=$b ;;
-      *) out=$(eval "$a" 2>/dev/null); st=$out; detail="" ;;
+      *) st=$(eval "$a" 2>/dev/null); detail="" ;;
     esac
+    # a probe for something that doesn't exist yet returns empty, or a jq
+    # "null ..." string. That is pending -- never let it fall through to the
+    # spinner, which reads as a hang. Use `case`, not `[ -z ] || [ = ] && ...`:
+    # that chain has the wrong precedence and silently misfires.
+    case "$st" in ''|null*|'-') st="pending" ;; esac
 
     case "$st" in
       done|*success*)   g='+'; c=$'\033[32m'; ok=$((ok+1)) ;;

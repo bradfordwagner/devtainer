@@ -48,10 +48,11 @@ Do **not** waste time on these dead ends (all were checked and cleared once):
 
 Do not hardcode the consumer list; derive it, so new repos are picked up for free.
 
-1. Scan every `config.yaml` under `~/workspace/github/bradfordwagner/containers/*/*/` and `~/workspace/github/bradfordwagner/ansible_roles/*/`.
-2. For each, record any block whose `repo:` **or** `image:` is `ghcr.io/bradfordwagner/<target>`, plus that block's `tag:`. A repo can have more than one (e.g. `bradfordwagner.container.ansible.go.builder` pins ansible under `upstream:` *and* base under `runtime:` — both need bumping).
-3. `git fetch origin` each consumer and note its branch and whether the tree is clean. Any repo not on a clean `main` gets surfaced to the user, not auto-fixed.
-4. Report: a table of `Repo | Current pin | Branch | Clean?`, and the count of consumers found.
+1. **`git fetch origin` every repo first**, before reading anything out of it.
+2. Read the pins from **`origin/main`, not the working tree**: `git show origin/main:config.yaml`. A local checkout can be on a feature branch or hundreds of commits behind, and reading it gives a pin that is simply wrong — this has produced a bogus discovery table more than once (a repo reported as pinned `6.4.0` was actually on `6.5.0` upstream, and another was read off a stale feature branch entirely). `origin/main` is the only authoritative answer to "what is this repo pinned to."
+3. Record any block whose `repo:` **or** `image:` is `ghcr.io/bradfordwagner/<target>`, plus that block's `tag:`. A repo can have more than one (e.g. `bradfordwagner.container.ansible.go.builder` pins ansible under `upstream:` *and* base under `runtime:` — both need bumping).
+4. Separately note each repo's **local** state: current branch, whether the tree is clean, and whether local `main` is behind `origin/main` (`git rev-list --count main..origin/main`). Surface anything not on a clean, current `main` to the user — do not auto-fix, stash, or discard. A repo parked on someone's in-progress branch is a question for the user, not a thing to steamroll.
+5. Report: a table of `Repo | Pin (origin/main) | Local branch | Clean? | Behind by`, and the count of consumers found. Call out explicitly any repo whose local state will need attention before phase 5 can branch from a current `main`.
 
 Repos that don't reference the image are not consumers — mirrors repos build from public upstreams. `mirrors.helm/workflow.yaml` has a legacy `quay.io/bradfordwagner/ansible:3.6.2` reference that is **not** live; ignore it.
 
