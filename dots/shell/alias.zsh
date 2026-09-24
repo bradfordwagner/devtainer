@@ -91,7 +91,22 @@ sudo_fkill() {
 ################################################
 # clipboard
 ################################################
-if hash xsel 2>/dev/null; then
+# WSL first: wl-copy/wl-paste need a live Wayland socket, and WSLg is absent in
+# an xrdp/headless session. The Windows clipboard is always there via interop.
+if [ -n "${WSL_DISTRO_NAME}${WSL_INTEROP}" ] && hash clip.exe 2>/dev/null; then
+  # Two clip.exe quirks. It copies stdin verbatim, so `pwd | pbcopy` lands a
+  # trailing CRLF in the clipboard -- trim one trailing newline, as `$(...)` does.
+  # And it guesses the input encoding via IsTextUnicode, which misreads some
+  # short byte sequences ("a\n" arrives as U+0A61), so hand it real UTF-16LE.
+  pbcopy() {
+    local d
+    IFS= read -rd '' d
+    printf '%s' "${d%$'\n'}" | iconv -f UTF-8 -t UTF-16LE | clip.exe
+  }
+  pbpaste() {
+    powershell.exe -NoProfile -Command Get-Clipboard | tr -d '\r'
+  }
+elif hash xsel 2>/dev/null; then
   alias pbcopy='xsel --clipboard --input'
   alias pbpaste='xsel --clipboard --output'
 elif hash wl-copy 2>/dev/null; then
