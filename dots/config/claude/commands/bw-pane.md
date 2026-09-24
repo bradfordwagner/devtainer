@@ -25,13 +25,15 @@ Put everything in the scratchpad directory, never in the project.
    TARGET="${TMUX_PANE:-$(tmux display-message -p '#{pane_id}')}"
    ```
    Do **not** use a bare `tmux display-message -p ...` as the target. That resolves whatever pane is *active at the moment the command runs* — so if the user switches window or pane after sending their message (they often do), the split lands in whatever they navigated to. `$TMUX_PANE` is the pane Claude is actually running in and doesn't move. Only fall back to `display-message` if `$TMUX_PANE` is somehow unset.
-2. Split that pane specifically, and capture the new pane id in the same step:
-   `NEWPANE=$(tmux split-window -t "$TARGET" -h -l 54 -P -F '#{pane_id}')`
+2. Write the state file and the renderer first (below) — they must exist before the pane opens.
+3. Split, and **pass the script as the pane's command** rather than typing it in:
+   ```bash
+   NEWPANE=$(tmux split-window -t "$TARGET" -h -l 54 -P -F '#{pane_id}' "bash <scratchpad>/pane.sh")
+   ```
    The new pane lands in the same window as the session, regardless of where the user is looking.
-3. Write the state file and the renderer (below).
-4. Launch it: `tmux send-keys -t "$NEWPANE" "bash <scratchpad>/pane.sh" Enter`
-5. Confirm it rendered once: `tmux capture-pane -t "$NEWPANE" -p | head -20`. If it's empty or broken, fix it now — a wrong pane is worse than no pane.
-6. Remember `$NEWPANE` for the rest of the session.
+   Avoid `tmux send-keys` to launch it. `send-keys` types into whatever shell the pane spawned, and an interactive zsh/bash with plugins may not have finished initialising — the keystrokes then land mid-startup and the command shows up echoed twice, or not run at all. Passing the command to `split-window` executes it directly with no shell race. (`send-keys` is still right for sending `C-c` later, to a pane that is definitely up.)
+4. Confirm it rendered once: `tmux capture-pane -t "$NEWPANE" -p | head -20`. If it's empty, still showing a shell prompt, or echoing the command back, fix it now — a wrong pane is worse than no pane. A probe-mode dashboard with many rows can take one full refresh interval before its first paint, so capture again before concluding it's broken.
+5. Remember `$NEWPANE` for the rest of the session, and re-check it exists before relying on it later — panes get closed.
 
 At the end: `tmux send-keys -t "$NEWPANE" C-c` to stop the refresh loop but **leave the final state on screen**. Don't kill the pane; the user wants to read it.
 
@@ -102,10 +104,11 @@ Adapt freely — add a `[####....]` bar when rows have a done/total, drop the co
 
 ## Rules learned the hard way
 
-- **Capture the pane id, never assume it.** Panes get closed; `tmux send-keys` then fails with `can't find pane: %24`. If that happens, re-split from `$TMUX_PANE` and relaunch rather than giving up.
+- **Capture the pane id, never assume it.** Panes get closed — by the user, or by a stray `kill-pane`. `tmux send-keys` then fails with `can't find pane: %24`. Re-split from `$TMUX_PANE` and relaunch rather than giving up. If the user says they can't see the dashboard, check `tmux list-panes` before assuming it's a rendering problem: the pane is often simply gone.
 - **Address every later call by pane id (`%N`), never by `session:window.pane`.** Index-style targets shift when panes or windows are added, closed, or reordered; a `%N` id is stable for the life of the pane. This also means the dashboard keeps updating correctly while the user is off in another window.
 - **Fit the width.** At `-l 54` a header like `rollout  elapsed 03:21  0 ok 0 fail 19 running` wraps and looks broken. Short labels, truncate with `${var:0:24}`, abbreviate counters (`3ok` not `3 running jobs`).
 - **A row with nothing yet must say so.** Guard against empty/`null` query results and print `pending` — a spinner on a thing that doesn't exist yet reads as a hang.
+- **Launch via `split-window <cmd>`, not `send-keys`.** Typing into a freshly spawned interactive shell races its startup; the command gets echoed twice or swallowed.
 - **Never dump CI logs into the pane.** One line per unit. Details belong in my tool calls, not on the user's screen.
 - **tmux may be blocked.** If a `tmux` call is denied by permissions, say so once and fall back to inline narration. Don't work around it.
 - **Don't poll in my own context to feed the pane.** The pane polls itself in probe mode; in step mode I write the file only when something actually changes.

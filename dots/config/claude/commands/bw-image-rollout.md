@@ -137,7 +137,7 @@ If `$TMUX` is set and the rollout covers more than a handful of repos, stand up 
 1. Anchor to this session's own pane: `TARGET="${TMUX_PANE:-$(tmux display-message -p '#{pane_id}')}"`. Never target the *active* pane — the user may navigate away right after sending the message, and the split would land in the wrong window.
 2. `NEWPANE=$(tmux split-window -t "$TARGET" -h -l 56 -P -F '#{pane_id}')`, then address it by that `%N` id for the rest of the session.
 3. Write a `targets.tsv` in the scratchpad — one `label<TAB>repo_dir<TAB>branch` row per repo, with `# group` lines as headings — and a small self-contained bash renderer that reads it, calls `gh run list`/`gh run view` per row, and prints one line per repo: status glyph, label, a done/total bar. Keep it to plain bash + `gh --jq` (no `jq` dependency), `sleep 10` between redraws, and a header counting ok/fail/running/pending.
-4. `tmux send-keys -t "$NEWPANE" "bash <scratchpad>/build-monitor.sh" Enter`
+4. Launch it by passing the script to `split-window` as the pane command (step 2), not via `send-keys` — typing into a freshly spawned interactive shell races its startup and the command can be echoed twice or swallowed.
 5. Table-driven means you can append rows as PRs open without touching the script. At the end, `tmux send-keys -t "$NEWPANE" C-c` to stop the refresh but leave the final state on screen.
 
 ## Phase 7 — report
