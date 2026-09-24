@@ -124,7 +124,7 @@ Two rules that are easy to get wrong, so they live here rather than in the detai
   smaller models hold worst.
 
 Agents (`dots/config/claude/agents/`): `bw-accountant`, `bw-k8s-author`. Commands
-(`dots/config/claude/commands/`): `/cc`, `/role-update`.
+(`dots/config/claude/commands/`): `/cc`, `/bw-role-update`, `/bw-image-rollout`, `/bw-pane`.
 
 **See `docs/claude-agents.md`** for what each agent does and why, and the agent scripts
 (`session-usage.sh`) — which also carries its full rationale in its own header comment.
