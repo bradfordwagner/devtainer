@@ -591,7 +591,7 @@ function cccm() {
   local models model
   models=$(curl -fsS 'https://api.anthropic.com/v1/models?limit=100' "${auth[@]}" -H "anthropic-version: 2023-06-01" | jq -r '
     def price($id): [ ["claude-fable-5",10,50], ["claude-opus-5",5,25], ["claude-opus-4",5,25], ["claude-sonnet-5",3,15],
-                 ["claude-sonnet-4",3,15], ["claude-haiku-4",1,5] ]
+                 ["claude-sonnet-4",3,15], ["claude-haiku-5",0.1,0.5], ["claude-haiku-4",1,5] ]
                | map(select(. as $p | $id | startswith($p[0]))) | first // null;
     .data[] | .id as $id | price($id) as $p
     | [ $id, (.max_input_tokens / 1000 | floor | tostring + "k"),
