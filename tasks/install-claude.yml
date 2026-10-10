@@ -74,6 +74,12 @@
     dest: '{{ ansible_env.HOME }}/.claude/keybindings.json'
     mode: 0644
 
+- name: install claude user CLAUDE.md
+  ansible.builtin.template:
+    src: '{{ playbook_dir }}/templates/claude.CLAUDE.md.j2'
+    dest: '{{ ansible_env.HOME }}/.claude/CLAUDE.md'
+    mode: 0644
+
 - name: ensure claude hooks directory exists
   file:
     path: '{{ ansible_env.HOME }}/.claude/hooks'
