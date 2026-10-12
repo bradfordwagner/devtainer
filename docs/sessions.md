@@ -37,6 +37,10 @@ checkouts (resolved via `--git-common-dir`, since `git worktree remove` only run
 hold the only copy of unpushed work. It prompts for confirmation only when a worktree is dirty
 (uncommitted changes, or commits not on any remote — so a repo with no remote always counts).
 
+`new` and `add` also symlink every worktree's `.claude/agents/*.md` into the session root's own `.claude/agents/`,
+because claude only loads project agents from the directory it launches in, and a session launches at the root.
+Agents appear on the next claude start; a name already linked from another repo is kept.
+
 `new` and `add` also run `bd init` at the session root, giving the session one **beads**
 tracker whose issue prefix is the session name. It sits above the worktrees on purpose: `bd`
 finds a `.beads/` by walking up, so every repo in the session shares one issue graph and a

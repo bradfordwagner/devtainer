@@ -193,6 +193,17 @@ function _sessions_beads_open() {
 # verbs
 ################################################
 
+# claude loads project agents from .claude/agents of the dir it launches in, and
+# sessions launch at the root, so surface each worktree's agents there. first wins.
+function _sessions_link_agents() {
+  local session=$1 dir="${SESSIONS_ROOT}/$1" agent dest
+  for agent in "${dir}"/*/.claude/agents/*.md(N); do
+    dest="${dir}/.claude/agents/${agent:t}"
+    [[ -e "${dest}" ]] && continue
+    mkdir -p "${dir}/.claude/agents" && ln -sfn "${agent}" "${dest}"
+  done
+}
+
 function _sessions_new() {
   local session repos repo failed
   read -r "session?session name: "
@@ -224,6 +235,7 @@ function _sessions_new() {
   fi
 
   _sessions_beads_init "${session}"
+  _sessions_link_agents "${session}"
   _sessions_tmux_window "${session}"
 }
 
@@ -245,6 +257,7 @@ function _sessions_add() {
   fi
 
   _sessions_beads_init "${session}"
+  _sessions_link_agents "${session}"
 }
 
 function _sessions_delete() {
