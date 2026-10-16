@@ -582,21 +582,32 @@ alias ccca='claude agents'
 # fzf-pick a model from the live /v1/models API, then launch claude with no MCP in auto mode
 function cccm() {
   local -a auth
+  local token
   if [[ -n "${ANTHROPIC_API_KEY}" ]]; then
     auth=(-H "x-api-key: ${ANTHROPIC_API_KEY}")
   else
-    auth=(-H "authorization: Bearer $(jq -r '.claudeAiOauth.accessToken' ~/.claude/.credentials.json)" -H "anthropic-beta: oauth-2025-04-20")
+    # On macOS the OAuth token lives in the login Keychain; ~/.claude/.credentials.json is a stub
+    # with no accessToken. Elsewhere (Linux/WSL) the file is the real store, so try both.
+    token=$(security find-generic-password -s 'Claude Code-credentials' -w 2>/dev/null \
+            | jq -r '.claudeAiOauth.accessToken // empty' 2>/dev/null)
+    [[ -n "${token}" ]] \
+      || token=$(jq -r '.claudeAiOauth.accessToken // empty' ~/.claude/.credentials.json 2>/dev/null)
+    [[ -n "${token}" ]] \
+      || { echo "cccm: no ANTHROPIC_API_KEY and no OAuth token found; run 'claude' and /login" >&2; return 1; }
+    auth=(-H "authorization: Bearer ${token}" -H "anthropic-beta: oauth-2025-04-20")
   fi
   # The API returns no pricing, so list prices (USD/MTok) are matched by id prefix; keep in step with session-usage.sh.
-  local models model
-  models=$(curl -fsS 'https://api.anthropic.com/v1/models?limit=100' "${auth[@]}" -H "anthropic-version: 2023-06-01" | jq -r '
+  local raw models model
+  raw=$(curl -fsS 'https://api.anthropic.com/v1/models?limit=100' "${auth[@]}" -H "anthropic-version: 2023-06-01") \
+    || { echo "cccm: model lookup failed" >&2; return 1; }
+  models=$(jq -r '
     def price($id): [ ["claude-fable-5",10,50], ["claude-opus-5",5,25], ["claude-opus-4",5,25], ["claude-sonnet-5",3,15],
                  ["claude-sonnet-4",3,15], ["claude-haiku-5",0.1,0.5], ["claude-haiku-4",1,5] ]
                | map(select(. as $p | $id | startswith($p[0]))) | first // null;
     .data[] | .id as $id | price($id) as $p
     | [ $id, (.max_input_tokens / 1000 | floor | tostring + "k"),
-        (if $p then "in/out:$\($p[1])/$\($p[2])" else "in/out:?/?" end) ] | @tsv' | column -t -s $'\t') \
-    || { echo "cccm: model lookup failed" >&2; return 1; }
+        (if $p then "in/out:$\($p[1])/$\($p[2])" else "in/out:?/?" end) ] | @tsv' <<< "${raw}" | column -t -s $'\t')
+  [[ -n "${models}" ]] || { echo "cccm: model list empty" >&2; return 1; }
   model=$(fzf --nth=1 --prompt='model> ' <<< "${models}" | awk '{print $1}')
   [[ -n "${model}" ]] || return
   claude --strict-mcp-config --permission-mode auto --model "${model}" "$@"
