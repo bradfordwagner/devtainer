@@ -1,7 +1,12 @@
 # sessions (multi-repo worktrees)
 
 `dots/shell/sessions.sh` defines the `sessions` function: `sessions` fzf-picks the verb,
-`sessions new|add|delete` skips straight to it.
+`sessions new|add|adopt|reinit|delete` skips straight to it (`adopt` and `reinit` also take
+an optional branch / session name argument).
+
+`sessions new --empty` skips the repo pick and creates only the session root (setup + tmux
+window); `add` fills it later. A flag rather than treating an empty pick as "no repos", so Esc
+in the picker still cancels `new` instead of leaving a stray session behind.
 
 A *session* is one branch name spanning N repos. `new` prompts for a name, fzf-multi-selects
 git repos found under `$PWD` (recursive to `SESSIONS_SCAN_DEPTH`, parents only — a repo's own
@@ -67,7 +72,41 @@ work. Since `rm -rf` takes the tracker with the session, `delete` warns on open 
 way it warns on dirty worktrees, and one confirmation covers both. Counts are grepped down to
 a bare integer because bd interleaves throttled tips with its output.
 
-Overridable: `SESSIONS_ROOT`, `SESSIONS_TMUX`, `SESSIONS_TEMPLATE`, `SESSIONS_SCAN_DEPTH`.
+## Setup, `reinit` and the init hook
+
+Everything a session root gets besides worktrees — the `CLAUDE.md` symlink, the beads tracker,
+the agent links and the init hook — lives in `_sessions_setup`, and every step in it is
+idempotent. `new`, `add` and `adopt` call it; `reinit` calls *only* it (plus the tmux window),
+so a change to any of that machinery reaches existing sessions without recreating them.
+`reinit` with no argument targets the session `$PWD` sits in, falling back to fzf. Only
+`reinit` infers from `$PWD`: `delete` doing so would make the session you stand in a
+one-keystroke target. Agent linking also prunes dangling links, so an agent removed from a
+worktree disappears from the root on the next `reinit`.
+
+`SESSIONS_INIT_HOOK` names a shell function run last in `_sessions_setup` as
+`$SESSIONS_INIT_HOOK <session> <session-dir>` — the place for machine-specific session setup
+(work credentials, extra links, env files). Define the function and export the variable in
+`dots/shell/local.zsh` or any file sourced before an interactive `sessions` call. The hook must
+be idempotent, since `reinit` re-runs it. An undefined function or a non-zero exit warns but
+never fails the session.
+
+## adopt
+
+`adopt` turns an existing branch into a session. It fzf-picks repos, runs `git fetch --all` in
+each (checked, like `new`'s fetch — the branch list and the adopted ref both come from
+remote-tracking refs), then fzf-picks a branch from the union of their local branches and
+branches on **any** remote. Repos in one session can name remotes differently — `origin` in
+one, only `upstream` in another, a fork alongside — so `origin` is not assumed. The session
+name is the branch with `/` flattened to `-` (`feat/x` lands at `~/sessions/feat-x`). Repos
+lacking the branch are skipped. A local branch is checked out as-is; a remote-only one gets a
+local branch **tracking** `<remote>/<branch>` — unlike `new`'s `--no-track`, since here the
+remote branch *is* the work. `_sessions_remote_branch` picks the remote: `origin` if it has the
+branch, else the first match alphabetically, with a warning when several remotes do. Git refuses a branch
+already checked out elsewhere (including the original checkout), and that error is surfaced.
+Adopting into an existing session name adds to it; if no repo adopts, the empty dir is removed.
+
+Overridable: `SESSIONS_ROOT`, `SESSIONS_TMUX`, `SESSIONS_TEMPLATE`, `SESSIONS_SCAN_DEPTH`,
+`SESSIONS_INIT_HOOK`.
 
 Note tmux target names are passed as `"=${SESSIONS_TMUX}"` — the quotes matter, unquoted `=foo`
 hits zsh's equals-expansion.
