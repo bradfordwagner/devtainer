@@ -70,7 +70,7 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
 
 - `dots/config/` — configs symlinked to `~/.config/<name>` (nvim, sway, waybar, tmux, alacritty, ghostty, etc.). Changes live now — no `task bb`.
 - `dots/shell/` — zsh files sourced via `~/.zshenv` → `env.sh.j2`. Load order: `palette.zsh` → `common.zsh` → `local.zsh` → `alias.zsh` → `git.zsh` → others (incl. `sessions.sh`). New file need `source` line in `templates/env.sh.j2` plus `task bb`.
-- `dots/tmux/` — tmux.conf + tmuxinator sessions
+- `dots/tmux/` — tmux.conf, keytable, scripts
 - `templates/` — Jinja2 templates rendered by `tasks/jinga-templates.yml` into home-dir files
 - `tasks/` — task files included from `playbook.yml`
 
