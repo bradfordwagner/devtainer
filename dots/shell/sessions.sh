@@ -139,7 +139,7 @@ function _sessions_add_worktree() {
   # the base comes from origin, so a failed fetch would silently branch off a
   # stale commit. no origin is the one legitimate exception - HEAD is the base.
   if git -C "${repo}" remote get-url origin >/dev/null 2>&1; then
-    if ! err=$(git -C "${repo}" fetch origin --quiet 2>&1); then
+    if ! err=$(git -C "${repo}" fetch origin --prune --quiet 2>&1); then
       echo "${palette_lred}fetch failed in ${repo}${palette_restore}" >&2
       echo "${palette_lred}refusing to branch ${session} from a stale origin${palette_restore}" >&2
       [[ -n "${err}" ]] && print -r -- "${err}" | sed 's|^|  |' >&2
@@ -352,7 +352,7 @@ function _sessions_adopt() {
   # every remote, not just origin: the branch list and the remote ref adopted
   # both come from remote-tracking refs, which are only as fresh as this fetch
   for repo in ${(f)repos}; do
-    if ! err=$(git -C "${repo}" fetch --all --quiet 2>&1); then
+    if ! err=$(git -C "${repo}" fetch --all --prune --quiet 2>&1); then
       echo "${palette_lred}fetch failed in ${repo} - refusing to adopt from stale remotes${palette_restore}" >&2
       [[ -n "${err}" ]] && print -r -- "${err}" | sed 's|^|  |' >&2
       return 1
