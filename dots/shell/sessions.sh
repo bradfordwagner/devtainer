@@ -11,6 +11,9 @@ export SESSIONS_SCAN_DEPTH=${SESSIONS_SCAN_DEPTH:-4}
 # name of a shell function run at the end of every session setup (new, add,
 # adopt, reinit) as: $SESSIONS_INIT_HOOK <session> <session-dir>. unset = no hook
 export SESSIONS_INIT_HOOK=${SESSIONS_INIT_HOOK:-}
+# namespace for branches `new` cuts, e.g. bw -> bw/<session>. empty = bare
+# session name, which can block a tool's namespace (session renovate vs renovate/*)
+export SESSIONS_BRANCH_PREFIX=${SESSIONS_BRANCH_PREFIX:-}
 
 function sessions() {
   local verb=$1
@@ -128,7 +131,7 @@ function _sessions_dest() {
 # add ${repo} to ${session} as a worktree on ${branch} (default: the session
 # name). an existing local or remote branch is reused, else cut new from origin
 function _sessions_add_worktree() {
-  local repo=$1 session=$2 branch=${3:-$2} dest err remote_ref
+  local repo=$1 session=$2 branch=${3:-$2} dest remote_ref
   dest=$(_sessions_dest "${repo}" "${session}")
 
   if [[ -e "${dest}" ]]; then
@@ -136,17 +139,7 @@ function _sessions_add_worktree() {
     return 0
   fi
 
-  # the base comes from origin, so a failed fetch would silently branch off a
-  # stale commit. no origin is the one legitimate exception - HEAD is the base.
-  if git -C "${repo}" remote get-url origin >/dev/null 2>&1; then
-    if ! err=$(git -C "${repo}" fetch origin --prune --quiet 2>&1); then
-      echo "${palette_lred}fetch failed in ${repo}${palette_restore}" >&2
-      echo "${palette_lred}refusing to branch ${session} from a stale origin${palette_restore}" >&2
-      [[ -n "${err}" ]] && print -r -- "${err}" | sed 's|^|  |' >&2
-      return 1
-    fi
-  fi
-
+  # callers _sessions_fetch first: the base below comes from origin
   if git -C "${repo}" show-ref --verify --quiet "refs/heads/${branch}"; then
     git -C "${repo}" worktree add "${dest}" "${branch}" || return 1
   elif remote_ref=$(_sessions_remote_branch "${repo}" "${branch}"); then
@@ -175,12 +168,89 @@ function _sessions_tmux_window() {
   [[ -n "${TMUX}" ]] && tmux switch-client -t "=${SESSIONS_TMUX}:${session}" 2>/dev/null
 }
 
-# uncommitted changes, or commits not yet on a remote
+# uncommitted changes, or commits not yet on a remote - unless merged, since a
+# squash merge plus a deleted remote branch leaves commits on no remote at all
 function _sessions_worktree_dirty() {
-  local worktree=$1
+  local worktree=$1 branch
   [[ -n "$(git -C "${worktree}" status --porcelain 2>/dev/null)" ]] && return 0
-  [[ -n "$(git -C "${worktree}" log --oneline HEAD --not --remotes 2>/dev/null)" ]] && return 0
+  if [[ -n "$(git -C "${worktree}" log --oneline HEAD --not --remotes 2>/dev/null)" ]]; then
+    branch=$(git -C "${worktree}" symbolic-ref --quiet --short HEAD 2>/dev/null)
+    [[ -n "${branch}" ]] && _sessions_merged "${worktree}" "${branch}" && return 1
+    return 0
+  fi
   return 1
+}
+
+# ${branch}'s work is already on origin's default branch: merged, rebased or
+# squashed. a squash defeats --is-ancestor and per-commit cherry, so the whole
+# branch diff is also tried as one synthetic commit. any error = not merged
+function _sessions_merged() {
+  local repo=$1 branch=$2 base target fork squash cherry
+  base=$(_sessions_default_branch "${repo}")
+  [[ -n "${base}" ]] || return 1
+  target="origin/${base}"
+  git -C "${repo}" diff --quiet "${target}" "${branch}" 2>/dev/null && return 0
+  cherry=$(git -C "${repo}" cherry "${target}" "${branch}" 2>/dev/null) || return 1
+  [[ "${cherry}" != *'+'* ]] && return 0
+  fork=$(git -C "${repo}" merge-base "${target}" "${branch}" 2>/dev/null) || return 1
+  squash=$(git -C "${repo}" commit-tree "${branch}^{tree}" -p "${fork}" -m squash 2>/dev/null) || return 1
+  cherry=$(git -C "${repo}" cherry "${target}" "${squash}" 2>/dev/null) || return 1
+  [[ "${cherry}" == -* ]]
+}
+
+# the branch a session's worktrees are on, else the one `new` would cut. adopt
+# flattens '/', so the dir name alone is not the branch. .git guard: pre-beads
+# sessions have a repo at the root, which non-worktree dirs would resolve to
+function _sessions_session_branch() {
+  local session=$1 wt branch
+  for wt in "${SESSIONS_ROOT}/${session}"/*(N/); do
+    [[ -e "${wt}/.git" ]] || continue
+    branch=$(git -C "${wt}" symbolic-ref --quiet --short HEAD 2>/dev/null) && { echo "${branch}"; return; }
+  done
+  echo "${SESSIONS_BRANCH_PREFIX:+${SESSIONS_BRANCH_PREFIX%/}/}${session}"
+}
+
+# refs git cannot hold beside ${branch}: refs are files, so 'a' and 'a/b' cannot
+# coexist. remote-tracking refs count - pushing ${branch} would hit the same wall
+function _sessions_ref_conflicts() {
+  local repo=$1 branch=$2 short name
+  {
+    git -C "${repo}" for-each-ref --format='%(refname:lstrip=2) %(refname:lstrip=2)' refs/heads
+    git -C "${repo}" for-each-ref --format='%(refname:lstrip=2) %(refname:lstrip=3)' refs/remotes
+  } 2>/dev/null | while read -r short name; do
+    [[ "${branch}" == "${name}"/* || "${name}" == "${branch}"/* ]] && echo "${short}"
+  done
+}
+
+# every remote of every repo, before anything reads remote-tracking refs: the
+# base, the preflight and adopt's branch list are only as fresh as this, so a
+# failure stops the verb. a repo with no remote is exempt - HEAD is the base
+function _sessions_fetch() {
+  local repos=$1 repo err
+  for repo in ${(f)repos}; do
+    [[ -n "$(git -C "${repo}" remote 2>/dev/null)" ]] || continue
+    if ! err=$(git -C "${repo}" fetch --all --prune --quiet 2>&1); then
+      echo "${palette_lred}fetch failed in ${repo} - refusing to work from stale remotes${palette_restore}" >&2
+      [[ -n "${err}" ]] && print -r -- "${err}" | sed 's|^|  |' >&2
+      return 1
+    fi
+  done
+}
+
+# check every repo before creating anything - a blocked branch otherwise fails
+# mid-loop, after earlier repos already got worktrees
+function _sessions_preflight() {
+  local repos=$1 branch=$2 repo ref wt blocked=0
+  for repo in ${(f)repos}; do
+    for ref in ${(f)"$(_sessions_ref_conflicts "${repo}" "${branch}")"}; do
+      blocked=1
+      wt=$(git -C "${repo}" worktree list --porcelain 2>/dev/null \
+        | awk -v b="branch refs/heads/${ref}" '/^worktree /{w=substr($0,10)} $0==b{print w}')
+      echo "${palette_lred}${ref} blocks ${branch} in ${repo}${wt:+ (checked out at ${wt})}${palette_restore}" >&2
+    done
+  done
+  (( blocked )) && echo "${palette_lred}git cannot hold a branch and branches under it - rename or delete the blocker${palette_restore}" >&2
+  return ${blocked}
 }
 
 # one .beads db at the session root, reachable from any worktree. --skip-agents
@@ -262,7 +332,7 @@ function _sessions_add_repos() {
 # --empty: root setup and tmux window only, no repo pick - fill with 'add' later.
 # a flag rather than "pick nothing", so Esc in the picker still cancels
 function _sessions_new() {
-  local empty=0 session repos
+  local empty=0 session repos branch
   case "${1}" in
     "")      ;;
     --empty) empty=1 ;;
@@ -287,9 +357,12 @@ function _sessions_new() {
 
   repos=$(_sessions_pick_repos) || return 1
   [[ -z "${repos}" ]] && return 1
+  branch=$(_sessions_session_branch "${session}")
+  _sessions_fetch "${repos}" || return 1
+  _sessions_preflight "${repos}" "${branch}" || return 1
 
   mkdir -p "${SESSIONS_ROOT}/${session}"
-  if ! _sessions_add_repos "${session}" "${repos}"; then
+  if ! _sessions_add_repos "${session}" "${repos}" "${branch}"; then
     echo "${palette_lred}${session} is incomplete - fix the above, then 'sessions add'${palette_restore}" >&2
     return 1
   fi
@@ -299,14 +372,17 @@ function _sessions_new() {
 }
 
 function _sessions_add() {
-  local session repos
+  local session repos branch
   session=$(_sessions_pick_session) || return 1
   [[ -z "${session}" ]] && return 1
 
   repos=$(_sessions_pick_repos) || return 1
   [[ -z "${repos}" ]] && return 1
+  branch=$(_sessions_session_branch "${session}")
+  _sessions_fetch "${repos}" || return 1
+  _sessions_preflight "${repos}" "${branch}" || return 1
 
-  if ! _sessions_add_repos "${session}" "${repos}"; then
+  if ! _sessions_add_repos "${session}" "${repos}" "${branch}"; then
     echo "${palette_lred}${session} is incomplete - fix the above and retry${palette_restore}" >&2
     return 1
   fi
@@ -345,19 +421,10 @@ function _sessions_branches() {
 # adopt an existing branch as a session: session name = branch, '/' flattened.
 # repos that lack the branch are skipped. joins the session if it exists
 function _sessions_adopt() {
-  local branch=$1 repos session adopted=0 failed=0 repo err
+  local branch=$1 repos session adopted=0 failed=0 repo targets=()
   repos=$(_sessions_pick_repos) || return 1
   [[ -z "${repos}" ]] && return 1
-
-  # every remote, not just origin: the branch list and the remote ref adopted
-  # both come from remote-tracking refs, which are only as fresh as this fetch
-  for repo in ${(f)repos}; do
-    if ! err=$(git -C "${repo}" fetch --all --prune --quiet 2>&1); then
-      echo "${palette_lred}fetch failed in ${repo} - refusing to adopt from stale remotes${palette_restore}" >&2
-      [[ -n "${err}" ]] && print -r -- "${err}" | sed 's|^|  |' >&2
-      return 1
-    fi
-  done
+  _sessions_fetch "${repos}" || return 1
 
   if [[ -z "${branch}" ]]; then
     branch=$(_sessions_branches "${repos}" | fzf --reverse --prompt='branch to adopt: ') || return 1
@@ -366,15 +433,24 @@ function _sessions_adopt() {
   session=${branch//\//-}
   session=$(echo "${session}" | tr -s ' ' '-')
 
-  mkdir -p "${SESSIONS_ROOT}/${session}"
   for repo in ${(f)repos}; do
     repo=$(cd "${repo}" && pwd -P)
     if git -C "${repo}" show-ref --verify --quiet "refs/heads/${branch}" \
        || _sessions_remote_branch "${repo}" "${branch}" >/dev/null 2>&1; then
-      _sessions_add_worktree "${repo}" "${session}" "${branch}" && adopted=1 || failed=1
+      targets+=("${repo}")
     else
       echo "${palette_lyellow}skip ${repo} - no branch ${branch}${palette_restore}"
     fi
+  done
+  if (( ! ${#targets} )); then
+    echo "${palette_lred}no repo has ${branch}${palette_restore}" >&2
+    return 1
+  fi
+  _sessions_preflight "${(F)targets}" "${branch}" || return 1
+
+  mkdir -p "${SESSIONS_ROOT}/${session}"
+  for repo in ${targets}; do
+    _sessions_add_worktree "${repo}" "${session}" "${branch}" && adopted=1 || failed=1
   done
   if (( ! adopted )); then
     rmdir "${SESSIONS_ROOT}/${session}" 2>/dev/null
@@ -410,7 +486,7 @@ function _sessions_reinit() {
 }
 
 function _sessions_delete() {
-  local session dir worktrees dirty open confirm main wt
+  local session dir worktrees dirty open confirm main wt branch
   session=$(_sessions_pick_session) || return 1
   [[ -z "${session}" ]] && return 1
   dir="${SESSIONS_ROOT}/${session}"
@@ -422,6 +498,12 @@ function _sessions_delete() {
   # -mindepth 2: worktrees sit one level down, and a .git at the session root is
   # not a worktree of anything, so keep the root out of scope regardless
   worktrees=$(find "${dir}" -mindepth 2 -maxdepth 2 -name .git 2>/dev/null | sed 's|/\.git$||')
+
+  # best-effort: a stale origin only makes fewer branches count as merged below,
+  # which errs toward prompting and keeping them
+  for wt in ${(f)worktrees}; do
+    git -C "${wt}" fetch --all --prune --quiet 2>/dev/null
+  done
 
   dirty=()
   for wt in ${(f)worktrees}; do
@@ -448,9 +530,19 @@ function _sessions_delete() {
     [[ "${confirm}" == [yY]* ]] || return 1
   fi
 
-  # branches are left alone on purpose - the only copy of unpushed work
+  # a merged branch goes too, or its name keeps blocking others (renovate vs
+  # renovate/*). unmerged ones stay - they may be the only copy of the work
   for wt in ${(f)worktrees}; do
-    main=$(_sessions_main_repo "${wt}") && git -C "${main}" worktree remove --force "${wt}"
+    main=$(_sessions_main_repo "${wt}") || continue
+    branch=$(git -C "${wt}" symbolic-ref --quiet --short HEAD 2>/dev/null)
+    git -C "${main}" worktree remove --force "${wt}" || continue
+    [[ -z "${branch}" ]] && continue
+    if _sessions_merged "${main}" "${branch}"; then
+      git -C "${main}" branch -D --quiet "${branch}" \
+        && echo "${palette_lgreen}deleted merged branch ${branch} in ${main}${palette_restore}"
+    else
+      echo "${palette_lyellow}kept unmerged branch ${branch} in ${main}${palette_restore}"
+    fi
   done
 
   rm -rf "${dir}"

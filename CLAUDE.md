@@ -138,10 +138,10 @@ See `docs/windows-wsl.md` for layout table, workspace grid, `stack.cmd` accordio
 
 ### sessions (multi-repo worktrees)
 
-`dots/shell/sessions.sh` define `sessions new|add|adopt|reinit|delete` (or fzf pick the verb). `adopt` = session from existing branch; `reinit` = re-run idempotent root setup (`_sessions_setup`) on existing session. A *session* = one branch name spanning N repos: `git worktree` of each under `~/sessions/${name}/${repo}`, `sessions.md` copied in as session `CLAUDE.md`, a tmux window, and one `bd init` beads tracker at session root. Nothing touch original checkouts except advancing `origin/*`. `delete` never delete branches, and prompt when worktree dirty or beads open.
+`dots/shell/sessions.sh` define `sessions new|add|adopt|reinit|delete` (or fzf pick the verb). `adopt` = session from existing branch; `reinit` = re-run idempotent root setup (`_sessions_setup`) on existing session. A *session* = one branch name spanning N repos: `git worktree` of each under `~/sessions/${name}/${repo}`, `sessions.md` copied in as session `CLAUDE.md`, a tmux window, and one `bd init` beads tracker at session root. Nothing touch original checkouts except advancing `origin/*`. `delete` delete branch only when provably merged (squash-aware, `_sessions_merged`), keep the rest, and prompt when worktree dirty or beads open. Git cannot hold `a` beside `a/b`; verbs preflight that before creating anything.
 
-Overridable: `SESSIONS_ROOT`, `SESSIONS_TMUX`, `SESSIONS_TEMPLATE`, `SESSIONS_SCAN_DEPTH`, `SESSIONS_INIT_HOOK` (function name, called `<session> <dir>` at end of setup — machine-local, e.g. work).
-See `docs/sessions.md` for repo-name resolution, `--no-track` branch base, beads flags, and why session root not a git repo.
+Overridable: `SESSIONS_ROOT`, `SESSIONS_TMUX`, `SESSIONS_TEMPLATE`, `SESSIONS_SCAN_DEPTH`, `SESSIONS_INIT_HOOK` (function name, called `<session> <dir>` at end of setup — machine-local, e.g. work), `SESSIONS_BRANCH_PREFIX` (namespace for `new` branches, default empty).
+See `docs/sessions.md` for repo-name resolution, `--no-track` branch base, ref conflicts, merged detection, beads flags, and why session root not a git repo.
 
 ### MCP servers
 

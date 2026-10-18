@@ -26,21 +26,48 @@ is free again.
 
 Branches are cut `--no-track` from a freshly fetched `origin/HEAD` (falling back to
 `origin/main`, `origin/master`, then local `HEAD`) — the session branch is new work, so it must
-not inherit the base as its upstream. That fetch is **load-bearing and checked**: if it fails,
-`_sessions_add_worktree` reports and returns 1 rather than branching from whatever was last
-fetched, and `new`/`add` propagate that as a non-zero exit instead of a half-built session.
-A repo with no `origin` is the one exemption — nothing to fetch, and `HEAD` is the base — so
-the guard tests for the remote before treating a fetch failure as one. Both verbs iterate
-`${(f)repos}` rather than piping into `while`, or the failure flag would die in the subshell.
+not inherit the base as its upstream. That fetch is **load-bearing and checked**: `new`, `add`
+and `adopt` all run `_sessions_fetch` (`fetch --all --prune`, every picked repo) before
+anything reads a remote-tracking ref, and a failure stops the verb rather than branching from
+whatever was last fetched. A repo with no remote is the one exemption — nothing to fetch, and
+`HEAD` is the base. `--prune` is not cosmetic: a stale `origin/renovate` makes the fetch of a
+new `origin/renovate/*` fail outright (see below). The verbs iterate `${(f)repos}` rather than
+piping into `while`, or failure flags would die in the subshell.
+
+## Branch names and ref conflicts
+
+Git stores refs as files, so `renovate` and `renovate/vault` cannot coexist — one would have to
+be both a file and a directory. Tools own namespaces like that (Renovate's `renovate/*`,
+Dependabot's `dependabot/*`), so a session named after one blocks the tool's branches.
+
+- **`SESSIONS_BRANCH_PREFIX`** (default empty) namespaces the branches `new` cuts: `bw` turns
+  session `renovate` into branch `bw/renovate`. A trailing `/` is optional. `adopt` ignores it —
+  an adopted branch keeps its own name.
+- **`add` reuses the session's branch**, read from its first worktree, falling back to what
+  `new` would cut. The dir name alone is not enough: `adopt` flattens `feat/x` to `feat-x`, and a
+  prefix is not in the dir name.
+- **Preflight**: after the fetch and before any dir is created, `_sessions_preflight` checks
+  every target repo for a local or remote-tracking ref that is a path prefix or extension of the
+  branch, and names it (plus the worktree holding it, if any). Remote-tracking refs count
+  because pushing the branch would hit the same conflict on the remote. Without the preflight,
+  the conflict fails mid-loop and leaves a half-built session dir behind.
 
 Nothing about this touches the *original* checkout: `git worktree add` leaves its HEAD, branch
 and working tree alone, so it stays readable for diffs while a session is live. The only thing
 that moves there is `origin/*`, which the fetch advances. Git will refuse to check the session
 branch out in the original while a worktree holds it — `log`/`diff`/`show` are unaffected. `delete` unregisters the worktrees from their *original*
 checkouts (resolved via `--git-common-dir`, since `git worktree remove` only runs there),
-`rm -rf`s the session dir and kills the tmux window — but never deletes branches, which may
-hold the only copy of unpushed work. It prompts for confirmation only when a worktree is dirty
-(uncommitted changes, or commits not on any remote — so a repo with no remote always counts).
+`rm -rf`s the session dir and kills the tmux window. It deletes a session branch only when
+`_sessions_merged` proves its work is on `origin`'s default branch; any other branch is kept,
+since it may hold the only copy of the work. Leaving merged branches behind is what lets a dead
+`renovate` block `renovate/*` later. "Merged" means the tree is identical to the default
+branch, or every commit has a patch-equivalent there (merged or rebased), or — for GitHub
+squash merges, which fool both `branch -d` and `git cherry` — the branch's whole diff, built as
+one synthetic commit on the merge base, has a patch-equivalent there. Any git error counts as
+unmerged. `delete` fetches first (best-effort: offline only means fewer branches count as
+merged). It prompts for confirmation only when a worktree is dirty: uncommitted changes, or
+commits not on any remote **unless merged**. A squash-merged branch whose remote branch was
+deleted has commits on no remote, but its work is safe. A repo with no remote always counts.
 
 `new` and `add` also symlink every worktree's `.claude/agents/*.md` into the session root's own `.claude/agents/`,
 because claude only loads project agents from the directory it launches in, and a session launches at the root.
@@ -92,9 +119,9 @@ never fails the session.
 
 ## adopt
 
-`adopt` turns an existing branch into a session. It fzf-picks repos, runs `git fetch --all` in
-each (checked, like `new`'s fetch — the branch list and the adopted ref both come from
-remote-tracking refs), then fzf-picks a branch from the union of their local branches and
+`adopt` turns an existing branch into a session. It fzf-picks repos, runs `_sessions_fetch` on
+them (the branch list and the adopted ref both come from remote-tracking refs), then
+fzf-picks a branch from the union of their local branches and
 branches on **any** remote. Repos in one session can name remotes differently — `origin` in
 one, only `upstream` in another, a fork alongside — so `origin` is not assumed. The session
 name is the branch with `/` flattened to `-` (`feat/x` lands at `~/sessions/feat-x`). Repos
@@ -103,10 +130,11 @@ local branch **tracking** `<remote>/<branch>` — unlike `new`'s `--no-track`, s
 remote branch *is* the work. `_sessions_remote_branch` picks the remote: `origin` if it has the
 branch, else the first match alphabetically, with a warning when several remotes do. Git refuses a branch
 already checked out elsewhere (including the original checkout), and that error is surfaced.
-Adopting into an existing session name adds to it; if no repo adopts, the empty dir is removed.
+Adopting into an existing session name adds to it. Repos holding the branch are preflighted
+together before the session dir is created; if none can adopt it, no dir is left behind.
 
 Overridable: `SESSIONS_ROOT`, `SESSIONS_TMUX`, `SESSIONS_TEMPLATE`, `SESSIONS_SCAN_DEPTH`,
-`SESSIONS_INIT_HOOK`.
+`SESSIONS_INIT_HOOK`, `SESSIONS_BRANCH_PREFIX`.
 
 Note tmux target names are passed as `"=${SESSIONS_TMUX}"` — the quotes matter, unquoted `=foo`
 hits zsh's equals-expansion.
