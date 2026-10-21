@@ -12,7 +12,6 @@ brew "ansible"
 brew "argo"
 brew "argocd"
 brew "awscli"
-brew "azure-cli"
 brew "bash-completion"
 brew "bat"
 brew "beads"
@@ -105,6 +104,7 @@ brew "txn2/tap/kubefwd"
 brew "lazygit"
 cask "aerospace"
 cask "alacritty", args: { appdir: "/Applications" }
+cask "azure-cli"
 cask "bitwarden"
 cask "brave-browser", args: { appdir: "/Applications" }
 cask "font-fira-code", args: { appdir: "/Applications" }
