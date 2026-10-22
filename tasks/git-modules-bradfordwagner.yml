@@ -56,6 +56,7 @@
    - name: '{{ deploy_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ deploy_dir }}/github.bradfordwagner.deploy.{{ item.name }}'
        version: '{{ item.version | default("main") }}'
      async: '{{ async_timeout }}'
@@ -78,6 +79,7 @@
    - name: '{{ personal_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ personal_dir }}/github.bradfordwagner.{{ item.name }}'
        version: '{{ item.version | default("main") }}'
      async: '{{ async_timeout }}'
@@ -93,6 +95,7 @@
    - name: '{{ src_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ src_dir }}/bradfordwagner.src.{{ item.name }}'
        version: '{{ item.version | default("main") }}'
      async: '{{ async_timeout }}'
@@ -147,6 +150,7 @@
    - name: '{{ go_lib }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ go_lib }}/bradfordwagner.go.lib.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -168,6 +172,7 @@
    - name: '{{ go_bin }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ go_bin }}/bradfordwagner.go.bin.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -195,6 +200,7 @@
    - name: '{{ charts_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ charts_dir }}/bradfordwagner.chart.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -218,6 +224,7 @@
    - name: '{{ terraform_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ terraform_dir }}/bradfordwagner.tf.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -250,6 +257,7 @@
    - name: '{{ ansible_roles_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ ansible_roles_dir }}/bradfordwagner.ansible.role.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -285,6 +293,7 @@
    - name: '{{ containers_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ containers_dir }}/{{ item.base }}/bradfordwagner.container.{{ item.base }}.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -345,6 +354,7 @@
    - name: '{{ templates_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ templates_dir }}/bradfordwagner.template.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -370,6 +380,7 @@
    - name: '{{ gh_actions_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ gh_actions_dir }}/bradfordwagner.gh.actions.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -383,6 +394,7 @@
    - name: '{{ research_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ research_dir }}/research.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -398,6 +410,7 @@
    - name: '{{ forks_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ forks_dir }}/gh.forks.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -419,8 +432,6 @@
        repo: https://github.com/bradfordwagner/paketo-go-mod-vendor.git
      - name: envoy.sidecar.helper
        repo: https://github.com/bradfordwagner/envoy-sidecar-helper.git
-     - name: paketo.buildpacks.go.dist
-       repo: https://github.com/bradfordwagner/paketo-buildpacks-go-dist.git
      - name: mcp.argocd
        repo: https://github.com/bradfordwagner/mcp-for-argocd.git
 
@@ -428,6 +439,7 @@
    - name: '{{ yaml_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ yaml_dir }}/yaml.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -441,6 +453,7 @@
    - name: '{{ ansible_playbooks_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ ansible_playbooks_dir }}/ansible.playbook.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -454,6 +467,7 @@
    - name: '{{ github_web_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ github_web_dir }}/web.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -465,6 +479,7 @@
    - name: '{{ arch_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ arch_dir }}/arch.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'
@@ -476,6 +491,7 @@
    - name: '{{ tmux_dir }}'
      git:
        repo: '{{ item.repo }}'
+       update: '{{ git_update | bool }}'
        dest: '{{ tmux_dir }}/tmux.{{ item.name }}'
      async: '{{ async_timeout }}'
      poll: '{{ poll_timeout }}'

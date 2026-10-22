@@ -10,6 +10,9 @@
     # `-e git_clone=true` on its own still clones both sets, as it always has.
     git_clone_bw: true
     git_clone_os: true
+    # bradfordwagner repos: false clones only missing repos and leaves existing
+    # checkouts untouched (no fetch, no branch switch). true pulls every repo.
+    git_update: false
     user:
       # in some cases we need to create the user
       # so current user would not suffice
