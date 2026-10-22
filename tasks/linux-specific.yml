@@ -42,6 +42,19 @@
   failed_when: false
   changed_when: false
 
+# the symlink's parent must exist first: fresh hosts (e.g. the CI container)
+# have no /home/linuxbrew at all, and the file module won't create it.
+- name: linuxbrew - ensure prefix parent dir exists
+  become: true
+  ansible.builtin.file:
+    path: /home/linuxbrew
+    state: directory
+    mode: '0755'
+  when:
+    - linuxbrew_home_ok
+    - linuxbrew_sudo.rc == 0
+    - not linuxbrew_dest.stat.exists
+
 - name: linuxbrew - enforce prefix symlink onto persistent store
   become: true
   ansible.builtin.file:
