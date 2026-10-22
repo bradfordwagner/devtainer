@@ -91,6 +91,8 @@
        repo: https://github.com/bradfordwagner/infra.git
      - name: k8s.deployments
        repo: https://github.com/bradfordwagner/k8s-deployments.git
+     - name: renovate
+       repo: https://github.com/bradfordwagner/renovate.git
 
    - name: '{{ src_dir }}'
      git:
