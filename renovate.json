@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>bradfordwagner/renovate"],
+  "packageRules": [
+    {
+      "description": "Galaxy lists no versions for this role; its tags live on GitHub",
+      "matchManagers": ["ansible-galaxy"],
+      "matchDepNames": ["luizgavalda.aur"],
+      "overrideDatasource": "github-tags",
+      "overridePackageName": "luizgavalda/aur"
+    }
+  ]
+}
