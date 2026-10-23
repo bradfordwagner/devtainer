@@ -307,20 +307,22 @@ function ghs() {
     return 1
   fi
   if [ "$(printf '%s\n' "$users" | wc -l)" -eq 1 ]; then
-    echo "ghs: only one github.com account authenticated ($users) — nothing to switch"
-    echo "ghs: to authenticate another account: $login_cmd"
-    return 0
+    # nothing to switch, but still sync identity below so a fresh host with a
+    # single account gets user.name/user.email set
+    user=$users
+    echo "ghs: only one github.com account authenticated ($user) — syncing identity"
+  else
+    # currently active account gets a ** marker in the picker
+    active=$(printf '%s\n' "$auth_status" | awk '
+      /Logged in to github.com account/ { for (i=1;i<=NF;i++) if ($i=="account") u=$(i+1) }
+      /Active account: true/            { print u; exit }')
+    user=$(printf '%s\n' "$users" \
+      | sed "s/^${active}\$/& **/" \
+      | fzf --prompt='gh account> ' --height=~40% --no-multi) || return
+    user=${user% **}
+    [ -n "$user" ] || return
+    gh auth switch --hostname github.com --user "$user" || return
   fi
-  # currently active account gets a ** marker in the picker
-  active=$(printf '%s\n' "$auth_status" | awk '
-    /Logged in to github.com account/ { for (i=1;i<=NF;i++) if ($i=="account") u=$(i+1) }
-    /Active account: true/            { print u; exit }')
-  user=$(printf '%s\n' "$users" \
-    | sed "s/^${active}\$/& **/" \
-    | fzf --prompt='gh account> ' --height=~40% --no-multi) || return
-  user=${user% **}
-  [ -n "$user" ] || return
-  gh auth switch --hostname github.com --user "$user" || return
   # pull commit identity from the now-active account (no identity hardcoded here);
   # fall back to login / GitHub noreply address when the fields are private.
   local name email login id
