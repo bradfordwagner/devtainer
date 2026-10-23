@@ -368,6 +368,8 @@
        repo: https://github.com/bradfordwagner/gh-template-go-cli.git
      - name: container.mirror.image
        repo: https://github.com/bradfordwagner/gh-template-mirror-image.git
+     - name: container.custom.image
+       repo: https://github.com/bradfordwagner/gh-template-custom-image.git
      - name: ansible.role
        repo: https://github.com/bradfordwagner/gh-template-ansible-role.git
      - name: ansible.playbook
