@@ -44,7 +44,7 @@ jobs:
           id=docker_configs/${RANDOM}
           mkdir -p $HOME/${id}/.docker
           echo "DOCKER_CONFIG=$HOME/${id}/.docker" >> $GITHUB_ENV
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@v4
         name: login=ghcr.io
         with:
           registry: ghcr.io
@@ -81,7 +81,7 @@ jobs:
           id=docker_configs/${RANDOM}
           mkdir -p $HOME/${id}/.docker
           echo "DOCKER_CONFIG=$HOME/${id}/.docker" >> $GITHUB_ENV
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@v4
         name: login=ghcr.io
         with:
           registry: ghcr.io
