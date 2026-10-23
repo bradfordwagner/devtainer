@@ -15,7 +15,7 @@ jobs:
     outputs:
       product: ${{ steps.config.outputs.product }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: dagger=0.15.2
         run: |
           curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.15.2 sh
@@ -35,7 +35,7 @@ jobs:
       matrix:
         product: ${{ fromJSON(needs.product.outputs.product) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: dagger=0.15.2
         run: |
           curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.15.2 sh
@@ -73,7 +73,7 @@ jobs:
       actor: ${{ github.actor }}
       token: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: dagger=0.15.2
         run: |
           curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.15.2 sh
