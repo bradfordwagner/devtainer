@@ -5,25 +5,25 @@
 # are used) but back its storage with a symlink into the persistent home volume.
 # Only the symlink lives on the throwaway layer, so re-creating it after a rebuild
 # restores brew without reinstalling. See coder.md.
-# Guard against a broken HOME: if ansible_env.HOME is empty/undefined, the paths
+# Guard against a broken HOME: if ansible_facts.env.HOME is empty/undefined, the paths
 # below render as bare "/linuxbrew" and the force:true relink would repoint the
 # blessed prefix at the filesystem root — poisoning brew (every `brew link` then
 # fails with "Permission denied @ dir_s_mkdir - /linuxbrew"). Skip all brew
 # symlink management in that case rather than risk it.
 - name: linuxbrew - assert HOME is usable
   ansible.builtin.set_fact:
-    linuxbrew_home_ok: "{{ ansible_env.HOME is defined and (ansible_env.HOME | default('') | length > 0) }}"
+    linuxbrew_home_ok: "{{ ansible_facts.env.HOME is defined and (ansible_facts.env.HOME | default('') | length > 0) }}"
 
 - name: linuxbrew - warn if HOME is unusable
   ansible.builtin.debug:
     msg: >-
-      ansible_env.HOME is empty/undefined — skipping brew prefix symlink
+      ansible_facts.env.HOME is empty/undefined — skipping brew prefix symlink
       management to avoid pointing /home/linuxbrew/.linuxbrew at /linuxbrew.
   when: not linuxbrew_home_ok
 
 - name: linuxbrew - ensure persistent store dir exists in home
   ansible.builtin.file:
-    path: '{{ ansible_env.HOME }}/linuxbrew'
+    path: '{{ ansible_facts.env.HOME }}/linuxbrew'
     state: directory
     mode: '0755'
   when: linuxbrew_home_ok
@@ -58,7 +58,7 @@
 - name: linuxbrew - enforce prefix symlink onto persistent store
   become: true
   ansible.builtin.file:
-    src: '{{ ansible_env.HOME }}/linuxbrew'
+    src: '{{ ansible_facts.env.HOME }}/linuxbrew'
     dest: /home/linuxbrew/.linuxbrew
     state: link
     force: true

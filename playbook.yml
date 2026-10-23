@@ -21,7 +21,7 @@
       password: '!'
       create: '{{ ansible_facts.distribution == "Archlinux" }}'
     devtainer:
-      dir: '{{ ansible_env.HOME }}/dotfiles'
+      dir: '{{ ansible_facts.env.HOME }}/dotfiles'
       clone:
         strategy: https
         https: https://github.com/bradfordwagner/devtainer.git
@@ -66,9 +66,9 @@
     - name: set k9s_config_dir
       ansible.builtin.set_fact:
         k9s_config_dir: >-
-          {{ k9s_config_dir_cmd.stdout | replace(ansible_env.HOME + '/', '')
+          {{ k9s_config_dir_cmd.stdout | replace(ansible_facts.env.HOME + '/', '')
              if (k9s_config_dir_cmd is succeeded and k9s_config_dir_cmd.stdout | length > 0)
-             else ('.config/k9s' if ansible_system == 'Linux' else 'Library/Application Support/k9s') }}
+             else ('.config/k9s' if ansible_facts.system == 'Linux' else 'Library/Application Support/k9s') }}
 
     # setup login/etc
     - name: jinga templates

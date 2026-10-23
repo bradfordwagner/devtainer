@@ -8,6 +8,6 @@
 - name: Create symlink from ~/.dotfiles to ~/dotfiles for backward compatibility
   file:
     src: '{{ devtainer.dir }}'
-    dest: '{{ ansible_env.HOME }}/.dotfiles'
+    dest: '{{ ansible_facts.env.HOME }}/.dotfiles'
     state: link
     force: yes

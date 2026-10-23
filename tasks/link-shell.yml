@@ -5,7 +5,7 @@
   block:
     - name: init required dirs
       file:
-        path: '{{ ansible_env.HOME }}/{{ item }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ item }}'
         state: directory
         mode: 0755
       loop:
@@ -23,7 +23,7 @@
 
     - name: link configdir
       file:
-        path: '{{ ansible_env.HOME }}/.config/{{ item }}'
+        path: '{{ ansible_facts.env.HOME }}/.config/{{ item }}'
         state: link
         src: '{{ devtainer.dir }}/dots/config/{{ item }}'
         force: true
@@ -48,7 +48,7 @@
 
     - name: link configurations [soft]
       file:
-        path: '{{ ansible_env.HOME }}/{{ item.path }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ item.path }}'
         state: link
         src: '{{ devtainer.dir }}/dots/{{ item.src }}'
         force: true
@@ -105,7 +105,7 @@
 
     - name: link configurations [hard]
       file:
-        path: '{{ ansible_env.HOME }}/{{ item.path }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ item.path }}'
         state: hard
         src: '{{ devtainer.dir }}/dots/{{ item.src }}'
         force: true

@@ -1,7 +1,7 @@
 ---
 
 - vars:
-    workspace_dir: '{{ ansible_env.HOME }}/workspace'
+    workspace_dir: '{{ ansible_facts.env.HOME }}/workspace'
 
     github_dir: '{{ workspace_dir }}/github'
 

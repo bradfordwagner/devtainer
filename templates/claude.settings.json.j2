@@ -8,7 +8,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "{{ ansible_env.HOME }}/workspace/github/bradfordwagner/tmux/tmux.claude.notify/bin/claude-notify notify"
+            "command": "{{ ansible_facts.env.HOME }}/workspace/github/bradfordwagner/tmux/tmux.claude.notify/bin/claude-notify notify"
           }
         ]
       }
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "{{ ansible_env.HOME }}/.claude/hooks/bd-ready.sh"
+            "command": "{{ ansible_facts.env.HOME }}/.claude/hooks/bd-ready.sh"
           }
         ]
       }
