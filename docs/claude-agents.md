@@ -108,7 +108,7 @@ Keybindings live in `dots/config/claude/keybindings.json` and are copied to `~/.
 
 Available custom commands:
 - `/cc` — conventional commit: diffs, stages session files, commits, and pushes
-- `/bw-role-update [name]` — checks local `bradfordwagner.ansible.role.*` repos for upstream version drift (table report), then on confirmation bumps + releases the ones that need it (branch → PR → CI → merge → tag → Galaxy publish → verify)
+- `/bw-role-update [name]` — lists open Renovate PRs (and PR-less `renovate/*` branches) on the `ansible-role-*` repos, merges the confirmed ones, then follows each `release`-labeled merge through its tag and Galaxy publish. Renovate does the version checks.
 
 Custom keybindings (`dots/config/claude/keybindings.json`):
 - `ctrl+y` — background current task/agent (return to fleet view)
