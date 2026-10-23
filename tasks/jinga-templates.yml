@@ -7,7 +7,7 @@
         - .profile
         - .zprofile
       file:
-        path: '{{ ansible_env.HOME }}/{{ item }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ item }}'
         state: absent
 
     - name: install env
@@ -15,7 +15,7 @@
         - .zshenv
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
-        path: '{{ ansible_env.HOME }}/{{ item }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ item }}'
         create: true
         block: "{{ lookup('template', 'templates/env.sh.j2') }}"
 
@@ -25,7 +25,7 @@
           dest: .gitconfig
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
-        path: '{{ ansible_env.HOME }}/{{ item.dest }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ item.dest }}'
         create: true
         mode: '0600'
         block: "{{ lookup('template', item.source) }}"
@@ -33,13 +33,13 @@
     - name: install .xsession (launches sway directly, skips XFCE session manager)
       ansible.builtin.template:
         src: "{{ playbook_dir }}/templates/xsession.j2"
-        dest: "{{ ansible_env.HOME }}/.xsession"
+        dest: "{{ ansible_facts.env.HOME }}/.xsession"
         mode: '0755'
-      when: ansible_system == 'Linux'
+      when: ansible_facts.system == 'Linux'
 
     - name: ensure k9s config dir exists
       ansible.builtin.file:
-        path: '{{ ansible_env.HOME }}/{{ k9s_config_dir }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ k9s_config_dir }}'
         state: directory
         mode: '0755'
 
@@ -49,7 +49,7 @@
           dest: "{{ k9s_config_dir }}/config.yaml"
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
-        path: '{{ ansible_env.HOME }}/{{ item.dest }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ item.dest }}'
         create: true
         block: "{{ lookup('template', item.source) }}"
 
@@ -59,7 +59,7 @@
           dest: .config/StartTree/config.yaml
       ansible.builtin.blockinfile:
         marker: "# {mark} ANSIBLE MANAGED BLOCK devtainer profile"
-        path: '{{ ansible_env.HOME }}/{{ item.dest }}'
+        path: '{{ ansible_facts.env.HOME }}/{{ item.dest }}'
         create: true
         block: "{{ lookup('template', item.source) }}"
 
@@ -109,13 +109,13 @@
 
     - name: Ensure Cursor config directory exists
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.cursor"
+        path: "{{ ansible_facts.env.HOME }}/.cursor"
         state: directory
         mode: '0755'
 
     - name: Install Cursor MCP configuration
       ansible.builtin.template:
         src: "{{ playbook_dir }}/templates/cursor.mcp.json.j2"
-        dest: "{{ ansible_env.HOME }}/.cursor/mcp.json"
+        dest: "{{ ansible_facts.env.HOME }}/.cursor/mcp.json"
         mode: '0644'
 

@@ -2,7 +2,7 @@
 live_config_reload = true
 # https://github.com/alacritty/alacritty-theme/tree/master/themes
 import = [
-    "{{ ansible_env.HOME }}/.alacritty-themes/themes/{{ alacritty_theme }}.toml"
+    "{{ ansible_facts.env.HOME }}/.alacritty-themes/themes/{{ alacritty_theme }}.toml"
 ]
 
 [colors]
