@@ -42,6 +42,19 @@
   failed_when: false
   changed_when: false
 
+# the symlink's parent must exist first: fresh hosts (e.g. the CI container)
+# have no /home/linuxbrew at all, and the file module won't create it.
+- name: linuxbrew - ensure prefix parent dir exists
+  become: true
+  ansible.builtin.file:
+    path: /home/linuxbrew
+    state: directory
+    mode: '0755'
+  when:
+    - linuxbrew_home_ok
+    - linuxbrew_sudo.rc == 0
+    - not linuxbrew_dest.stat.exists
+
 - name: linuxbrew - enforce prefix symlink onto persistent store
   become: true
   ansible.builtin.file:
@@ -66,9 +79,17 @@
     - linuxbrew_sudo.rc != 0
     - not linuxbrew_dest.stat.exists
 
-- block:
-  - name: install fzf completions
-    shell: $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc
+# call fzf's installer by its brew path rather than `$(brew --prefix)`: brew is
+# often not on the non-login PATH ansible runs with, and hosts without brew
+# (e.g. the CI container) have no fzf to install at all — skip there.
+- name: fzf - stat brew installer
+  ansible.builtin.stat:
+    path: /home/linuxbrew/.linuxbrew/opt/fzf/install
+  register: fzf_installer
+
+- name: install fzf completions
+  shell: /home/linuxbrew/.linuxbrew/opt/fzf/install --key-bindings --completion --no-update-rc
+  when: fzf_installer.stat.exists
 
 - name: xfce - check xfconf-query exists
   shell: command -v xfconf-query
