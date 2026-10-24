@@ -23,19 +23,53 @@
 # Usage: gh_builds.sh [-o OWNER]... [-d DAYS] [-n SECS] [-p PARALLEL] [-1]
 #   -o OWNER   user/org to scan, repeatable        (default: your gh login)
 #   -d DAYS    only repos pushed within DAYS      (default: 3, 0 = all repos)
-#   -n SECS    refresh interval                   (default: 15)
+#   -n SECS    refresh interval                   (default: 5)
 #   -p N       parallel repo fetches              (default: 8)
 #   -1         print once and exit (no live mode)
 #   -m N       concurrent job cap to track against   (default: 20, GitHub Free)
 #
-# Requires: gh (authenticated), jq.
+# Requires: gh (authenticated), jq, yq.
 
 # Worker mode: one repo, emit one TSV line per unfinished run, plus finished
 # runs whose id is in $GH_BUILDS_STATE/seen. Status is the conclusion once
 # finished, and age becomes the run's duration.
-#   finished(0|1)  repo  id  workflow  branch  status  age_secs  done  running  queued  total  url
+#   finished(0|1)  repo  id  workflow  branch  status  age_secs  done  running  queued  total  spawned  url
+# Jobs are refetched every refresh while a run is active, because a run's job
+# count is not fixed: a matrix built from an earlier job's output only adds its
+# jobs once that job finishes. spawned = jobs added since live mode first saw
+# the run, kept in $GH_BUILDS_STATE/total.
+#
+# The API also lists a job only once it is created, and a job is created only
+# when its `needs` are done: a `manifest` job after a matrix is invisible until
+# the matrix ends. So total also counts workflow jobs (read from the run's
+# workflow file at its commit) that no created job matches yet, one each, since
+# a matrix's width is unknown until it starts.
 # Fields must never be empty: tab is IFS whitespace, so `read` collapses runs of it.
 if [[ "$1" == "--_repo" ]]; then
+  # Input: workflow file as JSON. $names: names of the jobs created so far.
+  # Output: how many workflow jobs have no created job yet. A job's created name
+  # is its literal `name` (plus " (matrix values)"), "<name> / ..." for a
+  # reusable workflow, or a pattern when `name` holds ${{ }}. Patterns only
+  # match names no literal job claimed, and a job never counts as created
+  # before everything it `needs` has.
+  pending_jq='def esc: gsub("(?<c>[.*+?^$()\\[\\]{}|\\\\/])"; "\\\(.c)");
+def templated: test("\\$\\{\\{");
+def pattern($k):
+  (.name // $k | tostring) as $n
+  | if .uses then "^" + ($n | esc) + " / "
+    elif ($n | templated) then "^" + ([$n | splits("\\$\\{\\{.*?\\}\\}")] | map(esc) | join(".*")) + "$"
+    else "^" + ($n | esc) + "( \\(.*\\))?$" end;
+(.jobs // {}) as $jobs
+| [$jobs | to_entries[] | {k: .key, needs: ([.value.needs // empty] | flatten),
+    tmpl: ((.value.name // .key | tostring) | templated), re: (.value | pattern(.key))}] as $defs
+| [$defs[] | select(.tmpl | not) | .re as $re | $names[] | select(test($re))] as $claimed
+| ($defs | map(.re as $re | .tmpl as $t | {key: .k, value:
+      any($names[]; test($re) and (($t | not) or (. as $n | $claimed | index([$n]) | not)))})
+  | from_entries) as $matched
+| reduce range($defs | length) as $_ ($matched;
+    . as $c | reduce $defs[] as $d (.; .[$d.k] = ($matched[$d.k] and all($d.needs[]; $c[.] // true))))
+| . as $created
+| [$defs[] | select($created[.k] | not)] | length'
   repo="$2" state="${GH_BUILDS_STATE}" seen=/dev/null
   [[ -n "${state}" ]] && seen="${state}/seen"
   gh api "repos/${repo}/actions/runs?per_page=30" 2>/dev/null \
@@ -47,22 +81,43 @@ if [[ "$1" == "--_repo" ]]; then
            (if .status == "completed" then .conclusion // "completed" else .status end),
            ((if .status == "completed" then .updated_at | fromdateiso8601 else now end)
              - (.run_started_at // .created_at | fromdateiso8601) | floor),
-           .html_url] | @tsv' \
-    | while IFS=$'\t' read -r id name branch run_status age url; do
+           .html_url, (.path | sub("@.*"; "")), .head_sha] | @tsv' \
+    | while IFS=$'\t' read -r id name branch run_status age url wf_path sha; do
         cache="${state}/done/${id}"
+        # A re-run reuses the run id, so only trust the cache while it is still finished.
+        [[ "${run_status}" == (queued|in_progress|waiting|pending|requested) ]] && rm -f "${cache}"
         if [[ -n "${state}" && -f "${cache}" ]]; then
           cat "${cache}"
           continue
         fi
-        jobs=$(gh api "repos/${repo}/actions/runs/${id}/jobs?per_page=100" 2>/dev/null \
-          | jq -r '[.jobs[] | .status]
-                   | [(map(select(. == "completed")) | length),
-                      (map(select(. == "in_progress")) | length),
-                      (map(select(. == "queued" or . == "waiting" or . == "pending")) | length),
-                      length] | @tsv')
+        # --paginate: a big matrix can pass the 100-jobs-per-page cap.
+        job_rows=$(gh api --paginate "repos/${repo}/actions/runs/${id}/jobs?per_page=100" \
+          -q '.jobs[] | [.status, .name] | @tsv' 2>/dev/null)
+        pending=0
+        if [[ "${run_status}" != (success|failure|cancelled|skipped|timed_out|neutral|stale|action_required|startup_failure|completed) ]]; then
+          wf_cache="${state}/wf/${sha}-${wf_path:t}.json"
+          if [[ -n "${state}" && -s "${wf_cache}" ]]; then
+            wf=$(<"${wf_cache}")
+          else
+            wf=$(gh api "repos/${repo}/contents/${wf_path}?ref=${sha}" -q .content 2>/dev/null | base64 -d 2>/dev/null | yq -o json 2>/dev/null)
+            [[ -n "${state}" && -n "${wf}" ]] && print -r -- "${wf}" > "${wf_cache}"
+          fi
+          [[ -n "${wf}" ]] && pending=$(print -r -- "${wf}" \
+            | jq --argjson names "$(print -r -- "${job_rows}" | cut -f2 | grep . | jq -R . | jq -sc .)" "${pending_jq}" 2>/dev/null)
+        fi
+        jobs=$(print -r -- "${job_rows}" | awk -F'\t' -v p="${pending:-0}" '
+                 $1 == "completed" { d++ } $1 == "in_progress" { r++ }
+                 $1 == "queued" || $1 == "waiting" || $1 == "pending" { q++ } $1 != "" { n++ }
+                 END { printf "%d\t%d\t%d\t%d", d, r, q, n + p }')
+        spawned=0
+        if [[ -n "${state}" ]]; then
+          total=${jobs##*$'\t'}
+          [[ -f "${state}/total/${id}" ]] || print -r -- "${total}" > "${state}/total/${id}"
+          spawned=$(( total - $(<"${state}/total/${id}") ))
+        fi
         finished=1
         case "${run_status}" in queued|in_progress|waiting|pending|requested) finished=0 ;; esac
-        line="${finished}"$'\t'"${repo}"$'\t'"${id}"$'\t'"${name}"$'\t'"${branch}"$'\t'"${run_status}"$'\t'"${age}"$'\t'"${jobs:-$'0\t0\t0\t0'}"$'\t'"${url}"
+        line="${finished}"$'\t'"${repo}"$'\t'"${id}"$'\t'"${name}"$'\t'"${branch}"$'\t'"${run_status}"$'\t'"${age}"$'\t'"${jobs:-$'0\t0\t0\t0'}"$'\t'"${spawned}"$'\t'"${url}"
         print -r -- "${line}"
         (( finished )) && [[ -n "${state}" ]] && print -r -- "${line}" > "${cache}"
       done
@@ -71,7 +126,7 @@ fi
 
 owners=()
 days=3
-interval=15
+interval=5
 parallel=8
 once=0
 max_jobs=20
@@ -104,11 +159,18 @@ fmt_age() {
 # the escape bytes are invisible but printf would count them toward the width.
 link() { printf '\e]8;;%s\e\\%s\e]8;;\e\\' "$1" "$2"; }
 
+# bar DONE RUNNING TOTAL [WIDTH] [COLOR]: DONE share in COLOR (green), RUNNING
+# share in yellow after it, the rest dim. Any running job gets at least one cell.
 bar() {
-  local pct=$1 width=${2:-20} color=${3:-${c_green}} filled
-  (( pct > 100 )) && pct=100
-  filled=$(( pct * width / 100 ))
-  printf '%s%s%s%s' "${color}" "${(l:filled::█:)}" "${c_dim}${(l:$(( width - filled ))::░:)}" "${c_reset}"
+  local done_n=$1 running=$2 total=$3 width=${4:-20} color=${5:-${c_green}} d r
+  (( total > 0 )) || total=1
+  d=$(( done_n * width / total ))
+  (( d > width )) && d=${width}
+  r=$(( (done_n + running) * width / total - d ))
+  (( running > 0 && r == 0 )) && r=1
+  (( d + r > width )) && r=$(( width - d ))
+  printf '%s%s%s%s%s%s' "${color}" "${(l:d::█:)}" "${c_yellow}" "${(l:r::█:)}" \
+    "${c_dim}${(l:$(( width - d - r ))::░:)}" "${c_reset}"
 }
 
 list_repos() {
@@ -137,16 +199,24 @@ render() {
   if [[ -z "${rows}" ]]; then
     out+="${c_dim}No queued or running builds.${c_reset}"$'\n'
   else
-    local finished repo id name branch run_status age done_n running queued total url pct color jobs
-    local n_runs=0 n_running_runs=0 n_finished=0 sum_done=0 sum_running=0 sum_queued=0 sum_total=0
+    local finished repo id name branch run_status age done_n running queued total spawned url pct color jobs
+    local n_runs=0 n_running_runs=0 n_queued_runs=0 n_finished=0 sum_done=0 sum_running=0 sum_queued=0 sum_total=0
     out+=$(printf "${c_bold}%-34s %-24s %-20s %-11s %7s %5s  %-20s %8s${c_reset}" \
       REPO WORKFLOW BRANCH STATUS JOBS % PROGRESS AGE)$'\n'
-    while IFS=$'\t' read -r finished repo id name branch run_status age done_n running queued total url; do
+    while IFS=$'\t' read -r finished repo id name branch run_status age done_n running queued total spawned url; do
       if (( finished )); then
         (( n_finished++ ))
       else
         (( n_runs++, sum_done += done_n, sum_running += running, sum_queued += queued, sum_total += total ))
-        [[ "${run_status}" == in_progress ]] && (( n_running_runs++ ))
+        # Go by jobs, not the run's status: GitHub flips a run to in_progress late
+        # (or early, while its jobs still wait for a runner). Running jobs = in progress.
+        if (( running > 0 )); then
+          run_status=in_progress
+          (( n_running_runs++ ))
+        else
+          [[ "${run_status}" == in_progress ]] && run_status=queued
+          (( n_queued_runs++ ))
+        fi
       fi
       pct=0; (( total > 0 )) && pct=$(( done_n * 100 / total ))
       case "${run_status}" in
@@ -160,19 +230,20 @@ render() {
       jobs="${done_n}/${total}"; (( total == 0 )) && jobs="-"
       out+=$(printf "%s %s %-20.20s ${color}%-11.11s${c_reset} %7s %4d%%  %s %8s" \
         "$(link "https://github.com/${repo}/actions" "$(printf '%-34.34s' "${repo#*/}")")" \
-        "$(link "${url}" "$(printf '%-24.24s' "${name}")")" "${branch}" "${run_status}" "${jobs}" "${pct}" "$(bar "${pct}")" "$(fmt_age "${age}")")
-      (( running > 0 )) && out+=" ${c_dim}(${running} running)${c_reset}"
+        "$(link "${url}" "$(printf '%-24.24s' "${name}")")" "${branch}" "${run_status}" "${jobs}" "${pct}" "$(bar "${done_n}" "${running}" "${total}")" "$(fmt_age "${age}")")
+      (( running > 0 )) && out+=" ${c_yellow}${running} in progress${c_reset}"
+      (( spawned > 0 )) && out+=" ${c_cyan}+${spawned} spawned${c_reset}"
       out+=$'\n'
     done <<< "${rows}"
     pct=0; (( sum_total > 0 )) && pct=$(( sum_done * 100 / sum_total ))
-    out+=$'\n'"${c_bold}${n_runs} active runs (${n_running_runs} running) · ${sum_done}/${sum_total} jobs · ${pct}%${c_reset}"
+    out+=$'\n'"${c_bold}${c_blue}${n_running_runs} runs in progress${c_reset}${c_bold} · ${c_yellow}${n_queued_runs} queued${c_reset}${c_bold} · ${sum_done}/${sum_total} jobs done, ${c_yellow}${sum_running} in progress${c_reset}${c_bold} · ${pct}%${c_reset}"
     (( n_finished )) && out+="  ${c_dim}${n_finished} finished this session${c_reset}"
     out+=$'\n'
     # GitHub caps concurrently running *jobs* per account (Free: 20), not
     # runs; anything over the cap sits queued until a slot frees up.
     pct=$(( sum_running * 100 / max_jobs ))
     color="${c_green}"; (( pct >= 75 )) && color="${c_yellow}"; (( pct >= 100 )) && color=$'\e[31m'
-    out+="${c_bold}concurrency${c_reset}  ${color}${sum_running}/${max_jobs}${c_reset} jobs running $(bar "${pct}" 40 "${color}") ${pct}%  ${c_dim}${sum_queued} jobs queued${c_reset}"$'\n'
+    out+="${c_bold}concurrency${c_reset}  ${color}${sum_running}/${max_jobs}${c_reset} jobs running $(bar "${sum_running}" 0 "${max_jobs}" 40 "${color}") ${pct}%  ${c_dim}${sum_queued} jobs queued${c_reset}"$'\n'
   fi
   print -rn -- "${out}"
 }
@@ -185,7 +256,7 @@ fi
 # Live mode: alternate screen, build each frame fully before drawing it so the
 # slow fetch never leaves a blank or half-drawn screen.
 export GH_BUILDS_STATE="$(mktemp -d "${TMPDIR:-/tmp}/gh_builds.XXXXXX")"
-mkdir "${GH_BUILDS_STATE}/done"; touch "${GH_BUILDS_STATE}/seen"
+mkdir "${GH_BUILDS_STATE}/done" "${GH_BUILDS_STATE}/total" "${GH_BUILDS_STATE}/wf"; touch "${GH_BUILDS_STATE}/seen"
 tput smcup; tput civis
 trap 'tput cnorm; tput rmcup; rm -rf "${GH_BUILDS_STATE}"; exit 0' INT TERM EXIT
 while true; do
