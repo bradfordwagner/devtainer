@@ -8,12 +8,6 @@
       "matchDepNames": ["luizgavalda.aur"],
       "overrideDatasource": "github-tags",
       "overridePackageName": "luizgavalda/aur"
-    },
-    {
-      "description": "Dagger 0.15.2 engine crash-loops on ubuntu-26.04 runners; hold runners on 24.04 until dagger is upgraded",
-      "matchManagers": ["github-actions"],
-      "matchDepNames": ["ubuntu"],
-      "allowedVersions": "<26"
     }
   ]
 }
