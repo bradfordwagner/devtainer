@@ -11,6 +11,9 @@
 # window (-d) and interval (-n) sane against the 5000/hr limit; the header
 # shows what is left.
 #
+# Live mode sends conditional requests (If-None-Match): GitHub answers an
+# unchanged URL with a free 304, so only repos whose runs moved cost calls.
+#
 # Live mode keeps runs that finish while it is open: they stay on screen,
 # marked with their conclusion, below the active ones. It remembers the run ids
 # it saw active in a temp dir, and caches each finished run's row there so it
@@ -72,7 +75,35 @@ def pattern($k):
 | [$defs[] | select($created[.k] | not)] | length'
   repo="$2" state="${GH_BUILDS_STATE}" seen=/dev/null
   [[ -n "${state}" ]] && seen="${state}/seen"
-  gh api "repos/${repo}/actions/runs?per_page=30" 2>/dev/null \
+  # Tell the parent this repo is done, for its loading bar, however we exit.
+  [[ -n "${GH_BUILDS_PROGRESS}" ]] && trap 'print >> "${GH_BUILDS_PROGRESS}"' EXIT
+
+  # api URL: GET URL, conditionally in live mode. GitHub does not count a 304
+  # Not Modified against the rate limit, so we keep each URL's ETag and body
+  # and send If-None-Match: an idle repo then costs nothing per refresh.
+  # (gh exits 1 on a 304, so read the status line rather than the exit code.)
+  api() {
+    local url=$1 key out code etag
+    if [[ -z "${state}" ]]; then
+      gh api "${url}" 2>/dev/null
+      return
+    fi
+    key="${state}/http/${url//[^A-Za-z0-9]/_}"
+    local cond=()
+    [[ -s "${key}.etag" && -s "${key}.body" ]] && cond=(-H "If-None-Match: $(<"${key}.etag")")
+    out=$(gh api -i "${cond[@]}" "${url}" 2>/dev/null)
+    code=${${(f)out}[1][(w)2]}
+    if [[ "${code}" == 304 ]]; then
+      cat "${key}.body"
+    elif [[ "${code}" == 200 ]]; then
+      etag=$(print -r -- "${out}" | awk 'tolower($1) == "etag:" { sub(/^[^:]*: */, ""); sub(/\r$/, ""); print; exit } /^\r?$/ { exit }')
+      print -r -- "${out}" | awk 'b { print; next } /^\r?$/ { b = 1 }' > "${key}.body"
+      print -r -- "${etag}" > "${key}.etag"
+      cat "${key}.body"
+    fi
+  }
+
+  api "repos/${repo}/actions/runs?per_page=30" \
     | jq -r --rawfile seen "${seen}" '
         ($seen | split("\n")) as $s
         | .workflow_runs[]
@@ -90,9 +121,14 @@ def pattern($k):
           cat "${cache}"
           continue
         fi
-        # --paginate: a big matrix can pass the 100-jobs-per-page cap.
-        job_rows=$(gh api --paginate "repos/${repo}/actions/runs/${id}/jobs?per_page=100" \
-          -q '.jobs[] | [.status, .name] | @tsv' 2>/dev/null)
+        jobs_json=$(api "repos/${repo}/actions/runs/${id}/jobs?per_page=100")
+        if (( $(print -r -- "${jobs_json}" | jq '.total_count // 0' 2>/dev/null) > 100 )); then
+          # A big matrix passes the 100-jobs-per-page cap: fetch every page.
+          job_rows=$(gh api --paginate "repos/${repo}/actions/runs/${id}/jobs?per_page=100" \
+            -q '.jobs[] | [.status, .name] | @tsv' 2>/dev/null)
+        else
+          job_rows=$(print -r -- "${jobs_json}" | jq -r '.jobs[] | [.status, .name] | @tsv' 2>/dev/null)
+        fi
         pending=0
         if [[ "${run_status}" != (success|failure|cancelled|skipped|timed_out|neutral|stale|action_required|startup_failure|completed) ]]; then
           wf_cache="${state}/wf/${sha}-${wf_path:t}.json"
@@ -138,7 +174,7 @@ while getopts "o:d:n:p:m:1h" opt; do
     p) parallel="${OPTARG}" ;;
     1) once=1 ;;
     m) max_jobs="${OPTARG}" ;;
-    *) sed -n '3,31p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
+    *) sed -n '3,34p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
   esac
 done
 (( ${#owners} )) || owners=("$(gh api user -q .login)") || exit 1
@@ -183,13 +219,40 @@ list_repos() {
   done
 }
 
+# loading DONE TOTAL: progress line on the terminal (not stdout, which render's
+# caller captures) while the first fetch runs. TOTAL 0 = still listing repos.
+loading() {
+  if (( $2 == 0 )); then
+    printf '\r\e[K%sLoading builds%s  %slisting repos…%s' "${c_bold}" "${c_reset}" "${c_dim}" "${c_reset}"
+  else
+    printf '\r\e[K%sLoading builds%s  %s %d/%d repos' "${c_bold}" "${c_reset}" "$(bar "$1" 0 "$2" 30)" "$1" "$2"
+  fi
+} > /dev/tty
+
+# render: fetch everything, print one frame. With $show_loading set, draw a
+# loading bar meanwhile; otherwise mark the footer "refreshing…" in live mode.
 render() {
-  local repos rows out rate n_repos
+  local repos rows out rate n_repos tmp pid
+  if (( show_loading )); then
+    loading 0 0
+  elif (( ! once )); then
+    printf '\r\e[K%srefreshing…%s' "${c_dim}" "${c_reset}" > /dev/tty
+  fi
   repos=$(list_repos)
   n_repos=$(print -r -- "${repos}" | grep -c .)
-  rows=$(print -r -- "${repos}" | grep . \
-    | xargs -P "${parallel}" -I{} "${self}" --_repo {} \
-    | sort -t$'\t' -k1,1n -k2,2 -k7,7nr)
+  tmp=$(mktemp -d "${TMPDIR:-/tmp}/gh_builds_render.XXXXXX")
+  touch "${tmp}/progress"
+  print -r -- "${repos}" | grep . \
+    | GH_BUILDS_PROGRESS="${tmp}/progress" xargs -P "${parallel}" -I{} "${self}" --_repo {} > "${tmp}/rows" &
+  pid=$!
+  while kill -0 "${pid}" 2>/dev/null; do
+    (( show_loading )) && loading "$(wc -l < "${tmp}/progress")" "${n_repos}"
+    sleep 0.2
+  done
+  wait "${pid}"
+  (( show_loading )) && printf '\r\e[K' > /dev/tty
+  rows=$(sort -t$'\t' -k1,1n -k2,2 -k7,7nr < "${tmp}/rows")
+  rm -rf "${tmp}"
   [[ -n "${GH_BUILDS_STATE}" ]] \
     && print -r -- "${rows}" | awk -F'\t' '$1 == 0 { print $3 }' >> "${GH_BUILDS_STATE}/seen"
   rate=$(gh api rate_limit -q '"\(.resources.core.remaining)/\(.resources.core.limit)"' 2>/dev/null)
@@ -248,7 +311,9 @@ render() {
   print -rn -- "${out}"
 }
 
+show_loading=0
 if (( once )); then
+  [[ -t 1 ]] && show_loading=1
   render
   exit 0
 fi
@@ -256,11 +321,13 @@ fi
 # Live mode: alternate screen, build each frame fully before drawing it so the
 # slow fetch never leaves a blank or half-drawn screen.
 export GH_BUILDS_STATE="$(mktemp -d "${TMPDIR:-/tmp}/gh_builds.XXXXXX")"
-mkdir "${GH_BUILDS_STATE}/done" "${GH_BUILDS_STATE}/total" "${GH_BUILDS_STATE}/wf"; touch "${GH_BUILDS_STATE}/seen"
-tput smcup; tput civis
-trap 'tput cnorm; tput rmcup; rm -rf "${GH_BUILDS_STATE}"; exit 0' INT TERM EXIT
+mkdir "${GH_BUILDS_STATE}/done" "${GH_BUILDS_STATE}/total" "${GH_BUILDS_STATE}/wf" "${GH_BUILDS_STATE}/http"; touch "${GH_BUILDS_STATE}/seen"
+tput smcup; tput civis; tput cup 0 0
+show_loading=1
+trap 'tput cnorm; tput rmcup; rm -rf "${GH_BUILDS_STATE}"; exit 0' INT TERM HUP EXIT
 while true; do
   frame=$(render)
+  show_loading=0
   tput cup 0 0; tput ed
   print -r -- "${frame}"
   print -rn -- $'\n'"${c_dim}refresh ${interval}s · ctrl+c to quit${c_reset}"
