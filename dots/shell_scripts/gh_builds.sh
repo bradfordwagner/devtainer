@@ -23,7 +23,7 @@
 # Usage: gh_builds.sh [-o OWNER]... [-d DAYS] [-n SECS] [-p PARALLEL] [-1]
 #   -o OWNER   user/org to scan, repeatable        (default: your gh login)
 #   -d DAYS    only repos pushed within DAYS      (default: 3, 0 = all repos)
-#   -n SECS    refresh interval                   (default: 5)
+#   -n SECS    refresh interval                   (default: 15)
 #   -p N       parallel repo fetches              (default: 8)
 #   -1         print once and exit (no live mode)
 #   -m N       concurrent job cap to track against   (default: 20, GitHub Free)
@@ -126,7 +126,7 @@ fi
 
 owners=()
 days=3
-interval=5
+interval=15
 parallel=8
 once=0
 max_jobs=20
