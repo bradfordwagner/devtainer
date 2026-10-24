@@ -209,6 +209,18 @@ bar() {
     "${c_dim}${(l:$(( width - d - r ))::░:)}" "${c_reset}"
 }
 
+spinner=(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
+
+# drain LEFT TOTAL WIDTH: bar of LEFT/TOTAL, with a partial block (▏…▉) at its edge.
+drain() {
+  local eighths=$(( $1 * $3 * 8 / $2 )) partials=(▏ ▎ ▍ ▌ ▋ ▊ ▉) full part
+  full=$(( eighths / 8 )) part=$(( eighths % 8 ))
+  local edge=""
+  (( part > 0 )) && edge=${partials[part]}
+  printf '%s%s%s%s%s' "${c_cyan}" "${(l:full::█:)}" "${edge}" \
+    "${c_dim}${(l:$(( $3 - full - (part > 0) ))::·:)}" "${c_reset}"
+}
+
 list_repos() {
   local cutoff=0 owner
   (( days > 0 )) && cutoff=$(( $(date +%s) - days * 86400 ))
@@ -245,9 +257,16 @@ render() {
   print -r -- "${repos}" | grep . \
     | GH_BUILDS_PROGRESS="${tmp}/progress" xargs -P "${parallel}" -I{} "${self}" --_repo {} > "${tmp}/rows" &
   pid=$!
+  local tick=0
   while kill -0 "${pid}" 2>/dev/null; do
-    (( show_loading )) && loading "$(wc -l < "${tmp}/progress")" "${n_repos}"
-    sleep 0.2
+    if (( show_loading )); then
+      loading "$(wc -l < "${tmp}/progress")" "${n_repos}"
+    elif (( ! once )); then
+      printf '\r\e[K%s%s%s %srefreshing… %d/%d repos%s' "${c_cyan}" "${spinner[tick % ${#spinner} + 1]}" "${c_reset}" \
+        "${c_dim}" "$(wc -l < "${tmp}/progress")" "${n_repos}" "${c_reset}" > /dev/tty
+    fi
+    (( tick++ ))
+    sleep 0.1
   done
   wait "${pid}"
   (( show_loading )) && printf '\r\e[K' > /dev/tty
@@ -330,6 +349,12 @@ while true; do
   show_loading=0
   tput cup 0 0; tput ed
   print -r -- "${frame}"
-  print -rn -- $'\n'"${c_dim}refresh ${interval}s · ctrl+c to quit${c_reset}"
-  sleep "${interval}"
+  print
+  # Countdown at 10 ticks/s: braille spinner plus a bar that drains in
+  # eighth-cell steps, so it moves smoothly even at long intervals.
+  ticks=$(( interval * 10 ))
+  for (( t = ticks; t > 0; t-- )); do
+    print -rn -- $'\r\e[K'"${c_cyan}${spinner[(ticks - t) % ${#spinner} + 1]}${c_reset} ${c_dim}refresh in $(( (t + 9) / 10 ))s${c_reset} $(drain "${t}" "${ticks}" 20) ${c_dim}· ctrl+c to quit${c_reset}"
+    sleep 0.1
+  done
 done
