@@ -211,15 +211,22 @@ bar() {
 
 spinner=(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
 
-# drain LEFT TOTAL WIDTH: bar of LEFT/TOTAL, with a partial block (▏…▉) at its edge.
+# drain LEFT TOTAL WIDTH [BUBBLE]: bar of LEFT/TOTAL, with a partial block
+# (▏…▉) at its edge. BUBBLE, if given, sits in the first empty cell.
 drain() {
   local eighths=$(( $1 * $3 * 8 / $2 )) partials=(▏ ▎ ▍ ▌ ▋ ▊ ▉) full part
+  (( eighths > $3 * 8 )) && eighths=$(( $3 * 8 ))
   full=$(( eighths / 8 )) part=$(( eighths % 8 ))
-  local edge=""
+  local edge="" empty bubble=""
   (( part > 0 )) && edge=${partials[part]}
-  printf '%s%s%s%s%s' "${c_cyan}" "${(l:full::█:)}" "${edge}" \
-    "${c_dim}${(l:$(( $3 - full - (part > 0) ))::·:)}" "${c_reset}"
+  empty=$(( $3 - full - (part > 0) ))
+  [[ -n "$4" ]] && (( empty > 0 )) && bubble=$4 && (( empty-- ))
+  printf '%s%s%s%s%s%s' "${c_cyan}" "${(l:full::█:)}" "${edge}" "${bubble}" \
+    "${c_dim}${(l:empty::·:)}" "${c_reset}"
 }
+
+# Bubbles rising off the refresh bar's edge while it fills: blub blub blub.
+bubbles=(˳ ∘ ° o O ° ∘)
 
 list_repos() {
   local cutoff=0 owner
@@ -242,13 +249,14 @@ loading() {
 } > /dev/tty
 
 # render: fetch everything, print one frame. With $show_loading set, draw a
-# loading bar meanwhile; otherwise mark the footer "refreshing…" in live mode.
+# loading bar meanwhile; otherwise refill the footer bar in live mode.
 render() {
   local repos rows out rate n_repos tmp pid
   if (( show_loading )); then
     loading 0 0
   elif (( ! once )); then
-    printf '\r\e[K%srefreshing…%s' "${c_dim}" "${c_reset}" > /dev/tty
+    printf '\r\e[K%s%s%s %s%-14s%s %s %slisting repos…%s' "${c_cyan}" "${spinner[1]}" "${c_reset}" \
+      "${c_dim}" "refreshing" "${c_reset}" "$(drain 0 1 20 "${bubbles[1]}")" "${c_dim}" "${c_reset}" > /dev/tty
   fi
   repos=$(list_repos)
   n_repos=$(print -r -- "${repos}" | grep -c .)
@@ -257,13 +265,19 @@ render() {
   print -r -- "${repos}" | grep . \
     | GH_BUILDS_PROGRESS="${tmp}/progress" xargs -P "${parallel}" -I{} "${self}" --_repo {} > "${tmp}/rows" &
   pid=$!
-  local tick=0
+  # The refresh bar refills what the countdown drained. Repos finish in jumps,
+  # so the bar eases halfway to the real fill each tick instead of snapping.
+  local tick=0 shown=0 target done_n
   while kill -0 "${pid}" 2>/dev/null; do
+    done_n=$(wc -l < "${tmp}/progress")
     if (( show_loading )); then
-      loading "$(wc -l < "${tmp}/progress")" "${n_repos}"
+      loading "${done_n}" "${n_repos}"
     elif (( ! once )); then
-      printf '\r\e[K%s%s%s %srefreshing… %d/%d repos%s' "${c_cyan}" "${spinner[tick % ${#spinner} + 1]}" "${c_reset}" \
-        "${c_dim}" "$(wc -l < "${tmp}/progress")" "${n_repos}" "${c_reset}" > /dev/tty
+      target=$(( n_repos > 0 ? done_n * 160 / n_repos : 0 ))
+      (( shown < target )) && shown=$(( shown + (target - shown + 1) / 2 ))
+      printf '\r\e[K%s%s%s %s%-14s%s %s %s%d/%d repos%s' "${c_cyan}" "${spinner[tick % ${#spinner} + 1]}" "${c_reset}" \
+        "${c_dim}" "refreshing" "${c_reset}" "$(drain "${shown}" 160 20 "${bubbles[tick % ${#bubbles} + 1]}")" \
+        "${c_dim}" "${done_n}" "${n_repos}" "${c_reset}" > /dev/tty
     fi
     (( tick++ ))
     sleep 0.1
@@ -354,7 +368,8 @@ while true; do
   # eighth-cell steps, so it moves smoothly even at long intervals.
   ticks=$(( interval * 10 ))
   for (( t = ticks; t > 0; t-- )); do
-    print -rn -- $'\r\e[K'"${c_cyan}${spinner[(ticks - t) % ${#spinner} + 1]}${c_reset} ${c_dim}refresh in $(( (t + 9) / 10 ))s${c_reset} $(drain "${t}" "${ticks}" 20) ${c_dim}· ctrl+c to quit${c_reset}"
+    printf '\r\e[K%s%s%s %s%-14s%s %s %s· ctrl+c to quit%s' "${c_cyan}" "${spinner[(ticks - t) % ${#spinner} + 1]}" "${c_reset}" \
+      "${c_dim}" "refresh in $(( (t + 9) / 10 ))s" "${c_reset}" "$(drain "${t}" "${ticks}" 20)" "${c_dim}" "${c_reset}"
     sleep 0.1
   done
 done
