@@ -23,12 +23,14 @@
 # hyperlinks: cmd/ctrl+click in ghostty, alacritty, Windows Terminal; tmux
 # passes them through via the `hyperlinks` terminal-feature in tmux.conf).
 #
-# Usage: gh_builds.sh [-o OWNER]... [-d DAYS] [-n SECS] [-p PARALLEL] [-1]
+# Usage: gh_builds.sh [-o OWNER]... [-d DAYS] [-n SECS] [-p PARALLEL] [-1 | -0]
 #   -o OWNER   user/org to scan, repeatable        (default: your gh login)
 #   -d DAYS    only repos pushed within DAYS      (default: 3, 0 = all repos)
 #   -n SECS    refresh interval                   (default: 15)
 #   -p N       parallel repo fetches              (default: 8)
 #   -1         print once and exit (no live mode)
+#   -0         live, but exit once no build is queued or running, leaving the
+#              last frame on screen; exit 1 if a build failed this session
 #   -m N       concurrent job cap to track against   (default: 20, GitHub Free)
 #
 # Requires: gh (authenticated), jq, yq.
@@ -165,16 +167,18 @@ days=3
 interval=15
 parallel=8
 once=0
+until_done=0
 max_jobs=20
-while getopts "o:d:n:p:m:1h" opt; do
+while getopts "o:d:n:p:m:10h" opt; do
   case "${opt}" in
     o) owners+=("${OPTARG}") ;;
     d) days="${OPTARG}" ;;
     n) interval="${OPTARG}" ;;
     p) parallel="${OPTARG}" ;;
     1) once=1 ;;
+    0) until_done=1 ;;
     m) max_jobs="${OPTARG}" ;;
-    *) sed -n '3,34p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
+    *) sed -n '3,36p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
   esac
 done
 (( ${#owners} )) || owners=("$(gh api user -q .login)") || exit 1
@@ -292,16 +296,18 @@ render() {
 
   out="${c_bold}GitHub builds${c_reset}  ${c_dim}${(j:, :)owners} · ${n_repos} repos pushed $( (( days > 0 )) && print "≤${days}d" || print "any time") · api ${rate} · $(date '+%H:%M:%S')${c_reset}"$'\n\n'
 
+  local n_runs=0 n_failed=0
   if [[ -z "${rows}" ]]; then
     out+="${c_dim}No queued or running builds.${c_reset}"$'\n'
   else
     local finished repo id name branch run_status age done_n running queued total spawned url pct color jobs
-    local n_runs=0 n_running_runs=0 n_queued_runs=0 n_finished=0 sum_done=0 sum_running=0 sum_queued=0 sum_total=0
+    local n_running_runs=0 n_queued_runs=0 n_finished=0 sum_done=0 sum_running=0 sum_queued=0 sum_total=0
     out+=$(printf "${c_bold}%-34s %-24s %-20s %-11s %7s %5s  %-20s %8s${c_reset}" \
       REPO WORKFLOW BRANCH STATUS JOBS % PROGRESS AGE)$'\n'
     while IFS=$'\t' read -r finished repo id name branch run_status age done_n running queued total spawned url; do
       if (( finished )); then
         (( n_finished++ ))
+        [[ "${run_status}" == (failure|timed_out|startup_failure) ]] && (( n_failed++ ))
       else
         (( n_runs++, sum_done += done_n, sum_running += running, sum_queued += queued, sum_total += total ))
         # Go by jobs, not the run's status: GitHub flips a run to in_progress late
@@ -341,6 +347,8 @@ render() {
     color="${c_green}"; (( pct >= 75 )) && color="${c_yellow}"; (( pct >= 100 )) && color=$'\e[31m'
     out+="${c_bold}concurrency${c_reset}  ${color}${sum_running}/${max_jobs}${c_reset} jobs running $(bar "${sum_running}" 0 "${max_jobs}" 40 "${color}") ${pct}%  ${c_dim}${sum_queued} jobs queued${c_reset}"$'\n'
   fi
+  # For -0: the main loop runs render in a subshell, so hand it the counts by file.
+  [[ -n "${GH_BUILDS_STATE}" ]] && print -r -- "${n_runs} ${n_failed}" > "${GH_BUILDS_STATE}/summary"
   print -rn -- "${out}"
 }
 
@@ -357,13 +365,23 @@ export GH_BUILDS_STATE="$(mktemp -d "${TMPDIR:-/tmp}/gh_builds.XXXXXX")"
 mkdir "${GH_BUILDS_STATE}/done" "${GH_BUILDS_STATE}/total" "${GH_BUILDS_STATE}/wf" "${GH_BUILDS_STATE}/http"; touch "${GH_BUILDS_STATE}/seen"
 tput smcup; tput civis; tput cup 0 0
 show_loading=1
-trap 'tput cnorm; tput rmcup; rm -rf "${GH_BUILDS_STATE}"; exit 0' INT TERM HUP EXIT
+# The alternate screen vanishes on exit, so -0 reprints its last frame after it.
+last_frame="" rc=0
+trap 'tput cnorm; tput rmcup; [[ -n "${last_frame}" ]] && print -r -- "${last_frame}"; rm -rf "${GH_BUILDS_STATE}"; exit ${rc}' INT TERM HUP EXIT
 while true; do
   frame=$(render)
   show_loading=0
   tput cup 0 0; tput ed
   print -r -- "${frame}"
   print
+  if (( until_done )); then
+    read -r active failed < "${GH_BUILDS_STATE}/summary"
+    if (( active == 0 )); then
+      last_frame="${frame}"
+      (( failed > 0 )) && rc=1
+      exit
+    fi
+  fi
   # Countdown at 10 ticks/s: braille spinner plus a bar that drains in
   # eighth-cell steps, so it moves smoothly even at long intervals.
   ticks=$(( interval * 10 ))
