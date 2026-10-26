@@ -69,9 +69,10 @@ merged). It prompts for confirmation only when a worktree is dirty: uncommitted 
 commits not on any remote **unless merged**. A squash-merged branch whose remote branch was
 deleted has commits on no remote, but its work is safe. A repo with no remote always counts.
 
-`new` and `add` also symlink every worktree's `.claude/agents/*.md` into the session root's own `.claude/agents/`,
-because claude only loads project agents from the directory it launches in, and a session launches at the root.
-Agents appear on the next claude start; a name already linked from another repo is kept.
+`new` and `add` also symlink every worktree's `.claude/agents/*.md`, `.claude/commands/*.md` and
+`.claude/skills/*/` (whole skill directories) into the session root's own `.claude/` counterparts,
+because claude only loads project agents, commands and skills from the directory it launches in, and a session
+launches at the root. They appear on the next claude start; a name already linked from another repo is kept.
 
 `new` and `add` also run `bd init` at the session root, giving the session one **beads**
 tracker whose issue prefix is the session name. It sits above the worktrees on purpose: `bd`

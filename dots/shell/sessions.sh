@@ -278,18 +278,27 @@ function _sessions_beads_open() {
 # verbs
 ################################################
 
-# claude loads project agents from .claude/agents of the dir it launches in, and
-# sessions launch at the root, so surface each worktree's agents there. first wins.
-function _sessions_link_agents() {
-  local session=$1 dir="${SESSIONS_ROOT}/$1" agent dest
-  # drop links whose target is gone, so a re-run reflects removed agents too
-  for dest in "${dir}"/.claude/agents/*.md(N@); do
-    [[ -e "${dest}" ]] || rm -f "${dest}"
-  done
-  for agent in "${dir}"/*/.claude/agents/*.md(N); do
-    dest="${dir}/.claude/agents/${agent:t}"
-    [[ -e "${dest}" ]] && continue
-    mkdir -p "${dir}/.claude/agents" && ln -sfn "${agent}" "${dest}"
+# claude loads project agents, commands and skills from .claude/ of the dir it
+# launches in, and sessions launch at the root, so surface each worktree's there.
+# agents and commands are *.md files, skills are directories. first wins.
+function _sessions_link_claude() {
+  local session=$1 dir="${SESSIONS_ROOT}/$1" kind item dest
+  for kind in agents commands skills; do
+    # drop links whose target is gone, so a re-run reflects removed items too
+    for dest in "${dir}"/.claude/${kind}/*(N@); do
+      [[ -e "${dest}" ]] || rm -f "${dest}"
+    done
+    local -a items
+    if [[ "${kind}" == skills ]]; then
+      items=("${dir}"/*/.claude/skills/*(N/))
+    else
+      items=("${dir}"/*/.claude/${kind}/*.md(N))
+    fi
+    for item in "${items[@]}"; do
+      dest="${dir}/.claude/${kind}/${item:t}"
+      [[ -e "${dest}" ]] && continue
+      mkdir -p "${dir}/.claude/${kind}" && ln -sfn "${item}" "${dest}"
+    done
   done
 }
 
@@ -316,7 +325,7 @@ function _sessions_setup() {
   # only reach later sessions. -n so a re-run replaces instead of nesting.
   [[ -f "${SESSIONS_TEMPLATE}" ]] && ln -sfn "${SESSIONS_TEMPLATE}" "${dir}/CLAUDE.md"
   _sessions_beads_init "${session}"
-  _sessions_link_agents "${session}"
+  _sessions_link_claude "${session}"
   _sessions_run_hook "${session}"
 }
 
