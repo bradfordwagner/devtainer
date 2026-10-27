@@ -63,27 +63,57 @@ end tell
 END
 }
 
-# mac_display_sleep [minutes]: set display-off time. With arg, apply directly.
-# Without arg, show current and prompt; Enter keeps current. 0 = never.
-function mac_display_sleep() {
-  local current new="${1}"
-  current=$(pmset -g | awk '/displaysleep/ {print $2}')
-  if [ -z "${new}" ]; then
-    echo "Current display sleep: ${current} min (0 = never)"
-    read "new?New value in minutes [Enter keeps ${current}]: "
-    if [ -z "${new}" ]; then
-      echo "Unchanged."
-      return
-    fi
+# mac_sleep_control [screen_saver_min] [display_sleep_min]
+# Shows both current values (minutes, 0 = never). Each arg given is applied directly;
+# each arg missing is prompted. Enter or "-" keeps current. Screen saver needs no sudo;
+# display sleep uses sudo pmset. Keep screen saver below display sleep or it never shows.
+function mac_sleep_control() {
+  local ss_new="${1}" ds_new="${2}" ss_secs ss_cur ds_cur
+  ss_secs=$(defaults -currentHost read com.apple.screensaver idleTime 2>/dev/null)
+  if [ -z "${ss_secs}" ]; then ss_cur="unset"; else ss_cur=$((ss_secs / 60)); fi
+  ds_cur=$(pmset -g | awk '/displaysleep/ {print $2}')
+  echo "Current: screen saver ${ss_cur} min, display sleep ${ds_cur} min (0 = never)"
+
+  if [ -z "${ss_new}" ]; then
+    read "ss_new?Screen saver idle minutes [Enter keeps ${ss_cur}]: "
   fi
-  case "${new}" in
-    *[!0-9]*) echo "Error: minutes must be an integer: ${new}" >&2; return 1 ;;
-  esac
-  if [ "${new}" = "${current}" ]; then
-    echo "Already ${current} min. Unchanged."
-    return
+  if [ -z "${ds_new}" ]; then
+    read "ds_new?Display sleep minutes [Enter keeps ${ds_cur}]: "
   fi
-  sudo pmset -a displaysleep "${new}" && echo "Display sleep: ${current} -> ${new} min"
+
+  local v
+  for v in "${ss_new}" "${ds_new}"; do
+    case "${v}" in
+      ""|"-") ;;
+      *[!0-9]*) echo "Error: minutes must be an integer: ${v}" >&2; return 1 ;;
+    esac
+  done
+  [ "${ss_new}" = "-" ] && ss_new=""
+  [ "${ds_new}" = "-" ] && ds_new=""
+
+  if [ -z "${ss_new}" ]; then
+    echo "Screen saver idle: ${ss_cur} min (unchanged)"
+  elif [ "${ss_new}" = "${ss_cur}" ]; then
+    echo "Screen saver idle: already ${ss_cur} min (unchanged)"
+  else
+    defaults -currentHost write com.apple.screensaver idleTime -int $((ss_new * 60)) \
+      && killall cfprefsd \
+      && echo "Screen saver idle: ${ss_cur} -> ${ss_new} min"
+    ss_cur="${ss_new}"
+  fi
+  if [ -z "${ds_new}" ]; then
+    echo "Display sleep: ${ds_cur} min (unchanged)"
+  elif [ "${ds_new}" = "${ds_cur}" ]; then
+    echo "Display sleep: already ${ds_cur} min (unchanged)"
+  else
+    sudo pmset -a displaysleep "${ds_new}" && echo "Display sleep: ${ds_cur} -> ${ds_new} min"
+    ds_cur="${ds_new}"
+  fi
+
+  if [ "${ss_cur}" != "unset" ] && [ "${ss_cur}" -gt 0 ] && [ "${ds_cur}" -gt 0 ] \
+    && [ "${ss_cur}" -ge "${ds_cur}" ]; then
+    echo "Warning: screen saver (${ss_cur}) >= display sleep (${ds_cur}); screen saver never shows." >&2
+  fi
 }
 
 function mac_trust_certificate() {
