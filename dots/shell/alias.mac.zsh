@@ -63,6 +63,23 @@ end tell
 END
 }
 
+# mac_display_sleep: show current display-off time (minutes), prompt for new one.
+# Enter keeps current; 0 = never.
+function mac_display_sleep() {
+  local current new
+  current=$(pmset -g | awk '/displaysleep/ {print $2}')
+  echo "Current display sleep: ${current} min (0 = never)"
+  read "new?New value in minutes [Enter keeps ${current}]: "
+  if [ -z "${new}" ]; then
+    echo "Unchanged."
+    return
+  fi
+  case "${new}" in
+    *[!0-9]*) echo "Error: minutes must be an integer: ${new}" >&2; return 1 ;;
+  esac
+  sudo pmset -a displaysleep "${new}"
+}
+
 function mac_trust_certificate() {
   certificate_file=${1}
 
