@@ -55,10 +55,17 @@ export LESS_TERMCAP_ue=$'\E[0m' \
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' \
 
 # load shell interactive components
-if type brew &>/dev/null; then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+# HOMEBREW_PREFIX (set by shellenv in .zshenv on mac), else the prefix of the brew on
+# PATH (linux only prepends linuxbrew's bin/, no shellenv). not `brew --prefix`: the
+# workbrew wrapper can fail
+_brew_prefix=${HOMEBREW_PREFIX:-${commands[brew]:+${commands[brew]:h:h}}}
+if [[ -n ${_brew_prefix} && -d ${_brew_prefix}/share/zsh/site-functions ]]; then
+  FPATH="${_brew_prefix}/share/zsh/site-functions:${FPATH}"
 fi
-autoload -Uz compinit && compinit
+unset _brew_prefix
+# -u only under workbrew: it owns /opt/homebrew, which compaudit flags as insecure
+autoload -Uz compinit
+if [[ -x /opt/workbrew/bin/brew ]]; then compinit -u; else compinit; fi
 compdef kubecolor=kubectl
 # complete -o nospace -C /opt/homebrew/bin/vault vault
 
@@ -72,6 +79,8 @@ export jump_dir_editor_cmd="v"
 
 # i can't figure out where /usr/bin is being added again, and we want homebrew first
 [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+# workbrew wraps /opt/homebrew/bin/brew (which it owns), so its wrapper must win
+[ -x /opt/workbrew/bin/brew ] && path=(/opt/workbrew/bin ${path:#/opt/workbrew/bin})
 
 # load starship
 eval "$(starship init zsh)"

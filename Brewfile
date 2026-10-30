@@ -21,7 +21,6 @@ brew "cmatrix"
 brew "coder"
 brew "colima", restart_service: :changed
 brew "connect"
-brew "container-diff"
 brew "coreutils"
 brew "corkscrew"
 brew "ctags"
@@ -83,7 +82,6 @@ brew "ssh-copy-id"
 brew "starship"
 brew "sysbench"
 brew "terragrunt"
-brew "tflint"
 brew "the_silver_searcher"
 brew "tmux"
 brew "typst"
@@ -104,7 +102,6 @@ brew "thegeeklab/tap/git-sv"
 brew "txn2/tap/kubefwd"
 brew "lazygit"
 cask "aerospace"
-cask "alacritty", args: { appdir: "/Applications" }
 cask "azure-cli"
 cask "bitwarden"
 cask "brave-browser", args: { appdir: "/Applications" }
@@ -114,7 +111,7 @@ cask "font-jetbrains-mono", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono-nerd-font", args: { appdir: "/Applications" }
 cask "git-credential-manager"
 cask "jetbrains-toolbox", args: { appdir: "/Applications" }
-cask "thaw", args: { appdir: "/Applications" }
+cask "thaw@beta", args: { appdir: "/Applications" }
 cask "mouseless"
 cask "spotify", args: { appdir: "/Applications" }
 cask "stats", args: { appdir: "/Applications" }

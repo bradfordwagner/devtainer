@@ -93,8 +93,15 @@
         # - nvim +silent +PluginInstall +qall
         # - nvim +silent +PackerInstall +qall
 
+- name: npm - detect workbrew
+  stat:
+    path: /opt/workbrew/bin/brew
+  register: workbrew_brew
+
 - name: npm install language servers
   shell: '{{ item }}'
+  # same as common.zsh: workbrew owns the brew prefix, so install into ~/.local there
+  environment: "{{ {'NPM_CONFIG_PREFIX': ansible_facts.env.HOME ~ '/.local'} if workbrew_brew.stat.exists else {} }}"
   loop:
     - npm install -g bash-language-server
 

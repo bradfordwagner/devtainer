@@ -2,6 +2,14 @@
 - hosts: localhost, dotfiles
   vars_files:
     - variables.yml
+  # the homebrew modules search their own `path` before $PATH, so they'd pick
+  # /opt/homebrew/bin/brew over the workbrew wrapper, which workbrew rejects.
+  # a missing dir is just skipped, so this is harmless without workbrew.
+  module_defaults:
+    community.general.homebrew: &brew_path
+      path: /opt/workbrew/bin:/usr/local/bin:/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin
+    community.general.homebrew_cask: *brew_path
+    community.general.homebrew_tap: *brew_path
   vars:
     install_vim_shell_packages: true
     brew_install: false
@@ -26,10 +34,6 @@
         strategy: https
         https: https://github.com/bradfordwagner/devtainer.git
         ssh: git@github.com:bradfordwagner/devtainer.git
-    gri_become_user:
-      become: True
-      user: root
-      method: sudo
   tasks:
     - name: Include variables.local.yml if exists
       include_vars:

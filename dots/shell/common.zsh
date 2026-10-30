@@ -37,6 +37,9 @@ export PATH=$PATH:~/.dotfiles/dots/shell_scripts
 export PATH=$PATH:~/.dotfiles/dots/shell_scripts/speed
 export PATH=$PATH:~/.krew/bin # kubectl plugins
 export PATH=$PATH:${HOME}/.local/bin
+# workbrew owns the brew prefix, so npm -g goes to ~/.local there. elsewhere npm keeps its
+# default prefix, so existing globals stay visible to npm and are not shadowed on PATH
+[ -x /opt/workbrew/bin/brew ] && export NPM_CONFIG_PREFIX=${HOME}/.local
 
 ################################################
 export WATCH_INTERVAL=1
