@@ -28,7 +28,6 @@ export ACK_GINKGO_DEPRECATIONS=1.16.4 # stop the annoying deprecation popups
 export VAULT_FORMAT=json         # set default vault output format
 
 export ARGOCD_GRPC_MAX_SIZE_MB=1000 # increase the max size of the grpc request
-export VOICEMODE_SOUNDFONTS_ENABLED=false # silence VoiceMode tool-use beeps; listening chimes stay on
 
 export PATH=~/bin:~/.rd/bin:/usr/local/bin:$PATH
 export PATH=$PATH:$GOBIN
