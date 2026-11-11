@@ -107,3 +107,20 @@
     src: '{{ playbook_dir }}/templates/claude.settings.json.j2'
     dest: '{{ ansible_facts.env.HOME }}/.claude/settings.json'
     mode: 0644
+
+# VoiceMode's tool-use hook plays a soundfont beep on every tool call. The
+# sentinel file silences those while leaving listening chimes on. Prefer it to
+# VOICEMODE_SOUNDFONTS_ENABLED=false, which broke voice mode.
+- name: ensure voicemode directory exists
+  file:
+    path: '{{ ansible_facts.env.HOME }}/.voicemode'
+    state: directory
+    mode: 0755
+
+- name: disable voicemode tool-use soundfonts
+  file:
+    path: '{{ ansible_facts.env.HOME }}/.voicemode/soundfonts-disabled'
+    state: touch
+    modification_time: preserve
+    access_time: preserve
+    mode: 0644
