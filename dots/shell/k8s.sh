@@ -52,10 +52,13 @@ alias kgp="${k_bin} get pods"
 function _k_rev_rows() {
   awk 'NR==1 { print; next } { rows[++n]=$0 } END { for (i=n; i>0; i--) print rows[i] }'
 }
-# all pods, newest first (age ascending). KUBECOLOR_FORCE_COLORS keeps kubecolor
-# colorized through the pipe and under watch; drop _k_rev_rows for oldest first.
+# all pods, newest first (age ascending). --force-colors keeps kubecolor colorized
+# through the pipe and under watch (the KUBECOLOR_FORCE_COLORS env var is ignored by
+# kubecolor 0.0.25, and plain kubectl takes no such flag); drop _k_rev_rows for oldest first.
 function kgpa() {
-  KUBECOLOR_FORCE_COLORS=truecolor ${k_bin} get pods --all-namespaces \
+  local force=()
+  [[ ${k_bin} == kubecolor ]] && force=(--force-colors)
+  ${k_bin} "${force[@]}" get pods --all-namespaces \
     --sort-by=.metadata.creationTimestamp "$@" | _k_rev_rows
 }
 # which kubeconfig + cluster the watch below is pointed at. `command kubectl` bypasses
