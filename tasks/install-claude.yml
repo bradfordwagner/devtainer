@@ -124,3 +124,24 @@
     modification_time: preserve
     access_time: preserve
     mode: 0644
+
+- name: find claude skill files in repo
+  find:
+    paths: '{{ devtainer.dir }}/dots/config/claude/skills'
+    patterns: 'SKILL.md'
+    recurse: yes
+  register: claude_skill_files
+
+- name: ensure claude skill directories exist
+  file:
+    path: '{{ ansible_facts.env.HOME }}/.claude/skills/{{ item.path | dirname | basename }}'
+    state: directory
+    mode: 0755
+  loop: '{{ claude_skill_files.files }}'
+
+- name: copy claude skills
+  copy:
+    src: '{{ item.path }}'
+    dest: '{{ ansible_facts.env.HOME }}/.claude/skills/{{ item.path | dirname | basename }}/SKILL.md'
+    mode: 0644
+  loop: '{{ claude_skill_files.files }}'

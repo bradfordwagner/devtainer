@@ -99,7 +99,8 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
 - Pin `model:` explicit; never `inherit`. `settings.json` set session model to `opus[1m]`, so `inherit` bill every subagent at top tier with 1M window. Start at `haiku`, escalate on evidence, sort by **blast radius** not domain: agent whose output you read before acting can stay low; one that mutate real infrastructure cannot — its hardest instructions are *restraints*, and smaller models hold those worst.
 
 Agents (`dots/config/claude/agents/`): `bw-accountant`. Repo-specific agents live in that repo's `.claude/agents/` (e.g. `bw-k8s-author` in k8s.deployments). Commands
-(`dots/config/claude/commands/`): `/cc`, `/bw-retro`, `/bw-role-update`, `/bw-image-rollout`, `/bw-pane`.
+(`dots/config/claude/commands/`): `/cc`, `/bw-retro`, `/bw-role-update`, `/bw-image-rollout`, `/bw-pane`. Skills (`dots/config/claude/skills/<name>/SKILL.md`): `voice-off`.
+VoiceMode: `VOICEMODE_VOICES` / `VOICEMODE_CONTROL_CHANNEL_ENABLED` in `templates/env.sh.j2`; `ctrl+alt+v` in `tmux.conf` = barge-in (`voicemode control skip-forward`); beeps silenced by sentinel in `install-claude.yml`.
 See `docs/claude-agents.md` for rationale (`session-usage.sh` carry own in its header).
 
 #### Keybinding conflicts
