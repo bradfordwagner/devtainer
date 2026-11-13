@@ -128,6 +128,8 @@
        repo: https://github.com/bradfordwagner/script-testbed.git
      - name: go.testbed
        repo: https://github.com/bradfordwagner/go-testbed.git
+     - name: arc.runner.testbed
+       repo: https://github.com/bradfordwagner/arc-runner-testbed.git
      - name: amethyst.fork
        repo: https://github.com/bradfordwagner/Amethyst.git
        version: development
