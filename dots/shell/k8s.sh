@@ -72,6 +72,15 @@ function _kgpa_header() {
 }
 function _wkgpa() { _kgpa_header; kgpa; }
 alias wkgpa="watch -c -n 1 zsh -c _wkgpa" # ^ under watch, with a kubeconfig/cluster header
+# current-namespace pods, newest first, same header + colors as wkgpa
+function kgpn() {
+  local force=()
+  [[ ${k_bin} == kubecolor ]] && force=(--force-colors)
+  ${k_bin} "${force[@]}" get pods \
+    --sort-by=.metadata.creationTimestamp "$@" | _k_rev_rows
+}
+function _wkgp() { _kgpa_header; kgpn; }
+alias wkgp="watch -c -n 1 zsh -c _wkgp"
 
 # helm aliases
 alias hd='helm delete'
