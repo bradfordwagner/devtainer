@@ -33,12 +33,21 @@
 #              last frame on screen; exit 1 if a build failed this session
 #   -m N       concurrent job cap to track against   (default: 20, GitHub Free)
 #
+# Runners: each job reports the runner it asked for (labels) and, once started,
+# its runner_group_name. A job is "hosted" when its group is "GitHub Actions" or
+# its labels are only a GitHub-hosted image (ubuntu-*, windows-*, macos-*), else
+# "private" (self-hosted label, ARC scale set name, larger runner label, ...).
+# The footer tallies jobs and runs per runner label for the active runs. Skipped
+# jobs never reach a runner and are not counted. Larger (paid) hosted runners
+# have custom labels, so they show as private.
+#
 # Requires: gh (authenticated), jq, yq.
 
 # Worker mode: one repo, emit one TSV line per unfinished run, plus finished
 # runs whose id is in $GH_BUILDS_STATE/seen. Status is the conclusion once
 # finished, and age becomes the run's duration.
-#   finished(0|1)  repo  id  workflow  branch  status  age_secs  done  running  queued  total  spawned  url
+#   finished(0|1)  repo  id  workflow  branch  status  age_secs  done  running  queued  total  spawned  runners  url
+# runners = ";"-joined "<hosted|private>:<label>|<host>=<jobs>" entries, or "-".
 # Jobs are refetched every refresh while a run is active, because a run's job
 # count is not fixed: a matrix built from an earlier job's output only adds its
 # jobs once that job finishes. spawned = jobs added since live mode first saw
@@ -75,6 +84,17 @@ def pattern($k):
     . as $c | reduce $defs[] as $d (.; .[$d.k] = ($matched[$d.k] and all($d.needs[]; $c[.] // true))))
 | . as $created
 | [$defs[] | select($created[.k] | not)] | length'
+  # Per job: "<hosted|private>:<label>|<host>", or "-" for a skipped job (no
+  # runner). host = the ARC runner's host, read from its name
+  # "<repo>-<host>-runner-<suffix>"; "-" unless the job is running.
+  runner_jq='(if .status == "in_progress" and .runner_name then (.runner_name | ltrimstr("RN-") | sub("-runner-[^-]*$"; "")) else "-" end) as $h
+    | (.labels // []) as $l
+    | ($l | map(select(. != "self-hosted" and (test("^(linux|windows|macos|x64|arm64|arm)$"; "i") | not)))[0] // $l[0] // "unknown") as $k
+    | if .conclusion == "skipped" then "-"
+      else (if .runner_group_name == "GitHub Actions" or (($l | index("self-hosted") | not) and ($k | test("^(ubuntu|windows|macos)-")))
+            then "hosted" else "private" end) + ":" + $k + "|" + $h end'
+  runner_jq=${runner_jq//RN/${2#*/}}
+  job_jq=".jobs[] | [.status, .name, (${runner_jq})] | @tsv"
   repo="$2" state="${GH_BUILDS_STATE}" seen=/dev/null
   [[ -n "${state}" ]] && seen="${state}/seen"
   # Tell the parent this repo is done, for its loading bar, however we exit.
@@ -127,9 +147,9 @@ def pattern($k):
         if (( $(print -r -- "${jobs_json}" | jq '.total_count // 0' 2>/dev/null) > 100 )); then
           # A big matrix passes the 100-jobs-per-page cap: fetch every page.
           job_rows=$(gh api --paginate "repos/${repo}/actions/runs/${id}/jobs?per_page=100" \
-            -q '.jobs[] | [.status, .name] | @tsv' 2>/dev/null)
+            -q "${job_jq}" 2>/dev/null)
         else
-          job_rows=$(print -r -- "${jobs_json}" | jq -r '.jobs[] | [.status, .name] | @tsv' 2>/dev/null)
+          job_rows=$(print -r -- "${jobs_json}" | jq -r "${job_jq}" 2>/dev/null)
         fi
         pending=0
         if [[ "${run_status}" != (success|failure|cancelled|skipped|timed_out|neutral|stale|action_required|startup_failure|completed) ]]; then
@@ -147,6 +167,8 @@ def pattern($k):
                  $1 == "completed" { d++ } $1 == "in_progress" { r++ }
                  $1 == "queued" || $1 == "waiting" || $1 == "pending" { q++ } $1 != "" { n++ }
                  END { printf "%d\t%d\t%d\t%d", d, r, q, n + p }')
+        runners=$(print -r -- "${job_rows}" | awk -F'\t' '$3 != "" && $3 != "-" { c[$3]++ }
+                 END { for (k in c) s = s (s == "" ? "" : ";") k "=" c[k]; print (s == "" ? "-" : s) }')
         spawned=0
         if [[ -n "${state}" ]]; then
           total=${jobs##*$'\t'}
@@ -155,7 +177,7 @@ def pattern($k):
         fi
         finished=1
         case "${run_status}" in queued|in_progress|waiting|pending|requested) finished=0 ;; esac
-        line="${finished}"$'\t'"${repo}"$'\t'"${id}"$'\t'"${name}"$'\t'"${branch}"$'\t'"${run_status}"$'\t'"${age}"$'\t'"${jobs:-$'0\t0\t0\t0'}"$'\t'"${spawned}"$'\t'"${url}"
+        line="${finished}"$'\t'"${repo}"$'\t'"${id}"$'\t'"${name}"$'\t'"${branch}"$'\t'"${run_status}"$'\t'"${age}"$'\t'"${jobs:-$'0\t0\t0\t0'}"$'\t'"${spawned}"$'\t'"${runners:--}"$'\t'"${url}"
         print -r -- "${line}"
         (( finished )) && [[ -n "${state}" ]] && print -r -- "${line}" > "${cache}"
       done
@@ -300,16 +322,27 @@ render() {
   if [[ -z "${rows}" ]]; then
     out+="${c_dim}No queued or running builds.${c_reset}"$'\n'
   else
-    local finished repo id name branch run_status age done_n running queued total spawned url pct color jobs
+    local finished repo id name branch run_status age done_n running queued total spawned runners url pct color jobs
+    local -A rk_jobs rk_runs host_jobs host_cap act_repos
+    local e k n
     local n_running_runs=0 n_queued_runs=0 n_finished=0 sum_done=0 sum_running=0 sum_queued=0 sum_total=0
     out+=$(printf "${c_bold}%-34s %-24s %-20s %-11s %7s %5s  %-20s %8s${c_reset}" \
       REPO WORKFLOW BRANCH STATUS JOBS % PROGRESS AGE)$'\n'
-    while IFS=$'\t' read -r finished repo id name branch run_status age done_n running queued total spawned url; do
+    while IFS=$'\t' read -r finished repo id name branch run_status age done_n running queued total spawned runners url; do
       if (( finished )); then
         (( n_finished++ ))
         [[ "${run_status}" == (failure|timed_out|startup_failure) ]] && (( n_failed++ ))
       else
         (( n_runs++, sum_done += done_n, sum_running += running, sum_queued += queued, sum_total += total ))
+        for e in ${(s:;:)runners}; do
+          [[ "${e}" == - ]] && continue
+          k=${e%=*} n=${e##*=}
+          [[ "${k#*|}" != - ]] && host_jobs[${k#*|}]=$(( ${host_jobs[${k#*|}]:-0} + n ))
+          k=${k%|*}
+          rk_jobs[${k}]=$(( ${rk_jobs[${k}]:-0} + n ))
+          rk_runs[${k}]=$(( ${rk_runs[${k}]:-0} + 1 ))
+        done
+        act_repos[${repo}]=1
         # Go by jobs, not the run's status: GitHub flips a run to in_progress late
         # (or early, while its jobs still wait for a runner). Running jobs = in progress.
         if (( running > 0 )); then
@@ -346,6 +379,33 @@ render() {
     pct=$(( sum_running * 100 / max_jobs ))
     color="${c_green}"; (( pct >= 75 )) && color="${c_yellow}"; (( pct >= 100 )) && color=$'\e[31m'
     out+="${c_bold}concurrency${c_reset}  ${color}${sum_running}/${max_jobs}${c_reset} jobs running $(bar "${sum_running}" 0 "${max_jobs}" 40 "${color}") ${pct}%  ${c_dim}${sum_queued} jobs queued${c_reset}"$'\n'
+    # Where the active jobs run: private (self-hosted/ARC) vs GitHub-hosted.
+    local priv=0 host=0
+    for k in ${(k)rk_jobs}; do
+      [[ "${k}" == private:* ]] && (( priv += rk_jobs[${k}] )) || (( host += rk_jobs[${k}] ))
+    done
+    out+="${c_bold}runners${c_reset}  ${c_cyan}private ${priv} jobs${c_reset} · ${c_dim}hosted ${host} jobs${c_reset}"$'\n'
+    for k in ${(ko)rk_jobs}; do
+      out+="  ${k%%:*} ${c_bold}${k#*:}${c_reset}  ${rk_jobs[${k}]} jobs in ${rk_runs[${k}]} runs"$'\n'
+    done
+    # Capacity per host = its runners registered online right now, across the
+    # repos with active runs. ARC runners are ephemeral, so this is what is up,
+    # not the scale-set max.
+    local r nm h hosts
+    for r in ${(k)act_repos}; do
+      for nm in ${(f)"$(gh api "repos/${r}/actions/runners?per_page=100" -q '.runners[] | select(.status == "online") | .name' 2>/dev/null)"}; do
+        h=${nm#${r#*/}-}; h=${h%-runner-*}
+        host_cap[${h}]=$(( ${host_cap[${h}]:-0} + 1 ))
+      done
+    done
+    hosts=(${(ko)host_jobs} ${(ko)host_cap}); hosts=(${(u)hosts})
+    for h in "${hosts[@]}"; do
+      n=${host_jobs[${h}]:-0} k=${host_cap[${h}]:-0}
+      (( k < n )) && k=${n}
+      pct=$(( k > 0 ? n * 100 / k : 0 ))
+      color="${c_green}"; (( pct >= 75 )) && color="${c_yellow}"; (( pct >= 100 )) && color=$'\e[31m'
+      out+="$(printf '  %-16.16s' "${h}") ${color}${n}/${k}${c_reset} jobs running $(bar "${n}" 0 "${k}" 40 "${color}") ${pct}%"$'\n'
+    done
   fi
   # For -0: the main loop runs render in a subshell, so hand it the counts by file.
   [[ -n "${GH_BUILDS_STATE}" ]] && print -r -- "${n_runs} ${n_failed}" > "${GH_BUILDS_STATE}/summary"
