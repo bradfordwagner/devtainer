@@ -382,6 +382,8 @@
        repo: https://github.com/bradfordwagner/gh-template-tf-workspaces.git
      - name: helm.chart
        repo: https://github.com/bradfordwagner/gh-template-helm-chart.git
+     - name: lib
+       repo: https://github.com/bradfordwagner/gh-template-lib.git
 
    - name: '{{ gh_actions_dir }}'
      git:
