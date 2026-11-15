@@ -1,22 +1,37 @@
-Cut a new tag of one of our container images, then propagate that tag to every repo that consumes it — opening a PR per consumer, waiting out CI, and merging what goes green. Arguments: `<base|ansible> [patch|minor|major]`. Default bump is `patch`. With no arguments, ask which image.
+Cut a new tag of one of our container images, then propagate that tag to every repo that consumes it — opening a PR per consumer, waiting out CI, and merging what goes green. Arguments: `<lib|base|ansible> [patch|minor|major]`. Default bump is `patch`. With no arguments, ask which tier to start from.
 
 This does hard-to-reverse, publicly-visible things (tag pushes, PR merges, image publishes). Confirm before phase 2 and again before phase 5.
 
-## The image chain
+## The rollout chain
+
+Changes flow top to bottom. Never start a tier until the tier above it is tagged final and green.
 
 ```
-container-base  ->  container-ansible  ->  18 consumers
- (ghcr.io/.../base)   (ghcr.io/.../ansible)    5 containers + 13 roles
+gh-template-lib  ->  templates  ->  container-base  ->  container-ansible  ->  18 consumers
+ (reusable          (4 template     (mirror;            (custom;               5 ansible_playbook containers
+  workflows)         repos)          ghcr.io/.../base)   ghcr.io/.../ansible)   + 13 ansible_role repos
 ```
+
+| Tier | Starts when | What moves |
+|---|---|---|
+| lib | the change is in a reusable workflow | new lib tag (phase 0) |
+| templates | lib tag exists | each template pins the new lib tag: beta tags, then final (phase 0) |
+| base | template finals are green | workflow sync from `gh-template-mirror-image` plus any image change |
+| ansible | base tag is live in the registry | workflow sync from `gh-template-custom-image`, `upstream.tag` bumped to the new base |
+| consumers | ansible tag is live in the registry | workflow sync from their template plus the `config.yaml` pin (phases 5-6) |
+
+A plain image refresh (no lib or template change) starts at base or ansible and skips phase 0.
 
 | Repo | Local path |
 |---|---|
+| gh-template-lib | `~/workspace/github/bradfordwagner/gh_templates/bradfordwagner.template.lib` |
+| templates | `~/workspace/github/bradfordwagner/gh_templates/bradfordwagner.template.{container.mirror.image,container.custom.image,ansible.playbook,ansible.role}` |
 | container-base | `~/workspace/github/bradfordwagner/containers/mirrors/bradfordwagner.container.mirrors.base` |
 | container-ansible | `~/workspace/github/bradfordwagner/containers/custom/bradfordwagner.container.custom.ansible` |
 | ansible containers | `~/workspace/github/bradfordwagner/containers/ansible/bradfordwagner.container.ansible.*` |
 | roles | `~/workspace/github/bradfordwagner/ansible_roles/bradfordwagner.ansible.role.*` |
 
-Both image repos build via dagger (`container_branches.yml` on branch push, `container_tags.yml` on tag push). Consumers pin the image in `config.yaml` under `upstream:` (and sometimes `runtime:`).
+Every image and role repo builds through gh-template-lib reusable workflows pinned to a lib tag: `container_branches.yml` on branch push, `container_tags.yml` on tag push, one `container` job calling `bradfordwagner/gh-template-lib/.github/workflows/<flavor>.yml@<lib-tag>`. Flavors: `mirror` (base), `custom` (ansible, goreleaser, redis), `ansible_playbook` (ansible containers), `ansible_role` (roles; test-only, pushes nothing, so role `config.yaml` has no `target_repo`). Consumers pin the image in `config.yaml` under `upstream:` (and sometimes `runtime:`). `dagger-container-builds` is deprecated; nothing builds through it.
 
 ## Why this exists
 
@@ -43,6 +58,22 @@ Do **not** waste time on these dead ends (all were checked and cleared once):
 - The `andrewrothstein.unarchivedeps` role dependency — it pins **no** package versions, so bumping it fixes nothing. A repo already on its latest release still failed.
 - The consumer's own base image pin — it was already the newest tag.
 - Retrying — the old `.deb` is genuinely gone from the pool, so it fails identically every time. One rerun is enough to prove it isn't transient.
+
+## Phase 0 — lib and templates (only when the change is in a workflow)
+
+Confirm with the user before tagging anything.
+
+1. **Lib.** Land the change on `gh-template-lib` `main` with its fixtures, then tag semver from `main` (breaking input or product-contract change = major). See the lib's `README.md` "Releasing".
+2. **Templates.** In each affected template (`mirror` before `custom`/`ansible_playbook`, `ansible_role` last — its tag runs publish to Galaxy and every role repo inherits it):
+   - Branch, bump the `uses: ...@<lib-tag>` pin in both workflows, green branch run, merge.
+   - Cut `X.Y.Z-betaN` tags until the tag build is green with the full OS list. A beta pushes `<target>:X.Y.Z-betaN-<os>` and never touches `latest-*` or a released tag.
+   - Cut the final `X.Y.Z`.
+3. **Sync downstream workflows.** Each downstream repo copies its template's `container_branches.yml` / `container_tags.yml` verbatim; carry that sync in the same PR as the pin bump of the next tier.
+
+Tag gotchas:
+- Push tags one at a time per repo. GitHub fires no tag workflows when more than 3 tags arrive in one push.
+- `workflow_dispatch` only works once the workflow exists on the default branch.
+- Role releases push their tag with `GITHUB_TOKEN`, which fires no `push` event; the role template's `container_tags.yml` takes `workflow_dispatch` for that, and its Galaxy publish job is guarded by `if: github.ref_type == 'tag'` so a dispatch on a branch never publishes.
 
 ## Phase 1 — discover (read-only)
 
@@ -112,6 +143,7 @@ Confirm with the user before merging.
 2. For failures, get the decisive line with `gh run view <id> --log-failed` piped through `grep` — these logs are enormous, never dump them. Classify:
    - `...:<tag>-<os>: not found` → publish race. `gh run rerun <id> --failed` **once**, then re-evaluate.
    - Same failure present in the phase 2 baseline → pre-existing, not caused by this change. Report it; ask the user whether to merge anyway.
+   - Fails only on one runner host (job names carry `<repo>-<host>-runner-*`) → host-specific, not the image. Example: `bw-surface` runs a WSL2 kernel (`microsoft` in `/proc/version`), so roles that branch on `is_wsl` render differently there; fix the test, not the image.
    - Anything else → do not merge that repo; report the error.
 3. Merge the green ones: `gh pr merge <n> --squash --delete-branch`.
 4. Verify independently afterward: for each repo, `git show origin/main:config.yaml` actually carries the new tag, and `gh pr list --head <branch> --state open` is empty.
