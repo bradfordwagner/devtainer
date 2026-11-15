@@ -322,7 +322,7 @@ render() {
   if [[ -z "${rows}" ]]; then
     out+="${c_dim}No queued or running builds.${c_reset}"$'\n'
   else
-    local finished repo id name branch run_status age done_n running queued total spawned runners url pct color jobs
+    local finished repo id name branch run_status age running queued total spawned runners url pct color jobs
     local -A rk_jobs rk_runs host_jobs host_cap act_repos
     local e k n
     local n_running_runs=0 n_queued_runs=0 n_finished=0 sum_done=0 sum_running=0 sum_queued=0 sum_total=0
@@ -337,7 +337,8 @@ render() {
         for e in ${(s:;:)runners}; do
           [[ "${e}" == - ]] && continue
           k=${e%=*} n=${e##*=}
-          [[ "${k#*|}" != - ]] && host_jobs[${k#*|}]=$(( ${host_jobs[${k#*|}]:-0} + n ))
+          # Hosted runners are named per job ("GitHub Actions 1000123"): not a host.
+          [[ "${k}" == private:* && "${k#*|}" != - ]] && host_jobs[${k#*|}]=$(( ${host_jobs[${k#*|}]:-0} + n ))
           k=${k%|*}
           rk_jobs[${k}]=$(( ${rk_jobs[${k}]:-0} + n ))
           rk_runs[${k}]=$(( ${rk_runs[${k}]:-0} + 1 ))
