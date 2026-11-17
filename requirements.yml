@@ -6,6 +6,6 @@
 - src: bradfordwagner.vault
   version: 1.1.6
 - src: bradfordwagner.terraform
-  version: 1.0.11
+  version: 1.0.12
 - src: andrewrothstein.sudoers
   version: v1.3.0
