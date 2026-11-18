@@ -40,7 +40,6 @@ brew "gnu-sed"
 brew "gnu-tar"
 brew "go"
 brew "go-task"
-brew "go@1.23"
 brew "goreleaser"
 brew "gradle"
 brew "gzip"
@@ -110,10 +109,8 @@ cask "font-iosevka-term-nerd-font", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono-nerd-font", args: { appdir: "/Applications" }
 cask "git-credential-manager"
-cask "jetbrains-toolbox", args: { appdir: "/Applications" }
 cask "thaw@beta", args: { appdir: "/Applications" }
 cask "mouseless"
-cask "spotify", args: { appdir: "/Applications" }
 cask "stats", args: { appdir: "/Applications" }
 cask "wezterm", args: { appdir: "/Applications" }
 cask "xquartz", args: { appdir: "/Applications" }
@@ -123,5 +120,4 @@ cask "ghostty"
 tap "oven-sh/bun"
 brew "oven-sh/bun/bun"
 cask "claude-code"
-brew "websocat"
-cask "betterdisplay"
+cask "handy"
