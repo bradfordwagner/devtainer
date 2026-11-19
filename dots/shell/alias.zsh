@@ -597,9 +597,17 @@ function cccm() {
     auth=(-H "authorization: Bearer ${token}" -H "anthropic-beta: oauth-2025-04-20")
   fi
   # The API returns no pricing, so list prices (USD/MTok) are matched by id prefix; keep in step with session-usage.sh.
-  local raw models model
-  raw=$(curl -fsS 'https://api.anthropic.com/v1/models?limit=100' "${auth[@]}" -H "anthropic-version: 2023-06-01") \
+  local raw models model code
+  raw=$(curl -sS -w '\n%{http_code}' 'https://api.anthropic.com/v1/models?limit=100' "${auth[@]}" -H "anthropic-version: 2023-06-01") \
     || { echo "cccm: model lookup failed" >&2; return 1; }
+  code=${raw##*$'\n'}
+  raw=${raw%$'\n'*}
+  if [[ "${code}" != 200 ]]; then
+    echo "cccm: model lookup failed (HTTP ${code}): $(jq -r '.error.message // empty' <<< "${raw}" 2>/dev/null)" >&2
+    # OAuth access tokens expire within hours; running claude refreshes the one in the Keychain.
+    [[ "${code}" == 401 ]] && echo "cccm: token likely expired; run 'claude' once to refresh it, then retry" >&2
+    return 1
+  fi
   models=$(jq -r '
     def price($id): [ ["claude-fable-5",10,50], ["claude-opus-5",5,25], ["claude-opus-4",5,25], ["claude-sonnet-5",3,15],
                  ["claude-sonnet-4",3,15], ["claude-haiku-5",0.1,0.5], ["claude-haiku-4",1,5] ]
