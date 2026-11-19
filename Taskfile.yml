@@ -93,6 +93,15 @@ tasks:
       - task: brew_trust
         vars: {brewfile: Brewfile}
       - brew bundle install --verbose
+  brew_cleanup:
+    desc: Preview formulae, casks and taps installed but absent from Brewfile (dry run)
+    cmds:
+      - brew bundle cleanup --verbose
+  brew_cleanup_force:
+    desc: Uninstall everything not in Brewfile; run brew_cleanup first to review
+    prompt: This uninstalls every formula, cask and tap missing from Brewfile. Continue?
+    cmds:
+      - brew bundle cleanup --force --verbose
   linux_brew_check:
     aliases: [lbc]
     cmds:
