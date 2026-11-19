@@ -101,9 +101,12 @@ brew "thegeeklab/tap/git-sv"
 brew "txn2/tap/kubefwd"
 brew "lazygit"
 cask "aerospace"
+cask "alacritty", args: { appdir: "/Applications" }
 cask "azure-cli"
 cask "bitwarden"
 cask "brave-browser", args: { appdir: "/Applications" }
+cask "google-chrome", args: { appdir: "/Applications" }
+cask "microsoft-edge", args: { appdir: "/Applications" }
 cask "font-fira-code", args: { appdir: "/Applications" }
 cask "font-iosevka-term-nerd-font", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono", args: { appdir: "/Applications" }
@@ -114,7 +117,6 @@ cask "mouseless"
 cask "stats", args: { appdir: "/Applications" }
 cask "wezterm", args: { appdir: "/Applications" }
 cask "xquartz", args: { appdir: "/Applications" }
-cask "zen", args: { appdir: "/Applications" }
 cask "maccy"
 cask "ghostty"
 tap "oven-sh/bun"
