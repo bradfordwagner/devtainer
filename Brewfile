@@ -4,6 +4,7 @@ tap "bufbuild/buf"
 tap "dagger/tap"
 tap "felixkratz/formulae"
 tap "hidetatz/tap"
+tap "immurok/tap"
 tap "jfryy/tap"
 tap "nikitabobko/tap"
 tap "thegeeklab/tap"
@@ -120,6 +121,7 @@ cask "stats", args: { appdir: "/Applications" }
 cask "wezterm", args: { appdir: "/Applications" }
 cask "xquartz", args: { appdir: "/Applications" }
 cask "maccy"
+cask "immurok/tap/immurok"
 cask "ghostty"
 tap "oven-sh/bun"
 brew "oven-sh/bun/bun"
