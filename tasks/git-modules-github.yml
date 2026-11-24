@@ -77,18 +77,12 @@
        repo: https://github.com/aaronmell/terraform-provider-helm.git
      - name: andrewrothstein.kubernetes-helm
        repo: https://github.com/andrewrothstein/ansible-kubernetes-helm.git
-     - name: andrewrothstein.openjdk
-       repo: https://github.com/andrewrothstein/ansible-openjdk.git
      - name: andrewrothstein.consul_k8s
        repo: https://github.com/andrewrothstein/ansible-consul_k8s.git
      - name: andrewrothstein.protoc
        repo: https://github.com/andrewrothstein/ansible-protoc.git
      - name: andrewrothstein.alpine.glibc.shim
        repo: https://github.com/andrewrothstein/ansible-alpine-glibc-shim.git
-     - name: bradfordwagner.maven
-       repo: https://github.com/bradfordwagner/ansible-maven.git
-     - name: andrewrothstein.maven
-       repo: https://github.com/andrewrothstein/ansible-maven.git
      - name: andrewrothstein.trust.ca
        repo: https://github.com/andrewrothstein/ansible-trust-ca.git
      - name: andrewrothstein.kafka

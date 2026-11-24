@@ -107,9 +107,6 @@
      - name: cheatsheet
        repo: https://github.com/bradfordwagner/cheatsheet.git
        version: master
-     - name: java.firecode
-       repo: https://github.com/bradfordwagner/fire-code.git
-       version: master
      - name: grpc
        repo: https://github.com/bradfordwagner/grpc.git
        version: feature/init

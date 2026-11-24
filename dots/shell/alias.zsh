@@ -325,19 +325,6 @@ alias pcd='cd `pwp`; ls -lh'
 
 
 ################################################
-# maven helpers
-################################################
-alias mdt="mvn dependency:tree"
-function mdti {
-  local search_text=$1
-  mdt -Dincludes=$search_text
-}
-
-alias mvn-test="unbuffer mvn clean test | tee ~/test.output; less ~/test.output"
-################################################
-
-
-################################################
 # tmux aliases
 ################################################
 # this comes from the snap installation
