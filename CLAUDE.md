@@ -89,6 +89,7 @@ Taskfile.yml → ansible-galaxy (requirements.yml) → playbook.yml
 | `templates/alacritty.toml.j2` | via alacritty task |
 | `templates/ghostty.j2` | via ghostty task |
 | `templates/k9s.yaml.j2` | `~/Library/Application Support/k9s/config.yaml` |
+| `templates/secrets.sh.j2` | `~/.dotfiles_secrets.sh` (0600; `bitwarden_session` + `bitwarden_secrets` map, sourced by `.zshenv`, loaded by `dots/shell/secrets.zsh`; how to get session in `variables.yml`) |
 | `templates/xsession.j2` | `~/.xsession` (Linux only, launches sway directly for xrdp) |
 
 ### Claude Code integration

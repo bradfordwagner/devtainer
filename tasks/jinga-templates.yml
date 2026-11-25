@@ -19,6 +19,12 @@
         create: true
         block: "{{ lookup('template', 'templates/env.sh.j2') }}"
 
+    - name: install secrets file (bitwarden session + secret map)
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/templates/secrets.sh.j2"
+        dest: "{{ ansible_facts.env.HOME }}/.dotfiles_secrets.sh"
+        mode: '0600'
+
     - name: standard renderings
       loop:
         - source: templates/gitconfig.j2

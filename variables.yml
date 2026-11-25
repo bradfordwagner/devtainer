@@ -42,5 +42,17 @@ claude_agents_enabled: true
 # Microsoft's publisher id; the preview build uses a different package name.
 win_terminal_package: Microsoft.WindowsTerminal_8wekyb3d8bbwe
 
+# Bitwarden secrets -> environment. Rendered to ~/.dotfiles_secrets.sh (0600)
+# by templates/secrets.sh.j2; loaded by dots/shell/secrets.zsh.
+# Get a session key:
+#   bw login                # once per machine (bw config server <url> first if self-hosted)
+#   bw unlock --raw         # prompts for master password, prints the session key
+# Paste the key into variables.local.yml (never here), then `task bb`.
+# Session expires on `bw lock`/`bw logout`; re-unlock and re-run `task bb`.
+# Empty = secrets not loaded.
+bitwarden_session: ''
+# ENV_VAR: bitwarden item name or id (password field). Override in variables.local.yml.
+bitwarden_secrets: {}
+
 # User Configuration
 user_name: bwagner
